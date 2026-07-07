@@ -1,0 +1,40 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %} My site {% endblock title %}</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body class="min-h-screen bg-slate-50 text-slate-900">
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        {% block content %}{% endblock content %}
+    </main>
+
+    {% if messages %} {% for message in messages %}
+    <script>
+        Swal.fire(
+            {
+                toast: true,
+                position: "top-end",
+                title: "{{ message.tag | title}}",
+                text: "{{ message }}",
+                icon: "{{ message.tag }}",
+                timer: 2500,
+                timerProgressBar: true
+            }
+        );
+    </script>
+    {% endfor %} {% endif %}
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title %}Products{% endblock title %}
+
+{% block content %}
+<div class="space-y-6">
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-semibold text-slate-900">Products</h1>
+            <p class="text-sm text-slate-500">Browse your inventory items in a simple card layout.</p>
+        </div>
+    </div>
+
+    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+
+        <!-- product card -->
+        {% for product in products %}
+        <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <div class="flex h-48 items-center justify-center bg-slate-100">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="h-full w-full object-cover">
+                {% else %}
+                <div class="text-center">
+                    <div
+                        class="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-sm">
+                        <i class="fa-solid fa-box text-2xl text-slate-500"></i>
+                    </div>
+                    <p class="text-sm text-slate-500">No Image Available</p>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="space-y-4 p-5">
+                <div class="flex items-start justify-between gap-3">
+                    <div>
+                        <h3 class="text-lg font-semibold text-slate-900">{{ product.name }}</h3>
+                        <p class="text-sm text-slate-500">{{ product.category.name }}</p>
+                    </div>
+                    <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+                        {% if product.is_available %}
+                        Available
+                        {% else %}
+                        Not in Stock
+                        {% endif %}
+                    </span>
+                </div>
+
+                <div class="flex items-center justify-between text-sm text-slate-600">
+                    <span>Price: <span class="font-semibold text-slate-900">Rs. {{ product.price }}</span></span>
+                    <span>Stock: <span class="font-semibold text-slate-900">{{ product.stock }}</span></span>
+                </div>
+
+                <div class="flex items-center justify-end gap-3 border-t border-slate-100 pt-3">
+                    <button class="rounded-full p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900"
+                        aria-label="Edit product">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <button class="rounded-full p-2 text-slate-500 transition hover:bg-slate-100 hover:text-red-500"
+                        aria-label="Delete product">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock content %}

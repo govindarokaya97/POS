@@ -42,3 +42,46 @@ def view_categories(request):
 
     return render(request, "inventory/view_categories.html", context)
 
+def products(request):
+    return render(request, "inventory/products.html")
+
+def add_products(request):
+    categories = Category.objects.all()
+
+    if request.method=="POST":
+        name=reqest.POST.get('name')
+        description=request.POST.get('description')
+        price=request.POST.get('price')
+        stock=request.POST.get('stock')
+
+        category_id=request.POST.get('category')
+
+        image=request.POST.get('image')
+
+        category=Category.objects.get(id=category_id)
+
+        product.objects.create(
+            name=name,
+            description=description,
+            price=price,
+            stock=stock,
+            image=image,
+            category=category,
+        )
+
+        messages.success(request,"Product Added Successfully")
+        return redirect("view-products")
+        
+    context = {
+        "categories":categories,
+    }
+    return render(request, "inventory/add_products.html", context)
+
+def view_product(request):
+    products = Product.objects.all()
+
+    context={
+        "products": products,
+    }
+   
+    return render(request, "inventory/view_product.html",context)

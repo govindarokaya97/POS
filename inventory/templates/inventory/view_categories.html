@@ -3,63 +3,58 @@
 
 {% block content %}
 <div class="space-y-6">
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-            <h1 class="text-2xl font-semibold text-slate-900">Categories</h1>
-            <p class="mt-1 text-sm text-slate-500">A simple table view to manage your inventory categories.</p>
-        </div>
-        <a href="{% url 'add_category' %}"
-            class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800">
-            Add Category
-        </a>
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold text-slate-900">Categories</h1>
+      <p class="mt-1 text-sm text-slate-500">A simple table view to manage your inventory categories.</p>
     </div>
+    <a href="{% url 'add_category' %}"
+      class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800">
+      Add Category
+    </a>
+  </div>
 
-    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-        {% if categories %}
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-slate-200">
-                <thead class="bg-slate-50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
-                            Name</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
-                            Description</th>
-                        <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">
-                            Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100 bg-white">
-                    {% for category in categories %}
-                    <tr class="transition hover:bg-slate-50">
-                        <td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-slate-900">{{ category.name }}
-                        </td>
-                        <td class="px-6 py-4 text-sm text-slate-600">{{ category.description|default:"—" }}</td>
-                        <td class="whitespace-nowrap px-6 py-4 text-right text-sm">
-                            <div class="flex items-center justify-end gap-2">
-                                <a href="{% url 'update_category' category.id %}"
-                                    class="rounded-lg border border-slate-200 px-3 py-1.5 text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">
-                                    Edit
-                                </a>
-                                <form method="post" action="" class="inline-block">
-                                    {% csrf_token %}
-                                    <button type="submit"
-                                        class="rounded-lg border border-rose-200 px-3 py-1.5 text-rose-600 transition hover:bg-rose-50"
-                                        onclick="return confirm('Delete this category?')">
-                                        Delete
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        {% else %}
-        <div class="px-6 py-12 text-center">
-            <p class="text-sm text-slate-500">No categories added yet.</p>
-        </div>
-        {% endif %}
+  <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+    {% if categories %}
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-slate-200">
+        <thead class="bg-slate-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Name</th>
+            <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">Description
+            </th>
+            <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100 bg-white">
+          {% for category in categories %}
+          <tr class="transition hover:bg-slate-50">
+            <td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-slate-900">{{ category.name }}</td>
+            <td class="px-6 py-4 text-sm text-slate-600">{{ category.description|default:"—" }}</td>
+            <td class="whitespace-nowrap px-6 py-4 text-right text-sm">
+              <div class="flex items-center justify-end gap-2">
+                <a href="{% url 'update_category' category.id %}"
+                  class="rounded-lg border border-slate-200 px-3 py-1.5 text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">
+                  Edit
+                </a>
+                {% csrf_token %}
+                <a href='{% url "delete_category" category.id %}'
+                  class="rounded-lg border border-rose-200 px-3 py-1.5 text-rose-600 transition hover:bg-rose-50"
+                  onclick="return confirm('Delete this category?')">
+                  Delete
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
+    {% else %}
+    <div class="px-6 py-12 text-center">
+      <p class="text-sm text-slate-500">No categories added yet.</p>
+    </div>
+    {% endif %}
+  </div>
 </div>
 {% endblock content %}

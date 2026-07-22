@@ -34,7 +34,11 @@ def update_categories(request, id):
     context = {"category": category}
     return render(request, "inventory/update_categories.html", context)
 
-
+def delete_category(request, id):
+    category = get_object_or_404(Category, id=id)
+    category.delete()
+    messages.success(request, "Deleted successfully")
+    return redirect('view_category')
 
 def view_categories(request):
     categories = Category.objects.all()
@@ -42,25 +46,27 @@ def view_categories(request):
 
     return render(request, "inventory/view_categories.html", context)
 
+
+
 def products(request):
     return render(request, "inventory/products.html")
 
-def add_products(request):
+def add_product(request):
     categories = Category.objects.all()
 
     if request.method=="POST":
-        name=reqest.POST.get('name')
+        name=request.POST.get('name')
         description=request.POST.get('description')
         price=request.POST.get('price')
         stock=request.POST.get('stock')
 
         category_id=request.POST.get('category')
 
-        image=request.POST.get('image')
+        image=request.FILES.get('image')
 
         category=Category.objects.get(id=category_id)
 
-        product.objects.create(
+        Product.objects.create(
             name=name,
             description=description,
             price=price,
@@ -70,12 +76,12 @@ def add_products(request):
         )
 
         messages.success(request,"Product Added Successfully")
-        return redirect("view-products")
+        return redirect("view_product")
         
     context = {
         "categories":categories,
     }
-    return render(request, "inventory/add_products.html", context)
+    return render(request, "inventory/add_product.html", context)
 
 def view_product(request):
     products = Product.objects.all()
@@ -85,3 +91,43 @@ def view_product(request):
     }
    
     return render(request, "inventory/view_product.html",context)
+
+
+def update_product(request, id):
+    product = get_object_or_404(Product, id=id)
+    categories = Category.objects.all()
+
+    if request.method=="POST":
+        product.name=request.POST.get('name')
+        product.description=request.POST.get('description')
+        product.price=request.POST.get('price')
+        product.stock=request.POST.get('stock')
+        
+        image=request.FILES.get('image')
+        category_id=request.POST.get('category')
+
+        product.category=Category.objects.get(id=category_id)
+        if image:
+            product.image=image
+        
+        product.save()
+
+        messages.success(request,"Product Updated Successfully")
+        return redirect('view_product')
+
+
+    context={
+        "categories":categories,
+        "product":product,
+    }
+
+    return render(request, "inventory/update_product.html", context)
+
+
+
+def delete_product(request, id):
+    product=get_object_or_404(Product, id=id)
+    product.delete()
+    messages.success(request, "Product daleted successfully")
+    return redirect('view_product')
+

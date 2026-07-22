@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Sales{% endblock title %}
+{% block content %}
+<form action="" method="post" class="space-y-4">
+    {% csrf_token %}
+    <select name="product" id="" class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-100">
+        {% for product in products %}
+        <option value="{{ product.id }}">{{ product.name }}</option>
+        {% endfor %}
+    </select>
+
+    <input type="number" name="quantity" min="1" class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-100" placeholder="Quantity">
+    <button type="submit" class="inline-flex items-center justify-center rounded-xl bg-sky-600 px-6 py-3 text-base font-semibold text-white transition hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-slate-100">
+        Sell Product
+    </button>
+</form>
+{% endblock content %}
+

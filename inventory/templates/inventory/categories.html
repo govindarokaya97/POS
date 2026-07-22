@@ -3,45 +3,44 @@
 
 {% block content %}
 <div class="space-y-6">
-    <div class="flex items-center justify-between">
-        <div>
-            <h1 class="text-2xl font-semibold text-slate-900">Categories</h1>
-            <p class="text-sm text-slate-500">Manage your product categories with quick actions.</p>
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold text-slate-900">Categories</h1>
+      <p class="text-sm text-slate-500">Manage your product categories with quick actions.</p>
+    </div>
+  </div>
+
+  <div class="grid gap-6 md:grid-cols-2">
+    <a href="{% url 'add_category' %}"
+      class="group block rounded-2xl border border-slate-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-blue-300">
+      <div class="flex items-start justify-between">
+        <div class="rounded-2xl bg-blue-600 p-3 text-white shadow-lg shadow-blue-200">
+          <i class="fa-solid fa-plus text-xl"></i>
         </div>
-    </div>
+        <span class="rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-blue-700">Quick Action</span>
+      </div>
+      <h3 class="mt-6 text-xl font-semibold text-slate-900">Add Category</h3>
+      <p class="mt-2 text-sm text-slate-600">Create a new product category and organize inventory faster.</p>
+      <div class="mt-5 inline-flex items-center text-sm font-medium text-blue-700 transition group-hover:translate-x-1">
+        Open <i class="fa-solid fa-arrow-right ml-2"></i>
+      </div>
+    </a>
 
-    <div class="grid gap-6 md:grid-cols-2">
-        <a href="{% url 'add_category' %}"
-            class="group block rounded-2xl border border-slate-200 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-blue-300">
-            <div class="flex items-start justify-between">
-                <div class="rounded-2xl bg-blue-600 p-3 text-white shadow-lg shadow-blue-200">
-                    <i class="fa-solid fa-plus text-xl"></i>
-                </div>
-                <span class="rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-blue-700">Quick Action</span>
-            </div>
-            <h3 class="mt-6 text-xl font-semibold text-slate-900">Add Category</h3>
-            <p class="mt-2 text-sm text-slate-600">Create a new product category and organize inventory faster.</p>
-            <div
-                class="mt-5 inline-flex items-center text-sm font-medium text-blue-700 transition group-hover:translate-x-1">
-                Open <i class="fa-solid fa-arrow-right ml-2"></i>
-            </div>
-        </a>
-
-        <a href="{% url 'view_category' %}"
-            class="group block rounded-2xl border border-slate-200 bg-gradient-to-br from-emerald-50 to-teal-50 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-emerald-300">
-            <div class="flex items-start justify-between">
-                <div class="rounded-2xl bg-emerald-600 p-3 text-white shadow-lg shadow-emerald-200">
-                    <i class="fa-solid fa-eye"></i>
-                </div>
-                <span class="rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-emerald-700">Manage</span>
-            </div>
-            <h3 class="mt-6 text-xl font-semibold text-slate-900">View Category</h3>
-            <p class="mt-2 text-sm text-slate-600">View all products category</p>
-            <div
-                class="mt-5 inline-flex items-center text-sm font-medium text-emerald-700 transition group-hover:translate-x-1">
-                Open <i class="fa-solid fa-arrow-right ml-2"></i>
-            </div>
-        </a>
-    </div>
+    <a href="{% url 'view_category' %}"
+      class="group block rounded-2xl border border-slate-200 bg-gradient-to-br from-emerald-50 to-teal-50 p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-emerald-300">
+      <div class="flex items-start justify-between">
+        <div class="rounded-2xl bg-emerald-600 p-3 text-white shadow-lg shadow-emerald-200">
+          <i class="fa-solid fa-eye"></i>
+        </div>
+        <span class="rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-emerald-700">Manage</span>
+      </div>
+      <h3 class="mt-6 text-xl font-semibold text-slate-900">View Category</h3>
+      <p class="mt-2 text-sm text-slate-600">View all the product categories.</p>
+      <div
+        class="mt-5 inline-flex items-center text-sm font-medium text-emerald-700 transition group-hover:translate-x-1">
+        Open <i class="fa-solid fa-arrow-right ml-2"></i>
+      </div>
+    </a>
+  </div>
 </div>
 {% endblock content %}

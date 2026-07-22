@@ -1,0 +1,14 @@
+# Ignore the virtual environment
+venv/
+.venv/
+
+# Ignore the SQLite database file
+*.sqlite3
+db.sqlite3
+
+# Ignore compiled Python files
+*.pyc
+__pycache__/
+
+# Ignore uploaded user media files
+/media/

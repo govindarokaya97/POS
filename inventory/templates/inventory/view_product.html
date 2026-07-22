@@ -13,18 +13,20 @@
     <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
 
         <!-- product card -->
+
         {% for product in products %}
         <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-            <div class="flex h-48 items-center justify-center bg-slate-100">
+            <div class="flex h-56 items-center justify-center overflow-hidden bg-slate-100 p-3">
                 {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="h-full w-full object-cover">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}"
+                    class="h-full w-full rounded-xl object-fit" />
                 {% else %}
-                <div class="text-center">
-                    <div
-                        class="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-sm">
+                <div
+                    class="flex h-full w-full flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-white text-center">
+                    <div class="mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 shadow-sm">
                         <i class="fa-solid fa-box text-2xl text-slate-500"></i>
                     </div>
-                    <p class="text-sm text-slate-500">No Image Available</p>
+                    <p class="text-sm text-slate-500">No image available</p>
                 </div>
                 {% endif %}
             </div>
@@ -45,24 +47,25 @@
                 </div>
 
                 <div class="flex items-center justify-between text-sm text-slate-600">
-                    <span>Price: <span class="font-semibold text-slate-900">Rs. {{ product.price }}</span></span>
+                    <span>Price: <span class="font-semibold text-slate-900">Rs {{ product.price }}</span></span>
                     <span>Stock: <span class="font-semibold text-slate-900">{{ product.stock }}</span></span>
                 </div>
 
                 <div class="flex items-center justify-end gap-3 border-t border-slate-100 pt-3">
-                    <button class="rounded-full p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900"
+                    <a href='{% url "update_product" product.id %}'
+                        class="rounded-full p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900"
                         aria-label="Edit product">
                         <i class="fa-solid fa-pen-to-square"></i>
-                    </button>
-                    <button class="rounded-full p-2 text-slate-500 transition hover:bg-slate-100 hover:text-red-500"
+                    </a>
+                    <a href="{% url 'delete_product' product.id %}"
+                        class="rounded-full p-2 text-slate-500 transition hover:bg-slate-100 hover:text-red-500"
                         aria-label="Delete product">
                         <i class="fa-solid fa-trash"></i>
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
         {% endfor %}
-
     </div>
 </div>
 {% endblock content %}

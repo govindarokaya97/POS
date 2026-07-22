@@ -9,6 +9,7 @@ from django.db.models import Sum, Count
 
 
 # Create your views here.
+@login_required
 def create_sales(request):
     products = Product.objects.filter(is_available=True)
 
@@ -40,6 +41,8 @@ def create_sales(request):
 
     return render(request, "sales/create_sales.html", {"products": products})
 
+
+@login_required
 def sales_dashboard(request):
     today_revenue = Sale.objects.aggregate(revenue=Sum("total_price"))["revenue"] or 0
     today_sales_count = Sale.objects.count()
@@ -54,6 +57,7 @@ def sales_dashboard(request):
     return render(request, "sales/sales.html", context)
 
 
+@login_required
 def sales_history(request):
     sales = Sale.objects.select_related('product','sold_by').order_by('-id')
     paginator = Paginator(sales, 10)
@@ -62,6 +66,6 @@ def sales_history(request):
     
     return render(request, 'sales/history.html', {'page_obj':page_obj})
 
-    
+   
 
 

@@ -2,7 +2,12 @@ from django.shortcuts import render, redirect
 from .forms import RegisterForm, LoginForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
+
+from inventory.models import Category, Product
+from sales.models import Sale
+from django.db.models import Sum
 # Create your views here.
 
 def register(request):
@@ -43,5 +48,29 @@ def logout_user(request):
     messages.success(request, "Logout Successfilly")
     return redirect("login")
 
+
+
+@login_required
 def dashboard(request):
-    return render(request, "accounts/dashboard.html")
+    total_categories = Category.objects.count()
+    total_products = Product.objects.count()
+    total_sales = Sale.objects.count()
+    revenue = Sale.objects.aggregate(total=Sum("total_price"))["total"] or 0
+
+    recent_sales = (
+        Sale.objects.select_related("product", "sold_by")
+        .order_by("-sold_at")[:5]
+    )
+
+    low_stock_products = Product.objects.filter(stock__lte=5)
+
+    context = {
+        "total_categories": total_categories,
+        "total_products": total_products,
+        "total_sales": total_sales,
+        "revenue": revenue,
+        "recent_sales": recent_sales,
+        "low_stock_products": low_stock_products,
+    }
+
+    return render(request, "accounts/dashboard.html", context)

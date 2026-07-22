@@ -1,14 +1,20 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Category, Product
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 
 
+
+@login_required
 def categories(request):
     return render(request, "inventory/categories.html")
 
 
+
+@login_required
 def add_categories(request):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -21,6 +27,8 @@ def add_categories(request):
     return render(request, "inventory/add_categories.html")
 
 
+
+@login_required
 def update_categories(request, id):
     category = get_object_or_404(Category, id=id)
 
@@ -34,12 +42,18 @@ def update_categories(request, id):
     context = {"category": category}
     return render(request, "inventory/update_categories.html", context)
 
+
+
+@login_required
 def delete_category(request, id):
     category = get_object_or_404(Category, id=id)
     category.delete()
     messages.success(request, "Deleted successfully")
     return redirect('view_category')
 
+
+
+@login_required
 def view_categories(request):
     categories = Category.objects.all()
     context={"categories": categories}
@@ -48,9 +62,14 @@ def view_categories(request):
 
 
 
+
+@login_required
 def products(request):
     return render(request, "inventory/products.html")
 
+
+
+@login_required
 def add_product(request):
     categories = Category.objects.all()
 
@@ -83,6 +102,10 @@ def add_product(request):
     }
     return render(request, "inventory/add_product.html", context)
 
+
+
+
+@login_required
 def view_product(request):
     products = Product.objects.all()
 
@@ -93,6 +116,9 @@ def view_product(request):
     return render(request, "inventory/view_product.html",context)
 
 
+
+
+@login_required
 def update_product(request, id):
     product = get_object_or_404(Product, id=id)
     categories = Category.objects.all()
@@ -125,6 +151,9 @@ def update_product(request, id):
 
 
 
+
+
+@login_required
 def delete_product(request, id):
     product=get_object_or_404(Product, id=id)
     product.delete()

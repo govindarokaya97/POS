@@ -7,7 +7,6 @@ A Django-based Point of Sale (POS) system built for **small business**.
 
 - 🔐 **Accounts** — custom login/register/logout with a staff dashboard
 - 📦 **Inventory management** — categories and products, stock tracking, low-stock alerts
-- 🧾 **Sales / Point of Sale** — ring up a sale, choose order type (Dine-in, Takeaway, or Home Delivery), auto-deduct stock
 - 📊 **Dashboard** — quick overview of categories, products, sales, and revenue
 - 🎛️ **Django admin** — customized with Jazzmin for a cleaner admin UI
 

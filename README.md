@@ -1,4 +1,4 @@
-# HM Street Vendor — POS System
+# For Small Shops — POS System
 
 A Django-based Point of Sale (POS) system built for **small business**.
 

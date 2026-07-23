@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page not found</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+        @theme {
+            --color-ink: #12141A;
+            --color-paper: #F4F5F1;
+            --color-line: #E4E3DC;
+            --color-brand: #157A5C;
+            --color-muted: #6B6D66;
+            --font-display: "Space Grotesk", sans-serif;
+            --font-sans: "Inter", sans-serif;
+            --font-mono: "JetBrains Mono", monospace;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+    <div class="flex min-h-screen items-center justify-center bg-paper px-4">
+        <div class="w-full max-w-sm rounded-xl border border-line bg-white p-8 text-center">
+            <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">404</p>
+            <h1 class="mt-2 font-display text-xl font-semibold text-ink">Page not found</h1>
+            <p class="mt-2 text-sm text-muted">
+                The page you're looking for doesn't exist or may have moved.
+            </p>
+            <a href="/" class="mt-6 inline-block rounded-lg bg-ink px-4 py-2.5 text-sm font-medium text-white">
+                Back to dashboard
+            </a>
+        </div>
+    </div>
+</body>
+</html>

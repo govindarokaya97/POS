@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Bill {{ sale.bill_number }}{% endblock title %}
+
+{% block content %}
+<div class="space-y-6">
+    <div class="no-print flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">Point of sale</p>
+            <h1 class="mt-1 font-display text-3xl font-semibold text-ink">Bill generated</h1>
+            <p class="mt-1 text-sm text-muted">Sale completed &mdash; print or download the receipt below.</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+            <button type="button" onclick="window.print()"
+                class="inline-flex items-center gap-2 rounded-lg border border-line bg-white px-4 py-2.5 text-sm font-semibold text-ink transition hover:bg-paper">
+                <i class="fa-solid fa-print"></i>
+                Print bill
+            </button>
+            <a href="{% url 'sale_bill_pdf' sale.id %}"
+                class="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark">
+                <i class="fa-solid fa-file-arrow-down"></i>
+                Download PDF
+            </a>
+            <a href="{% url 'create_sales' %}"
+                class="inline-flex items-center gap-2 rounded-lg border border-line bg-white px-4 py-2.5 text-sm font-semibold text-ink transition hover:bg-paper">
+                <i class="fa-solid fa-plus"></i>
+                New sale
+            </a>
+        </div>
+    </div>
+
+    <div id="bill-print" class="mx-auto max-w-md rounded-xl border border-line bg-white p-8">
+        <div class="text-center">
+            <img src="{% static 'img/logo.webp' %}" alt="{{ restaurant_name }}" class="mx-auto h-20 w-20 rounded-full object-cover" />
+            <h2 class="mt-3 font-display text-xl font-semibold text-ink">{{ restaurant_name }}</h2>
+            <p class="text-xs text-muted">{{ restaurant_tagline }}</p>
+            <p class="mt-1 text-xs text-muted">Chinese &amp; Nepalese Street Food &middot; Home Delivery Available</p>
+        </div>
+
+        <div class="receipt-edge mt-6 border-t border-dashed border-line pt-4">
+            <div class="grid grid-cols-2 gap-y-1 font-mono text-xs text-muted">
+                <span>Bill No.</span><span class="text-right font-medium text-ink">{{ sale.bill_number }}</span>
+                <span>Date</span><span class="text-right text-ink">{{ sale.sold_at|date:"Y-m-d H:i" }}</span>
+                <span>Served by</span><span class="text-right text-ink">{{ sale.sold_by.username }}</span>
+                <span>Order type</span><span class="text-right text-ink">{{ sale.get_order_type_display }}</span>
+                {% if sale.customer_name %}<span>Customer</span><span class="text-right text-ink">{{ sale.customer_name }}</span>{% endif %}
+                {% if sale.customer_phone %}<span>Phone</span><span class="text-right text-ink">{{ sale.customer_phone }}</span>{% endif %}
+            </div>
+            {% if sale.order_type == 'delivery' and sale.delivery_address %}
+            <p class="mt-2 font-mono text-xs text-muted">Deliver to: <span class="text-ink">{{ sale.delivery_address }}</span></p>
+            {% endif %}
+        </div>
+
+        <table class="mt-4 w-full border-t border-dashed border-line pt-4 text-sm">
+            <thead>
+                <tr class="text-left text-xs uppercase tracking-wide text-muted">
+                    <th class="py-2 font-medium">Item</th>
+                    <th class="py-2 text-right font-medium">Qty</th>
+                    <th class="py-2 text-right font-medium">Price</th>
+                    <th class="py-2 text-right font-medium">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="border-t border-line">
+                    <td class="py-2.5 text-ink">{{ sale.product.name }}</td>
+                    <td class="py-2.5 text-right font-mono tabular-nums text-ink">{{ sale.quantity }}</td>
+                    <td class="py-2.5 text-right font-mono tabular-nums text-muted">Rs {{ sale.product.price }}</td>
+                    <td class="py-2.5 text-right font-mono tabular-nums text-ink">Rs {{ sale.total_price }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="mt-4 flex justify-end border-t border-line pt-4">
+            <div class="text-right">
+                <p class="font-mono text-[11px] uppercase tracking-[0.15em] text-muted">Total</p>
+                <p class="font-mono text-2xl font-semibold tabular-nums text-brand">Rs {{ sale.total_price }}</p>
+            </div>
+        </div>
+
+        <div class="receipt-edge mt-6 border-t border-dashed border-line pt-4 text-center">
+            <p class="text-sm font-medium text-ink">Thank you for your order!</p>
+            <p class="mt-1 text-xs text-muted">Home delivery available &mdash; call us to order again.</p>
+        </div>
+    </div>
+</div>
+{% endblock content %}

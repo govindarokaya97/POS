@@ -6,40 +6,57 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %} My site {% endblock title %}</title>
+    <title>{% block title %}POS{% endblock title %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style type="text/tailwindcss">
+        @theme {
+            --color-ink: #12141A;
+            --color-ink-2: #1C1F27;
+            --color-paper: #F4F5F1;
+            --color-line: #E4E3DC;
+            --color-brand: #157A5C;
+            --color-brand-dark: #0F5E46;
+            --color-amber: #C97A1F;
+            --color-red: #C43D3D;
+            --color-muted: #6B6D66;
+            --font-display: "Space Grotesk", sans-serif;
+            --font-sans: "Inter", sans-serif;
+            --font-mono: "JetBrains Mono", monospace;
+        }
+    </style>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
-<body">
-    <div class="flex min-h-screen bg-slate-100 text-slate-800">
+<body class="font-sans antialiased">
+    <div class="flex min-h-screen bg-paper text-ink">
         {% include 'sidebar.html' %}
-        <main class="flex-1 p-8">
-            <div class="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+        <main class="flex-1 p-6 md:p-10">
+            <div class="mx-auto max-w-6xl">
                 {% block content %}{% endblock content %}
             </div>
         </main>
-
     </div>
     {% if messages %} {% for message in messages %}
     <script>
-        Swal.fire(
-            {
-                toast: true,
-                position: "top-end",
-                title: "{{ message.tag | title}}",
-                text: "{{ message }}",
-                icon: "{{ message.tag }}",
-                timer: 2500,
-                timerProgressBar: true
-            }
-        );
+        Swal.fire({
+            toast: true,
+            position: "top-end",
+            title: "{{ message.tag|title }}",
+            text: "{{ message }}",
+            icon: "{{ message.tag }}",
+            timer: 2800,
+            timerProgressBar: true,
+            showConfirmButton: false,
+        });
     </script>
     {% endfor %} {% endif %}
-    </body>
+</body>
 
 </html>

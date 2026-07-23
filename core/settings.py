@@ -134,3 +134,54 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 
 LOGIN_URL = "login"
+
+
+# Logging
+# https://docs.djangoproject.com/en/6.0/topics/logging/
+#
+# Without this, exceptions caught in views (see the try/except blocks in
+# sales/views.py and inventory/views.py) are silently swallowed -- the
+# user sees a friendly message but there's no record anywhere that
+# something went wrong. This sends warnings/errors to the console (picked
+# up by most hosting platforms automatically) and to a rotating file.
+
+LOGS_DIR = BASE_DIR / "logs"
+LOGS_DIR.mkdir(exist_ok=True)
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{asctime} {levelname} {name} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+        "file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": LOGS_DIR / "app.log",
+            "maxBytes": 5 * 1024 * 1024,  # 5 MB
+            "backupCount": 5,
+            "formatter": "verbose",
+        },
+    },
+    "root": {
+        "handlers": ["console", "file"],
+        "level": "INFO",
+    },
+    "loggers": {
+        # Django's own request logger -- this is what would otherwise
+        # print unhandled-500 tracebacks to the console with no file
+        # record and no way to search/alert on them later.
+        "django.request": {
+            "handlers": ["console", "file"],
+            "level": "ERROR",
+            "propagate": False,
+        },
+    },
+}

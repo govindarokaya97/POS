@@ -1,49 +1,36 @@
 {% extends 'base.html' %}
-{% block title %}Add Category{% endblock title %}
+{% block title %}Update category{% endblock title %}
 
 {% block content %}
-<div class="mx-auto max-w-2xl rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
-  <div class="mb-8">
-    <h1 class="text-2xl font-semibold text-slate-900">Update Category</h1>
-    <p class="mt-2 text-sm text-slate-500">Update product category for your inventory.</p>
-  </div>
-
-  <form method="post" class="space-y-6">
-    {% csrf_token %}
-
-    <div>
-      <label for="name" class="mb-2 block text-sm font-medium text-slate-700">Category Name</label>
-      <input
-        type="text"
-        id="name"
-        name="name"
-        value="{{ category.name }}"
-        placeholder="Enter category name"
-        class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-100"
-        required
-      />
+<div class="mx-auto max-w-xl">
+    <div class="mb-6">
+        <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">Inventory</p>
+        <h1 class="mt-1 font-display text-2xl font-semibold text-ink">Update category</h1>
     </div>
 
-    <div>
-      <label for="description" class="mb-2 block text-sm font-medium text-slate-700">Description</label>
-      <textarea
-        id="description"
-        name="description"
-        value="{{ category.description }}"
-        rows="4"
-        placeholder="Write a short description"
-        class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-slate-500 focus:ring-2 focus:ring-slate-100"
-      ></textarea>
-    </div>
+    <div class="rounded-xl border border-line bg-white p-8">
+        <form method="post" class="space-y-5">
+            {% csrf_token %}
+            <div>
+                <label for="name" class="mb-2 block text-sm font-medium text-ink">Category name</label>
+                <input type="text" id="name" name="name" value="{{ category.name }}" placeholder="Enter category name" required
+                    class="w-full rounded-lg border border-line bg-paper px-4 py-3 text-sm text-ink outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20" />
+            </div>
 
-    <div class="flex items-center justify-end pt-2">
-      <button
-        type="submit"
-        class="rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-      >
-        Update Category
-      </button>
+            <div>
+                <label for="description" class="mb-2 block text-sm font-medium text-ink">Description</label>
+                <textarea id="description" name="description" rows="4" placeholder="Write a short description"
+                    class="w-full rounded-lg border border-line bg-paper px-4 py-3 text-sm text-ink outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20">{{ category.description }}</textarea>
+            </div>
+
+            <div class="flex items-center justify-end gap-3 pt-2">
+                <a href="{% url 'view_category' %}" class="rounded-lg px-4 py-2.5 text-sm font-medium text-muted hover:text-ink">Cancel</a>
+                <button type="submit"
+                    class="rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark">
+                    Save changes
+                </button>
+            </div>
+        </form>
     </div>
-  </form>
 </div>
 {% endblock content %}

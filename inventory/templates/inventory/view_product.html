@@ -2,64 +2,61 @@
 {% block title %}Products{% endblock title %}
 
 {% block content %}
-<div class="space-y-6">
-    <div class="flex items-center justify-between">
+<div class="space-y-8">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-            <h1 class="text-2xl font-semibold text-slate-900">Products</h1>
-            <p class="text-sm text-slate-500">Browse your inventory items in a simple card layout.</p>
+            <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">Inventory</p>
+            <h1 class="mt-1 font-display text-3xl font-semibold text-ink">Products</h1>
+            <p class="mt-1 text-sm text-muted">Everything currently stocked in the shop.</p>
         </div>
+        <a href="{% url 'add_product' %}"
+            class="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark">
+            <i class="fa-solid fa-plus"></i>
+            Add product
+        </a>
     </div>
 
+    {% if products %}
     <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-
-        <!-- product card -->
-
         {% for product in products %}
-        <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-            <div class="flex h-56 items-center justify-center overflow-hidden bg-slate-100 p-3">
+        <div class="overflow-hidden rounded-xl border border-line bg-white">
+            <div class="flex h-44 items-center justify-center bg-paper">
                 {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}"
-                    class="h-full w-full rounded-xl object-fit" />
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="h-full w-full object-cover" />
                 {% else %}
-                <div
-                    class="flex h-full w-full flex-col items-center justify-center rounded-xl border border-dashed border-slate-300 bg-white text-center">
-                    <div class="mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 shadow-sm">
-                        <i class="fa-solid fa-box text-2xl text-slate-500"></i>
-                    </div>
-                    <p class="text-sm text-slate-500">No image available</p>
+                <div class="flex flex-col items-center text-muted">
+                    <i class="fa-solid fa-box text-2xl"></i>
+                    <p class="mt-2 text-xs">No image</p>
                 </div>
                 {% endif %}
             </div>
 
-            <div class="space-y-4 p-5">
+            <div class="space-y-3 p-5">
                 <div class="flex items-start justify-between gap-3">
-                    <div>
-                        <h3 class="text-lg font-semibold text-slate-900">{{ product.name }}</h3>
-                        <p class="text-sm text-slate-500">{{ product.category.name }}</p>
+                    <div class="min-w-0">
+                        <h3 class="truncate font-display text-base font-semibold text-ink">{{ product.name }}</h3>
+                        <p class="text-xs text-muted">{{ product.category.name }}</p>
                     </div>
-                    <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
-                        {% if product.is_available %}
-                        Available
-                        {% else %}
-                        Not in Stock
-                        {% endif %}
-                    </span>
+                    {% if product.is_available %}
+                    <span class="shrink-0 rounded-full bg-brand/10 px-2.5 py-0.5 text-xs font-medium text-brand">In stock</span>
+                    {% else %}
+                    <span class="shrink-0 rounded-full bg-red/10 px-2.5 py-0.5 text-xs font-medium text-red">Out of stock</span>
+                    {% endif %}
                 </div>
 
-                <div class="flex items-center justify-between text-sm text-slate-600">
-                    <span>Price: <span class="font-semibold text-slate-900">Rs {{ product.price }}</span></span>
-                    <span>Stock: <span class="font-semibold text-slate-900">{{ product.stock }}</span></span>
+                <div class="flex items-center justify-between border-t border-line pt-3 font-mono text-sm">
+                    <span class="text-ink">Rs {{ product.price }}</span>
+                    <span class="text-muted">{{ product.stock }} in stock</span>
                 </div>
 
-                <div class="flex items-center justify-end gap-3 border-t border-slate-100 pt-3">
+                <div class="flex items-center justify-end gap-1 border-t border-line pt-3">
                     <a href='{% url "update_product" product.id %}'
-                        class="rounded-full p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900"
-                        aria-label="Edit product">
+                        class="rounded-lg p-2 text-muted transition hover:bg-paper hover:text-ink" aria-label="Edit product">
                         <i class="fa-solid fa-pen-to-square"></i>
                     </a>
                     <a href="{% url 'delete_product' product.id %}"
-                        class="rounded-full p-2 text-slate-500 transition hover:bg-slate-100 hover:text-red-500"
-                        aria-label="Delete product">
+                        class="rounded-lg p-2 text-muted transition hover:bg-red/5 hover:text-red" aria-label="Delete product"
+                        onclick="return confirm('Delete this product? This cannot be undone.')">
                         <i class="fa-solid fa-trash"></i>
                     </a>
                 </div>
@@ -67,5 +64,14 @@
         </div>
         {% endfor %}
     </div>
+    {% else %}
+    <div class="rounded-xl border border-line bg-white px-6 py-16 text-center">
+        <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-paper text-muted">
+            <i class="fa-solid fa-box"></i>
+        </div>
+        <p class="mt-3 text-sm text-muted">No products yet.</p>
+        <a href="{% url 'add_product' %}" class="mt-3 inline-block text-sm font-medium text-brand hover:text-brand-dark">Add your first product</a>
+    </div>
+    {% endif %}
 </div>
 {% endblock content %}

@@ -1,18 +1,41 @@
 {% extends "base.html" %}
-{% block title %}Sales{% endblock title %}
+{% block title %}New sale{% endblock title %}
+
 {% block content %}
-<form action="" method="post" class="space-y-4">
-    {% csrf_token %}
-    <select name="product" id="" class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-100">
-        {% for product in products %}
-        <option value="{{ product.id }}">{{ product.name }}</option>
-        {% endfor %}
-    </select>
+<div class="space-y-8">
+    <div>
+        <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">Point of sale</p>
+        <h1 class="mt-1 font-display text-3xl font-semibold text-ink">New sale</h1>
+        <p class="mt-1 text-sm text-muted">Choose a product and quantity to complete the transaction.</p>
+    </div>
 
-    <input type="number" name="quantity" min="1" class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-100" placeholder="Quantity">
-    <button type="submit" class="inline-flex items-center justify-center rounded-xl bg-sky-600 px-6 py-3 text-base font-semibold text-white transition hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-slate-100">
-        Sell Product
-    </button>
-</form>
+    <div class="mx-auto max-w-lg rounded-xl border border-line bg-white p-8">
+        <form method="post" class="space-y-5">
+            {% csrf_token %}
+            <div>
+                <label for="product" class="mb-2 block text-sm font-medium text-ink">Product</label>
+                <select name="product" id="product"
+                    class="w-full rounded-lg border border-line bg-paper px-4 py-3 text-sm text-ink outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20">
+                    {% for product in products %}
+                    <option value="{{ product.id }}">{{ product.name }} &mdash; Rs {{ product.price }} ({{ product.stock }} in stock)</option>
+                    {% empty %}
+                    <option value="" disabled selected>No products available</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div>
+                <label for="quantity" class="mb-2 block text-sm font-medium text-ink">Quantity</label>
+                <input type="number" name="quantity" id="quantity" min="1" step="1" placeholder="1"
+                    class="w-full rounded-lg border border-line bg-paper px-4 py-3 font-mono text-sm text-ink outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20" />
+            </div>
+
+            <button type="submit"
+                class="flex w-full items-center justify-center gap-2 rounded-lg bg-brand px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark focus:outline-none focus:ring-2 focus:ring-brand/40 focus:ring-offset-2 focus:ring-offset-white">
+                <i class="fa-solid fa-cash-register"></i>
+                Complete sale
+            </button>
+        </form>
+    </div>
+</div>
 {% endblock content %}
-

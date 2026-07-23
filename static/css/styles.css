@@ -1,0 +1,26 @@
+/* Torn-receipt edge: a repeating diagonal cut that reads as perforated
+   receipt paper. Matches --color-paper exactly so the illusion holds --
+   update the two hex values below if --color-paper ever changes. */
+.receipt-edge {
+    position: relative;
+}
+
+.receipt-edge::before {
+    content: "";
+    position: absolute;
+    top: -9px;
+    left: 0;
+    right: 0;
+    height: 9px;
+    background:
+        linear-gradient(135deg, #F4F5F1 50%, transparent 50%),
+        linear-gradient(-135deg, #F4F5F1 50%, transparent 50%);
+    background-size: 16px 16px;
+    background-repeat: repeat-x;
+    background-position: bottom left;
+}
+
+::selection {
+    background: #157A5C;
+    color: #fff;
+}

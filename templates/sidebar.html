@@ -6,7 +6,8 @@
         </div>
 
         <div class="flex items-center gap-3 border-b border-white/10 px-6 py-5">
-            <div class="flex h-9 w-9 items-center justify-center rounded-full bg-brand/20 font-display text-sm font-semibold text-brand">
+            <div
+                class="flex h-9 w-9 items-center justify-center rounded-full bg-brand/20 font-display text-sm font-semibold text-brand">
                 {{ request.user.username|slice:":1"|upper }}
             </div>
             <div class="min-w-0">
@@ -36,6 +37,16 @@
                 <i class="fa-solid fa-cash-register w-4 text-center"></i>
                 <span>Sales</span>
             </a>
+            <a href="{% url 'billing_products' %}"
+                class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition {% if 'billing' in request.resolver_match.url_name %}bg-white/10 text-white{% else %}text-white/60 hover:bg-white/5 hover:text-white{% endif %}">
+                <i class="fa-solid fa-users w-4 text-center"></i>
+                <span>Billing</span>
+            </a>
+
+            <a href="{% url 'customers' %}">
+                Customers
+            </a>
+
         </nav>
     </div>
 

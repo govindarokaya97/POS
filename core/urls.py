@@ -24,7 +24,10 @@ urlpatterns = [
     path('',include("accounts.urls")),
     path('inventory/',include("inventory.urls")),
     path('sales/',include("sales.urls")),
-
+    path(
+        "billing/",
+        include("billing.urls")
+    ),
 
 ]
 

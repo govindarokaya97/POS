@@ -14,10 +14,12 @@
             <i class="fa-solid fa-plus"></i>
             Add product
         </a>
+
     </div>
 
     {% if products %}
     <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+
         {% for product in products %}
         <div class="overflow-hidden rounded-xl border border-line bg-white">
             <div class="flex h-44 items-center justify-center bg-paper">
@@ -38,9 +40,11 @@
                         <p class="text-xs text-muted">{{ product.category.name }}</p>
                     </div>
                     {% if product.is_available %}
-                    <span class="shrink-0 rounded-full bg-brand/10 px-2.5 py-0.5 text-xs font-medium text-brand">In stock</span>
+                    <span class="shrink-0 rounded-full bg-brand/10 px-2.5 py-0.5 text-xs font-medium text-brand">In
+                        stock</span>
                     {% else %}
-                    <span class="shrink-0 rounded-full bg-red/10 px-2.5 py-0.5 text-xs font-medium text-red">Out of stock</span>
+                    <span class="shrink-0 rounded-full bg-red/10 px-2.5 py-0.5 text-xs font-medium text-red">Out of
+                        stock</span>
                     {% endif %}
                 </div>
 
@@ -48,18 +52,41 @@
                     <span class="text-ink">Rs {{ product.price }}</span>
                     <span class="text-muted">{{ product.stock }} in stock</span>
                 </div>
+                <div class="flex items-center justify-between border-t border-line pt-3">
 
-                <div class="flex items-center justify-end gap-1 border-t border-line pt-3">
-                    <a href='{% url "update_product" product.id %}'
-                        class="rounded-lg p-2 text-muted transition hover:bg-paper hover:text-ink" aria-label="Edit product">
-                        <i class="fa-solid fa-pen-to-square"></i>
+                    <a href="{% url 'add_to_cart' product.id %}"
+                        class="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark">
+
+                        <i class="fa-solid fa-cart-plus"></i>
+                        Add To Cart
+
                     </a>
-                    <a href="{% url 'delete_product' product.id %}"
-                        class="rounded-lg p-2 text-muted transition hover:bg-red/5 hover:text-red" aria-label="Delete product"
-                        onclick="return confirm('Delete this product? This cannot be undone.')">
-                        <i class="fa-solid fa-trash"></i>
-                    </a>
+
+
+                    <div class="flex items-center gap-1">
+
+                        <a href='{% url "update_product" product.id %}'
+                            class="rounded-lg p-2 text-muted transition hover:bg-paper hover:text-ink"
+                            aria-label="Edit product">
+
+                            <i class="fa-solid fa-pen-to-square"></i>
+
+                        </a>
+
+
+                        <a href="{% url 'delete_product' product.id %}"
+                            class="rounded-lg p-2 text-muted transition hover:bg-red/5 hover:text-red"
+                            aria-label="Delete product"
+                            onclick="return confirm('Delete this product? This cannot be undone.')">
+
+                            <i class="fa-solid fa-trash"></i>
+
+                        </a>
+
+                    </div>
+
                 </div>
+
             </div>
         </div>
         {% endfor %}
@@ -70,7 +97,8 @@
             <i class="fa-solid fa-box"></i>
         </div>
         <p class="mt-3 text-sm text-muted">No products yet.</p>
-        <a href="{% url 'add_product' %}" class="mt-3 inline-block text-sm font-medium text-brand hover:text-brand-dark">Add your first product</a>
+        <a href="{% url 'add_product' %}"
+            class="mt-3 inline-block text-sm font-medium text-brand hover:text-brand-dark">Add your first product</a>
     </div>
     {% endif %}
 </div>

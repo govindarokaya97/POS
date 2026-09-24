@@ -21,12 +21,24 @@
 
                 <div>
                     <label for="category" class="mb-2 block text-sm font-medium text-ink">Category</label>
-                    <select id="category" name="category"
-                        class="w-full rounded-lg border border-line bg-paper px-4 py-3 text-sm text-ink outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20">
-                        <option value="" {% if not form_data.category %}selected{% endif %}>Select a category</option>
+                    <select id="category" name="category">
+
+                        <option value="">
+                            Select a category
+                        </option>
+
+
                         {% for category in categories %}
-                        <option value="{{ category.id }}" {% if form_data.category == category.id|stringformat:"s" %}selected{% endif %}>{{ category.name }}</option>
+
+                        <option value="{{ category.id }}">
+
+                            {{ category.name }}
+
+                        </option>
+
+
                         {% endfor %}
+
                     </select>
                 </div>
 
@@ -58,7 +70,8 @@
             </div>
 
             <div class="flex items-center justify-end gap-3 pt-2">
-                <a href="{% url 'view_product' %}" class="rounded-lg px-4 py-2.5 text-sm font-medium text-muted hover:text-ink">Cancel</a>
+                <a href="{% url 'view_product' %}"
+                    class="rounded-lg px-4 py-2.5 text-sm font-medium text-muted hover:text-ink">Cancel</a>
                 <button type="submit"
                     class="rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark">
                     Add product

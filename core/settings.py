@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'accounts',
     'inventory',
     'sales',
+    "billing",
 ]
 
 MIDDLEWARE = [
@@ -83,7 +84,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'mini_project_db',
         'USER': 'root',
-        'PASSWORD':'@Spyro2000',
+        'PASSWORD':'@12Sep2000',
         'HOST': 'localhost',
         'PORT': '3306',
     }

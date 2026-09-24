@@ -1,0 +1,300 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Invoice
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="mx-auto max-w-3xl rounded-xl border bg-white p-8">
+
+
+    <div class="text-center">
+
+
+        <h1 class="text-3xl font-bold">
+
+            MY POS STORE
+
+        </h1>
+
+
+        <p>
+            Invoice Receipt
+        </p>
+
+
+    </div>
+
+
+
+    <hr class="my-6">
+
+
+
+    <div class="flex justify-between">
+
+
+        <div>
+
+            <p>
+                Invoice No:
+                <strong>
+                    {{ invoice.invoice_number }}
+                </strong>
+            </p>
+
+
+            <p>
+                Date:
+                {{ invoice.created_at }}
+            </p>
+
+
+        </div>
+
+
+
+        <div>
+
+
+            <p>
+                Payment:
+                <strong>
+                    {{ invoice.payment_method }}
+                </strong>
+            </p>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+    <hr class="my-6">
+
+
+
+    {% if invoice.customer %}
+
+
+    <h3 class="font-semibold">
+
+        Customer
+
+    </h3>
+
+
+    <p>
+        {{ invoice.customer.name }}
+    </p>
+
+
+    <p>
+        {{ invoice.customer.phone }}
+    </p>
+
+
+    {% else %}
+
+
+    <p>
+        Walk-in Customer
+    </p>
+
+
+    {% endif %}
+
+
+
+    <hr class="my-6">
+
+
+
+    <table class="w-full">
+
+
+        <thead>
+
+
+            <tr class="border-b">
+
+
+                <th class="text-left">
+                    Product
+                </th>
+
+
+                <th>
+                    Qty
+                </th>
+
+
+                <th>
+                    Price
+                </th>
+
+
+                <th>
+                    Total
+                </th>
+
+
+            </tr>
+
+
+        </thead>
+
+
+
+        <tbody>
+
+
+
+            {% for item in invoice.items.all %}
+
+
+            <tr class="border-b">
+
+
+                <td class="py-3">
+
+                    {{ item.product.name }}
+
+                </td>
+
+
+
+                <td class="text-center">
+
+                    {{ item.quantity }}
+
+                </td>
+
+
+
+                <td class="text-center">
+
+                    {{ item.price }}
+
+                </td>
+
+
+
+                <td class="text-right">
+
+                    {{ item.total }}
+
+                </td>
+
+
+            </tr>
+
+
+
+            {% endfor %}
+
+
+        </tbody>
+
+
+    </table>
+
+
+
+
+    <div class="mt-6 text-right">
+
+
+        <p>
+            Subtotal:
+            Rs {{ invoice.subtotal }}
+        </p>
+
+
+        <p>
+            Discount:
+            Rs {{ invoice.discount }}
+        </p>
+
+
+        <p>
+            Tax:
+            Rs {{ invoice.tax }}
+        </p>
+
+
+        <p class="text-xl font-bold">
+
+            Total:
+            Rs {{ invoice.total }}
+
+        </p>
+
+
+        <p>
+
+            Paid:
+            Rs {{ invoice.paid_amount }}
+
+        </p>
+
+
+        <p>
+
+            Due:
+            Rs {{ invoice.due_amount }}
+
+        </p>
+
+
+        <p>
+
+            Status:
+            {{ invoice.payment_status }}
+
+        </p>
+
+
+    </div>
+
+
+
+    <button onclick="window.print()" class="mt-8 rounded-lg bg-brand px-6 py-3 text-white">
+
+
+        Print Invoice
+
+
+    </button>
+
+
+
+</div>
+
+<style>
+    @media print {
+
+        button {
+            display: none;
+        }
+
+
+        body {
+
+            background: white;
+
+        }
+
+
+    }
+</style>
+
+{% endblock %}

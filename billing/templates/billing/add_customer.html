@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Add Customer
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<h1 class="text-3xl font-semibold">
+    Add Customer
+</h1>
+
+
+
+<form method="POST" class="mt-6 space-y-4">
+
+
+    {% csrf_token %}
+
+
+
+    <input name="name" placeholder="Customer Name" class="border p-3 w-full" />
+
+
+
+    <input name="phone" placeholder="Phone Number" class="border p-3 w-full" />
+
+
+
+    <input name="email" placeholder="Email" class="border p-3 w-full" />
+
+
+
+    <textarea name="address" placeholder="Address" class="border p-3 w-full"></textarea>
+
+
+
+
+    <button class="bg-brand text-white px-6 py-3 rounded">
+
+        Save Customer
+
+    </button>
+
+
+
+</form>
+
+
+
+{% endblock %}

@@ -114,59 +114,74 @@ def products(request):
 
 @login_required
 def add_product(request):
+
     categories = Category.objects.all()
 
     if request.method == "POST":
+
         category_id = request.POST.get("category")
         image = request.FILES.get("image")
 
         cleaned, errors = _parse_product_fields(request.POST)
 
         category = None
+
         if not category_id:
             errors.append("Please choose a category.")
+
         else:
             try:
                 category = Category.objects.get(id=category_id)
+
             except Category.DoesNotExist:
-                errors.append("That category no longer exists. Please choose another.")
+                errors.append(
+                    "That category no longer exists."
+                )
+
 
         if errors:
+
             for err in errors:
                 messages.error(request, err)
+
             return render(
                 request,
                 "inventory/add_product.html",
-                {"categories": categories, "form_data": request.POST},
+                {
+                    "categories": categories,
+                    "form_data": request.POST,
+                    "selected_category": request.POST.get("category","")
+                },
             )
 
-        try:
-            Product.objects.create(
-                name=cleaned["name"],
-                description=cleaned["description"],
-                price=cleaned["price"],
-                stock=cleaned["stock"],
-                image=image,
-                category=category,
-            )
-        except Exception:
-            logger.exception("Unexpected error creating product (category_id=%s)", category_id)
-            messages.error(request, "Something went wrong saving the product. Please try again.")
-            return render(
-                request,
-                "inventory/add_product.html",
-                {"categories": categories, "form_data": request.POST},
-            )
 
-        messages.success(request, "Product Added Successfully")
+        Product.objects.create(
+            name=cleaned["name"],
+            description=cleaned["description"],
+            price=cleaned["price"],
+            stock=cleaned["stock"],
+            image=image,
+            category=category,
+        )
+
+
+        messages.success(
+            request,
+            "Product Added Successfully"
+        )
+
         return redirect("view_product")
 
-    context = {
-        "categories": categories,
-    }
-    return render(request, "inventory/add_product.html", context)
 
-
+    return render(
+        request,
+        "inventory/add_product.html",
+        {
+            "categories": categories,
+            "form_data": request.POST,
+            "selected_category": request.POST.get("category"),
+        }
+    )
 
 
 @login_required

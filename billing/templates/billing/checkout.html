@@ -1,0 +1,340 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Checkout
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<h1 class="text-3xl font-semibold">
+    Checkout
+</h1>
+
+
+
+<form method="POST">
+
+    {% csrf_token %}
+
+
+
+    <div class="mt-6">
+
+
+        <label>
+            Customer
+        </label>
+
+
+        <select name="customer" class="border p-3 w-full">
+
+
+            <option value="">
+                Walk-in Customer
+            </option>
+
+
+
+            {% for customer in customers %}
+
+            <option value="{{customer.id}}">
+
+                {{customer.name}}
+
+            </option>
+
+
+            {% endfor %}
+
+
+        </select>
+
+
+    </div>
+
+
+
+
+    <div class="mt-6">
+
+
+        <label>
+            Payment Method
+        </label>
+
+
+        <select name="payment_method" class="border p-3 w-full">
+
+
+            <option value="cash">
+                Cash
+            </option>
+
+
+            <option value="card">
+                Card
+            </option>
+
+
+            <option value="esewa">
+                eSewa
+            </option>
+
+
+            <option value="khalti">
+                Khalti
+            </option>
+
+
+        </select>
+
+
+    </div>
+
+
+
+    <div class="mt-6 rounded-xl border bg-white p-5 space-y-4">
+
+
+        <div class="flex justify-between">
+
+            <span>
+                Subtotal
+            </span>
+
+            <strong id="subtotal">
+                Rs {{ subtotal }}
+            </strong>
+
+        </div>
+
+
+
+        <div>
+
+            <label>
+                Discount
+            </label>
+
+            <input id="discount" type="number" name="discount" value="0" class="border p-3 w-full" />
+
+        </div>
+
+
+
+
+        <div>
+
+            <label>
+                Tax %
+            </label>
+
+
+            <input id="tax" type="number" name="tax" value="0" class="border p-3 w-full" />
+
+        </div>
+
+
+
+
+        <div>
+
+            <label>
+                Paid Amount
+            </label>
+
+
+            <input id="paid_amount" type="number" name="paid_amount" value="{{ subtotal }}" class="border p-3 w-full" />
+
+        </div>
+
+
+
+        <hr>
+
+
+        <div class="flex justify-between">
+
+            <span>
+                Grand Total
+            </span>
+
+            <strong id="grand_total">
+                Rs {{ subtotal }}
+            </strong>
+
+        </div>
+
+
+
+        <div class="flex justify-between">
+
+            <span>
+                Due Amount
+            </span>
+
+            <strong id="due_amount">
+                Rs 0
+            </strong>
+
+        </div>
+
+
+
+    </div>
+
+
+
+    <div class="mt-6">
+
+        <label>
+            Tax %
+        </label>
+
+
+        <input type="number" name="tax" value="0" class="border p-3 w-full" />
+
+
+    </div>
+
+
+
+
+    <div class="mt-6">
+
+        <label>
+            Paid Amount
+        </label>
+
+
+        <input type="number" name="paid_amount" value="{{subtotal}}" class="border p-3 w-full" />
+
+    </div>
+
+
+
+    <button class="mt-6 bg-brand text-white px-6 py-3 rounded">
+
+        Complete Payment
+
+    </button>
+
+
+
+</form>
+
+
+<script>
+
+
+    function calculateBill() {
+
+
+        let subtotal = Number(
+            "{{ subtotal }}"
+        );
+
+
+        let discount = Number(
+            document.getElementById(
+                "discount"
+            ).value
+        ) || 0;
+
+
+
+        let taxRate = Number(
+            document.getElementById(
+                "tax"
+            ).value
+        ) || 0;
+
+
+
+        let paid = Number(
+            document.getElementById(
+                "paid_amount"
+            ).value
+        ) || 0;
+
+
+
+        let tax =
+            (subtotal * taxRate) / 100;
+
+
+
+        let total =
+            subtotal
+            - discount
+            + tax;
+
+
+
+        let due =
+            total - paid;
+
+
+
+        if (due < 0) {
+
+            due = 0;
+
+        }
+
+
+
+        document.getElementById(
+            "grand_total"
+        ).innerHTML =
+            "Rs " + total.toFixed(2);
+
+
+
+        document.getElementById(
+            "due_amount"
+        ).innerHTML =
+            "Rs " + due.toFixed(2);
+
+
+    }
+
+
+
+    document
+        .getElementById("discount")
+        .addEventListener(
+            "input",
+            calculateBill
+        );
+
+
+
+    document
+        .getElementById("tax")
+        .addEventListener(
+            "input",
+            calculateBill
+        );
+
+
+
+    document
+        .getElementById("paid_amount")
+        .addEventListener(
+            "input",
+            calculateBill
+        );
+
+
+
+    calculateBill();
+
+
+</script>
+
+{% endblock %}

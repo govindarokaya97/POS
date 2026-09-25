@@ -6,9 +6,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Invoice, InvoiceItem, Customer
 
-from django.db.models import Q
+import csv
+from reportlab.pdfgen import canvas
+from django.http import HttpResponse
 
-from django.db.models import Sum, Count
+from django.db.models import Sum, Count, Q
 from django.utils import timezone
 from datetime import timedelta
 
@@ -29,6 +31,18 @@ def sales_dashboard(request):
     )["total"] or 0
 
 
+    today_expenses = Expense.objects.filter(
+        created_at__date=today
+    ).aggregate(
+        total=Sum("amount")
+    )["total"] or 0
+
+
+
+    today_profit = (
+        today_sales -
+        today_expenses
+    )
 
     total_invoices = Invoice.objects.count()
 
@@ -59,17 +73,13 @@ def sales_dashboard(request):
 
 
     context = {
-
         "today_sales": today_sales,
-
         "total_invoices": total_invoices,
-
         "pending_payment": pending_payment,
-
         "products_sold": products_sold,
-
         "top_products": top_products,
-
+        "today_expenses": today_expenses,
+        "today_profit": today_profit,
     }
 
 
@@ -615,3 +625,348 @@ def add_customer(request):
         request,
         "billing/add_customer.html"
     )
+
+
+@login_required
+def customer_detail(request, id):
+
+    customer = get_object_or_404(
+        Customer,
+        id=id
+    )
+
+
+    invoices = Invoice.objects.filter(
+        customer=customer
+    ).order_by(
+        "-created_at"
+    )
+
+
+    total_purchase = invoices.aggregate(
+        total=Sum("total")
+    )["total"] or 0
+
+
+
+    total_paid = invoices.aggregate(
+        total=Sum("paid_amount")
+    )["total"] or 0
+
+
+
+    total_due = invoices.aggregate(
+        total=Sum("due_amount")
+    )["total"] or 0
+
+
+
+    context = {
+
+
+        "customer": customer,
+
+        "invoices": invoices,
+
+        "total_purchase": total_purchase,
+
+        "total_paid": total_paid,
+
+        "total_due": total_due,
+
+
+    }
+
+
+    return render(
+        request,
+        "billing/customer_detail.html",
+        context
+    )
+
+
+
+
+@login_required
+def expenses(request):
+
+    expenses = Expense.objects.all().order_by(
+        "-created_at"
+    )
+
+
+    return render(
+        request,
+        "billing/expenses.html",
+        {
+            "expenses": expenses
+        }
+    )
+
+
+
+
+@login_required
+def add_expense(request):
+
+    if request.method == "POST":
+
+
+        Expense.objects.create(
+
+            title=request.POST.get(
+                "title"
+            ),
+
+            expense_type=request.POST.get(
+                "expense_type"
+            ),
+
+            amount=request.POST.get(
+                "amount"
+            ),
+
+            description=request.POST.get(
+                "description"
+            )
+
+        )
+
+
+        messages.success(
+            request,
+            "Expense added successfully"
+        )
+
+
+        return redirect(
+            "expenses"
+        )
+
+
+    return render(
+        request,
+        "billing/add_expense.html"
+    )
+
+
+@login_required
+def sales_report(request):
+
+    invoices = Invoice.objects.all().order_by(
+        "-created_at"
+    )
+
+
+    start_date = request.GET.get(
+        "start_date"
+    )
+
+    end_date = request.GET.get(
+        "end_date"
+    )
+
+
+    if start_date and end_date:
+
+        invoices = invoices.filter(
+
+            created_at__date__range=[
+                start_date,
+                end_date
+            ]
+
+        )
+
+
+
+    total_sales = invoices.aggregate(
+        total=Sum("total")
+    )["total"] or 0
+
+
+
+    total_paid = invoices.aggregate(
+        total=Sum("paid_amount")
+    )["total"] or 0
+
+
+
+    total_due = invoices.aggregate(
+        total=Sum("due_amount")
+    )["total"] or 0
+
+
+
+    context = {
+
+        "invoices": invoices,
+
+        "total_sales": total_sales,
+
+        "total_paid": total_paid,
+
+        "total_due": total_due,
+
+        "start_date": start_date,
+
+        "end_date": end_date,
+
+    }
+
+
+    return render(
+        request,
+        "billing/sales_report.html",
+        context
+    )
+
+
+
+@login_required
+def export_sales_csv(request):
+
+    invoices = Invoice.objects.all().order_by(
+        "-created_at"
+    )
+
+
+    response = HttpResponse(
+        content_type="text/csv"
+    )
+
+
+    response["Content-Disposition"] = (
+        'attachment; filename="sales_report.csv"'
+    )
+
+
+    writer = csv.writer(response)
+
+
+    writer.writerow(
+        [
+            "Invoice",
+            "Customer",
+            "Total",
+            "Paid",
+            "Due",
+            "Date"
+        ]
+    )
+
+
+    for invoice in invoices:
+
+
+        customer = (
+            invoice.customer.name
+            if invoice.customer
+            else "Walk-in"
+        )
+
+
+        writer.writerow(
+            [
+                invoice.invoice_number,
+                customer,
+                invoice.total,
+                invoice.paid_amount,
+                invoice.due_amount,
+                invoice.created_at.strftime(
+                    "%Y-%m-%d"
+                )
+            ]
+        )
+
+
+    return response
+
+
+@login_required
+def export_sales_pdf(request):
+
+    invoices = Invoice.objects.all()
+
+
+
+    response = HttpResponse(
+        content_type="application/pdf"
+    )
+
+
+    response["Content-Disposition"] = (
+        'attachment; filename="sales_report.pdf"'
+    )
+
+
+
+    pdf = canvas.Canvas(response)
+
+
+
+    pdf.setFont(
+        "Helvetica-Bold",
+        18
+    )
+
+
+    pdf.drawString(
+        50,
+        800,
+        "POS SALES REPORT"
+    )
+
+
+
+    y = 760
+
+
+
+    pdf.setFont(
+        "Helvetica",
+        12
+    )
+
+
+
+    for invoice in invoices:
+
+
+        customer = (
+            invoice.customer.name
+            if invoice.customer
+            else "Walk-in"
+        )
+
+
+        line = (
+            f"{invoice.invoice_number} "
+            f"{customer} "
+            f"Rs {invoice.total}"
+        )
+
+
+        pdf.drawString(
+            50,
+            y,
+            line
+        )
+
+
+        y -= 25
+
+
+
+        if y < 50:
+
+            pdf.showPage()
+
+            y = 800
+
+
+
+    pdf.save()
+
+
+    return response

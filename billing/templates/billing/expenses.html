@@ -2,7 +2,7 @@
 
 
 {% block title %}
-Customers
+Expenses
 {% endblock %}
 
 
@@ -17,19 +17,20 @@ Customers
 
 
         <h1 class="text-3xl font-semibold">
-            Customers
+            Expenses
         </h1>
 
 
 
-        <a href="{% url 'add_customer' %}" class="bg-brand text-white px-5 py-3 rounded">
+        <a href="{% url 'add_expense' %}" class="bg-brand text-white px-5 py-3 rounded">
 
-            Add Customer
+            Add Expense
 
         </a>
 
 
     </div>
+
 
 
 
@@ -43,18 +44,24 @@ Customers
 
                 <tr class="border-b">
 
+
                     <th class="text-left">
-                        Name
+                        Title
                     </th>
 
 
                     <th>
-                        Phone
+                        Type
                     </th>
 
 
                     <th>
-                        Email
+                        Amount
+                    </th>
+
+
+                    <th>
+                        Date
                     </th>
 
 
@@ -67,7 +74,7 @@ Customers
             <tbody>
 
 
-                {% for customer in customers %}
+                {% for expense in expenses %}
 
 
                 <tr class="border-b">
@@ -75,30 +82,34 @@ Customers
 
                     <td class="py-3">
 
-                        <a href="{% url 'customer_detail' customer.id %}" class="text-brand hover:underline">
-
-                            {{ customer.name }}
-
-                        </a>
+                        {{ expense.title }}
 
                     </td>
 
 
                     <td>
 
-                        {{ customer.phone }}
+                        {{ expense.expense_type }}
 
                     </td>
 
 
                     <td>
 
-                        {{ customer.email }}
+                        Rs {{ expense.amount }}
+
+                    </td>
+
+
+                    <td>
+
+                        {{ expense.created_at|date:"Y-m-d" }}
 
                     </td>
 
 
                 </tr>
+
 
 
                 {% endfor %}

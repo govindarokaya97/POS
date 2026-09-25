@@ -1698,3 +1698,194 @@ django.db.utils.DataError: (1264, "Out of range value for column 'stock' at row 
 2026-09-24 09:16:01,013 INFO django.utils.autoreload Watching for file changes with StatReloader
 2026-09-24 09:16:25,114 INFO django.utils.autoreload C:\MySQL\POS\billing\urls.py changed, reloading.
 2026-09-24 09:16:27,991 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-25 08:30:25,233 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-25 08:31:01,834 ERROR django.request Internal Server Error: /billing/checkout/
+Traceback (most recent call last):
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\mysql\base.py", line 78, in execute
+    return self.cursor.execute(query, args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
+    db.query(q)
+  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\connections.py", line 286, in query
+    _mysql.connection.query(self, query)
+MySQLdb.DataError: (1264, "Out of range value for column 'stock' at row 1")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\billing\views.py", line 463, in checkout
+    product.save()
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 874, in save
+    self.save_base(
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 966, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 1110, in _save_table
+    results = self._do_update(
+              ^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 1213, in _do_update
+    return filtered._update(values, returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\query.py", line 1327, in _update
+    return query.get_compiler(self.db).execute_returning_sql(returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 2140, in execute_returning_sql
+    row_count = self.execute_sql(ROW_COUNT)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 2111, in execute_sql
+    row_count = super().execute_sql(result_type)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1624, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\mysql\base.py", line 78, in execute
+    return self.cursor.execute(query, args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
+    db.query(q)
+  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\connections.py", line 286, in query
+    _mysql.connection.query(self, query)
+django.db.utils.DataError: (1264, "Out of range value for column 'stock' at row 1")
+2026-09-25 08:34:11,924 INFO django.utils.autoreload C:\MySQL\POS\billing\models.py changed, reloading.
+2026-09-25 08:34:13,716 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-25 08:34:48,923 INFO django.utils.autoreload C:\MySQL\POS\billing\admin.py changed, reloading.
+2026-09-25 08:34:49,950 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-25 08:34:58,601 INFO django.utils.autoreload C:\MySQL\POS\billing\admin.py changed, reloading.
+2026-09-25 08:35:00,186 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-25 08:35:16,396 INFO django.utils.autoreload C:\MySQL\POS\billing\urls.py changed, reloading.
+2026-09-25 08:35:19,384 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-25 08:35:37,206 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
+2026-09-25 08:35:38,111 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-25 08:37:42,868 INFO django.utils.autoreload C:\MySQL\POS\accounts\views.py changed, reloading.
+2026-09-25 08:37:44,627 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-25 08:38:32,371 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
+2026-09-25 08:38:35,339 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-25 08:39:09,534 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
+2026-09-25 08:39:10,835 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-25 08:43:25,118 INFO django.utils.autoreload C:\MySQL\POS\billing\urls.py changed, reloading.
+2026-09-25 08:43:26,112 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-25 08:43:46,963 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
+2026-09-25 08:43:47,846 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-25 08:46:30,461 INFO django.utils.autoreload C:\MySQL\POS\billing\urls.py changed, reloading.
+2026-09-25 08:46:31,686 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-25 08:46:43,075 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
+2026-09-25 08:46:44,009 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-25 08:48:26,598 INFO django.utils.autoreload C:\MySQL\POS\billing\urls.py changed, reloading.
+2026-09-25 08:48:27,529 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-25 08:48:51,690 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
+2026-09-25 08:48:52,831 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-25 08:49:01,460 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
+2026-09-25 08:49:02,461 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-25 08:49:37,545 ERROR django.request Internal Server Error: /billing/reports/export/csv/
+Traceback (most recent call last):
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\billing\views.py", line 832, in export_sales_csv
+    response = HttpResponse(
+               ^^^^^^^^^^^^
+NameError: name 'HttpResponse' is not defined
+2026-09-25 08:49:41,732 ERROR django.request Internal Server Error: /billing/reports/export/pdf/
+Traceback (most recent call last):
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\billing\views.py", line 891, in export_sales_pdf
+    response = HttpResponse(
+               ^^^^^^^^^^^^
+NameError: name 'HttpResponse' is not defined
+2026-09-25 08:51:21,625 ERROR django.request Internal Server Error: /billing/reports/export/csv/
+Traceback (most recent call last):
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\billing\views.py", line 832, in export_sales_csv
+    response = HttpResponse(
+               ^^^^^^^^^^^^
+NameError: name 'HttpResponse' is not defined
+2026-09-25 08:51:24,521 ERROR django.request Internal Server Error: /billing/reports/export/pdf/
+Traceback (most recent call last):
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\billing\views.py", line 891, in export_sales_pdf
+    response = HttpResponse(
+               ^^^^^^^^^^^^
+NameError: name 'HttpResponse' is not defined
+2026-09-25 08:51:28,180 ERROR django.request Internal Server Error: /billing/reports/export/csv/
+Traceback (most recent call last):
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\MySQL\POS\billing\views.py", line 832, in export_sales_csv
+    response = HttpResponse(
+               ^^^^^^^^^^^^
+NameError: name 'HttpResponse' is not defined
+2026-09-25 08:52:06,179 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
+2026-09-25 08:52:07,292 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-25 08:52:26,625 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
+2026-09-25 08:52:27,920 INFO django.utils.autoreload Watching for file changes with StatReloader

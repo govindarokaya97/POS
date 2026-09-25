@@ -77,4 +77,42 @@ urlpatterns = [
         name="add_customer"
     ),
 
+    path(
+        "customers/<int:id>/",
+        views.customer_detail,
+        name="customer_detail"
+    ),
+
+    path(
+        "expenses/",
+        views.expenses,
+        name="expenses"
+    ),
+
+
+    path(
+        "expenses/add/",
+        views.add_expense,
+        name="add_expense"
+    ),
+
+    path(
+        "reports/",
+        views.sales_report,
+        name="sales_report"
+    ),
+
+
+    path(
+        "reports/export/csv/",
+        views.export_sales_csv,
+        name="export_sales_csv"
+    ),
+
+    path(
+        "reports/export/pdf/",
+        views.export_sales_pdf,
+        name="export_sales_pdf"
+    ),
+
 ]

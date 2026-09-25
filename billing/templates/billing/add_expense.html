@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Add Expense
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<h1 class="text-3xl font-semibold">
+    Add Expense
+</h1>
+
+
+
+<form method="POST" class="mt-6 space-y-4">
+
+
+    {% csrf_token %}
+
+
+
+    <input name="title" placeholder="Expense title" class="border p-3 w-full" />
+
+
+
+    <select name="expense_type" class="border p-3 w-full">
+
+
+        <option value="rent">
+            Rent
+        </option>
+
+
+        <option value="salary">
+            Salary
+        </option>
+
+
+        <option value="electricity">
+            Electricity
+        </option>
+
+
+        <option value="supplier">
+            Supplier
+        </option>
+
+
+        <option value="other">
+            Other
+        </option>
+
+
+    </select>
+
+
+
+
+    <input name="amount" type="number" placeholder="Amount" class="border p-3 w-full" />
+
+
+
+
+    <textarea name="description" placeholder="Description" class="border p-3 w-full"></textarea>
+
+
+
+    <button class="bg-brand text-white px-6 py-3 rounded">
+
+        Save Expense
+
+    </button>
+
+
+
+</form>
+
+
+{% endblock %}

@@ -28,6 +28,8 @@ def register(request):
     }
     return render(request, 'accounts/register.html', context)
 
+
+
 def login_user(request):
     if request.method == "POST":
         form = LoginForm(request, data=request.POST)
@@ -42,6 +44,8 @@ def login_user(request):
 
     context={"form":form}
     return render(request, 'accounts/login.html',context)
+
+
 
 def logout_user(request):
     logout(request)

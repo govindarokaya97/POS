@@ -43,11 +43,14 @@
         <div class="grid grid-cols-1 divide-y divide-line sm:grid-cols-3 sm:divide-y-0 sm:divide-x">
             <div class="px-6 py-5">
                 <p class="font-mono text-[11px] uppercase tracking-[0.15em] text-muted">Today's revenue</p>
-                <p class="mt-2 font-mono text-2xl font-medium tabular-nums text-brand">Rs {{ today_revenue|default:"0" }}</p>
+                <p class="mt-2 font-mono text-2xl font-medium tabular-nums text-brand">
+                    Rs {{ today_revenue|default:"0"}}
+                </p>
             </div>
             <div class="px-6 py-5">
                 <p class="font-mono text-[11px] uppercase tracking-[0.15em] text-muted">Transactions today</p>
-                <p class="mt-2 font-mono text-2xl font-medium tabular-nums text-ink">{{ today_sales_count|default:"0" }}</p>
+                <p class="mt-2 font-mono text-2xl font-medium tabular-nums text-ink">{{ today_sales_count|default:"0" }}
+                </p>
             </div>
             <div class="px-6 py-5">
                 <p class="font-mono text-[11px] uppercase tracking-[0.15em] text-muted">Products sold today</p>

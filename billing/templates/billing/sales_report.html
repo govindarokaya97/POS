@@ -1,0 +1,256 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Sales Report
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+<div class="space-y-8">
+
+
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
+
+        <div>
+
+            <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+                Reports
+            </p>
+
+
+            <h1 class="mt-1 text-3xl font-semibold text-ink">
+                Sales Report
+            </h1>
+
+
+            <p class="mt-1 text-sm text-muted">
+                Analyze invoices, payments and revenue.
+            </p>
+
+        </div>
+
+
+
+        <div class="flex gap-3">
+
+
+            <a href="{% url 'export_sales_csv' %}"
+                class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-green-700">
+
+
+                <i class="fa-solid fa-file-csv"></i>
+
+                Export CSV
+
+
+            </a>
+
+
+
+            <a href="{% url 'export_sales_pdf' %}"
+                class="inline-flex items-center gap-2 rounded-lg bg-red-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-700">
+
+
+                <i class="fa-solid fa-file-pdf"></i>
+
+                Export PDF
+
+
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+    <form method="GET" class="grid gap-4 md:grid-cols-3">
+
+
+        <input type="date" name="start_date" value="{{start_date}}" class="border p-3" />
+
+
+
+        <input type="date" name="end_date" value="{{end_date}}" class="border p-3" />
+
+
+
+        <button class="bg-brand text-white rounded px-5">
+
+            Generate
+
+        </button>
+
+
+    </form>
+
+
+
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+
+        <div class="rounded-xl border bg-white p-5">
+
+            <p>
+                Total Sales
+            </p>
+
+            <h2 class="text-2xl font-bold">
+
+                Rs {{ total_sales }}
+
+            </h2>
+
+        </div>
+
+
+
+        <div class="rounded-xl border bg-white p-5">
+
+            <p>
+                Paid Amount
+            </p>
+
+            <h2 class="text-2xl font-bold">
+
+                Rs {{ total_paid }}
+
+            </h2>
+
+        </div>
+
+
+
+        <div class="rounded-xl border bg-white p-5">
+
+            <p>
+                Due Amount
+            </p>
+
+            <h2 class="text-2xl font-bold">
+
+                Rs {{ total_due }}
+
+            </h2>
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <div class="rounded-xl border bg-white p-6">
+
+
+        <table class="w-full">
+
+
+            <thead>
+
+                <tr class="border-b">
+
+
+                    <th>
+                        Invoice
+                    </th>
+
+
+                    <th>
+                        Customer
+                    </th>
+
+
+                    <th>
+                        Total
+                    </th>
+
+
+                    <th>
+                        Date
+                    </th>
+
+
+                </tr>
+
+            </thead>
+
+
+
+            <tbody>
+
+
+                {% for invoice in invoices %}
+
+
+                <tr class="border-b">
+
+
+                    <td class="py-3">
+
+                        {{invoice.invoice_number}}
+
+                    </td>
+
+
+
+                    <td>
+
+                        {% if invoice.customer %}
+
+                        {{invoice.customer.name}}
+
+                        {% else %}
+
+                        Walk-in
+
+                        {% endif %}
+
+                    </td>
+
+
+
+                    <td>
+
+                        Rs {{invoice.total}}
+
+                    </td>
+
+
+
+                    <td>
+
+                        {{invoice.created_at|date:"Y-m-d"}}
+
+                    </td>
+
+
+                </tr>
+
+
+                {% endfor %}
+
+
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

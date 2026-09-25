@@ -1,0 +1,249 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Customer Details
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="space-y-8">
+
+
+    <h1 class="text-3xl font-semibold">
+
+        {{ customer.name }}
+
+    </h1>
+
+
+
+    <div class="rounded-xl border bg-white p-6">
+
+
+        <p>
+            Phone:
+            {{ customer.phone }}
+        </p>
+
+
+        <p>
+            Email:
+            {{ customer.email }}
+        </p>
+
+
+        <p>
+            Address:
+            {{ customer.address }}
+        </p>
+
+
+    </div>
+
+
+
+
+    <div class="grid gap-6 md:grid-cols-3">
+
+
+        <div class="rounded-xl border bg-white p-6">
+
+            <p>
+                Total Purchase
+            </p>
+
+            <h2 class="text-2xl font-bold">
+
+                Rs {{ total_purchase }}
+
+            </h2>
+
+        </div>
+
+
+
+
+        <div class="rounded-xl border bg-white p-6">
+
+            <p>
+                Paid Amount
+            </p>
+
+            <h2 class="text-2xl font-bold">
+
+                Rs {{ total_paid }}
+
+            </h2>
+
+        </div>
+
+
+
+
+        <div class="rounded-xl border bg-white p-6">
+
+            <p>
+                Due Amount
+            </p>
+
+            <h2 class="text-2xl font-bold">
+
+                Rs {{ total_due }}
+
+            </h2>
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <div class="rounded-xl border bg-white p-6">
+
+
+        <h2 class="text-xl font-semibold mb-4">
+
+            Invoice History
+
+        </h2>
+
+
+
+        <table class="w-full">
+
+
+            <thead>
+
+
+                <tr class="border-b">
+
+
+                    <th class="text-left">
+                        Invoice
+                    </th>
+
+
+                    <th>
+                        Date
+                    </th>
+
+
+                    <th>
+                        Total
+                    </th>
+
+
+                    <th>
+                        Paid
+                    </th>
+
+
+                    <th>
+                        Due
+                    </th>
+
+
+                </tr>
+
+
+            </thead>
+
+
+
+            <tbody>
+
+
+
+                {% for invoice in invoices %}
+
+
+                <tr class="border-b">
+
+
+                    <td class="py-3">
+
+                        <a href="{% url 'invoice' invoice.id %}" class="text-brand">
+
+                            {{ invoice.invoice_number }}
+
+                        </a>
+
+                    </td>
+
+
+
+                    <td>
+
+                        {{ invoice.created_at|date:"Y-m-d" }}
+
+                    </td>
+
+
+
+                    <td>
+
+                        Rs {{ invoice.total }}
+
+                    </td>
+
+
+
+                    <td>
+
+                        Rs {{ invoice.paid_amount }}
+
+                    </td>
+
+
+
+                    <td>
+
+                        Rs {{ invoice.due_amount }}
+
+                    </td>
+
+
+
+                </tr>
+
+
+
+                {% empty %}
+
+
+                <tr>
+
+                    <td colspan="5">
+
+                        No invoices found
+
+                    </td>
+
+                </tr>
+
+
+                {% endfor %}
+
+
+
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+
+
+</div>
+
+
+
+{% endblock %}

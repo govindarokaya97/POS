@@ -52,7 +52,19 @@
             <input type="file" id="image" name="image"
                 class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-700 file:mr-4 file:rounded-lg file:border-0 file:bg-slate-100 file:px-4 file:py-2 file:text-sm file:font-medium file:text-slate-700 hover:file:bg-slate-200" />
         </div>
+        <div>
+            <label for="barcode" class="mb-2 block text-sm font-medium text-ink">
+                Barcode
+            </label>
 
+            <input type="text" id="barcode" name="barcode" placeholder="Leave empty for automatic barcode"
+                value="{{ form_data.barcode }}"
+                class="w-full rounded-lg border border-line bg-paper px-4 py-3 text-sm text-ink outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20" />
+
+            <p class="mt-1 text-xs text-muted">
+                Leave blank to generate barcode automatically.
+            </p>
+        </div>
         <div class="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
             <input type="checkbox" id="is_available" name="is_available" checked
                 class="h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-500" />

@@ -162,6 +162,7 @@ def add_product(request):
             stock=cleaned["stock"],
             image=image,
             category=category,
+            barcode=request.POST.get("barcode") or None,
         )
 
 

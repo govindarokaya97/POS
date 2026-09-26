@@ -68,7 +68,19 @@
                 <input type="file" id="image" name="image"
                     class="w-full rounded-lg border border-line bg-paper px-4 py-3 text-sm text-ink file:mr-4 file:rounded-md file:border-0 file:bg-ink file:px-4 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-ink-2" />
             </div>
+            <div>
+                <label for="barcode" class="mb-2 block text-sm font-medium text-ink">
+                    Barcode
+                </label>
 
+                <input type="text" id="barcode" name="barcode" placeholder="Leave empty for automatic barcode"
+                    value="{{ form_data.barcode }}"
+                    class="w-full rounded-lg border border-line bg-paper px-4 py-3 text-sm text-ink outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20" />
+
+                <p class="mt-1 text-xs text-muted">
+                    Leave blank to generate barcode automatically.
+                </p>
+            </div>
             <div class="flex items-center justify-end gap-3 pt-2">
                 <a href="{% url 'view_product' %}"
                     class="rounded-lg px-4 py-2.5 text-sm font-medium text-muted hover:text-ink">Cancel</a>

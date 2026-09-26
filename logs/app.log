@@ -1889,3 +1889,40 @@ NameError: name 'HttpResponse' is not defined
 2026-09-25 08:52:07,292 INFO django.utils.autoreload Watching for file changes with StatReloader
 2026-09-25 08:52:26,625 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
 2026-09-25 08:52:27,920 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-26 08:17:24,295 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-26 08:18:51,980 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
+2026-09-26 08:18:55,096 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-26 08:19:44,135 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
+2026-09-26 08:19:46,108 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-26 08:20:02,260 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
+2026-09-26 08:20:05,278 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-26 08:23:18,230 INFO django.utils.autoreload C:\MySQL\POS\inventory\models.py changed, reloading.
+2026-09-26 08:23:20,069 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-26 08:24:15,213 INFO django.utils.autoreload C:\MySQL\POS\inventory\models.py changed, reloading.
+2026-09-26 08:24:18,336 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-26 08:24:37,399 INFO django.utils.autoreload C:\MySQL\POS\inventory\models.py changed, reloading.
+2026-09-26 08:24:38,989 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-26 08:27:51,121 INFO django.utils.autoreload C:\MySQL\POS\inventory\views.py changed, reloading.
+2026-09-26 08:27:54,386 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-26 08:31:01,279 INFO django.utils.autoreload C:\MySQL\POS\inventory\views.py changed, reloading.
+2026-09-26 08:31:03,294 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-26 08:32:03,546 INFO django.utils.autoreload C:\MySQL\POS\billing\urls.py changed, reloading.
+2026-09-26 08:32:06,798 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-26 08:32:25,084 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
+2026-09-26 08:32:27,009 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-26 08:32:35,899 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
+2026-09-26 08:32:39,022 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-26 08:39:37,911 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
+2026-09-26 08:39:39,630 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-26 08:39:56,707 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
+2026-09-26 08:39:59,818 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-26 08:40:51,423 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
+2026-09-26 08:40:53,324 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-26 08:41:19,988 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
+2026-09-26 08:41:23,007 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-26 08:42:42,491 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
+2026-09-26 08:42:44,450 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-26 08:43:12,210 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
+2026-09-26 08:43:15,178 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-09-26 08:43:25,710 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
+2026-09-26 08:43:27,750 INFO django.utils.autoreload Watching for file changes with StatReloader

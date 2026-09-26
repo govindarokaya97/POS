@@ -14,6 +14,9 @@ from django.db.models import Sum, Count, Q
 from django.utils import timezone
 from datetime import timedelta
 
+from inventory.models import Product
+from decimal import Decimal
+from django.db import transaction
 
 @login_required
 def sales_dashboard(request):
@@ -169,7 +172,7 @@ def add_to_cart(request, product_id):
 
                 "name": product.name,
 
-                "price": float(product.price),
+                "price": Decimal(str(product.price)),
 
                 "quantity": 1,
 
@@ -330,7 +333,7 @@ def checkout(request):
     )
 
 
-    discount = float(
+    discount = Decimal(
         request.POST.get(
             "discount",
             0
@@ -338,7 +341,7 @@ def checkout(request):
     )
 
 
-    tax_rate = float(
+    tax_rate = Decimal(
         request.POST.get(
             "tax",
             0
@@ -357,7 +360,7 @@ def checkout(request):
         + tax
     )
 
-    paid_amount = float(
+    paid_amount = Decimal(
         request.POST.get(
             "paid_amount",
             0
@@ -387,65 +390,83 @@ def checkout(request):
 
 
     if request.method == "POST":
+        with transaction.atomic():
+        
+            customer_id = request.POST.get(
+                "customer"
+            )
 
 
-        customer_id = request.POST.get(
-            "customer"
-        )
+            customer = None
 
 
-        customer = None
+            if customer_id:
+
+                customer = Customer.objects.get(
+                    id=customer_id
+                )
 
 
-        if customer_id:
 
-            customer = Customer.objects.get(
-                id=customer_id
+            invoice = Invoice.objects.create(
+
+                invoice_number=f"INV-{Invoice.objects.count()+1:05d}",
+
+                customer=customer,
+
+                created_by=request.user,
+
+
+                subtotal=subtotal,
+
+                discount=discount,
+
+                tax=tax,
+
+                total=total,
+
+
+                paid_amount=paid_amount,
+
+                due_amount=due_amount,
+
+
+                payment_status=payment_status,
+
+
+                payment_method=request.POST.get(
+                    "payment_method"
+                )
+
             )
 
 
 
-        invoice = Invoice.objects.create(
-
-            invoice_number=f"INV-{Invoice.objects.count()+1:05d}",
-
-            customer=customer,
-
-            created_by=request.user,
-
-
-            subtotal=subtotal,
-
-            discount=discount,
-
-            tax=tax,
-
-            total=total,
-
-
-            paid_amount=paid_amount,
-
-            due_amount=due_amount,
-
-
-            payment_status=payment_status,
-
-
-            payment_method=request.POST.get(
-                "payment_method"
-            )
-
-        )
-
-
-
-        for product_id,item in cart.items():
+        for product_id, item in cart.items():
 
 
             product = Product.objects.get(
                 id=product_id
             )
 
+
+            quantity = item["quantity"]
+
+
+            # Stock check
+
+            if product.stock < quantity:
+
+                messages.error(
+                    request,
+                    f"{product.name} does not have enough stock."
+                )
+
+                invoice.delete()
+
+                return redirect(
+                    "checkout"
+                )
 
 
             InvoiceItem.objects.create(
@@ -454,21 +475,18 @@ def checkout(request):
 
                 product=product,
 
-                quantity=item["quantity"],
+                quantity=quantity,
 
                 price=item["price"],
 
-                total=
-                item["price"] *
-                item["quantity"]
+                total=item["price"] * quantity
 
             )
 
 
+            # Reduce stock
 
-            # Reduce Stock
-
-            product.stock -= item["quantity"]
+            product.stock -= quantity
 
             product.save()
 
@@ -587,27 +605,27 @@ def add_customer(request):
 
 
     if request.method == "POST":
+        with transaction.atomic():
 
+            Customer.objects.create(
 
-        Customer.objects.create(
+                name=request.POST.get(
+                    "name"
+                ),
 
-            name=request.POST.get(
-                "name"
-            ),
+                phone=request.POST.get(
+                    "phone"
+                ),
 
-            phone=request.POST.get(
-                "phone"
-            ),
+                email=request.POST.get(
+                    "email"
+                ),
 
-            email=request.POST.get(
-                "email"
-            ),
+                address=request.POST.get(
+                    "address"
+                )
 
-            address=request.POST.get(
-                "address"
             )
-
-        )
 
 
         messages.success(
@@ -710,27 +728,27 @@ def expenses(request):
 def add_expense(request):
 
     if request.method == "POST":
+        with transaction.atomic():
 
+            Expense.objects.create(
 
-        Expense.objects.create(
+                title=request.POST.get(
+                    "title"
+                ),
 
-            title=request.POST.get(
-                "title"
-            ),
+                expense_type=request.POST.get(
+                    "expense_type"
+                ),
 
-            expense_type=request.POST.get(
-                "expense_type"
-            ),
+                amount=request.POST.get(
+                    "amount"
+                ),
 
-            amount=request.POST.get(
-                "amount"
-            ),
+                description=request.POST.get(
+                    "description"
+                )
 
-            description=request.POST.get(
-                "description"
             )
-
-        )
 
 
         messages.success(
@@ -826,9 +844,7 @@ def sales_report(request):
 @login_required
 def export_sales_csv(request):
 
-    invoices = Invoice.objects.all().order_by(
-        "-created_at"
-    )
+    invoices = filter_invoices_by_date(request)
 
 
     response = HttpResponse(
@@ -886,7 +902,7 @@ def export_sales_csv(request):
 @login_required
 def export_sales_pdf(request):
 
-    invoices = Invoice.objects.all()
+    invoices = filter_invoices_by_date(request)
 
 
 
@@ -970,3 +986,81 @@ def export_sales_pdf(request):
 
 
     return response
+
+
+def filter_invoices_by_date(request):
+
+    invoices = Invoice.objects.all().order_by(
+        "-created_at"
+    )
+
+
+    start_date = request.GET.get(
+        "start_date"
+    )
+
+    end_date = request.GET.get(
+        "end_date"
+    )
+
+
+    if start_date and end_date:
+
+        invoices = invoices.filter(
+            created_at__date__range=[
+                start_date,
+                end_date
+            ]
+        )
+
+
+    return invoices
+
+
+@login_required
+def scan_barcode(request, barcode):
+
+    product = get_object_or_404(
+        Product,
+        barcode=barcode
+    )
+
+
+    cart = request.session.get(
+        "cart",
+        {}
+    )
+
+
+    product_id = str(product.id)
+
+
+    if product_id in cart:
+
+        cart[product_id]["quantity"] += 1
+
+    else:
+
+        cart[product_id] = {
+
+            "name": product.name,
+
+            "price": str(product.price),
+
+            "quantity": 1
+
+        }
+
+
+    request.session["cart"] = cart
+
+
+    messages.success(
+        request,
+        f"{product.name} added to cart"
+    )
+
+
+    return redirect(
+        "billing_products"
+    )

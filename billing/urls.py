@@ -115,4 +115,10 @@ urlpatterns = [
         name="export_sales_pdf"
     ),
 
+    path(
+        "scan/<str:barcode>/",
+        views.scan_barcode,
+        name="scan_barcode"
+    ),
+
 ]

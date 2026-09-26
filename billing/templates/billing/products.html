@@ -9,7 +9,25 @@ Billing
 
 {% block content %}
 
+<div class="rounded-xl border bg-white p-5 mb-6">
 
+
+    <h2 class="text-lg font-semibold">
+        Scan Barcode
+    </h2>
+
+
+    <form method="GET" action="" id="barcodeForm">
+
+
+        <input type="text" id="barcodeInput" placeholder="Scan barcode here..." autofocus
+            class="mt-3 w-full border p-3 rounded" />
+
+
+    </form>
+
+
+</div>
 <div class="space-y-6">
 
 
@@ -120,5 +138,37 @@ Billing
 
 </div>
 
+
+
+<script>
+
+    const barcodeInput =
+        document.getElementById(
+            "barcodeInput"
+        );
+
+
+    barcodeInput.addEventListener(
+        "change",
+        function () {
+
+            let barcode =
+                this.value.trim();
+
+
+            if (barcode) {
+
+                window.location.href =
+                    "/billing/scan/"
+                    + barcode
+                    + "/";
+
+            }
+
+        }
+    );
+
+
+</script>
 
 {% endblock %}

@@ -1,5 +1,5 @@
 from django.db import models
-
+import random
 # Create your models here.
 
 class Category(models.Model):
@@ -27,5 +27,25 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    barcode = models.CharField(
+        max_length=50,
+        unique=True,
+        blank=True,
+        null=True
+    )
+
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+
+        if not self.barcode:
+
+            self.barcode = str(
+                random.randint(
+                    100000000000,
+                    999999999999
+                )
+            )
+
+        super().save(*args, **kwargs)

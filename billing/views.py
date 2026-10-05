@@ -1,22 +1,25 @@
-from django.shortcuts import render
-from django.shortcuts import render,redirect,get_object_or_404
-from inventory.models import Product
-
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from .models import Invoice, InvoiceItem, Customer
-
 import csv
-from reportlab.pdfgen import canvas
-from django.http import HttpResponse
-
-from django.db.models import Sum, Count, Q
-from django.utils import timezone
+import logging
+import uuid
 from datetime import timedelta
+from decimal import Decimal, InvalidOperation
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.db import transaction
+from django.db.models import Q, Sum
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
+from django.views.decorators.http import require_POST
+from reportlab.pdfgen import canvas
 
 from inventory.models import Product
-from decimal import Decimal
-from django.db import transaction
+from django.db.models.functions import TruncDate
+from .models import Customer, Expense, Invoice, InvoiceItem
+
+logger = logging.getLogger(__name__)
+CART_KEY = "cart"
 
 @login_required
 def sales_dashboard(request):
@@ -31,14 +34,15 @@ def sales_dashboard(request):
 
     today_sales = today_invoices.aggregate(
         total=Sum("total")
-    )["total"] or 0
+    )["total"] or Decimal("0.00")
+
 
 
     today_expenses = Expense.objects.filter(
         created_at__date=today
     ).aggregate(
         total=Sum("amount")
-    )["total"] or 0
+    )["total"] or Decimal("0.00")
 
 
 
@@ -46,6 +50,8 @@ def sales_dashboard(request):
         today_sales -
         today_expenses
     )
+
+
 
     total_invoices = Invoice.objects.count()
 
@@ -55,7 +61,7 @@ def sales_dashboard(request):
         due_amount__gt=0
     ).aggregate(
         total=Sum("due_amount")
-    )["total"] or 0
+    )["total"] or Decimal("0.00")
 
 
 
@@ -75,15 +81,115 @@ def sales_dashboard(request):
 
 
 
+    low_stock_products = Product.objects.filter(
+        stock__lte=5
+    ).order_by(
+        "stock"
+    )
+
+
+        # Last 7 days sales
+
+    last_7_days = (
+        Invoice.objects
+        .filter(
+            created_at__date__gte=today - timedelta(days=6)
+        )
+        .annotate(
+            date=TruncDate("created_at")
+        )
+        .values("date")
+        .annotate(
+            total=Sum("total")
+        )
+        .order_by("date")
+    )
+
+
+
+    sales_labels = []
+
+    sales_values = []
+
+
+    for sale in last_7_days:
+
+        sales_labels.append(
+            sale["date"].strftime("%a")
+        )
+
+        sales_values.append(
+            float(sale["total"])
+        )
+
+
+
+
+
+    # Payment methods
+
+    payment_data = (
+        Invoice.objects
+        .values("payment_method")
+        .annotate(
+            total=Sum("total")
+        )
+    )
+
+
+
+    payment_labels = []
+
+    payment_values = []
+
+
+    for payment in payment_data:
+
+        payment_labels.append(
+            payment["payment_method"]
+        )
+
+        payment_values.append(
+            float(payment["total"])
+        )
+
+
+    recent_invoices = Invoice.objects.select_related(
+        "customer"
+    ).order_by(
+        "-created_at"
+    )[:5]
+
+
+
     context = {
+
         "today_sales": today_sales,
+
         "total_invoices": total_invoices,
+
         "pending_payment": pending_payment,
+
         "products_sold": products_sold,
+
         "top_products": top_products,
+
         "today_expenses": today_expenses,
+
         "today_profit": today_profit,
+
+        "low_stock_products": low_stock_products,
+
+        "recent_invoices": recent_invoices,
+        "sales_labels": sales_labels,
+
+        "sales_values": sales_values,
+
+        "payment_labels": payment_labels,
+
+        "payment_values": payment_values,
     }
+
 
 
     return render(
@@ -92,434 +198,374 @@ def sales_dashboard(request):
         context
     )
 
-    
 
+def _get_cart(request):
+
+    return request.session.get(CART_KEY, {})
+
+
+def _save_cart(request, cart):
+    request.session[CART_KEY] = cart
+    request.session.modified = True
+
+
+def _cart_lines(cart):
+    """Return ({product_id: line}, subtotal) using Decimal arithmetic.
+
+    Used for *display*.  Checkout recomputes prices from the database.
+    """
+    lines = {}
+    subtotal = Decimal("0")
+
+    for product_id, item in cart.items():
+        price = Decimal(str(item["price"]))
+        quantity = int(item["quantity"])
+        total = price * quantity
+
+        lines[product_id] = {
+            "name": item["name"],
+            "price": price,
+            "quantity": quantity,
+            "total": total,
+        }
+        subtotal += total
+
+    return lines, subtotal
+
+
+def _add_product(cart, product):
+    """Add one unit of `product` to `cart` (mutates it).
+
+    Returns None on success, or an error message string.
+    """
+    key = str(product.id)
+    in_cart = cart[key]["quantity"] if key in cart else 0
+
+    if product.stock <= 0:
+        return f"{product.name} is out of stock."
+
+    if in_cart + 1 > product.stock:
+        return f"Not enough stock for {product.name} (only {product.stock} left)."
+
+    if key in cart:
+        cart[key]["quantity"] += 1
+    else:
+        cart[key] = {
+            "name": product.name,
+            "price": str(product.price),
+            "quantity": 1,
+        }
+
+    return None
+
+
+@login_required
 def cart_view(request):
-
-    cart = request.session.get("cart", {})
-
-    subtotal = 0
-
-
-    for item in cart.values():
-
-        item["total"] = (
-            item["price"] *
-            item["quantity"]
-        )
-
-        subtotal += item["total"]
-
-
-    context = {
-        "cart": cart,
-        "subtotal": subtotal,
-    }
-
+    lines, subtotal = _cart_lines(_get_cart(request))
 
     return render(
         request,
         "billing/cart.html",
-        context
+        {"cart": lines, "subtotal": subtotal},
     )
 
 
+@login_required
 def add_to_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
 
-    product = get_object_or_404(
-        Product,
-        id=product_id
-    )
+    cart = _get_cart(request)
 
+    error = _add_product(cart, product)
 
-    cart = request.session.get(
-        "cart",
-        {}
-    )
-
-
-    product_id = str(product.id)
-
-
-    # Check if product already exists in cart
-
-    if product_id in cart:
-
-
-        if cart[product_id]["quantity"] < product.stock:
-
-            cart[product_id]["quantity"] += 1
-
-
-        else:
-
-            messages.error(
-                request,
-                "Not enough stock available"
-            )
-
-            return redirect(
-                "billing_products"
-            )
-
-
+    if error:
+        messages.error(request, error)
     else:
-
-
-        if product.stock > 0:
-
-            cart[product_id] = {
-
-                "name": product.name,
-
-                "price": Decimal(str(product.price)),
-
-                "quantity": 1,
-
-            }
-
-
-        else:
-
-            messages.error(
-                request,
-                "Product is out of stock"
-            )
-
-            return redirect(
-                "billing_products"
-            )
-
-
-
-    request.session["cart"] = cart
-
-
-    return redirect(
-        "cart"
-    )
-
-
-
-
-def remove_from_cart(request, product_id):
-
-    cart = request.session.get(
-        "cart",
-        {}
-    )
-
-
-    product_id = str(product_id)
-
-
-    if product_id in cart:
-
-        del cart[product_id]
-
-
-    request.session["cart"] = cart
-
+        _save_cart(request, cart)
+        messages.success(
+            request,
+            f"{product.name} added to cart."
+        )
 
     return redirect("cart")
 
 
-
-
+@login_required
+@require_POST
 def remove_from_cart(request, product_id):
-
-    cart = request.session.get(
-        "cart",
-        {}
-    )
-
-
-    product_id = str(product_id)
-
-
-    if product_id in cart:
-
-        del cart[product_id]
-
-
-    request.session["cart"] = cart
-
-
+    cart = _get_cart(request)
+    cart.pop(str(product_id), None)
+    _save_cart(request, cart)
     return redirect("cart")
 
 
-
-
+@login_required
+@require_POST
 def increase_quantity(request, product_id):
+    cart = _get_cart(request)
+    key = str(product_id)
 
-    cart = request.session.get(
-        "cart",
-        {}
-    )
+    if key in cart:
+        product = Product.objects.filter(id=product_id).first()
 
-
-    product_id = str(product_id)
-
-
-    if product_id in cart:
-
-        cart[product_id]["quantity"] += 1
-
-
-    request.session["cart"] = cart
-
-
-    return redirect("cart")
-
-
-
-
-def decrease_quantity(request, product_id):
-
-    cart = request.session.get(
-        "cart",
-        {}
-    )
-
-
-    product_id = str(product_id)
-
-
-    if product_id in cart:
-
-
-        if cart[product_id]["quantity"] > 1:
-
-            cart[product_id]["quantity"] -= 1
-
-
+        if product is None:
+            del cart[key]
+            messages.error(request, "That product no longer exists.")
         else:
+            error = _add_product(cart, product)
+            if error:
+                messages.error(request, error)
 
-            del cart[product_id]
-
-
-    request.session["cart"] = cart
-
+        _save_cart(request, cart)
 
     return redirect("cart")
 
 
+@login_required
+@require_POST
+def decrease_quantity(request, product_id):
+    cart = _get_cart(request)
+    key = str(product_id)
+
+    if key in cart:
+        if cart[key]["quantity"] > 1:
+            cart[key]["quantity"] -= 1
+        else:
+            del cart[key]
+
+        _save_cart(request, cart)
+
+    return redirect("cart")
+
+
+@login_required
+@require_POST
 def clear_cart(request):
-
-    request.session["cart"] = {}
-
+    _save_cart(request, {})
     return redirect("cart")
 
+
+# --------------------------------------------------------------------------
+# Checkout
+# --------------------------------------------------------------------------
+
+TWO_PLACES = Decimal("0.01")
+
+
+class CheckoutError(Exception):
+    """A problem the cashier can fix (bad input, not enough stock...).
+
+    The message is shown to the user.  Raising it inside transaction.atomic()
+    rolls back everything done so far.
+    """
+
+
+def _parse_money(raw, label):
+    """Parse a non-negative, finite decimal from form input ('' -> 0)."""
+    raw = (raw or "").strip()
+    if raw == "":
+        return Decimal("0")
+
+    try:
+        value = Decimal(raw)
+    except InvalidOperation:
+        raise CheckoutError(f"{label} must be a valid number.")
+
+    if not value.is_finite():
+        raise CheckoutError(f"{label} must be a valid number.")
+
+    if value < 0:
+        raise CheckoutError(f"{label} cannot be negative.")
+
+    return value
+
+
+def _create_invoice(request, cart):
+    """Validate the POST data and create the invoice.  Raises CheckoutError.
+
+    Must be called inside transaction.atomic().  Product rows are locked with
+    select_for_update(), so two cashiers selling the last unit at the same
+    moment cannot both succeed.
+    """
+    # 1. Parse and validate the form fields (no DB writes yet).
+    discount = _parse_money(request.POST.get("discount"), "Discount")
+    tax_rate = _parse_money(request.POST.get("tax"), "Tax %")
+    paid_amount = _parse_money(request.POST.get("paid_amount"), "Paid amount")
+
+    if tax_rate > 100:
+        raise CheckoutError("Tax % cannot be more than 100.")
+
+    payment_method = request.POST.get("payment_method")
+    if payment_method not in dict(Invoice.PAYMENT_METHODS):
+        raise CheckoutError("Please choose a valid payment method.")
+
+    customer = None
+    customer_id = request.POST.get("customer")
+    if customer_id:
+        if not customer_id.isdigit():
+            raise CheckoutError("Please choose a valid customer.")
+        customer = Customer.objects.filter(id=customer_id).first()
+        if customer is None:
+            raise CheckoutError("That customer no longer exists.")
+
+    # 2. Lock the products (in id order, to avoid deadlocks) and check stock.
+    product_ids = sorted(int(pid) for pid in cart)
+    products = {
+        p.id: p
+        for p in Product.objects.select_for_update()
+        .filter(id__in=product_ids)
+        .order_by("id")
+    }
+
+    items = []
+    subtotal = Decimal("0")
+
+    for pid in product_ids:
+        quantity = int(cart[str(pid)]["quantity"])
+        product = products.get(pid)
+
+        if product is None:
+            raise CheckoutError(f"{cart[str(pid)]['name']} no longer exists.")
+
+        if quantity <= 0:
+            raise CheckoutError(f"Invalid quantity for {product.name}.")
+
+        if product.stock < quantity:
+            raise CheckoutError(
+                f"Not enough stock for {product.name} (only {product.stock} left)."
+            )
+
+        # Price comes from the database, not from the session, so a stale
+        # cart can never be sold at an old price.
+        line_total = product.price * quantity
+        subtotal += line_total
+        items.append((product, quantity, line_total))
+
+    # 3. Totals.
+    if discount > subtotal:
+        raise CheckoutError("Discount cannot be more than the subtotal.")
+
+    tax = (subtotal * tax_rate / 100).quantize(TWO_PLACES)
+    total = subtotal - discount + tax
+
+    # Anything paid over the total is change handed back, not revenue.
+    paid_amount = min(paid_amount, total)
+    due_amount = total - paid_amount
+
+    if due_amount == 0:
+        payment_status = "paid"
+    elif paid_amount > 0:
+        payment_status = "partial"
+    else:
+        payment_status = "due"
+
+    # 4. Write.  The invoice number is derived from the primary key, which
+    #    the database guarantees is unique -- counting rows (the old
+    #    approach) breaks as soon as an invoice is deleted or two requests
+    #    overlap.  A random placeholder satisfies the unique constraint for
+    #    the instant before we know the pk.
+    invoice = Invoice.objects.create(
+        invoice_number=f"TMP-{uuid.uuid4().hex}",
+        customer=customer,
+        created_by=request.user,
+        subtotal=subtotal,
+        discount=discount,
+        tax=tax,
+        total=total,
+        paid_amount=paid_amount,
+        due_amount=due_amount,
+        payment_status=payment_status,
+        payment_method=payment_method,
+    )
+    invoice.invoice_number = f"INV-{invoice.pk:05d}"
+    invoice.save(update_fields=["invoice_number"])
+
+    InvoiceItem.objects.bulk_create(
+        [
+            InvoiceItem(
+                invoice=invoice,
+                product=product,
+                quantity=quantity,
+                price=product.price,
+                total=line_total,
+            )
+            for product, quantity, line_total in items
+        ]
+    )
+
+    for product, quantity, _ in items:
+        product.stock -= quantity
+        product.save(update_fields=["stock", "updated_at"])
+
+    return invoice
 
 
 @login_required
 def checkout(request):
 
-    cart = request.session.get(
-        "cart",
-        {}
-    )
+    cart = _get_cart(request)
 
+    if not isinstance(cart, dict):
+        cart = {}
 
     if not cart:
-
         return redirect("cart")
 
 
-
-    subtotal = sum(
-        item["price"] * item["quantity"]
-        for item in cart.values()
-    )
-
-
-    discount = Decimal(
-        request.POST.get(
-            "discount",
-            0
-        )
-    )
-
-
-    tax_rate = Decimal(
-        request.POST.get(
-            "tax",
-            0
-        )
-    )
-
-
-    tax = (
-        subtotal * tax_rate
-    ) / 100
-
-
-    total = (
-        subtotal
-        - discount
-        + tax
-    )
-
-    paid_amount = Decimal(
-        request.POST.get(
-            "paid_amount",
-            0
-        )
-    )
-
-
-    due_amount = total - paid_amount
-
-
-
-    if due_amount <= 0:
-
-        payment_status = "paid"
-
-        due_amount = 0
-
-
-    elif paid_amount > 0:
-
-        payment_status = "partial"
-
-
-    else:
-
-        payment_status = "due"
-
-
     if request.method == "POST":
-        with transaction.atomic():
-        
-            customer_id = request.POST.get(
-                "customer"
+
+        try:
+
+            with transaction.atomic():
+                invoice = _create_invoice(request, cart)
+
+
+        except CheckoutError as error:
+
+            messages.error(request, str(error))
+            return redirect("checkout")
+
+
+        except Exception:
+
+            logger.exception(
+                "Unexpected error during checkout (user=%s)",
+                request.user.id
             )
 
-
-            customer = None
-
-
-            if customer_id:
-
-                customer = Customer.objects.get(
-                    id=customer_id
-                )
-
-
-
-            invoice = Invoice.objects.create(
-
-                invoice_number=f"INV-{Invoice.objects.count()+1:05d}",
-
-                customer=customer,
-
-                created_by=request.user,
-
-
-                subtotal=subtotal,
-
-                discount=discount,
-
-                tax=tax,
-
-                total=total,
-
-
-                paid_amount=paid_amount,
-
-                due_amount=due_amount,
-
-
-                payment_status=payment_status,
-
-
-                payment_method=request.POST.get(
-                    "payment_method"
-                )
-
+            messages.error(
+                request,
+                "Something went wrong completing the sale. Please try again."
             )
 
+            return redirect("checkout")
 
 
-        for product_id, item in cart.items():
+        _save_cart(request, {})
 
-
-            product = Product.objects.get(
-                id=product_id
-            )
-
-
-            quantity = item["quantity"]
-
-
-            # Stock check
-
-            if product.stock < quantity:
-
-                messages.error(
-                    request,
-                    f"{product.name} does not have enough stock."
-                )
-
-                invoice.delete()
-
-                return redirect(
-                    "checkout"
-                )
-
-
-            InvoiceItem.objects.create(
-
-                invoice=invoice,
-
-                product=product,
-
-                quantity=quantity,
-
-                price=item["price"],
-
-                total=item["price"] * quantity
-
-            )
-
-
-            # Reduce stock
-
-            product.stock -= quantity
-
-            product.save()
-
-
-
-        request.session["cart"] = {}
-
-
+        messages.success(
+            request,
+            f"Invoice {invoice.invoice_number} created successfully."
+        )
 
         return redirect(
-            "invoice",
-            invoice.id
+            "invoice_detail",
+            id=invoice.id
         )
 
 
-
-    context = {
-
-        "cart":cart,
-
-        "subtotal":subtotal,
-
-        "customers":Customer.objects.all()
-
-    }
+    lines, subtotal = _cart_lines(cart)
 
 
     return render(
         request,
         "billing/checkout.html",
-        context
+        {
+            "cart": lines,
+            "subtotal": subtotal,
+            "customers": Customer.objects.all(),
+        },
     )
-
 
 
 
@@ -532,9 +578,13 @@ def invoice_detail(request, id):
     )
 
 
+    auto_print = request.GET.get("print") == "true"
+
+
     context = {
 
         "invoice": invoice,
+        "auto_print": auto_print,
 
     }
 
@@ -544,7 +594,6 @@ def invoice_detail(request, id):
         "billing/invoice.html",
         context
     )
-
 
 
 @login_required
@@ -1018,49 +1067,27 @@ def filter_invoices_by_date(request):
 
 
 @login_required
-def scan_barcode(request, barcode):
+@require_POST
+def scan_barcode(request):
+    barcode = (request.POST.get("barcode") or "").strip()
 
-    product = get_object_or_404(
-        Product,
-        barcode=barcode
-    )
+    if not barcode:
+        messages.error(request, "Please scan or type a barcode.")
+        return redirect("billing_products")
 
+    product = Product.objects.filter(barcode=barcode).first()
 
-    cart = request.session.get(
-        "cart",
-        {}
-    )
+    if product is None:
+        messages.error(request, f"No product found for barcode {barcode}.")
+        return redirect("billing_products")
 
+    cart = _get_cart(request)
+    error = _add_product(cart, product)
 
-    product_id = str(product.id)
-
-
-    if product_id in cart:
-
-        cart[product_id]["quantity"] += 1
-
+    if error:
+        messages.error(request, error)
     else:
+        _save_cart(request, cart)
+        messages.success(request, f"{product.name} added to cart")
 
-        cart[product_id] = {
-
-            "name": product.name,
-
-            "price": str(product.price),
-
-            "quantity": 1
-
-        }
-
-
-    request.session["cart"] = cart
-
-
-    messages.success(
-        request,
-        f"{product.name} added to cart"
-    )
-
-
-    return redirect(
-        "billing_products"
-    )
+    return redirect("billing_products")

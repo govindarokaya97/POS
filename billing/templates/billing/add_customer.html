@@ -10,37 +10,41 @@ Add Customer
 {% block content %}
 
 
-<h1 class="text-3xl font-semibold">
-    Add Customer
-</h1>
+<div class="mx-auto max-w-2xl space-y-8">
+    <div>
+        <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">Billing</p>
+        <h1 class="mt-1 font-display text-3xl font-semibold text-ink">
+            Add Customer
+        </h1>
+    </div>
 
 
 
-<form method="POST" class="mt-6 space-y-4">
+<form method="POST" class="space-y-4 rounded-xl border border-line bg-white p-6">
 
 
     {% csrf_token %}
 
 
 
-    <input name="name" placeholder="Customer Name" class="border p-3 w-full" />
+    <input name="name" placeholder="Customer Name" />
 
 
 
-    <input name="phone" placeholder="Phone Number" class="border p-3 w-full" />
+    <input name="phone" placeholder="Phone Number" />
 
 
 
-    <input name="email" placeholder="Email" class="border p-3 w-full" />
+    <input name="email" placeholder="Email" />
 
 
 
-    <textarea name="address" placeholder="Address" class="border p-3 w-full"></textarea>
+    <textarea name="address" placeholder="Address"></textarea>
 
 
 
 
-    <button class="bg-brand text-white px-6 py-3 rounded">
+    <button class="rounded-lg bg-brand px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark">
 
         Save Customer
 
@@ -49,6 +53,7 @@ Add Customer
 
 
 </form>
+</div>
 
 
 

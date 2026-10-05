@@ -5,6 +5,12 @@ from . import views
 urlpatterns = [
 
     path(
+        "dashboard/",
+        views.sales_dashboard,
+        name="dashboard"
+    ),
+
+    path(
         "",
         views.cart_view,
         name="cart"
@@ -116,7 +122,7 @@ urlpatterns = [
     ),
 
     path(
-        "scan/<str:barcode>/",
+        "scan/",
         views.scan_barcode,
         name="scan_barcode"
     ),

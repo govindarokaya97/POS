@@ -7,11 +7,12 @@
     <!-- Header -->
 
     <div>
-        <h1 class="text-4xl font-bold text-slate-900">
+        <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">Overview</p>
+        <h1 class="mt-1 font-display text-3xl font-semibold text-ink">
             Dashboard
         </h1>
 
-        <p class="text-gray-500 mt-2">
+        <p class="mt-1 text-sm text-muted">
             Welcome back, {{ request.user.username }} 👋
         </p>
     </div>
@@ -20,23 +21,23 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
 
-        <div class="bg-white rounded-2xl border shadow-sm p-6">
+        <div class="rounded-xl border border-line bg-white p-6">
 
             <div class="flex justify-between items-center">
 
                 <div>
-                    <p class="text-gray-500">
+                    <p class="text-sm text-muted">
                         Categories
                     </p>
 
-                    <h2 class="text-3xl font-bold mt-2">
+                    <h2 class="mt-2 font-display text-3xl font-semibold text-ink">
                         {{ total_categories }}
                     </h2>
                 </div>
 
-                <div class="w-14 h-14 rounded-xl bg-blue-100 flex items-center justify-center">
+                <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-brand/10">
 
-                    <i class="fa-solid fa-layer-group text-blue-600 text-xl"></i>
+                    <i class="fa-solid fa-layer-group text-xl text-brand"></i>
 
                 </div>
 
@@ -44,23 +45,23 @@
 
         </div>
 
-        <div class="bg-white rounded-2xl border shadow-sm p-6">
+        <div class="rounded-xl border border-line bg-white p-6">
 
             <div class="flex justify-between items-center">
 
                 <div>
-                    <p class="text-gray-500">
+                    <p class="text-sm text-muted">
                         Products
                     </p>
 
-                    <h2 class="text-3xl font-bold mt-2">
+                    <h2 class="mt-2 font-display text-3xl font-semibold text-ink">
                         {{ total_products }}
                     </h2>
                 </div>
 
-                <div class="w-14 h-14 rounded-xl bg-green-100 flex items-center justify-center">
+                <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-brand/10">
 
-                    <i class="fa-solid fa-box text-green-600 text-xl"></i>
+                    <i class="fa-solid fa-box text-xl text-brand"></i>
 
                 </div>
 
@@ -68,23 +69,23 @@
 
         </div>
 
-        <div class="bg-white rounded-2xl border shadow-sm p-6">
+        <div class="rounded-xl border border-line bg-white p-6">
 
             <div class="flex justify-between items-center">
 
                 <div>
-                    <p class="text-gray-500">
+                    <p class="text-sm text-muted">
                         Sales
                     </p>
 
-                    <h2 class="text-3xl font-bold mt-2">
+                    <h2 class="mt-2 font-display text-3xl font-semibold text-ink">
                         {{ total_sales }}
                     </h2>
                 </div>
 
-                <div class="w-14 h-14 rounded-xl bg-orange-100 flex items-center justify-center">
+                <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-amber/10">
 
-                    <i class="fa-solid fa-cart-shopping text-orange-600 text-xl"></i>
+                    <i class="fa-solid fa-cart-shopping text-xl text-amber"></i>
 
                 </div>
 
@@ -92,23 +93,23 @@
 
         </div>
 
-        <div class="bg-white rounded-2xl border shadow-sm p-6">
+        <div class="rounded-xl border border-line bg-white p-6">
 
             <div class="flex justify-between items-center">
 
                 <div>
-                    <p class="text-gray-500">
+                    <p class="text-sm text-muted">
                         Revenue
                     </p>
 
-                    <h2 class="text-3xl font-bold mt-2">
+                    <h2 class="mt-2 font-display text-3xl font-semibold text-brand">
                         Rs. {{ revenue }}
                     </h2>
                 </div>
 
-                <div class="w-14 h-14 rounded-xl bg-purple-100 flex items-center justify-center">
+                <div class="flex h-14 w-14 items-center justify-center rounded-xl bg-ink/5">
 
-                    <i class="fa-solid fa-sack-dollar text-purple-600 text-xl"></i>
+                    <i class="fa-solid fa-sack-dollar text-xl text-ink"></i>
 
                 </div>
 
@@ -124,15 +125,15 @@
 
         <!-- Recent Sales -->
 
-        <div class="bg-white rounded-2xl border shadow-sm p-6">
+        <div class="rounded-xl border border-line bg-white p-6">
 
             <div class="flex justify-between items-center mb-5">
 
-                <h2 class="text-xl font-semibold">
+                <h2 class="font-display text-xl font-semibold text-ink">
                     Recent Sales
                 </h2>
 
-                <a href="{% url 'sales_history' %}" class="text-blue-600 text-sm">
+                <a href="{% url 'sales_history' %}" class="text-sm font-medium text-brand hover:text-brand-dark">
                     View All
                 </a>
 
@@ -144,17 +145,17 @@
 
                     <thead>
 
-                        <tr class="border-b">
+                        <tr class="border-b border-line text-left text-xs uppercase tracking-wide text-muted">
 
-                            <th class="text-left py-3">
+                            <th class="py-3 font-medium">
                                 Product
                             </th>
 
-                            <th class="text-left py-3">
+                            <th class="py-3 font-medium">
                                 Qty
                             </th>
 
-                            <th class="text-left py-3">
+                            <th class="py-3 font-medium">
                                 Total
                             </th>
 
@@ -166,17 +167,17 @@
 
                         {% for sale in recent_sales %}
 
-                        <tr class="border-b">
+                        <tr class="border-b border-line">
 
-                            <td class="py-3">
+                            <td class="py-3 text-ink">
                                 {{ sale.product.name }}
                             </td>
 
-                            <td class="py-3">
+                            <td class="py-3 font-mono tabular-nums text-ink">
                                 {{ sale.quantity }}
                             </td>
 
-                            <td class="py-3 text-green-600 font-medium">
+                            <td class="py-3 font-mono font-medium tabular-nums text-brand">
                                 Rs. {{ sale.total_price }}
                             </td>
 
@@ -186,7 +187,7 @@
 
                         <tr>
 
-                            <td colspan="3" class="text-center py-6 text-gray-500">
+                            <td colspan="3" class="py-6 text-center text-sm text-muted">
                                 No sales available.
                             </td>
 
@@ -204,11 +205,11 @@
 
         <!-- Low Stock Products -->
 
-        <div class="bg-white rounded-2xl border shadow-sm p-6">
+        <div class="rounded-xl border border-line bg-white p-6">
 
             <div class="flex justify-between items-center mb-5">
 
-                <h2 class="text-xl font-semibold">
+                <h2 class="font-display text-xl font-semibold text-ink">
                     Low Stock Products
                 </h2>
 
@@ -220,13 +221,13 @@
 
                     <thead>
 
-                        <tr class="border-b">
+                        <tr class="border-b border-line text-left text-xs uppercase tracking-wide text-muted">
 
-                            <th class="text-left py-3">
+                            <th class="py-3 font-medium">
                                 Product
                             </th>
 
-                            <th class="text-left py-3">
+                            <th class="py-3 font-medium">
                                 Stock
                             </th>
 
@@ -238,15 +239,15 @@
 
                         {% for product in low_stock_products %}
 
-                        <tr class="border-b">
+                        <tr class="border-b border-line">
 
-                            <td class="py-3">
+                            <td class="py-3 text-ink">
                                 {{ product.name }}
                             </td>
 
                             <td class="py-3">
 
-                                <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm">
+                                <span class="rounded-full bg-red/10 px-3 py-1 text-sm font-medium text-red">
 
                                     {{ product.stock }}
 
@@ -260,7 +261,7 @@
 
                         <tr>
 
-                            <td colspan="2" class="text-center py-6 text-gray-500">
+                            <td colspan="2" class="py-6 text-center text-sm text-muted">
                                 No low stock products.
                             </td>
 

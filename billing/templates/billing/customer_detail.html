@@ -13,32 +13,35 @@ Customer Details
 <div class="space-y-8">
 
 
-    <h1 class="text-3xl font-semibold">
+    <div>
+        <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">Customer</p>
+        <h1 class="mt-1 font-display text-3xl font-semibold text-ink">
 
-        {{ customer.name }}
+            {{ customer.name }}
 
-    </h1>
-
-
-
-    <div class="rounded-xl border bg-white p-6">
+        </h1>
+    </div>
 
 
-        <p>
+
+    <div class="space-y-2 rounded-xl border border-line bg-white p-6 text-sm">
+
+
+        <p class="text-muted">
             Phone:
-            {{ customer.phone }}
+            <span class="text-ink">{{ customer.phone }}</span>
         </p>
 
 
-        <p>
+        <p class="text-muted">
             Email:
-            {{ customer.email }}
+            <span class="text-ink">{{ customer.email }}</span>
         </p>
 
 
-        <p>
+        <p class="text-muted">
             Address:
-            {{ customer.address }}
+            <span class="text-ink">{{ customer.address }}</span>
         </p>
 
 
@@ -50,13 +53,13 @@ Customer Details
     <div class="grid gap-6 md:grid-cols-3">
 
 
-        <div class="rounded-xl border bg-white p-6">
+        <div class="rounded-xl border border-line bg-white p-6">
 
-            <p>
+            <p class="text-sm text-muted">
                 Total Purchase
             </p>
 
-            <h2 class="text-2xl font-bold">
+            <h2 class="mt-2 font-mono text-2xl font-semibold tabular-nums text-ink">
 
                 Rs {{ total_purchase }}
 
@@ -67,13 +70,13 @@ Customer Details
 
 
 
-        <div class="rounded-xl border bg-white p-6">
+        <div class="rounded-xl border border-line bg-white p-6">
 
-            <p>
+            <p class="text-sm text-muted">
                 Paid Amount
             </p>
 
-            <h2 class="text-2xl font-bold">
+            <h2 class="mt-2 font-mono text-2xl font-semibold tabular-nums text-brand">
 
                 Rs {{ total_paid }}
 
@@ -84,13 +87,13 @@ Customer Details
 
 
 
-        <div class="rounded-xl border bg-white p-6">
+        <div class="rounded-xl border border-line bg-white p-6">
 
-            <p>
+            <p class="text-sm text-muted">
                 Due Amount
             </p>
 
-            <h2 class="text-2xl font-bold">
+            <h2 class="mt-2 font-mono text-2xl font-semibold tabular-nums text-red">
 
                 Rs {{ total_due }}
 
@@ -105,10 +108,10 @@ Customer Details
 
 
 
-    <div class="rounded-xl border bg-white p-6">
+    <div class="overflow-hidden rounded-xl border border-line bg-white p-6">
 
 
-        <h2 class="text-xl font-semibold mb-4">
+        <h2 class="mb-4 font-display text-xl font-semibold text-ink">
 
             Invoice History
 
@@ -122,30 +125,30 @@ Customer Details
             <thead>
 
 
-                <tr class="border-b">
+                <tr class="border-b border-line text-left text-xs uppercase tracking-wide text-muted">
 
 
-                    <th class="text-left">
+                    <th class="py-3 font-medium">
                         Invoice
                     </th>
 
 
-                    <th>
+                    <th class="font-medium">
                         Date
                     </th>
 
 
-                    <th>
+                    <th class="font-medium">
                         Total
                     </th>
 
 
-                    <th>
+                    <th class="font-medium">
                         Paid
                     </th>
 
 
-                    <th>
+                    <th class="font-medium">
                         Due
                     </th>
 
@@ -164,22 +167,20 @@ Customer Details
                 {% for invoice in invoices %}
 
 
-                <tr class="border-b">
+                <tr class="border-b border-line">
 
 
                     <td class="py-3">
 
-                        <a href="{% url 'invoice' invoice.id %}" class="text-brand">
-
-                            {{ invoice.invoice_number }}
-
+                        <a href="{% url 'invoice' invoice.id %}" class="text-brand hover:underline">
+                            {{invoice.invoice_number}}
                         </a>
 
                     </td>
 
 
 
-                    <td>
+                    <td class="font-mono text-xs text-muted">
 
                         {{ invoice.created_at|date:"Y-m-d" }}
 
@@ -187,7 +188,7 @@ Customer Details
 
 
 
-                    <td>
+                    <td class="font-mono tabular-nums text-ink">
 
                         Rs {{ invoice.total }}
 
@@ -195,7 +196,7 @@ Customer Details
 
 
 
-                    <td>
+                    <td class="font-mono tabular-nums text-brand">
 
                         Rs {{ invoice.paid_amount }}
 
@@ -203,7 +204,7 @@ Customer Details
 
 
 
-                    <td>
+                    <td class="font-mono tabular-nums text-red">
 
                         Rs {{ invoice.due_amount }}
 
@@ -220,7 +221,7 @@ Customer Details
 
                 <tr>
 
-                    <td colspan="5">
+                    <td colspan="5" class="py-6 text-center text-sm text-muted">
 
                         No invoices found
 

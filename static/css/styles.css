@@ -1,3 +1,157 @@
+/*
+   Global typography and UI baseline.
+   The app uses Tailwind classes in templates, so this file supplies the
+   consistent defaults that every page and form control should inherit.
+*/
+:root {
+    --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-display: "Space Grotesk", var(--font-sans);
+    --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    --color-ink: #12141A;
+    --color-ink-2: #1C1F27;
+    --color-paper: #F4F5F1;
+    --color-line: #E4E3DC;
+    --color-brand: #157A5C;
+    --color-brand-dark: #0F5E46;
+    --color-muted: #6B6D66;
+    --color-red: #C43D3D;
+}
+
+html {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-paper);
+    text-rendering: optimizeLegibility;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+    font-family: var(--font-sans);
+    line-height: 1.5;
+}
+
+body {
+    color: var(--color-ink);
+    background: var(--color-paper);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-display);
+    letter-spacing: 0;
+    line-height: 1.18;
+}
+
+p,
+li,
+td,
+th,
+label,
+input,
+select,
+textarea,
+button,
+a {
+    letter-spacing: 0;
+}
+
+label {
+    color: var(--color-ink);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+input,
+select,
+textarea {
+    border: 1px solid var(--color-line);
+    border-radius: 0.5rem;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+select,
+textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+}
+
+input[type="file"] {
+    width: 100%;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px rgb(21 122 92 / 0.16);
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: rgb(107 109 102 / 0.76);
+}
+
+button,
+a {
+    text-underline-offset: 3px;
+}
+
+button {
+    cursor: pointer;
+}
+
+table {
+    border-collapse: collapse;
+    color: var(--color-ink);
+}
+
+th {
+    color: var(--color-ink);
+    font-size: 0.8125rem;
+    font-weight: 600;
+}
+
+td {
+    color: var(--color-ink);
+    font-size: 0.875rem;
+}
+
+.font-display {
+    font-family: var(--font-display);
+}
+
+.font-mono {
+    font-family: var(--font-mono);
+}
+
+.tabular-nums,
+.font-mono {
+    font-variant-numeric: tabular-nums;
+}
+
+.rounded-xl,
+.rounded-2xl {
+    box-shadow: 0 1px 2px rgb(18 20 26 / 0.04);
+}
+
+.swal2-popup,
+.swal2-title,
+.swal2-html-container {
+    font-family: var(--font-sans);
+}
+
 /* Torn-receipt edge: a repeating diagonal cut that reads as perforated
    receipt paper. Matches --color-paper exactly so the illusion holds --
    update the two hex values below if --color-paper ever changes. */
@@ -24,3 +178,7 @@
     background: #157A5C;
     color: #fff;
 }
+
+
+
+

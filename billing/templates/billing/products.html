@@ -9,19 +9,20 @@ Billing
 
 {% block content %}
 
-<div class="rounded-xl border bg-white p-5 mb-6">
+<div class="mb-6 rounded-xl border border-line bg-white p-5">
 
 
-    <h2 class="text-lg font-semibold">
+    <h2 class="font-display text-lg font-semibold text-ink">
         Scan Barcode
     </h2>
 
 
-    <form method="GET" action="" id="barcodeForm">
+    <form method="POST" action="{% url 'scan_barcode' %}" id="barcodeForm">
+        {% csrf_token %}
 
 
-        <input type="text" id="barcodeInput" placeholder="Scan barcode here..." autofocus
-            class="mt-3 w-full border p-3 rounded" />
+        <input type="text" name="barcode" id="barcodeInput" autocomplete="off" placeholder="Scan barcode here..."
+            autofocus class="mt-3" />
 
 
     </form>
@@ -31,9 +32,12 @@ Billing
 <div class="space-y-6">
 
 
-    <h1 class="text-3xl font-semibold">
-        Create Bill
-    </h1>
+    <div>
+        <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">Billing</p>
+        <h1 class="mt-1 font-display text-3xl font-semibold text-ink">
+            Create Bill
+        </h1>
+    </div>
 
 
 
@@ -41,7 +45,7 @@ Billing
 
 
         <input type="text" name="q" value="{{query}}" placeholder="Search product..."
-            class="w-full rounded-lg border px-4 py-3" />
+            class="w-full" />
 
 
     </form>
@@ -56,10 +60,10 @@ Billing
 
 
 
-        <div class="rounded-xl border bg-white p-5">
+        <div class="rounded-xl border border-line bg-white p-5">
 
 
-            <h3 class="font-semibold">
+            <h3 class="font-display text-base font-semibold text-ink">
 
                 {{product.name}}
 
@@ -75,7 +79,7 @@ Billing
 
 
 
-            <p class="mt-2">
+            <p class="mt-2 font-mono tabular-nums text-ink">
 
                 Rs {{product.price}}
 
@@ -83,7 +87,7 @@ Billing
 
 
 
-            <p>
+            <p class="text-sm text-muted">
 
                 Stock:
                 {{product.stock}}
@@ -95,19 +99,16 @@ Billing
             {% if product.stock > 0 %}
 
 
-            <a href="{% url 'add_to_cart' product.id %}"
-                class="mt-4 inline-block rounded-lg bg-brand px-4 py-2 text-white">
-
-                Add To Cart
-
-            </a>
+            <form method="post" action="{% url 'add_to_cart' product.id %}" class="inline">{% csrf_token %}<button
+                    type="submit" class="mt-4 inline-block rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark">Add
+                    To Cart</button></form>
 
 
 
             {% else %}
 
 
-            <button disabled class="mt-4 rounded-lg bg-gray-300 px-4 py-2">
+            <button disabled class="mt-4 rounded-lg bg-line px-4 py-2 text-sm font-semibold text-muted">
 
                 Out Of Stock
 
@@ -125,7 +126,7 @@ Billing
         {% empty %}
 
 
-        <p>
+        <p class="text-sm text-muted">
             No products found
         </p>
 
@@ -139,36 +140,5 @@ Billing
 </div>
 
 
-
-<script>
-
-    const barcodeInput =
-        document.getElementById(
-            "barcodeInput"
-        );
-
-
-    barcodeInput.addEventListener(
-        "change",
-        function () {
-
-            let barcode =
-                this.value.trim();
-
-
-            if (barcode) {
-
-                window.location.href =
-                    "/billing/scan/"
-                    + barcode
-                    + "/";
-
-            }
-
-        }
-    );
-
-
-</script>
 
 {% endblock %}

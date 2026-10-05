@@ -1,6 +1,10 @@
 # Ignore the virtual environment
 venv/
+env/
 .venv/
+
+# Secrets
+.env
 
 # Ignore the SQLite database file
 *.sqlite3
@@ -9,6 +13,9 @@ db.sqlite3
 # Ignore compiled Python files
 *.pyc
 __pycache__/
+
+# Logs
+logs/
 
 # Ignore uploaded user media files
 /media/

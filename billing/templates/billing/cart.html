@@ -11,38 +11,41 @@ Billing Cart
 <div class="space-y-8">
 
 
-    <h1 class="font-display text-3xl font-semibold text-ink">
-        Create Bill
-    </h1>
+    <div>
+        <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">Billing</p>
+        <h1 class="mt-1 font-display text-3xl font-semibold text-ink">
+            Create Bill
+        </h1>
+    </div>
 
 
 
-    <div class="rounded-xl border border-line bg-white p-6">
+    <div class="overflow-hidden rounded-xl border border-line bg-white p-6">
 
 
         <table class="w-full">
 
             <thead>
 
-                <tr class="border-b border-line text-left">
+                <tr class="border-b border-line text-left text-xs uppercase tracking-wide text-muted">
 
-                    <th class="py-3">
+                    <th class="py-3 font-medium">
                         Product
                     </th>
 
-                    <th>
+                    <th class="font-medium">
                         Quantity
                     </th>
 
-                    <th>
+                    <th class="font-medium">
                         Price
                     </th>
 
-                    <th>
+                    <th class="font-medium">
                         Total
                     </th>
 
-                    <th>
+                    <th class="font-medium">
                         Action
                     </th>
 
@@ -61,18 +64,21 @@ Billing Cart
                 <tr class="border-b border-line">
 
 
-                    <td class="py-4">
+                    <td class="py-4 font-medium text-ink">
                         {{ item.name }}
                     </td>
 
 
 
-                    <td>
+                    <td class="font-mono tabular-nums text-ink">
 
 
-                        <a href="{% url 'decrease_quantity' id %}" class="px-2 text-red">
-                            -
-                        </a>
+                        <form method="post" action="{% url 'decrease_quantity' id %}" class="inline">
+                            {% csrf_token %}
+                            <button type="submit" class="px-2 text-red">
+                                -
+                            </button>
+                        </form>
 
 
 
@@ -80,16 +86,19 @@ Billing Cart
 
 
 
-                        <a href="{% url 'increase_quantity' id %}" class="px-2 text-brand">
-                            +
-                        </a>
+                        <form method="post" action="{% url 'increase_quantity' id %}" class="inline">
+                            {% csrf_token %}
+                            <button type="submit" class="px-2 text-red">
+                                +
+                            </button>
+                        </form>
 
 
                     </td>
 
 
 
-                    <td>
+                    <td class="font-mono tabular-nums text-muted">
 
                         Rs {{ item.price }}
 
@@ -97,7 +106,7 @@ Billing Cart
 
 
 
-                    <td>
+                    <td class="font-mono font-medium tabular-nums text-ink">
 
                         Rs {{ item.total }}
 
@@ -108,11 +117,12 @@ Billing Cart
                     <td>
 
 
-                        <a href="{% url 'remove_from_cart' id %}" class="text-red">
-
-                            Remove
-
-                        </a>
+                        <form method="post" action="{% url 'remove_from_cart' id %}" class="inline">
+                            {% csrf_token %}
+                            <button type="submit" class="px-2 text-red">
+                                Remove
+                            </button>
+                        </form>
 
 
                     </td>
@@ -147,17 +157,17 @@ Billing Cart
 
 
 
-        <div class="mt-6 flex justify-between">
+        <div class="mt-6 flex justify-between border-t border-line pt-5">
 
 
-            <h2 class="text-xl font-semibold">
+            <h2 class="font-display text-xl font-semibold text-ink">
 
                 Subtotal:
 
             </h2>
 
 
-            <h2 class="text-xl font-semibold">
+            <h2 class="font-mono text-xl font-semibold tabular-nums text-brand">
 
                 Rs {{ subtotal }}
 
@@ -168,18 +178,17 @@ Billing Cart
 
 
 
-        <div class="mt-6">
+        <div class="mt-6 flex flex-wrap items-center gap-3">
 
-            <a href="{% url 'checkout' %}" class="rounded-lg bg-brand px-6 py-3 text-white">
+            <a href="{% url 'checkout' %}"
+                class="rounded-lg bg-brand px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark">
 
                 Proceed Checkout
 
             </a>
-            <a href="{% url 'clear_cart' %}" class="rounded-lg border px-6 py-3">
-
-                Clear Cart
-
-            </a>
+            <form method="post" action="{% url 'clear_cart' %}" class="inline">{% csrf_token %}<button type="submit"
+                    class="rounded-lg border border-line px-6 py-3 text-sm font-semibold text-ink transition hover:bg-paper">Clear
+                    Cart</button></form>
 
 
         </div>

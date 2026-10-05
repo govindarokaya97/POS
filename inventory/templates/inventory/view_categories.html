@@ -38,11 +38,14 @@
                                     class="rounded-lg border border-line px-3 py-1.5 text-ink transition hover:bg-paper">
                                     Edit
                                 </a>
-                                <a href='{% url "delete_category" category.id %}'
-                                    class="rounded-lg border border-red/20 px-3 py-1.5 text-red transition hover:bg-red/5"
-                                    onclick="return confirm('Delete this category? This cannot be undone.')">
-                                    Delete
-                                </a>
+                                <form method="post" action='{% url "delete_category" category.id %}' class="inline"
+                                    onsubmit="return confirm('Delete this category? This cannot be undone.')">
+                                    {% csrf_token %}
+                                    <button type="submit"
+                                        class="rounded-lg border border-red/20 px-3 py-1.5 text-red transition hover:bg-red/5">
+                                        Delete
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>

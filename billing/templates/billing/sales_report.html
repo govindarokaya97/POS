@@ -24,7 +24,7 @@ Sales Report
             </p>
 
 
-            <h1 class="mt-1 text-3xl font-semibold text-ink">
+            <h1 class="mt-1 font-display text-3xl font-semibold text-ink">
                 Sales Report
             </h1>
 
@@ -41,7 +41,7 @@ Sales Report
 
 
             <a href="{% url 'export_sales_csv' %}"
-                class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-green-700">
+                class="inline-flex items-center gap-2 rounded-lg bg-brand px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark">
 
 
                 <i class="fa-solid fa-file-csv"></i>
@@ -54,7 +54,7 @@ Sales Report
 
 
             <a href="{% url 'export_sales_pdf' %}"
-                class="inline-flex items-center gap-2 rounded-lg bg-red-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-red-700">
+                class="inline-flex items-center gap-2 rounded-lg bg-red px-5 py-3 text-sm font-semibold text-white transition hover:bg-red/90">
 
 
                 <i class="fa-solid fa-file-pdf"></i>
@@ -74,15 +74,15 @@ Sales Report
     <form method="GET" class="grid gap-4 md:grid-cols-3">
 
 
-        <input type="date" name="start_date" value="{{start_date}}" class="border p-3" />
+        <input type="date" name="start_date" value="{{start_date}}" class="font-mono tabular-nums" />
 
 
 
-        <input type="date" name="end_date" value="{{end_date}}" class="border p-3" />
+        <input type="date" name="end_date" value="{{end_date}}" class="font-mono tabular-nums" />
 
 
 
-        <button class="bg-brand text-white rounded px-5">
+        <button class="rounded-lg bg-brand px-5 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark">
 
             Generate
 
@@ -97,13 +97,13 @@ Sales Report
     <div class="grid md:grid-cols-3 gap-6">
 
 
-        <div class="rounded-xl border bg-white p-5">
+        <div class="rounded-xl border border-line bg-white p-5">
 
-            <p>
+            <p class="text-sm text-muted">
                 Total Sales
             </p>
 
-            <h2 class="text-2xl font-bold">
+            <h2 class="mt-2 font-mono text-2xl font-semibold tabular-nums text-ink">
 
                 Rs {{ total_sales }}
 
@@ -113,13 +113,13 @@ Sales Report
 
 
 
-        <div class="rounded-xl border bg-white p-5">
+        <div class="rounded-xl border border-line bg-white p-5">
 
-            <p>
+            <p class="text-sm text-muted">
                 Paid Amount
             </p>
 
-            <h2 class="text-2xl font-bold">
+            <h2 class="mt-2 font-mono text-2xl font-semibold tabular-nums text-brand">
 
                 Rs {{ total_paid }}
 
@@ -129,13 +129,13 @@ Sales Report
 
 
 
-        <div class="rounded-xl border bg-white p-5">
+        <div class="rounded-xl border border-line bg-white p-5">
 
-            <p>
+            <p class="text-sm text-muted">
                 Due Amount
             </p>
 
-            <h2 class="text-2xl font-bold">
+            <h2 class="mt-2 font-mono text-2xl font-semibold tabular-nums text-red">
 
                 Rs {{ total_due }}
 
@@ -150,39 +150,36 @@ Sales Report
 
 
 
-    <div class="rounded-xl border bg-white p-6">
+    <div class="overflow-hidden rounded-xl border border-line bg-white p-6">
 
 
         <table class="w-full">
 
 
             <thead>
+                <tr class="border-b border-line text-left text-xs uppercase tracking-wide text-muted">
 
-                <tr class="border-b">
-
-
-                    <th>
+                    <th class="py-3 font-medium">
                         Invoice
                     </th>
 
-
-                    <th>
+                    <th class="font-medium">
                         Customer
                     </th>
 
-
-                    <th>
+                    <th class="font-medium">
                         Total
                     </th>
 
-
-                    <th>
+                    <th class="font-medium">
                         Date
                     </th>
 
+                    <th class="font-medium">
+                        Action
+                    </th>
 
                 </tr>
-
             </thead>
 
 
@@ -193,10 +190,10 @@ Sales Report
                 {% for invoice in invoices %}
 
 
-                <tr class="border-b">
+                <tr class="border-b border-line">
 
 
-                    <td class="py-3">
+                    <td class="py-3 font-medium text-ink">
 
                         {{invoice.invoice_number}}
 
@@ -204,7 +201,7 @@ Sales Report
 
 
 
-                    <td>
+                    <td class="text-muted">
 
                         {% if invoice.customer %}
 
@@ -220,7 +217,7 @@ Sales Report
 
 
 
-                    <td>
+                    <td class="font-mono tabular-nums text-brand">
 
                         Rs {{invoice.total}}
 
@@ -228,16 +225,49 @@ Sales Report
 
 
 
-                    <td>
+                    <td class="font-mono text-xs text-muted">
 
                         {{invoice.created_at|date:"Y-m-d"}}
 
                     </td>
 
+                    <td>
 
+                        <div class="flex gap-2">
+
+                            <a href="{% url 'invoice' invoice.id %}"
+                                class="rounded-lg bg-brand px-3 py-2 text-xs text-white hover:bg-brand-dark transition">
+
+                                <i class="fa-solid fa-eye"></i>
+                                View
+
+                            </a>
+
+
+                            <a href="{% url 'invoice' invoice.id %}?print=true"
+                                class="rounded-lg bg-red px-3 py-2 text-xs text-white hover:bg-red/90 transition">
+
+                                <i class="fa-solid fa-print"></i>
+                                Print
+
+                            </a>
+
+                        </div>
+
+                    </td>
                 </tr>
 
+                {% empty %}
 
+                <tr>
+
+                    <td colspan="5" class="py-6 text-center text-muted">
+
+                        No sales found.
+
+                    </td>
+
+                </tr>
                 {% endfor %}
 
 

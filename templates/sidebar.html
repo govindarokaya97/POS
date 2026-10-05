@@ -66,10 +66,9 @@
     </div>
 
     <div class="border-t border-white/10 p-3">
-        <a href="{% url 'logout' %}"
-            class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-white/60 transition hover:bg-red/20 hover:text-white">
-            <i class="fa-solid fa-right-from-bracket w-4 text-center"></i>
-            <span>Log out</span>
-        </a>
+        <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button type="submit"
+                class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-white/60 transition hover:bg-red/20 hover:text-white w-full cursor-pointer text-left"><i
+                    class="fa-solid fa-right-from-bracket w-4 text-center"></i>
+                <span>Log out</span></button></form>
     </div>
 </aside>

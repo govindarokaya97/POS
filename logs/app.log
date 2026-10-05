@@ -1,1928 +1,409 @@
-2026-09-11 07:22:18,640 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 07:25:15,902 INFO django.utils.autoreload C:\MySQL\POS\core\settings.py changed, reloading.
-2026-09-11 07:25:19,489 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 07:25:56,968 INFO django.utils.autoreload C:\MySQL\POS\core\settings.py changed, reloading.
-2026-09-11 07:25:58,318 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 07:45:10,139 INFO django.utils.autoreload C:\MySQL\POS\sales\models.py changed, reloading.
-2026-09-11 07:45:14,973 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 07:47:13,131 INFO django.utils.autoreload C:\MySQL\POS\sales\models.py changed, reloading.
-2026-09-11 07:47:15,207 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 07:47:30,040 INFO django.utils.autoreload C:\MySQL\POS\sales\models.py changed, reloading.
-2026-09-11 07:47:33,971 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 07:47:49,669 INFO django.utils.autoreload C:\MySQL\POS\sales\urls.py changed, reloading.
-2026-09-11 07:47:51,511 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 07:48:16,160 INFO django.utils.autoreload C:\MySQL\POS\sales\admin.py changed, reloading.
-2026-09-11 07:48:20,166 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 07:48:23,969 INFO django.utils.autoreload C:\MySQL\POS\sales\admin.py changed, reloading.
-2026-09-11 07:48:28,057 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 07:49:25,854 INFO django.utils.autoreload C:\MySQL\POS\sales\views.py changed, reloading.
-2026-09-11 07:49:29,192 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 07:49:45,416 INFO django.utils.autoreload C:\MySQL\POS\sales\views.py changed, reloading.
-2026-09-11 07:49:48,800 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 07:51:44,243 INFO django.utils.autoreload C:\MySQL\POS\sales\views.py changed, reloading.
-2026-09-11 07:51:47,586 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 07:52:10,527 INFO django.utils.autoreload C:\MySQL\POS\core\settings.py changed, reloading.
-2026-09-11 07:52:14,714 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 07:52:26,252 INFO django.utils.autoreload C:\MySQL\POS\billing\models.py changed, reloading.
-2026-09-11 07:52:29,698 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 07:52:48,786 INFO django.utils.autoreload C:\MySQL\POS\billing\admin.py changed, reloading.
-2026-09-11 07:52:52,249 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 07:54:10,042 INFO django.utils.autoreload C:\MySQL\POS\core\urls.py changed, reloading.
-2026-09-11 07:54:13,819 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 07:54:30,335 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-11 07:54:33,821 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 07:54:36,032 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-11 07:54:39,774 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 07:54:49,503 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-11 07:54:53,426 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 07:54:57,571 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-11 07:55:01,095 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 07:55:03,207 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-11 07:55:07,068 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 07:55:14,974 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-11 07:55:18,608 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 08:15:17,290 ERROR django.request Internal Server Error: /billing/
+2026-10-05 08:10:15,366 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-05 08:10:43,890 ERROR django.request Internal Server Error: /billing/add/1/
 Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+  File "C:\Users\govin\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
     response = get_response(request)
                ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+  File "C:\Users\govin\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\billing\views.py", line 35, in cart_view
+  File "C:\Users\govin\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\billing\views.py", line 276, in add_to_cart
+    cart = _get_cart(request)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\billing\views.py", line 203, in _get_cart
+    return request.session.get(CART_KEY, {})
+                               ^^^^^^^^
+NameError: name 'CART_KEY' is not defined
+2026-10-05 08:19:39,096 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\billing\views.py changed, reloading.
+2026-10-05 08:19:42,570 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-05 08:21:23,350 ERROR django.request Internal Server Error: /billing/add/1/
+Traceback (most recent call last):
+  File "C:\Users\govin\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\billing\views.py", line 276, in add_to_cart
+    cart = _get_cart(request)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\billing\views.py", line 203, in _get_cart
+    return request.session.get(CART_KEY, {})
+                               ^^^^^^^^
+NameError: name 'CART_KEY' is not defined
+2026-10-05 08:38:11,100 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\billing\views.py changed, reloading.
+2026-10-05 08:38:14,362 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-05 08:38:42,163 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\billing\views.py changed, reloading.
+2026-10-05 08:38:44,880 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-05 08:41:59,030 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-05 08:44:39,316 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\billing\views.py changed, reloading.
+2026-10-05 08:44:44,020 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-05 08:45:13,055 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\billing\views.py changed, reloading.
+2026-10-05 08:45:16,801 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-05 08:45:44,456 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\billing\urls.py changed, reloading.
+2026-10-05 08:45:48,442 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-05 08:46:21,291 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\billing\views.py changed, reloading.
+2026-10-05 08:46:26,710 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-05 08:46:30,748 ERROR django.request Internal Server Error: /billing/add/1/
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\billing\views.py", line 284, in add_to_cart
+    _save_cart(request, cart)
+  File "C:\Users\govin\OneDrive\Desktop\POS\billing\views.py", line 208, in _save_cart
+    request.session[CART_KEY] = cart
+                    ^^^^^^^^
+NameError: name 'CART_KEY' is not defined
+2026-10-05 08:47:19,408 ERROR django.request Internal Server Error: /billing/add/3/
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\billing\views.py", line 284, in add_to_cart
+    _save_cart(request, cart)
+  File "C:\Users\govin\OneDrive\Desktop\POS\billing\views.py", line 208, in _save_cart
+    request.session[CART_KEY] = cart
+                    ^^^^^^^^
+NameError: name 'CART_KEY' is not defined
+2026-10-05 08:51:07,253 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\billing\urls.py changed, reloading.
+2026-10-05 08:51:11,455 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-05 08:51:22,564 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\billing\views.py changed, reloading.
+2026-10-05 08:51:27,338 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-05 08:51:30,872 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\billing\urls.py changed, reloading.
+2026-10-05 08:51:35,695 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-05 08:51:39,535 ERROR django.request Internal Server Error: /billing/add/1/
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\billing\views.py", line 284, in add_to_cart
+    _save_cart(request, cart)
+  File "C:\Users\govin\OneDrive\Desktop\POS\billing\views.py", line 208, in _save_cart
+    request.session[CART_KEY] = cart
+                    ^^^^^^^^
+NameError: name 'CART_KEY' is not defined
+2026-10-05 08:52:39,716 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\billing\views.py changed, reloading.
+2026-10-05 08:52:43,133 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-05 08:53:02,070 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-05 09:24:37,574 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\billing\views.py changed, reloading.
+2026-10-05 09:24:42,641 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-05 09:32:30,763 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\billing\views.py changed, reloading.
+2026-10-05 09:32:34,894 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-05 09:32:42,950 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\billing\views.py changed, reloading.
+2026-10-05 09:32:46,770 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-05 09:36:10,764 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\billing\views.py changed, reloading.
+2026-10-05 09:36:14,831 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-05 09:36:20,872 ERROR django.request Internal Server Error: /billing/reports/
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\billing\views.py", line 885, in sales_report
     return render(
            ^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
     content = loader.render_to_string(template_name, context, request, using=using)
               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
-    template = get_template(template_name, using=using)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 19, in get_template
-    raise TemplateDoesNotExist(template_name, chain=chain)
-django.template.exceptions.TemplateDoesNotExist: billing/cart.html
-2026-09-11 08:17:37,998 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-11 08:17:41,771 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 08:18:22,079 ERROR django.request Internal Server Error: /inventory/product/add
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 577, in parse
-    compile_func = self.tags[command]
-                   ~~~~~~~~~^^^^^^^^^
-KeyError: 'endif'
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\inventory\views.py", line 167, in add_product
-    return render(request, "inventory/add_product.html", context)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
-    content = loader.render_to_string(template_name, context, request, using=using)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
-    template = get_template(template_name, using=using)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 15, in get_template
-    return engine.get_template(template_name)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
-    return Template(self.engine.get_template(template_name), self)
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 186, in get_template
-    template, origin = self.find_template(template_name)
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 159, in find_template
-    template = loader.get_template(name, skip=skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
-    template = super().get_template(template_name, skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
-    return Template(
-           ^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 157, in __init__
-    self.nodelist = self.compile_nodelist()
-                    ^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 199, in compile_nodelist
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 307, in do_extends
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 235, in do_block
-    nodelist = parser.parse(("endblock",))
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
-    nodelist_loop = parser.parse(
-                    ^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 579, in parse
-    self.invalid_block_tag(token, command, parse_until)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 634, in invalid_block_tag
-    raise self.error(
-django.template.exceptions.TemplateSyntaxError: Template: C:\MySQL\POS\inventory\templates\inventory\add_product.html, Invalid block tag on line 29: 'endif', expected 'empty' or 'endfor'. Did you forget to register or load this tag?
-2026-09-11 08:20:01,566 ERROR django.request Internal Server Error: /inventory/product/add
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\smartif.py", line 181, in translate_token
-    op = OPERATORS[token]
-         ~~~~~~~~~^^^^^^^
-KeyError: 'form_data.category==category.id|stringformat:"s"'
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\inventory\views.py", line 167, in add_product
-    return render(request, "inventory/add_product.html", context)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
-    content = loader.render_to_string(template_name, context, request, using=using)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
-    template = get_template(template_name, using=using)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 15, in get_template
-    return engine.get_template(template_name)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
-    return Template(self.engine.get_template(template_name), self)
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 186, in get_template
-    template, origin = self.find_template(template_name)
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 159, in find_template
-    template = loader.get_template(name, skip=skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
-    template = super().get_template(template_name, skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
-    return Template(
-           ^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 157, in __init__
-    self.nodelist = self.compile_nodelist()
-                    ^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 199, in compile_nodelist
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 307, in do_extends
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 235, in do_block
-    nodelist = parser.parse(("endblock",))
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
-    nodelist_loop = parser.parse(
-                    ^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 993, in do_if
-    condition = TemplateIfParser(parser, bits).parse()
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 926, in __init__
-    super().__init__(*args, **kwargs)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\smartif.py", line 172, in __init__
-    mapped_tokens.append(self.translate_token(token))
-                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\smartif.py", line 183, in translate_token
-    return self.create_var(token)
-           ^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 929, in create_var
-    return TemplateLiteral(self.template_parser.compile_filter(value), value)
-                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 676, in compile_filter
-    return FilterExpression(token, self)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 748, in __init__
-    raise TemplateSyntaxError(
-django.template.exceptions.TemplateSyntaxError: Template: C:\MySQL\POS\inventory\templates\inventory\add_product.html, Could not parse some characters: form_data.category|==category.id||stringformat:"s"
-2026-09-11 08:20:35,019 ERROR django.request Internal Server Error: /inventory/product/add
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\smartif.py", line 181, in translate_token
-    op = OPERATORS[token]
-         ~~~~~~~~~^^^^^^^
-KeyError: 'form_data.category|==category.id|stringformat:"s"'
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\inventory\views.py", line 167, in add_product
-    return render(request, "inventory/add_product.html", context)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
-    content = loader.render_to_string(template_name, context, request, using=using)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
-    template = get_template(template_name, using=using)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 15, in get_template
-    return engine.get_template(template_name)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
-    return Template(self.engine.get_template(template_name), self)
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 186, in get_template
-    template, origin = self.find_template(template_name)
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 159, in find_template
-    template = loader.get_template(name, skip=skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
-    template = super().get_template(template_name, skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
-    return Template(
-           ^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 157, in __init__
-    self.nodelist = self.compile_nodelist()
-                    ^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 199, in compile_nodelist
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 307, in do_extends
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 235, in do_block
-    nodelist = parser.parse(("endblock",))
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
-    nodelist_loop = parser.parse(
-                    ^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 993, in do_if
-    condition = TemplateIfParser(parser, bits).parse()
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 926, in __init__
-    super().__init__(*args, **kwargs)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\smartif.py", line 172, in __init__
-    mapped_tokens.append(self.translate_token(token))
-                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\smartif.py", line 183, in translate_token
-    return self.create_var(token)
-           ^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 929, in create_var
-    return TemplateLiteral(self.template_parser.compile_filter(value), value)
-                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 676, in compile_filter
-    return FilterExpression(token, self)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 748, in __init__
-    raise TemplateSyntaxError(
-django.template.exceptions.TemplateSyntaxError: Template: C:\MySQL\POS\inventory\templates\inventory\add_product.html, Could not parse some characters: form_data.category||==category.id||stringformat:"s"
-2026-09-11 08:20:36,180 ERROR django.request Internal Server Error: /inventory/product/add
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\smartif.py", line 181, in translate_token
-    op = OPERATORS[token]
-         ~~~~~~~~~^^^^^^^
-KeyError: 'form_data.category|==category.id|stringformat:"s"'
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\inventory\views.py", line 167, in add_product
-    return render(request, "inventory/add_product.html", context)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
-    content = loader.render_to_string(template_name, context, request, using=using)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
-    template = get_template(template_name, using=using)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 15, in get_template
-    return engine.get_template(template_name)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
-    return Template(self.engine.get_template(template_name), self)
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 186, in get_template
-    template, origin = self.find_template(template_name)
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 159, in find_template
-    template = loader.get_template(name, skip=skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
-    template = super().get_template(template_name, skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
-    return Template(
-           ^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 157, in __init__
-    self.nodelist = self.compile_nodelist()
-                    ^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 199, in compile_nodelist
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 307, in do_extends
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 235, in do_block
-    nodelist = parser.parse(("endblock",))
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
-    nodelist_loop = parser.parse(
-                    ^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 993, in do_if
-    condition = TemplateIfParser(parser, bits).parse()
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 926, in __init__
-    super().__init__(*args, **kwargs)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\smartif.py", line 172, in __init__
-    mapped_tokens.append(self.translate_token(token))
-                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\smartif.py", line 183, in translate_token
-    return self.create_var(token)
-           ^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 929, in create_var
-    return TemplateLiteral(self.template_parser.compile_filter(value), value)
-                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 676, in compile_filter
-    return FilterExpression(token, self)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 748, in __init__
-    raise TemplateSyntaxError(
-django.template.exceptions.TemplateSyntaxError: Template: C:\MySQL\POS\inventory\templates\inventory\add_product.html, Could not parse some characters: form_data.category||==category.id||stringformat:"s"
-2026-09-11 08:20:47,686 ERROR django.request Internal Server Error: /inventory/product/add
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 577, in parse
-    compile_func = self.tags[command]
-                   ~~~~~~~~~^^^^^^^^^
-KeyError: 'endif'
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\inventory\views.py", line 167, in add_product
-    return render(request, "inventory/add_product.html", context)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
-    content = loader.render_to_string(template_name, context, request, using=using)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
-    template = get_template(template_name, using=using)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 15, in get_template
-    return engine.get_template(template_name)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
-    return Template(self.engine.get_template(template_name), self)
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 186, in get_template
-    template, origin = self.find_template(template_name)
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 159, in find_template
-    template = loader.get_template(name, skip=skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
-    template = super().get_template(template_name, skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
-    return Template(
-           ^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 157, in __init__
-    self.nodelist = self.compile_nodelist()
-                    ^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 199, in compile_nodelist
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 307, in do_extends
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 235, in do_block
-    nodelist = parser.parse(("endblock",))
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
-    nodelist_loop = parser.parse(
-                    ^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 579, in parse
-    self.invalid_block_tag(token, command, parse_until)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 634, in invalid_block_tag
-    raise self.error(
-django.template.exceptions.TemplateSyntaxError: Template: C:\MySQL\POS\inventory\templates\inventory\add_product.html, Invalid block tag on line 29: 'endif', expected 'empty' or 'endfor'. Did you forget to register or load this tag?
-2026-09-11 08:21:38,552 ERROR django.request Internal Server Error: /inventory/product/add
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\smartif.py", line 181, in translate_token
-    op = OPERATORS[token]
-         ~~~~~~~~~^^^^^^^
-KeyError: 'form_data.category==category.id|stringformat:"s"'
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\inventory\views.py", line 167, in add_product
-    return render(request, "inventory/add_product.html", context)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
-    content = loader.render_to_string(template_name, context, request, using=using)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
-    template = get_template(template_name, using=using)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 15, in get_template
-    return engine.get_template(template_name)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
-    return Template(self.engine.get_template(template_name), self)
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 186, in get_template
-    template, origin = self.find_template(template_name)
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 159, in find_template
-    template = loader.get_template(name, skip=skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
-    template = super().get_template(template_name, skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
-    return Template(
-           ^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 157, in __init__
-    self.nodelist = self.compile_nodelist()
-                    ^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 199, in compile_nodelist
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 307, in do_extends
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 235, in do_block
-    nodelist = parser.parse(("endblock",))
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
-    nodelist_loop = parser.parse(
-                    ^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 993, in do_if
-    condition = TemplateIfParser(parser, bits).parse()
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 926, in __init__
-    super().__init__(*args, **kwargs)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\smartif.py", line 172, in __init__
-    mapped_tokens.append(self.translate_token(token))
-                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\smartif.py", line 183, in translate_token
-    return self.create_var(token)
-           ^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 929, in create_var
-    return TemplateLiteral(self.template_parser.compile_filter(value), value)
-                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 676, in compile_filter
-    return FilterExpression(token, self)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 748, in __init__
-    raise TemplateSyntaxError(
-django.template.exceptions.TemplateSyntaxError: Template: C:\MySQL\POS\inventory\templates\inventory\add_product.html, Could not parse some characters: form_data.category|==category.id||stringformat:"s"
-2026-09-11 08:23:21,125 INFO django.utils.autoreload C:\MySQL\POS\inventory\views.py changed, reloading.
-2026-09-11 08:23:24,114 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 08:23:54,301 ERROR django.request Internal Server Error: /inventory/product/add
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\inventory\views.py", line 166, in add_product
-    "form_data": form_data,
-                 ^^^^^^^^^
-NameError: name 'form_data' is not defined. Did you mean: 'format'?
-2026-09-11 08:25:01,116 INFO django.utils.autoreload C:\MySQL\POS\inventory\views.py changed, reloading.
-2026-09-11 08:25:03,763 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 08:25:25,397 INFO django.utils.autoreload C:\MySQL\POS\inventory\views.py changed, reloading.
-2026-09-11 08:25:27,819 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 08:25:31,950 ERROR django.request Internal Server Error: /inventory/product/add
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\smartif.py", line 181, in translate_token
-    op = OPERATORS[token]
-         ~~~~~~~~~^^^^^^^
-KeyError: 'selected_category==category.id|stringformat:"s"'
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\inventory\views.py", line 170, in add_product
-    return render(
-           ^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
-    content = loader.render_to_string(template_name, context, request, using=using)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
-    template = get_template(template_name, using=using)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 15, in get_template
-    return engine.get_template(template_name)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
-    return Template(self.engine.get_template(template_name), self)
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 186, in get_template
-    template, origin = self.find_template(template_name)
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 159, in find_template
-    template = loader.get_template(name, skip=skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
-    template = super().get_template(template_name, skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
-    return Template(
-           ^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 157, in __init__
-    self.nodelist = self.compile_nodelist()
-                    ^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 199, in compile_nodelist
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 307, in do_extends
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 235, in do_block
-    nodelist = parser.parse(("endblock",))
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
-    nodelist_loop = parser.parse(
-                    ^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 993, in do_if
-    condition = TemplateIfParser(parser, bits).parse()
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 926, in __init__
-    super().__init__(*args, **kwargs)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\smartif.py", line 172, in __init__
-    mapped_tokens.append(self.translate_token(token))
-                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\smartif.py", line 183, in translate_token
-    return self.create_var(token)
-           ^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 929, in create_var
-    return TemplateLiteral(self.template_parser.compile_filter(value), value)
-                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 676, in compile_filter
-    return FilterExpression(token, self)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 748, in __init__
-    raise TemplateSyntaxError(
-django.template.exceptions.TemplateSyntaxError: Template: C:\MySQL\POS\inventory\templates\inventory\add_product.html, Could not parse some characters: selected_category|==category.id||stringformat:"s"
-2026-09-11 08:26:25,170 INFO django.utils.autoreload C:\MySQL\POS\inventory\views.py changed, reloading.
-2026-09-11 08:26:27,774 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 08:26:44,431 INFO django.utils.autoreload C:\MySQL\POS\inventory\views.py changed, reloading.
-2026-09-11 08:26:47,366 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 08:27:23,310 ERROR django.request Internal Server Error: /inventory/product/add
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\smartif.py", line 181, in translate_token
-    op = OPERATORS[token]
-         ~~~~~~~~~^^^^^^^
-KeyError: 'selected_category==category.id|stringformat:"s"'
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\inventory\views.py", line 176, in add_product
-    return render(
-           ^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
-    content = loader.render_to_string(template_name, context, request, using=using)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
-    template = get_template(template_name, using=using)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 15, in get_template
-    return engine.get_template(template_name)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
-    return Template(self.engine.get_template(template_name), self)
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 186, in get_template
-    template, origin = self.find_template(template_name)
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 159, in find_template
-    template = loader.get_template(name, skip=skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
-    template = super().get_template(template_name, skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
-    return Template(
-           ^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 157, in __init__
-    self.nodelist = self.compile_nodelist()
-                    ^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 199, in compile_nodelist
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 307, in do_extends
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 235, in do_block
-    nodelist = parser.parse(("endblock",))
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
-    nodelist_loop = parser.parse(
-                    ^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 993, in do_if
-    condition = TemplateIfParser(parser, bits).parse()
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 926, in __init__
-    super().__init__(*args, **kwargs)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\smartif.py", line 172, in __init__
-    mapped_tokens.append(self.translate_token(token))
-                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\smartif.py", line 183, in translate_token
-    return self.create_var(token)
-           ^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 929, in create_var
-    return TemplateLiteral(self.template_parser.compile_filter(value), value)
-                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 676, in compile_filter
-    return FilterExpression(token, self)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 748, in __init__
-    raise TemplateSyntaxError(
-django.template.exceptions.TemplateSyntaxError: Template: C:\MySQL\POS\inventory\templates\inventory\add_product.html, Could not parse some characters: selected_category|==category.id||stringformat:"s"
-2026-09-11 08:27:24,278 ERROR django.request Internal Server Error: /inventory/product/add
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\smartif.py", line 181, in translate_token
-    op = OPERATORS[token]
-         ~~~~~~~~~^^^^^^^
-KeyError: 'selected_category==category.id|stringformat:"s"'
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\inventory\views.py", line 176, in add_product
-    return render(
-           ^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
-    content = loader.render_to_string(template_name, context, request, using=using)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
-    template = get_template(template_name, using=using)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 15, in get_template
-    return engine.get_template(template_name)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
-    return Template(self.engine.get_template(template_name), self)
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 186, in get_template
-    template, origin = self.find_template(template_name)
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 159, in find_template
-    template = loader.get_template(name, skip=skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
-    template = super().get_template(template_name, skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
-    return Template(
-           ^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 157, in __init__
-    self.nodelist = self.compile_nodelist()
-                    ^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 199, in compile_nodelist
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 307, in do_extends
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 235, in do_block
-    nodelist = parser.parse(("endblock",))
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
-    nodelist_loop = parser.parse(
-                    ^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 993, in do_if
-    condition = TemplateIfParser(parser, bits).parse()
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 926, in __init__
-    super().__init__(*args, **kwargs)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\smartif.py", line 172, in __init__
-    mapped_tokens.append(self.translate_token(token))
-                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\smartif.py", line 183, in translate_token
-    return self.create_var(token)
-           ^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 929, in create_var
-    return TemplateLiteral(self.template_parser.compile_filter(value), value)
-                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 676, in compile_filter
-    return FilterExpression(token, self)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 748, in __init__
-    raise TemplateSyntaxError(
-django.template.exceptions.TemplateSyntaxError: Template: C:\MySQL\POS\inventory\templates\inventory\add_product.html, Could not parse some characters: selected_category|==category.id||stringformat:"s"
-2026-09-11 08:33:13,496 INFO django.utils.autoreload C:\MySQL\POS\inventory\views.py changed, reloading.
-2026-09-11 08:33:16,574 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-11 08:33:17,004 ERROR django.request Internal Server Error: /inventory/product/add
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 577, in parse
-    compile_func = self.tags[command]
-                   ~~~~~~~~~^^^^^^^^^
-KeyError: 'endif'
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\inventory\views.py", line 176, in add_product
-    return render(
-           ^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
-    content = loader.render_to_string(template_name, context, request, using=using)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
-    template = get_template(template_name, using=using)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 15, in get_template
-    return engine.get_template(template_name)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
-    return Template(self.engine.get_template(template_name), self)
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 186, in get_template
-    template, origin = self.find_template(template_name)
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 159, in find_template
-    template = loader.get_template(name, skip=skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
-    template = super().get_template(template_name, skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
-    return Template(
-           ^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 157, in __init__
-    self.nodelist = self.compile_nodelist()
-                    ^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 199, in compile_nodelist
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 307, in do_extends
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 235, in do_block
-    nodelist = parser.parse(("endblock",))
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
-    nodelist_loop = parser.parse(
-                    ^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 579, in parse
-    self.invalid_block_tag(token, command, parse_until)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 634, in invalid_block_tag
-    raise self.error(
-django.template.exceptions.TemplateSyntaxError: Template: C:\MySQL\POS\inventory\templates\inventory\add_product.html, Invalid block tag on line 35: 'endif', expected 'empty' or 'endfor'. Did you forget to register or load this tag?
-2026-09-11 08:34:49,675 ERROR django.request Internal Server Error: /inventory/product/add
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 577, in parse
-    compile_func = self.tags[command]
-                   ~~~~~~~~~^^^^^^^^^
-KeyError: 'endif'
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\inventory\views.py", line 176, in add_product
-    return render(
-           ^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
-    content = loader.render_to_string(template_name, context, request, using=using)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
-    template = get_template(template_name, using=using)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 15, in get_template
-    return engine.get_template(template_name)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
-    return Template(self.engine.get_template(template_name), self)
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 186, in get_template
-    template, origin = self.find_template(template_name)
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 159, in find_template
-    template = loader.get_template(name, skip=skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
-    template = super().get_template(template_name, skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
-    return Template(
-           ^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 157, in __init__
-    self.nodelist = self.compile_nodelist()
-                    ^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 199, in compile_nodelist
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 307, in do_extends
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 235, in do_block
-    nodelist = parser.parse(("endblock",))
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
-    nodelist_loop = parser.parse(
-                    ^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 579, in parse
-    self.invalid_block_tag(token, command, parse_until)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 634, in invalid_block_tag
-    raise self.error(
-django.template.exceptions.TemplateSyntaxError: Template: C:\MySQL\POS\inventory\templates\inventory\add_product.html, Invalid block tag on line 35: 'endif', expected 'empty' or 'endfor'. Did you forget to register or load this tag?
-2026-09-11 08:37:37,081 ERROR django.request Internal Server Error: /inventory/product/add
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 577, in parse
-    compile_func = self.tags[command]
-                   ~~~~~~~~~^^^^^^^^^
-KeyError: 'endif'
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\inventory\views.py", line 176, in add_product
-    return render(
-           ^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
-    content = loader.render_to_string(template_name, context, request, using=using)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
-    template = get_template(template_name, using=using)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 15, in get_template
-    return engine.get_template(template_name)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
-    return Template(self.engine.get_template(template_name), self)
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 186, in get_template
-    template, origin = self.find_template(template_name)
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\engine.py", line 159, in find_template
-    template = loader.get_template(name, skip=skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
-    template = super().get_template(template_name, skip)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
-    return Template(
-           ^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 157, in __init__
-    self.nodelist = self.compile_nodelist()
-                    ^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 199, in compile_nodelist
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 307, in do_extends
-    nodelist = parser.parse()
-               ^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 235, in do_block
-    nodelist = parser.parse(("endblock",))
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
-    raise self.error(token, e)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
-    compiled_result = compile_func(self, token)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
-    nodelist_loop = parser.parse(
-                    ^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 579, in parse
-    self.invalid_block_tag(token, command, parse_until)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 634, in invalid_block_tag
-    raise self.error(
-django.template.exceptions.TemplateSyntaxError: Template: C:\MySQL\POS\inventory\templates\inventory\add_product.html, Invalid block tag on line 35: 'endif', expected 'empty' or 'endfor'. Did you forget to register or load this tag?
-2026-09-11 08:39:37,432 INFO django.utils.autoreload C:\MySQL\POS\inventory\views.py changed, reloading.
-2026-09-11 08:39:40,245 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:23:05,570 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:26:16,360 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 08:26:21,317 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:26:40,069 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 08:26:44,525 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:27:07,540 INFO django.utils.autoreload C:\MySQL\POS\billing\urls.py changed, reloading.
-2026-09-24 08:31:13,449 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:31:25,342 ERROR django.request Internal Server Error: /inventory/product/view
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\inventory\views.py", line 195, in view_product
-    return render(request, "inventory/view_product.html",context)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
-    content = loader.render_to_string(template_name, context, request, using=using)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
     return template.render(context, request)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\backends\django.py", line 107, in render
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\backends\django.py", line 107, in render
     return self.template.render(context)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 174, in render
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 174, in render
     return self._render(context)
            ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 166, in _render
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 166, in _render
     return self.nodelist.render(context)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1091, in render
     return SafeString("".join([node.render_annotated(context) for node in self]))
                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
     return self.render(context)
            ^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 160, in render
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 160, in render
     return compiled_parent._render(context)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 166, in _render
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 166, in _render
     return self.nodelist.render(context)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1091, in render
     return SafeString("".join([node.render_annotated(context) for node in self]))
                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
     return self.render(context)
            ^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 66, in render
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 66, in render
     result = block.nodelist.render(context)
              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1091, in render
     return SafeString("".join([node.render_annotated(context) for node in self]))
                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
     return self.render(context)
            ^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 511, in render
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 249, in render
+    nodelist.append(node.render_annotated(context))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 511, in render
     url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\urls\base.py", line 98, in reverse
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\urls\base.py", line 98, in reverse
     resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\urls\resolvers.py", line 842, in _reverse_with_prefix
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\urls\resolvers.py", line 842, in _reverse_with_prefix
     raise NoReverseMatch(msg)
-django.urls.exceptions.NoReverseMatch: Reverse for 'add_to_cart' with arguments '('',)' not found. 1 pattern(s) tried: ['billing/add/(?P<product_id>[0-9]+)/\\Z']
-2026-09-24 08:36:24,466 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 08:36:25,587 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:37:01,640 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 08:37:02,615 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:37:17,121 INFO django.utils.autoreload C:\MySQL\POS\billing\urls.py changed, reloading.
-2026-09-24 08:37:18,098 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:39:36,314 INFO django.utils.autoreload C:\MySQL\POS\billing\urls.py changed, reloading.
-2026-09-24 08:39:37,336 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:40:41,797 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 08:40:42,650 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:41:08,988 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 08:41:09,882 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:42:16,727 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 08:42:17,655 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:42:43,262 ERROR django.request Internal Server Error: /billing/checkout/
+django.urls.exceptions.NoReverseMatch: Reverse for 'invoice' not found. 'invoice' is not a valid view function or pattern name.
+2026-10-05 09:36:25,267 ERROR django.request Internal Server Error: /billing/reports/
 Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
-    return self.cursor.execute(sql, params)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\mysql\base.py", line 78, in execute
-    return self.cursor.execute(query, args)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
-    res = self._query(mogrified_query)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
-    db.query(q)
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\connections.py", line 286, in query
-    _mysql.connection.query(self, query)
-MySQLdb.DataError: (1264, "Out of range value for column 'stock' at row 1")
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
     response = get_response(request)
                ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
     return view_func(request, *args, **kwargs)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\billing\views.py", line 281, in checkout
-    product.save()
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 874, in save
-    self.save_base(
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 966, in save_base
-    updated = self._save_table(
-              ^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 1110, in _save_table
-    results = self._do_update(
-              ^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 1213, in _do_update
-    return filtered._update(values, returning_fields)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\query.py", line 1327, in _update
-    return query.get_compiler(self.db).execute_returning_sql(returning_fields)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 2140, in execute_returning_sql
-    row_count = self.execute_sql(ROW_COUNT)
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 2111, in execute_sql
-    row_count = super().execute_sql(result_type)
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1624, in execute_sql
-    cursor.execute(sql, params)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
-    return super().execute(sql, params)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
-    return self._execute_with_wrappers(
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
-    return executor(sql, params, many, context)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
-    with self.db.wrap_database_errors:
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
-    raise dj_exc_value.with_traceback(traceback) from exc_value
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
-    return self.cursor.execute(sql, params)
+  File "C:\Users\govin\OneDrive\Desktop\POS\billing\views.py", line 885, in sales_report
+    return render(
+           ^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 174, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 160, in render
+    return compiled_parent._render(context)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\mysql\base.py", line 78, in execute
-    return self.cursor.execute(query, args)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
-    res = self._query(mogrified_query)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
-    db.query(q)
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\connections.py", line 286, in query
-    _mysql.connection.query(self, query)
-django.db.utils.DataError: (1264, "Out of range value for column 'stock' at row 1")
-2026-09-24 08:43:24,030 INFO django.utils.autoreload C:\MySQL\POS\billing\urls.py changed, reloading.
-2026-09-24 08:43:25,050 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:43:50,155 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 08:43:51,291 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:44:54,475 ERROR django.request Internal Server Error: /billing/checkout/
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 66, in render
+    result = block.nodelist.render(context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 249, in render
+    nodelist.append(node.render_annotated(context))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 511, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\urls\resolvers.py", line 842, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'invoice' not found. 'invoice' is not a valid view function or pattern name.
+2026-10-05 09:36:29,361 ERROR django.request Internal Server Error: /billing/dashboard/
 Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
-    return self.cursor.execute(sql, params)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\mysql\base.py", line 78, in execute
-    return self.cursor.execute(query, args)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
-    res = self._query(mogrified_query)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
-    db.query(q)
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\connections.py", line 286, in query
-    _mysql.connection.query(self, query)
-MySQLdb.DataError: (1264, "Out of range value for column 'stock' at row 1")
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
     response = get_response(request)
                ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
     return view_func(request, *args, **kwargs)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\billing\views.py", line 281, in checkout
-    product.save()
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 874, in save
-    self.save_base(
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 966, in save_base
-    updated = self._save_table(
-              ^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 1110, in _save_table
-    results = self._do_update(
-              ^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 1213, in _do_update
-    return filtered._update(values, returning_fields)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\query.py", line 1327, in _update
-    return query.get_compiler(self.db).execute_returning_sql(returning_fields)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 2140, in execute_returning_sql
-    row_count = self.execute_sql(ROW_COUNT)
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 2111, in execute_sql
-    row_count = super().execute_sql(result_type)
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1624, in execute_sql
-    cursor.execute(sql, params)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
-    return super().execute(sql, params)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
-    return self._execute_with_wrappers(
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
-    return executor(sql, params, many, context)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
-    with self.db.wrap_database_errors:
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
-    raise dj_exc_value.with_traceback(traceback) from exc_value
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
-    return self.cursor.execute(sql, params)
+  File "C:\Users\govin\OneDrive\Desktop\POS\billing\views.py", line 195, in sales_dashboard
+    return render(
+           ^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 174, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 160, in render
+    return compiled_parent._render(context)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\mysql\base.py", line 78, in execute
-    return self.cursor.execute(query, args)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
-    res = self._query(mogrified_query)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
-    db.query(q)
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\connections.py", line 286, in query
-    _mysql.connection.query(self, query)
-django.db.utils.DataError: (1264, "Out of range value for column 'stock' at row 1")
-2026-09-24 08:45:56,658 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 08:45:57,680 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:46:05,110 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 08:46:06,017 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:46:07,887 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 08:46:08,892 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:46:22,310 INFO django.utils.autoreload C:\MySQL\POS\billing\urls.py changed, reloading.
-2026-09-24 08:46:23,273 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:48:44,046 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 08:48:45,053 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:48:55,194 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 08:48:56,276 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:50:43,195 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 08:50:44,042 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:50:55,257 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 08:50:56,195 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:51:07,336 ERROR django.request Internal Server Error: /billing/add/1/
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 66, in render
+    result = block.nodelist.render(context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 249, in render
+    nodelist.append(node.render_annotated(context))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 511, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\urls\resolvers.py", line 842, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'invoice' not found. 'invoice' is not a valid view function or pattern name.
+2026-10-05 09:36:33,230 ERROR django.request Internal Server Error: /billing/dashboard/
 Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
     response = get_response(request)
                ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 205, in _get_response
-    self.check_response(response, callback)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 333, in check_response
-    raise ValueError(
-ValueError: The view billing.views.add_to_cart didn't return an HttpResponse object. It returned None instead.
-2026-09-24 08:51:17,729 ERROR django.request Internal Server Error: /billing/add/12/
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 205, in _get_response
-    self.check_response(response, callback)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 333, in check_response
-    raise ValueError(
-ValueError: The view billing.views.add_to_cart didn't return an HttpResponse object. It returned None instead.
-2026-09-24 08:53:15,032 INFO django.utils.autoreload C:\MySQL\POS\billing\models.py changed, reloading.
-2026-09-24 08:53:15,988 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:54:54,792 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 08:54:55,917 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:55:23,451 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 08:55:24,474 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:56:38,779 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 08:56:39,769 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 08:57:26,360 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 08:57:27,290 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 09:01:36,540 ERROR django.request Internal Server Error: /billing/add/1/
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 205, in _get_response
-    self.check_response(response, callback)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 333, in check_response
-    raise ValueError(
-ValueError: The view billing.views.add_to_cart didn't return an HttpResponse object. It returned None instead.
-2026-09-24 09:01:44,028 ERROR django.request Internal Server Error: /billing/add/1/
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 205, in _get_response
-    self.check_response(response, callback)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 333, in check_response
-    raise ValueError(
-ValueError: The view billing.views.add_to_cart didn't return an HttpResponse object. It returned None instead.
-2026-09-24 09:02:48,507 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 09:02:49,520 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 09:03:13,213 ERROR django.request Internal Server Error: /billing/checkout/
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
-    return self.cursor.execute(sql, params)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\mysql\base.py", line 78, in execute
-    return self.cursor.execute(query, args)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
-    res = self._query(mogrified_query)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
-    db.query(q)
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\connections.py", line 286, in query
-    _mysql.connection.query(self, query)
-MySQLdb.DataError: (1264, "Out of range value for column 'stock' at row 1")
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
     response = wrapped_callback(request, *callback_args, **callback_kwargs)
                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
     return view_func(request, *args, **kwargs)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\billing\views.py", line 393, in checkout
-    product.save()
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 874, in save
-    self.save_base(
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 966, in save_base
-    updated = self._save_table(
-              ^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 1110, in _save_table
-    results = self._do_update(
-              ^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 1213, in _do_update
-    return filtered._update(values, returning_fields)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\query.py", line 1327, in _update
-    return query.get_compiler(self.db).execute_returning_sql(returning_fields)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 2140, in execute_returning_sql
-    row_count = self.execute_sql(ROW_COUNT)
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 2111, in execute_sql
-    row_count = super().execute_sql(result_type)
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1624, in execute_sql
-    cursor.execute(sql, params)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
-    return super().execute(sql, params)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
-    return self._execute_with_wrappers(
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
-    return executor(sql, params, many, context)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
-    with self.db.wrap_database_errors:
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
-    raise dj_exc_value.with_traceback(traceback) from exc_value
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
-    return self.cursor.execute(sql, params)
+  File "C:\Users\govin\OneDrive\Desktop\POS\billing\views.py", line 195, in sales_dashboard
+    return render(
+           ^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 174, in render
+    return self._render(context)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 160, in render
+    return compiled_parent._render(context)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\mysql\base.py", line 78, in execute
-    return self.cursor.execute(query, args)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
-    res = self._query(mogrified_query)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
-    db.query(q)
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\connections.py", line 286, in query
-    _mysql.connection.query(self, query)
-django.db.utils.DataError: (1264, "Out of range value for column 'stock' at row 1")
-2026-09-24 09:05:28,443 ERROR django.request Internal Server Error: /billing/checkout/
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
-    return self.cursor.execute(sql, params)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\mysql\base.py", line 78, in execute
-    return self.cursor.execute(query, args)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
-    res = self._query(mogrified_query)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
-    db.query(q)
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\connections.py", line 286, in query
-    _mysql.connection.query(self, query)
-MySQLdb.DataError: (1264, "Out of range value for column 'stock' at row 1")
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\billing\views.py", line 393, in checkout
-    product.save()
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 874, in save
-    self.save_base(
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 966, in save_base
-    updated = self._save_table(
-              ^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 1110, in _save_table
-    results = self._do_update(
-              ^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 1213, in _do_update
-    return filtered._update(values, returning_fields)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\query.py", line 1327, in _update
-    return query.get_compiler(self.db).execute_returning_sql(returning_fields)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 2140, in execute_returning_sql
-    row_count = self.execute_sql(ROW_COUNT)
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 2111, in execute_sql
-    row_count = super().execute_sql(result_type)
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1624, in execute_sql
-    cursor.execute(sql, params)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
-    return super().execute(sql, params)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
-    return self._execute_with_wrappers(
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
-    return executor(sql, params, many, context)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
-    with self.db.wrap_database_errors:
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
-    raise dj_exc_value.with_traceback(traceback) from exc_value
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
-    return self.cursor.execute(sql, params)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\mysql\base.py", line 78, in execute
-    return self.cursor.execute(query, args)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
-    res = self._query(mogrified_query)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
-    db.query(q)
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\connections.py", line 286, in query
-    _mysql.connection.query(self, query)
-django.db.utils.DataError: (1264, "Out of range value for column 'stock' at row 1")
-2026-09-24 09:06:31,291 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 09:06:32,151 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 09:06:41,446 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 09:06:42,476 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 09:15:29,503 INFO django.utils.autoreload C:\MySQL\POS\billing\admin.py changed, reloading.
-2026-09-24 09:15:31,769 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 09:15:44,340 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 09:15:47,205 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 09:15:59,654 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-24 09:16:01,013 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-24 09:16:25,114 INFO django.utils.autoreload C:\MySQL\POS\billing\urls.py changed, reloading.
-2026-09-24 09:16:27,991 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-25 08:30:25,233 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-25 08:31:01,834 ERROR django.request Internal Server Error: /billing/checkout/
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
-    return self.cursor.execute(sql, params)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\mysql\base.py", line 78, in execute
-    return self.cursor.execute(query, args)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
-    res = self._query(mogrified_query)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
-    db.query(q)
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\connections.py", line 286, in query
-    _mysql.connection.query(self, query)
-MySQLdb.DataError: (1264, "Out of range value for column 'stock' at row 1")
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\billing\views.py", line 463, in checkout
-    product.save()
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 874, in save
-    self.save_base(
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 966, in save_base
-    updated = self._save_table(
-              ^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 1110, in _save_table
-    results = self._do_update(
-              ^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\base.py", line 1213, in _do_update
-    return filtered._update(values, returning_fields)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\query.py", line 1327, in _update
-    return query.get_compiler(self.db).execute_returning_sql(returning_fields)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 2140, in execute_returning_sql
-    row_count = self.execute_sql(ROW_COUNT)
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 2111, in execute_sql
-    row_count = super().execute_sql(result_type)
-                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1624, in execute_sql
-    cursor.execute(sql, params)
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
-    return super().execute(sql, params)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
-    return self._execute_with_wrappers(
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
-    return executor(sql, params, many, context)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
-    with self.db.wrap_database_errors:
-         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
-    raise dj_exc_value.with_traceback(traceback) from exc_value
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
-    return self.cursor.execute(sql, params)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\db\backends\mysql\base.py", line 78, in execute
-    return self.cursor.execute(query, args)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
-    res = self._query(mogrified_query)
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
-    db.query(q)
-  File "C:\MySQL\POS\venv\Lib\site-packages\MySQLdb\connections.py", line 286, in query
-    _mysql.connection.query(self, query)
-django.db.utils.DataError: (1264, "Out of range value for column 'stock' at row 1")
-2026-09-25 08:34:11,924 INFO django.utils.autoreload C:\MySQL\POS\billing\models.py changed, reloading.
-2026-09-25 08:34:13,716 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-25 08:34:48,923 INFO django.utils.autoreload C:\MySQL\POS\billing\admin.py changed, reloading.
-2026-09-25 08:34:49,950 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-25 08:34:58,601 INFO django.utils.autoreload C:\MySQL\POS\billing\admin.py changed, reloading.
-2026-09-25 08:35:00,186 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-25 08:35:16,396 INFO django.utils.autoreload C:\MySQL\POS\billing\urls.py changed, reloading.
-2026-09-25 08:35:19,384 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-25 08:35:37,206 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-25 08:35:38,111 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-25 08:37:42,868 INFO django.utils.autoreload C:\MySQL\POS\accounts\views.py changed, reloading.
-2026-09-25 08:37:44,627 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-25 08:38:32,371 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-25 08:38:35,339 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-25 08:39:09,534 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-25 08:39:10,835 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-25 08:43:25,118 INFO django.utils.autoreload C:\MySQL\POS\billing\urls.py changed, reloading.
-2026-09-25 08:43:26,112 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-25 08:43:46,963 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-25 08:43:47,846 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-25 08:46:30,461 INFO django.utils.autoreload C:\MySQL\POS\billing\urls.py changed, reloading.
-2026-09-25 08:46:31,686 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-25 08:46:43,075 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-25 08:46:44,009 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-25 08:48:26,598 INFO django.utils.autoreload C:\MySQL\POS\billing\urls.py changed, reloading.
-2026-09-25 08:48:27,529 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-25 08:48:51,690 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-25 08:48:52,831 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-25 08:49:01,460 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-25 08:49:02,461 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-25 08:49:37,545 ERROR django.request Internal Server Error: /billing/reports/export/csv/
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\billing\views.py", line 832, in export_sales_csv
-    response = HttpResponse(
-               ^^^^^^^^^^^^
-NameError: name 'HttpResponse' is not defined
-2026-09-25 08:49:41,732 ERROR django.request Internal Server Error: /billing/reports/export/pdf/
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\billing\views.py", line 891, in export_sales_pdf
-    response = HttpResponse(
-               ^^^^^^^^^^^^
-NameError: name 'HttpResponse' is not defined
-2026-09-25 08:51:21,625 ERROR django.request Internal Server Error: /billing/reports/export/csv/
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\billing\views.py", line 832, in export_sales_csv
-    response = HttpResponse(
-               ^^^^^^^^^^^^
-NameError: name 'HttpResponse' is not defined
-2026-09-25 08:51:24,521 ERROR django.request Internal Server Error: /billing/reports/export/pdf/
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\billing\views.py", line 891, in export_sales_pdf
-    response = HttpResponse(
-               ^^^^^^^^^^^^
-NameError: name 'HttpResponse' is not defined
-2026-09-25 08:51:28,180 ERROR django.request Internal Server Error: /billing/reports/export/csv/
-Traceback (most recent call last):
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
-    response = get_response(request)
-               ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
-    response = wrapped_callback(request, *callback_args, **callback_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
-    return view_func(request, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\MySQL\POS\billing\views.py", line 832, in export_sales_csv
-    response = HttpResponse(
-               ^^^^^^^^^^^^
-NameError: name 'HttpResponse' is not defined
-2026-09-25 08:52:06,179 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-25 08:52:07,292 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-25 08:52:26,625 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-25 08:52:27,920 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-26 08:17:24,295 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-26 08:18:51,980 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-26 08:18:55,096 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-26 08:19:44,135 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-26 08:19:46,108 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-26 08:20:02,260 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-26 08:20:05,278 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-26 08:23:18,230 INFO django.utils.autoreload C:\MySQL\POS\inventory\models.py changed, reloading.
-2026-09-26 08:23:20,069 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-26 08:24:15,213 INFO django.utils.autoreload C:\MySQL\POS\inventory\models.py changed, reloading.
-2026-09-26 08:24:18,336 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-26 08:24:37,399 INFO django.utils.autoreload C:\MySQL\POS\inventory\models.py changed, reloading.
-2026-09-26 08:24:38,989 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-26 08:27:51,121 INFO django.utils.autoreload C:\MySQL\POS\inventory\views.py changed, reloading.
-2026-09-26 08:27:54,386 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-26 08:31:01,279 INFO django.utils.autoreload C:\MySQL\POS\inventory\views.py changed, reloading.
-2026-09-26 08:31:03,294 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-26 08:32:03,546 INFO django.utils.autoreload C:\MySQL\POS\billing\urls.py changed, reloading.
-2026-09-26 08:32:06,798 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-26 08:32:25,084 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-26 08:32:27,009 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-26 08:32:35,899 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-26 08:32:39,022 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-26 08:39:37,911 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-26 08:39:39,630 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-26 08:39:56,707 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-26 08:39:59,818 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-26 08:40:51,423 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-26 08:40:53,324 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-26 08:41:19,988 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-26 08:41:23,007 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-26 08:42:42,491 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-26 08:42:44,450 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-26 08:43:12,210 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-26 08:43:15,178 INFO django.utils.autoreload Watching for file changes with StatReloader
-2026-09-26 08:43:25,710 INFO django.utils.autoreload C:\MySQL\POS\billing\views.py changed, reloading.
-2026-09-26 08:43:27,750 INFO django.utils.autoreload Watching for file changes with StatReloader
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 166, in _render
+    return self.nodelist.render(context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 66, in render
+    result = block.nodelist.render(context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1091, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 249, in render
+    nodelist.append(node.render_annotated(context))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 1052, in render_annotated
+    return self.render(context)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 511, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\urls\resolvers.py", line 842, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'invoice' not found. 'invoice' is not a valid view function or pattern name.
+2026-10-05 09:37:27,450 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\billing\urls.py changed, reloading.
+2026-10-05 09:37:32,102 INFO django.utils.autoreload Watching for file changes with StatReloader

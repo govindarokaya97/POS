@@ -4,6 +4,7 @@ from decimal import Decimal, InvalidOperation
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_POST
 
 from .models import Category, Product
 
@@ -88,6 +89,7 @@ def update_categories(request, id):
 
 
 @login_required
+@require_POST
 def delete_category(request, id):
     category = get_object_or_404(Category, id=id)
     category.delete()
@@ -260,9 +262,9 @@ def update_product(request, id):
 
 
 @login_required
+@require_POST
 def delete_product(request, id):
     product=get_object_or_404(Product, id=id)
     product.delete()
     messages.success(request, "Product daleted successfully")
     return redirect('view_product')
-

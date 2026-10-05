@@ -10,19 +10,25 @@ Customers
 {% block content %}
 
 
-<div class="space-y-6">
+<div class="space-y-8">
 
 
-    <div class="flex justify-between">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 
 
-        <h1 class="text-3xl font-semibold">
-            Customers
-        </h1>
+        <div>
+            <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">Billing</p>
+            <h1 class="mt-1 font-display text-3xl font-semibold text-ink">
+                Customers
+            </h1>
+            <p class="mt-1 text-sm text-muted">Customer records used for invoices and payments.</p>
+        </div>
 
 
 
-        <a href="{% url 'add_customer' %}" class="bg-brand text-white px-5 py-3 rounded">
+        <a href="{% url 'add_customer' %}"
+            class="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark">
+            <i class="fa-solid fa-plus"></i>
 
             Add Customer
 
@@ -33,27 +39,27 @@ Customers
 
 
 
-    <div class="rounded-xl border bg-white p-6">
+    <div class="overflow-hidden rounded-xl border border-line bg-white">
 
 
-        <table class="w-full">
+        <table class="w-full text-sm">
 
 
             <thead>
 
-                <tr class="border-b">
+                <tr class="border-b border-line text-left text-xs uppercase tracking-wide text-muted">
 
-                    <th class="text-left">
+                    <th class="px-6 py-3 font-medium">
                         Name
                     </th>
 
 
-                    <th>
+                    <th class="px-6 py-3 font-medium">
                         Phone
                     </th>
 
 
-                    <th>
+                    <th class="px-6 py-3 font-medium">
                         Email
                     </th>
 
@@ -70,12 +76,13 @@ Customers
                 {% for customer in customers %}
 
 
-                <tr class="border-b">
+                <tr class="border-b border-line transition hover:bg-paper/60">
 
 
-                    <td class="py-3">
+                    <td class="px-6 py-4">
 
-                        <a href="{% url 'customer_detail' customer.id %}" class="text-brand hover:underline">
+                        <a href="{% url 'customer_detail' customer.id %}"
+                            class="font-medium text-brand hover:text-brand-dark">
 
                             {{ customer.name }}
 
@@ -84,14 +91,14 @@ Customers
                     </td>
 
 
-                    <td>
+                    <td class="px-6 py-4 text-muted">
 
                         {{ customer.phone }}
 
                     </td>
 
 
-                    <td>
+                    <td class="px-6 py-4 text-muted">
 
                         {{ customer.email }}
 

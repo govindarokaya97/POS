@@ -10,24 +10,28 @@ Add Expense
 {% block content %}
 
 
-<h1 class="text-3xl font-semibold">
-    Add Expense
-</h1>
+<div class="mx-auto max-w-2xl space-y-8">
+    <div>
+        <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">Expenses</p>
+        <h1 class="mt-1 font-display text-3xl font-semibold text-ink">
+            Add Expense
+        </h1>
+    </div>
 
 
 
-<form method="POST" class="mt-6 space-y-4">
+<form method="POST" class="space-y-4 rounded-xl border border-line bg-white p-6">
 
 
     {% csrf_token %}
 
 
 
-    <input name="title" placeholder="Expense title" class="border p-3 w-full" />
+    <input name="title" placeholder="Expense title" />
 
 
 
-    <select name="expense_type" class="border p-3 w-full">
+    <select name="expense_type">
 
 
         <option value="rent">
@@ -60,16 +64,16 @@ Add Expense
 
 
 
-    <input name="amount" type="number" placeholder="Amount" class="border p-3 w-full" />
+    <input name="amount" type="number" placeholder="Amount" class="font-mono tabular-nums" />
 
 
 
 
-    <textarea name="description" placeholder="Description" class="border p-3 w-full"></textarea>
+    <textarea name="description" placeholder="Description"></textarea>
 
 
 
-    <button class="bg-brand text-white px-6 py-3 rounded">
+    <button class="rounded-lg bg-brand px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark">
 
         Save Expense
 
@@ -78,6 +82,7 @@ Add Expense
 
 
 </form>
+</div>
 
 
 {% endblock %}

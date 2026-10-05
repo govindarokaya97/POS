@@ -54,13 +54,14 @@
                 </div>
                 <div class="flex items-center justify-between border-t border-line pt-3">
 
-                    <a href="{% url 'add_to_cart' product.id %}"
-                        class="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark">
-
-                        <i class="fa-solid fa-cart-plus"></i>
-                        Add To Cart
-
-                    </a>
+                    <form method="post" action="{% url 'add_to_cart' product.id %}" class="inline">
+                        {% csrf_token %}
+                        <button type="submit"
+                            class="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-dark">
+                            <i class="fa-solid fa-cart-plus"></i>
+                            Add To Cart
+                        </button>
+                    </form>
 
 
                     <div class="flex items-center gap-1">
@@ -74,14 +75,15 @@
                         </a>
 
 
-                        <a href="{% url 'delete_product' product.id %}"
-                            class="rounded-lg p-2 text-muted transition hover:bg-red/5 hover:text-red"
-                            aria-label="Delete product"
-                            onclick="return confirm('Delete this product? This cannot be undone.')">
-
-                            <i class="fa-solid fa-trash"></i>
-
-                        </a>
+                        <form method="post" action="{% url 'delete_product' product.id %}" class="inline"
+                            onsubmit="return confirm('Delete this product? This cannot be undone.')">
+                            {% csrf_token %}
+                            <button type="submit"
+                                class="rounded-lg p-2 text-muted transition hover:bg-red/5 hover:text-red"
+                                aria-label="Delete product">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </form>
 
                     </div>
 

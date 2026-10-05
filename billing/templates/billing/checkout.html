@@ -1,219 +1,125 @@
 {% extends "base.html" %}
 
-
 {% block title %}
 Checkout
 {% endblock %}
 
-
-
 {% block content %}
-
-
-<h1 class="text-3xl font-semibold">
-    Checkout
-</h1>
-
-
-
-<form method="POST">
-
-    {% csrf_token %}
-
-
-
-    <div class="mt-6">
-
-
-        <label>
-            Customer
-        </label>
-
-
-        <select name="customer" class="border p-3 w-full">
-
-
-            <option value="">
-                Walk-in Customer
-            </option>
-
-
-
-            {% for customer in customers %}
-
-            <option value="{{customer.id}}">
-
-                {{customer.name}}
-
-            </option>
-
-
-            {% endfor %}
-
-
-        </select>
-
-
+<div class="mx-auto max-w-3xl space-y-8">
+    <div>
+        <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">Billing</p>
+        <h1 class="mt-1 font-display text-3xl font-semibold text-ink">
+            Checkout
+        </h1>
+        <p class="mt-1 text-sm text-muted">Confirm customer, payment method, and final totals.</p>
     </div>
 
-
-
-
-    <div class="mt-6">
-
-
-        <label>
-            Payment Method
-        </label>
-
-
-        <select name="payment_method" class="border p-3 w-full">
-
-
-            <option value="cash">
-                Cash
-            </option>
-
-
-            <option value="card">
-                Card
-            </option>
-
-
-            <option value="esewa">
-                eSewa
-            </option>
-
-
-            <option value="khalti">
-                Khalti
-            </option>
-
-
-        </select>
-
-
-    </div>
-
-
-
-    <div class="mt-6 rounded-xl border bg-white p-5 space-y-4">
-
-
-        <div class="flex justify-between">
-
-            <span>
-                Subtotal
-            </span>
-
-            <strong id="subtotal">
-                Rs {{ subtotal }}
-            </strong>
-
-        </div>
-
-
+    <form method="POST" class="space-y-6">
+        {% csrf_token %}
 
         <div>
-
-            <label>
-                Discount
+            <label class="mb-2 block">
+                Customer
             </label>
 
-            <input id="discount" type="number" name="discount" value="0" class="border p-3 w-full" />
+            <select name="customer">
+                <option value="">
+                    Walk-in Customer
+                </option>
 
+                {% for customer in customers %}
+                <option value="{{customer.id}}">
+                    {{customer.name}}
+                </option>
+                {% endfor %}
+            </select>
         </div>
-
-
-
 
         <div>
-
-            <label>
-                Tax %
+            <label class="mb-2 block">
+                Payment Method
             </label>
 
-
-            <input id="tax" type="number" name="tax" value="0" class="border p-3 w-full" />
-
+            <select name="payment_method">
+                <option value="cash">
+                    Cash
+                </option>
+                <option value="card">
+                    Card
+                </option>
+                <option value="esewa">
+                    eSewa
+                </option>
+                <option value="khalti">
+                    Khalti
+                </option>
+            </select>
         </div>
 
+        <div class="space-y-4 rounded-xl border border-line bg-white p-6">
+            <div class="flex justify-between text-sm">
+                <span class="text-muted">
+                    Subtotal
+                </span>
+                <strong id="subtotal" class="font-mono tabular-nums text-ink">
+                    Rs {{ subtotal }}
+                </strong>
+            </div>
 
+            <div>
+                <label class="mb-2 block">
+                    Discount
+                </label>
+                <input id="discount" type="number" name="discount" value="0" class="font-mono tabular-nums" />
+            </div>
 
+            <div>
+                <label class="mb-2 block">
+                    Tax %
+                </label>
+                <input id="tax" type="number" name="tax" value="0" class="font-mono tabular-nums" />
+            </div>
 
-        <div>
+            <div>
+                <label class="mb-2 block">
+                    Paid Amount
+                </label>
+                <input id="paid_amount" type="number" name="paid_amount" value="{{ subtotal }}"
+                    class="font-mono tabular-nums" />
+            </div>
 
-            <label>
-                Paid Amount
-            </label>
+            <hr class="border-line">
 
+            <div class="flex justify-between">
+                <span class="font-medium text-ink">
+                    Grand Total
+                </span>
+                <strong id="grand_total" class="font-mono tabular-nums text-brand">
+                    Rs {{ subtotal }}
+                </strong>
+            </div>
 
-            <input id="paid_amount" type="number" name="paid_amount" value="{{ subtotal }}" class="border p-3 w-full" />
-
+            <div class="flex justify-between text-sm">
+                <span class="text-muted">
+                    Due Amount
+                </span>
+                <strong id="due_amount" class="font-mono tabular-nums text-ink">
+                    Rs 0
+                </strong>
+            </div>
         </div>
 
-
-
-        <hr>
-
-
-        <div class="flex justify-between">
-
-            <span>
-                Grand Total
-            </span>
-
-            <strong id="grand_total">
-                Rs {{ subtotal }}
-            </strong>
-
-        </div>
-
-
-
-        <div class="flex justify-between">
-
-            <span>
-                Due Amount
-            </span>
-
-            <strong id="due_amount">
-                Rs 0
-            </strong>
-
-        </div>
-
-
-
-    </div>
-
-
-
-
-
-
-
-    <button class="mt-6 bg-brand text-white px-6 py-3 rounded">
-
-        Complete Payment
-
-    </button>
-
-
-
-</form>
-
+        <button class="rounded-lg bg-brand px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark">
+            Complete Payment
+        </button>
+    </form>
+</div>
 
 <script>
-
-
     function calculateBill() {
-
-
         let subtotal = Number(
             "{{ subtotal }}"
         );
-
 
         let discount = Number(
             document.getElementById(
@@ -221,15 +127,11 @@ Checkout
             ).value
         ) || 0;
 
-
-
         let taxRate = Number(
             document.getElementById(
                 "tax"
             ).value
         ) || 0;
-
-
 
         let paid = Number(
             document.getElementById(
@@ -237,49 +139,31 @@ Checkout
             ).value
         ) || 0;
 
-
-
         let tax =
             (subtotal * taxRate) / 100;
-
-
 
         let total =
             subtotal
             - discount
             + tax;
 
-
-
         let due =
             total - paid;
 
-
-
         if (due < 0) {
-
             due = 0;
-
         }
-
-
 
         document.getElementById(
             "grand_total"
         ).innerHTML =
             "Rs " + total.toFixed(2);
 
-
-
         document.getElementById(
             "due_amount"
         ).innerHTML =
             "Rs " + due.toFixed(2);
-
-
     }
-
-
 
     document
         .getElementById("discount")
@@ -288,16 +172,12 @@ Checkout
             calculateBill
         );
 
-
-
     document
         .getElementById("tax")
         .addEventListener(
             "input",
             calculateBill
         );
-
-
 
     document
         .getElementById("paid_amount")
@@ -306,11 +186,7 @@ Checkout
             calculateBill
         );
 
-
-
     calculateBill();
-
-
 </script>
 
 {% endblock %}

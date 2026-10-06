@@ -1,9 +1,10 @@
 import logging
 from decimal import Decimal, InvalidOperation
+from django.shortcuts import get_object_or_404, redirect, render
+from django.db.models import Sum
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
 from .models import Category, Product
@@ -49,13 +50,6 @@ def _parse_product_fields(post):
 
 
 # Create your views here.
-
-
-
-@login_required
-def categories(request):
-    return render(request, "inventory/categories.html")
-
 
 
 @login_required
@@ -106,11 +100,17 @@ def view_categories(request):
     return render(request, "inventory/view_categories.html", context)
 
 
-
-
 @login_required
-def products(request):
-    return render(request, "inventory/products.html")
+def category_list(request):
+    categories = Category.objects.all().order_by("name")
+
+    return render(
+        request,
+        "inventory/categories.html",
+        {
+            "categories": categories,
+        },
+    )
 
 
 
@@ -199,6 +199,54 @@ def view_product(request):
 
 
 
+@login_required
+def product_list(request):
+    products = Product.objects.all().order_by("-id")
+
+    total_products = products.count()
+
+    in_stock = products.filter(
+        stock__gt=0
+    ).count()
+
+    out_of_stock = products.filter(
+        stock__lte=0
+    ).count()
+
+    total_stock = products.aggregate(
+        total=Sum("stock")
+    )["total"] or 0
+
+    context = {
+        "products": products,
+        "total_products": total_products,
+        "in_stock": in_stock,
+        "out_of_stock": out_of_stock,
+        "total_stock": total_stock,
+    }
+
+    return render(
+        request,
+        "inventory/products.html",
+        context,
+    )
+
+
+
+@login_required
+def product_detail(request, id):
+    product = get_object_or_404(Product, id=id)
+
+    return render(
+        request,
+        "inventory/product_detail.html",
+        {
+            "product": product,
+        },
+    )
+
+
+    
 
 @login_required
 def update_product(request, id):

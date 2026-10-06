@@ -27,7 +27,7 @@
                 <i class="fa-solid fa-tags w-4 text-center"></i>
                 <span>Categories</span>
             </a>
-            <a href="{% url 'products' %}"
+            <a href="{% url 'view_product' %}"
                 class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition {% if 'product' in request.resolver_match.url_name %}bg-white/10 text-white{% else %}text-white/60 hover:bg-white/5 hover:text-white{% endif %}">
                 <i class="fa-solid fa-box w-4 text-center"></i>
                 <span>Products</span>
@@ -37,13 +37,7 @@
                 <i class="fa-solid fa-cash-register w-4 text-center"></i>
                 <span>Sales</span>
             </a>
-            <a href="{% url 'billing_products' %}"
-                class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition {% if 'billing' in request.resolver_match.url_name %}bg-white/10 text-white{% else %}text-white/60 hover:bg-white/5 hover:text-white{% endif %}">
 
-                <i class="fa-solid fa-file-invoice-dollar w-4 text-center"></i>
-                <span>Billing</span>
-
-            </a>
 
             <a href="{% url 'customers' %}"
                 class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition {% if 'customer' in request.resolver_match.url_name %}bg-white/10 text-white{% else %}text-white/60 hover:bg-white/5 hover:text-white{% endif %}">

@@ -235,7 +235,7 @@ Sales Report
 
                         <div class="flex gap-2">
 
-                            <a href="{% url 'invoice' invoice.id %}"
+                            <a href="{% url 'invoice_detail' invoice.id %}"
                                 class="rounded-lg bg-brand px-3 py-2 text-xs text-white hover:bg-brand-dark transition">
 
                                 <i class="fa-solid fa-eye"></i>
@@ -244,7 +244,7 @@ Sales Report
                             </a>
 
 
-                            <a href="{% url 'invoice' invoice.id %}?print=true"
+                            <a href="{% url 'invoice_detail' invoice.id %}?print=true"
                                 class="rounded-lg bg-red px-3 py-2 text-xs text-white hover:bg-red/90 transition">
 
                                 <i class="fa-solid fa-print"></i>

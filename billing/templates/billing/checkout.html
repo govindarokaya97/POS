@@ -1,192 +1,353 @@
 {% extends "base.html" %}
 
-{% block title %}
-Checkout
-{% endblock %}
+{% block title %}Checkout{% endblock title %}
 
 {% block content %}
-<div class="mx-auto max-w-3xl space-y-8">
+
+<div class="mx-auto max-w-6xl space-y-6">
+
+    <!-- Header -->
     <div>
-        <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">Billing</p>
+        <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+            Point of Sale
+        </p>
+
         <h1 class="mt-1 font-display text-3xl font-semibold text-ink">
             Checkout
         </h1>
-        <p class="mt-1 text-sm text-muted">Confirm customer, payment method, and final totals.</p>
+
+        <p class="mt-1 text-sm text-muted">
+            Review the order and complete the payment.
+        </p>
     </div>
 
-    <form method="POST" class="space-y-6">
+
+    <form method="post">
+
         {% csrf_token %}
 
-        <div>
-            <label class="mb-2 block">
-                Customer
-            </label>
+        <div class="grid gap-6 lg:grid-cols-[1fr_380px]">
 
-            <select name="customer">
-                <option value="">
-                    Walk-in Customer
-                </option>
 
-                {% for customer in customers %}
-                <option value="{{customer.id}}">
-                    {{customer.name}}
-                </option>
-                {% endfor %}
-            </select>
+            <!-- LEFT -->
+            <div class="space-y-6">
+
+                <!-- Customer -->
+                <div class="rounded-xl border border-line bg-white p-6">
+
+                    <h2 class="font-display text-lg font-semibold text-ink">
+                        Customer
+                    </h2>
+
+                    <p class="mt-1 text-sm text-muted">
+                        Select a customer or use Walk-in Customer.
+                    </p>
+
+                    <select name="customer"
+                        class="mt-5 w-full rounded-lg border border-line bg-white px-4 py-3 text-sm outline-none focus:border-brand">
+
+                        <option value="">
+                            Walk-in Customer
+                        </option>
+
+                        {% for customer in customers %}
+
+                        <option value="{{ customer.id }}">
+                            {{ customer.name }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- Payment -->
+                <div class="rounded-xl border border-line bg-white p-6">
+
+                    <h2 class="font-display text-lg font-semibold text-ink">
+                        Payment
+                    </h2>
+
+                    <p class="mt-1 text-sm text-muted">
+                        Select payment method and enter the amount received.
+                    </p>
+
+
+                    <!-- Payment Method -->
+                    <div class="mt-5">
+
+                        <label class="mb-2 block text-sm font-medium text-ink">
+                            Payment Method
+                        </label>
+
+                        <select name="payment_method"
+                            class="w-full rounded-lg border border-line bg-white px-4 py-3 text-sm outline-none focus:border-brand">
+
+                            <option value="cash">
+                                Cash
+                            </option>
+
+                            <option value="card">
+                                Card
+                            </option>
+
+                            <option value="eSewa">
+                                eSewa
+                            </option>
+
+                            <option value="Khalti">
+                                Khalti
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Paid -->
+                    <div class="mt-5">
+
+                        <label class="mb-2 block text-sm font-medium text-ink">
+                            Paid Amount
+                        </label>
+
+                        <div class="relative">
+
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-muted">
+                                Rs
+                            </span>
+
+                            <input type="number" name="paid_amount" value="{{ total }}" min="0" step="0.01"
+                                class="w-full rounded-lg border border-line bg-white py-3 pl-11 pr-4 font-mono text-sm outline-none focus:border-brand" />
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Adjustments -->
+                <div class="rounded-xl border border-line bg-white p-6">
+
+                    <h2 class="font-display text-lg font-semibold text-ink">
+                        Adjustments
+                    </h2>
+
+                    <div class="mt-5 grid gap-5 sm:grid-cols-3">
+
+                        <!-- Discount -->
+                        <div>
+
+                            <label class="mb-2 block text-sm font-medium text-ink">
+                                Discount
+                            </label>
+
+                            <div class="relative">
+
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-muted">
+                                    Rs
+                                </span>
+
+                                <input type="number" name="discount" id="discount" value="{{ discount|default:'0' }}"
+                                    min="0" step="0.01"
+                                    class="w-full rounded-lg border border-line bg-white py-3 pl-11 pr-4 font-mono text-sm outline-none focus:border-brand">
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Tax -->
+                        <div>
+
+                            <label class="mb-2 block text-sm font-medium text-ink">
+                                Tax (%)
+                            </label>
+
+                            <div class="relative">
+
+                                <input type="number" name="tax" id="tax" value="{{ tax_percent|default:'0' }}" min="0"
+                                    step="0.01"
+                                    class="w-full rounded-lg border border-line bg-white px-4 py-3 pr-10 font-mono text-sm outline-none focus:border-brand">
+
+                                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-muted">
+                                    %
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- VAT -->
+                        <div>
+
+                            <label class="mb-2 block text-sm font-medium text-ink">
+                                VAT (%)
+                            </label>
+
+                            <div class="relative">
+
+                                <input type="number" name="vat" id="vat" value="13" min="0" step="0.01"
+                                    class="w-full rounded-lg border border-line bg-white px-4 py-3 pr-10 font-mono text-sm outline-none focus:border-brand">
+
+                                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-muted">
+                                    %
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT -->
+            <div class="lg:sticky lg:top-6 lg:self-start">
+
+                <div class="overflow-hidden rounded-xl border border-line bg-white">
+
+                    <div class="border-b border-line p-5">
+
+                        <h2 class="font-display text-lg font-semibold text-ink">
+                            Order Summary
+                        </h2>
+
+                    </div>
+
+
+                    <!-- Items -->
+                    <div class="divide-y divide-line">
+
+                        {% for product_id, item in cart.items %}
+
+                        <div class="flex items-center justify-between gap-4 p-4">
+
+                            <div class="min-w-0">
+
+                                <p class="truncate text-sm font-medium text-ink">
+                                    {{ item.name }}
+                                </p>
+
+                                <p class="mt-1 font-mono text-xs text-muted">
+                                    {{ item.quantity }} × Rs {{ item.price }}
+                                </p>
+
+                            </div>
+
+                            <span class="shrink-0 font-mono text-sm font-semibold text-ink">
+                                Rs {{ item.total }}
+                            </span>
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                    <!-- Totals -->
+                    <div class="border-t border-line p-5">
+
+                        <div class="space-y-3 text-sm">
+
+                            <div class="flex justify-between">
+                                <span class="text-muted">
+                                    Subtotal
+                                </span>
+
+                                <span class="font-mono text-ink">
+                                    Rs {{ subtotal }}
+                                </span>
+                            </div>
+
+
+                            <div class="flex justify-between">
+                                <span class="text-muted">
+                                    Discount
+                                </span>
+
+                                <span class="font-mono text-ink">
+                                    - Rs {{ discount }}
+                                </span>
+                            </div>
+
+
+                            <div class="flex justify-between">
+                                <span class="text-muted">
+                                    Tax
+                                </span>
+
+                                <span class="font-mono text-ink">
+                                    Rs {{ tax }}
+                                </span>
+                            </div>
+
+
+                            <div class="flex justify-between">
+                                <span class="text-muted">
+                                    VAT
+                                </span>
+
+                                <span class="font-mono text-ink">
+                                    Rs {{ vat }}
+                                </span>
+                            </div>
+
+
+                            <div class="flex items-center justify-between border-t border-line pt-4">
+
+                                <span class="font-semibold text-ink">
+                                    Total
+                                </span>
+
+                                <span class="font-mono text-xl font-semibold text-ink">
+                                    Rs {{ total }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Complete -->
+                        <button type="submit"
+                            class="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-brand px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark">
+
+                            <i class="fa-solid fa-check"></i>
+
+                            Complete Sale
+
+                        </button>
+
+
+                        <!-- Back -->
+                        <a href="{% url 'billing_products' %}"
+                            class="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-line px-4 py-3 text-sm font-semibold text-ink transition hover:bg-paper">
+
+                            <i class="fa-solid fa-arrow-left"></i>
+
+                            Back to Cart
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <div>
-            <label class="mb-2 block">
-                Payment Method
-            </label>
-
-            <select name="payment_method">
-                <option value="cash">
-                    Cash
-                </option>
-                <option value="card">
-                    Card
-                </option>
-                <option value="esewa">
-                    eSewa
-                </option>
-                <option value="khalti">
-                    Khalti
-                </option>
-            </select>
-        </div>
-
-        <div class="space-y-4 rounded-xl border border-line bg-white p-6">
-            <div class="flex justify-between text-sm">
-                <span class="text-muted">
-                    Subtotal
-                </span>
-                <strong id="subtotal" class="font-mono tabular-nums text-ink">
-                    Rs {{ subtotal }}
-                </strong>
-            </div>
-
-            <div>
-                <label class="mb-2 block">
-                    Discount
-                </label>
-                <input id="discount" type="number" name="discount" value="0" class="font-mono tabular-nums" />
-            </div>
-
-            <div>
-                <label class="mb-2 block">
-                    Tax %
-                </label>
-                <input id="tax" type="number" name="tax" value="0" class="font-mono tabular-nums" />
-            </div>
-
-            <div>
-                <label class="mb-2 block">
-                    Paid Amount
-                </label>
-                <input id="paid_amount" type="number" name="paid_amount" value="{{ subtotal }}"
-                    class="font-mono tabular-nums" />
-            </div>
-
-            <hr class="border-line">
-
-            <div class="flex justify-between">
-                <span class="font-medium text-ink">
-                    Grand Total
-                </span>
-                <strong id="grand_total" class="font-mono tabular-nums text-brand">
-                    Rs {{ subtotal }}
-                </strong>
-            </div>
-
-            <div class="flex justify-between text-sm">
-                <span class="text-muted">
-                    Due Amount
-                </span>
-                <strong id="due_amount" class="font-mono tabular-nums text-ink">
-                    Rs 0
-                </strong>
-            </div>
-        </div>
-
-        <button class="rounded-lg bg-brand px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark">
-            Complete Payment
-        </button>
     </form>
+
 </div>
 
-<script>
-    function calculateBill() {
-        let subtotal = Number(
-            "{{ subtotal }}"
-        );
-
-        let discount = Number(
-            document.getElementById(
-                "discount"
-            ).value
-        ) || 0;
-
-        let taxRate = Number(
-            document.getElementById(
-                "tax"
-            ).value
-        ) || 0;
-
-        let paid = Number(
-            document.getElementById(
-                "paid_amount"
-            ).value
-        ) || 0;
-
-        let tax =
-            (subtotal * taxRate) / 100;
-
-        let total =
-            subtotal
-            - discount
-            + tax;
-
-        let due =
-            total - paid;
-
-        if (due < 0) {
-            due = 0;
-        }
-
-        document.getElementById(
-            "grand_total"
-        ).innerHTML =
-            "Rs " + total.toFixed(2);
-
-        document.getElementById(
-            "due_amount"
-        ).innerHTML =
-            "Rs " + due.toFixed(2);
-    }
-
-    document
-        .getElementById("discount")
-        .addEventListener(
-            "input",
-            calculateBill
-        );
-
-    document
-        .getElementById("tax")
-        .addEventListener(
-            "input",
-            calculateBill
-        );
-
-    document
-        .getElementById("paid_amount")
-        .addEventListener(
-            "input",
-            calculateBill
-        );
-
-    calculateBill();
-</script>
-
-{% endblock %}
+{% endblock content %}

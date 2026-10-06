@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }} - Product Details{% endblock title %}
+
+{% block content %}
+
+<div class="space-y-8">
+
+    <!-- Header -->
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+                Inventory
+            </p>
+
+            <h1 class="mt-1 font-display text-3xl font-semibold text-ink">
+                Product Details
+            </h1>
+
+            <p class="mt-1 text-sm text-muted">
+                View complete information about this product.
+            </p>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <a href="{% url 'view_product' %}"
+                class="inline-flex items-center gap-2 rounded-lg border border-line bg-white px-4 py-2.5 text-sm font-semibold text-ink transition hover:bg-paper">
+                <i class="fa-solid fa-arrow-left"></i>
+                Back to Products
+            </a>
+
+            <a href="{% url 'update_product' product.id %}"
+                class="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark">
+                <i class="fa-solid fa-pen-to-square"></i>
+                Edit Product
+            </a>
+        </div>
+    </div>
+
+
+    <!-- Product Details -->
+    <div class="grid gap-6 lg:grid-cols-2">
+
+        <!-- Product Image -->
+        <div class="overflow-hidden rounded-xl border border-line bg-white">
+
+            <div class="flex min-h-[420px] items-center justify-center bg-paper">
+
+                {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}"
+                    class="h-full max-h-[520px] w-full object-contain" />
+                {% else %}
+                <div class="flex flex-col items-center justify-center text-muted">
+                    <i class="fa-solid fa-box text-6xl"></i>
+                    <p class="mt-4 text-sm">No image available</p>
+                </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- Information -->
+        <div class="rounded-xl border border-line bg-white p-6">
+
+            <div class="flex items-start justify-between gap-4">
+
+                <div>
+                    <p class="text-xs uppercase tracking-wider text-muted">
+                        Product
+                    </p>
+
+                    <h2 class="mt-1 font-display text-2xl font-semibold text-ink">
+                        {{ product.name }}
+                    </h2>
+
+                    <p class="mt-1 text-sm text-muted">
+                        {{ product.category.name }}
+                    </p>
+                </div>
+
+
+                {% if product.is_available %}
+                <span class="shrink-0 rounded-full bg-brand/10 px-3 py-1 text-xs font-medium text-brand">
+                    In Stock
+                </span>
+                {% else %}
+                <span class="shrink-0 rounded-full bg-red/10 px-3 py-1 text-xs font-medium text-red">
+                    Out of Stock
+                </span>
+                {% endif %}
+
+            </div>
+
+
+            <!-- Price -->
+            <div class="mt-6 rounded-lg bg-paper p-4">
+                <p class="text-xs uppercase tracking-wider text-muted">
+                    Selling Price
+                </p>
+
+                <p class="mt-1 font-mono text-2xl font-semibold text-ink">
+                    Rs {{ product.price }}
+                </p>
+            </div>
+
+
+            <!-- Product Information -->
+            <div class="mt-6 divide-y divide-line border-y border-line">
+
+                <!-- Category -->
+                <div class="flex items-center justify-between py-4 gap-4">
+                    <span class="text-sm text-muted">
+                        Category
+                    </span>
+
+                    <span class="text-sm font-medium text-ink">
+                        {{ product.category.name }}
+                    </span>
+                </div>
+
+
+                <!-- Barcode -->
+                <div class="flex items-center justify-between py-4 gap-4">
+                    <span class="text-sm text-muted">
+                        Barcode
+                    </span>
+
+                    <span class="font-mono text-sm text-ink">
+                        {% if product.barcode %}
+                        {{ product.barcode }}
+                        {% else %}
+                        —
+                        {% endif %}
+                    </span>
+                </div>
+
+
+                <!-- Stock -->
+                <div class="flex items-center justify-between py-4 gap-4">
+                    <span class="text-sm text-muted">
+                        Available Stock
+                    </span>
+
+                    <span class="font-mono text-sm font-semibold text-ink">
+                        {{ product.stock }}
+                    </span>
+                </div>
+
+
+                <!-- Status -->
+                <div class="flex items-center justify-between py-4 gap-4">
+                    <span class="text-sm text-muted">
+                        Status
+                    </span>
+
+                    {% if product.is_available %}
+                    <span class="text-sm font-medium text-brand">
+                        Available
+                    </span>
+                    {% else %}
+                    <span class="text-sm font-medium text-red">
+                        Unavailable
+                    </span>
+                    {% endif %}
+                </div>
+
+            </div>
+
+
+            <!-- Description -->
+            <div class="mt-6">
+
+                <h3 class="text-sm font-semibold text-ink">
+                    Description
+                </h3>
+
+                <div class="mt-2 rounded-lg bg-paper p-4 text-sm leading-6 text-muted">
+                    {% if product.description %}
+                    {{ product.description|linebreaksbr }}
+                    {% else %}
+                    No description available for this product.
+                    {% endif %}
+                </div>
+
+            </div>
+
+
+            <!-- Actions -->
+            <div class="mt-6 flex flex-wrap gap-3">
+
+                {% if product.stock > 0 %}
+                <form method="post" action="{% url 'add_to_cart' product.id %}">
+                    {% csrf_token %}
+
+                    <button type="submit"
+                        class="inline-flex items-center gap-2 rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark">
+                        <i class="fa-solid fa-cart-plus"></i>
+                        Add To Cart
+                    </button>
+                </form>
+                {% endif %}
+
+
+                <a href="{% url 'update_product' product.id %}"
+                    class="inline-flex items-center gap-2 rounded-lg border border-line bg-white px-5 py-2.5 text-sm font-semibold text-ink transition hover:bg-paper">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    Edit
+                </a>
+
+
+                <form method="post" action="{% url 'delete_product' product.id %}"
+                    onsubmit="return confirm('Delete this product? This cannot be undone.')">
+                    {% csrf_token %}
+
+                    <button type="submit"
+                        class="inline-flex items-center gap-2 rounded-lg border border-red/20 px-5 py-2.5 text-sm font-semibold text-red transition hover:bg-red/5">
+                        <i class="fa-solid fa-trash"></i>
+                        Delete
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock content %}

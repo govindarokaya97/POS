@@ -4,6 +4,14 @@ from . import views
 
 urlpatterns = [
 
+
+    path(
+        "",
+        views.billing_products,
+        name="billing_products"
+    ),
+
+    
     path(
         "dashboard/",
         views.sales_dashboard,
@@ -11,7 +19,7 @@ urlpatterns = [
     ),
 
     path(
-        "",
+        "cart/",
         views.cart_view,
         name="cart"
     ),
@@ -59,15 +67,9 @@ urlpatterns = [
     path(
         "invoice/<int:id>/",
         views.invoice_detail,
-        name="invoice"
+        name="invoice_detail",
     ),
 
-
-    path(
-        "products/",
-        views.billing_products,
-        name="billing_products"
-    ),
 
 
     path(

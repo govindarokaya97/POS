@@ -49,8 +49,32 @@
                 </div>
 
                 <div class="flex items-center justify-between border-t border-line pt-3 font-mono text-sm">
-                    <span class="text-ink">Rs {{ product.price }}</span>
-                    <span class="text-muted">{{ product.stock }} in stock</span>
+
+                    <span class="text-ink">
+                        Rs {{ product.price }}
+                    </span>
+
+                    <span class="text-muted">
+                        {{ product.stock }} in stock
+                    </span>
+
+                </div>
+
+
+                <div class="flex items-center justify-between border-t border-line pt-3 text-sm">
+
+                    <span class="text-muted">
+                        Barcode
+                    </span>
+
+                    <span class="font-mono text-ink">
+                        {% if product.barcode %}
+                        {{ product.barcode }}
+                        {% else %}
+                        —
+                        {% endif %}
+                    </span>
+
                 </div>
                 <div class="flex items-center justify-between border-t border-line pt-3">
 
@@ -103,13 +127,21 @@
             class="mt-3 inline-block text-sm font-medium text-brand hover:text-brand-dark">Add your first product</a>
     </div>
     {% endif %}
+    <div class="flex items-center justify-between border-t border-line pt-3 text-sm">
 
-    <p class="text-sm text-muted">
+        <span class="text-muted">
+            Barcode
+        </span>
 
-        Barcode:
+        <span class="font-mono text-ink">
+            {% if product.barcode %}
+            {{ product.barcode }}
+            {% else %}
+            —
+            {% endif %}
+        </span>
 
-        {{ product.barcode }}
+    </div>
 
-    </p>
 </div>
 {% endblock content %}

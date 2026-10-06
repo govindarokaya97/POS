@@ -69,41 +69,6 @@ class Invoice(models.Model):
     )
 
 
-    subtotal = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        default=0
-    )
-
-
-    discount = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        default=0
-    )
-
-
-    tax = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        default=0
-    )
-
-
-    paid_amount = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        default=0
-    )
-
-
-    due_amount = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        default=0
-    )
-
-
     PAYMENT_STATUS = (
 
         ("paid", "Paid"),
@@ -114,26 +79,58 @@ class Invoice(models.Model):
 
     )
 
+    subtotal = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0,
+    )
+
+    discount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0,
+    )
+
+    tax = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0,
+    )
+
+    vat = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0,
+    )
+
+    total = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0,
+    )
+
+    paid_amount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0,
+    )
+
+    due_amount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0,
+    )
 
     payment_status = models.CharField(
         max_length=20,
-        choices=PAYMENT_STATUS,
-        default="due"
+        default="due",
     )
-
-
-    total = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        default=0
-    )
-
 
     payment_method = models.CharField(
         max_length=20,
-        choices=PAYMENT_METHODS,
-        default="cash"
+        default="cash",
     )
+
 
 
     created_at=models.DateTimeField(

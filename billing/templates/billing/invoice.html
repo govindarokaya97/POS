@@ -6,7 +6,26 @@ Invoice {{ invoice.invoice_number }}
 
 
 {% block content %}
+<style>
+    @page {
+        size: 48mm auto;
+        margin: 0;
+    }
 
+
+    body {
+        margin: 0;
+    }
+
+
+    .receipt {
+
+        width: 48mm;
+
+        padding: 5px;
+
+    }
+</style>
 <style>
     .receipt {
 
@@ -104,9 +123,56 @@ Invoice {{ invoice.invoice_number }}
 <div class="receipt">
 
     <div class="center">
-        <h2>MY SHOP</h2>
-        <p>POS BILLING SYSTEM</p>
-        <p>--------------------------</p>
+    
+    
+        {% if shop.logo %}
+    
+        <img src="{{ shop.logo.url }}" style="width:60px;margin:auto;">
+    
+        {% endif %}
+    
+    
+    
+        <h2>
+            {{ shop.shop_name }}
+        </h2>
+    
+    
+        {% if shop.address %}
+    
+        <p>
+            {{ shop.address }}
+        </p>
+    
+        {% endif %}
+    
+    
+    
+        {% if shop.phone %}
+    
+        <p>
+            Phone: {{ shop.phone }}
+        </p>
+    
+        {% endif %}
+    
+    
+    
+        {% if shop.vat_number %}
+    
+        <p>
+            VAT: {{ shop.vat_number }}
+        </p>
+    
+        {% endif %}
+    
+    
+    
+        <p>
+            --------------------------
+        </p>
+    
+    
     </div>
 
 
@@ -175,6 +241,17 @@ Invoice {{ invoice.invoice_number }}
 
         <br>
 
+
+        {% if return_amount > 0 %}
+
+        Return Cash:
+        {{ invoice.return_amount|default:"0.00" }}
+
+        <br>
+
+        {% endif %}
+
+
         Due:
         {{ invoice.due_amount }}
 
@@ -187,12 +264,9 @@ Invoice {{ invoice.invoice_number }}
 
 
     <div class="center">
-
-        Thank You!
-        <br>
-
-        Visit Again
-
+    
+        {{ shop.footer_message|linebreaks }}
+    
     </div>
 
 

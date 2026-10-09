@@ -119,11 +119,27 @@
                                 Rs
                             </span>
 
-                            <input type="number" name="paid_amount" value="{{ total }}" min="0" step="0.01"
+                            <input type="number" name="paid_amount" id="paid_amount" value="{{ total }}" min="0"
+                                step="0.01"
                                 class="w-full rounded-lg border border-line bg-white py-3 pl-11 pr-4 font-mono text-sm outline-none focus:border-brand" />
 
                         </div>
+                        <div class="mt-5 rounded-lg bg-paper p-4">
 
+                            <div class="flex justify-between items-center">
+
+                                <span class="text-sm text-muted">
+                                    Change Return
+                                </span>
+
+
+                                <span id="change_amount" class="font-mono text-lg font-semibold text-brand">
+                                    Rs 0.00
+                                </span>
+
+                            </div>
+
+                        </div>
                     </div>
 
                 </div>
@@ -349,5 +365,47 @@
     </form>
 
 </div>
+
+
+
+<script>
+    function calculateChange() {
+
+        let total =
+            parseFloat("{{ total }}") || 0;
+
+
+        let paid =
+            parseFloat(
+                document.getElementById("paid_amount").value
+            ) || 0;
+
+
+        let change = paid - total;
+
+
+        if (change < 0) {
+            change = 0;
+        }
+
+
+        document.getElementById(
+            "change_amount"
+        ).innerHTML =
+            "Rs " + change.toFixed(2);
+
+    }
+
+    document
+        .getElementById("paid_amount")
+        .addEventListener(
+            "input",
+            calculateChange
+        );
+
+    calculateChange();
+
+</script>
+
 
 {% endblock content %}

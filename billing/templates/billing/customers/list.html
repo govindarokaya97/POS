@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+
+{% block title %}
+Customers
+{% endblock %}
+
+
+{% block content %}
+
+<div class="space-y-8">
+
+
+    <!-- Header -->
+
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
+        <div>
+
+            <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+                Billing
+            </p>
+
+
+            <h1 class="mt-1 font-display text-3xl font-semibold text-ink">
+                Customers
+            </h1>
+
+
+            <p class="mt-1 text-sm text-muted">
+                Manage customer information and purchase history.
+            </p>
+
+        </div>
+
+
+        <a href="{% url 'customer_create' %}"
+            class="inline-flex items-center gap-2 rounded-lg bg-brand px-5 py-3 text-sm font-semibold text-white hover:bg-brand-dark">
+
+            <i class="fa-solid fa-user-plus"></i>
+
+            Add Customer
+
+        </a>
+
+
+    </div>
+
+
+
+    <!-- Search -->
+
+    <form method="get" class="rounded-xl border border-line bg-white p-5">
+
+
+        <div class="flex gap-3">
+
+
+            <input type="text" name="search" value="{{ request.GET.search }}" placeholder="Search customer..."
+                class="w-full rounded-lg border border-line px-4 py-3 text-sm outline-none focus:border-brand">
+
+
+            <button class="rounded-lg bg-brand px-5 text-white">
+
+                <i class="fa-solid fa-search"></i>
+
+            </button>
+
+
+        </div>
+
+
+    </form>
+
+
+
+    <!-- Table -->
+
+    <div class="overflow-hidden rounded-xl border border-line bg-white">
+
+
+        <table class="w-full">
+
+
+            <thead>
+
+                <tr class="border-b border-line text-left text-xs uppercase text-muted">
+
+                    <th class="px-6 py-4">
+                        Name
+                    </th>
+
+                    <th class="px-6 py-4">
+                        Phone
+                    </th>
+
+                    <th class="px-6 py-4">
+                        Email
+                    </th>
+
+                    <th class="px-6 py-4">
+                        Created
+                    </th>
+
+                    <th class="px-6 py-4">
+                        Action
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+                {% for customer in customers %}
+
+
+                <tr class="border-b border-line hover:bg-paper">
+
+
+                    <td class="px-6 py-4 font-medium text-ink">
+
+                        {{ customer.name }}
+
+                    </td>
+
+
+                    <td class="px-6 py-4 text-muted">
+
+                        {{ customer.phone|default:"-" }}
+
+                    </td>
+
+
+                    <td class="px-6 py-4 text-muted">
+
+                        {{ customer.email|default:"-" }}
+
+                    </td>
+
+
+                    <td class="px-6 py-4 text-muted">
+
+                        {{ customer.created_at|date:"Y-m-d" }}
+
+                    </td>
+
+
+                    <td class="px-6 py-4">
+
+
+                        <div class="flex gap-2">
+
+
+                            <a href="{% url 'customer_detail' customer.id %}"
+                                class="rounded-lg border border-line px-3 py-2 text-sm hover:bg-paper">
+
+                                <i class="fa-solid fa-eye"></i>
+
+                            </a>
+
+
+                            <a href="{% url 'customer_edit' customer.id %}"
+                                class="rounded-lg border border-line px-3 py-2 text-sm hover:bg-paper">
+
+                                <i class="fa-solid fa-pen"></i>
+
+                            </a>
+
+
+                        </div>
+
+
+                    </td>
+
+
+                </tr>
+
+
+                {% empty %}
+
+
+                <tr>
+
+                    <td colspan="5" class="py-10 text-center text-muted">
+
+                        No customers found.
+
+                    </td>
+
+                </tr>
+
+
+                {% endfor %}
+
+
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+
+
+
+</div>
+
+
+{% endblock %}

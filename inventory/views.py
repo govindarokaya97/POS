@@ -91,15 +91,6 @@ def delete_category(request, id):
     return redirect('view_category')
 
 
-
-@login_required
-def view_categories(request):
-    categories = Category.objects.all()
-    context={"categories": categories}
-
-    return render(request, "inventory/view_categories.html", context)
-
-
 @login_required
 def category_list(request):
     categories = Category.objects.all().order_by("name")
@@ -185,17 +176,6 @@ def add_product(request):
             "selected_category": request.POST.get("category"),
         }
     )
-
-
-@login_required
-def view_product(request):
-    products = Product.objects.all()
-
-    context={
-        "products": products,
-    }
-   
-    return render(request, "inventory/view_product.html",context)
 
 
 

@@ -1,0 +1,702 @@
+{% extends "base.html" %}
+
+{% block title %}
+Expenses
+{% endblock %}
+
+
+{% block content %}
+
+<div class="space-y-8">
+
+
+    <!-- Header -->
+
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
+
+        <div>
+
+            <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+                Finance
+            </p>
+
+
+            <h1 class="mt-1 font-display text-3xl font-semibold text-ink">
+                Expenses
+            </h1>
+
+
+            <p class="mt-1 text-sm text-muted">
+                Manage cinema hall, canteen, suppliers, salaries and operational costs.
+            </p>
+
+        </div>
+
+
+        <div class="flex gap-3">
+
+
+            <a href="{% url 'expense_export_csv' %}" class="rounded-lg border border-line px-4 py-3 text-sm font-semibold">
+
+                <i class="fa-solid fa-file-csv"></i>
+                CSV
+
+            </a>
+
+
+
+            <a href="{% url 'expense_export_pdf' %}?{{ request.GET.urlencode }}"
+                class="rounded-lg border border-line px-4 py-3 text-sm font-semibold">
+
+                <i class="fa-solid fa-file-pdf"></i>
+                PDF
+            </a>
+
+
+            <a href="{% url 'expense_create' %}"
+                class="inline-flex items-center gap-2 rounded-lg bg-brand px-5 py-3 text-sm font-semibold text-white hover:bg-brand-dark">
+
+                <i class="fa-solid fa-plus"></i>
+
+                Add Expense
+
+            </a>
+            <a href="{% url 'expense_category_list' %}" class="rounded-lg border border-line px-5 py-3 font-semibold">
+
+                <i class="fa-solid fa-layer-group"></i>
+
+                Categories
+
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <!-- Summary Card -->
+
+    <div class="grid gap-5 md:grid-cols-4">
+
+
+        <div class="rounded-xl border border-line bg-white p-6">
+
+            <p class="text-sm text-muted">
+                Total Expense
+            </p>
+
+            <h2 class="mt-2 text-3xl font-semibold text-red-600">
+                Rs {{ total_expense }}
+            </h2>
+
+        </div>
+
+
+
+
+        <div class="rounded-xl border border-line bg-white p-6">
+
+            <p class="text-sm text-muted">
+                Cinema Hall
+            </p>
+
+            <h2 class="mt-2 text-3xl font-semibold text-brand">
+                Rs {{ cinema_total }}
+            </h2>
+
+        </div>
+
+
+
+
+        <div class="rounded-xl border border-line bg-white p-6">
+
+            <p class="text-sm text-muted">
+                Canteen
+            </p>
+
+            <h2 class="mt-2 text-3xl font-semibold text-green-600">
+                Rs {{ canteen_total }}
+            </h2>
+
+        </div>
+
+
+
+
+        <div class="rounded-xl border border-line bg-white p-6">
+
+            <p class="text-sm text-muted">
+                General
+            </p>
+
+            <h2 class="mt-2 text-3xl font-semibold text-orange-600">
+                Rs {{ general_total }}
+            </h2>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="grid gap-5 md:grid-cols-3">
+    
+    
+        <div class="rounded-xl border border-line bg-white p-6">
+    
+            <p class="text-sm text-muted">
+                Total Records
+            </p>
+    
+            <h2 class="mt-2 text-3xl font-semibold text-ink">
+    
+                {{ total_count }}
+    
+            </h2>
+    
+        </div>
+    
+    
+    
+        <div class="rounded-xl border border-line bg-white p-6">
+    
+            <p class="text-sm text-muted">
+                Average Expense
+            </p>
+    
+            <h2 class="mt-2 text-3xl font-semibold text-brand">
+    
+                Rs {{ average_expense|floatformat:2 }}
+    
+            </h2>
+    
+        </div>
+    
+    
+    
+    
+        <div class="rounded-xl border border-line bg-white p-6">
+    
+            <p class="text-sm text-muted">
+                Highest Spending Category
+            </p>
+    
+    
+            <h2 class="mt-2 text-xl font-semibold text-red-600">
+    
+                {% if top_category %}
+    
+                {{ top_category.category__name }}
+    
+                {% else %}
+    
+                N/A
+    
+                {% endif %}
+    
+            </h2>
+    
+        </div>
+    
+    
+    
+    </div>
+
+    <div class="grid gap-6 lg:grid-cols-2">
+    
+    
+        <div class="rounded-xl border border-line bg-white p-6">
+    
+    
+            <h2 class="mb-5 text-lg font-semibold text-ink">
+                Monthly Expense Trend
+            </h2>
+    
+    
+            <canvas id="monthlyExpenseChart"></canvas>
+    
+    
+        </div>
+    
+    
+    
+    
+        <div class="rounded-xl border border-line bg-white p-6">
+    
+    
+            <h2 class="mb-5 text-lg font-semibold text-ink">
+                Category Distribution
+            </h2>
+    
+    
+            <canvas id="categoryExpenseChart"></canvas>
+    
+    
+        </div>
+    
+    
+    </div>
+
+    
+
+    <div class="rounded-xl border border-line bg-white p-6">
+    
+    
+        <h2 class="mb-5 text-lg font-semibold text-ink">
+            Category Spending
+        </h2>
+    
+    
+    
+        <table class="w-full">
+    
+    
+            <thead>
+    
+                <tr class="border-b border-line text-left text-sm text-muted">
+    
+                    <th class="py-3">
+                        Category
+                    </th>
+    
+                    <th class="py-3">
+                        Amount
+                    </th>
+    
+                </tr>
+    
+            </thead>
+    
+    
+    
+            <tbody>
+    
+    
+                {% for item in category_summary %}
+    
+                <tr class="border-b border-line">
+    
+    
+                    <td class="py-3">
+    
+                        {{ item.category__name }}
+    
+                    </td>
+    
+    
+    
+                    <td class="py-3 font-semibold text-red-600">
+    
+                        Rs {{ item.total }}
+    
+                    </td>
+    
+    
+                </tr>
+    
+    
+                {% empty %}
+    
+                <tr>
+    
+                    <td colspan="2" class="py-5 text-center text-muted">
+    
+                        No data
+    
+                    </td>
+    
+                </tr>
+    
+                {% endfor %}
+    
+    
+            </tbody>
+    
+    
+        </table>
+    
+    
+    </div>
+
+
+  
+
+
+    <div class="rounded-xl border border-line bg-white p-5">
+
+
+        <form method="get" class="grid gap-4 md:grid-cols-4">
+
+
+            <!-- Group -->
+
+            <select name="group" onchange="this.form.submit()" class="rounded-lg border border-line px-4 py-3">
+
+                <option value="">
+                    All Groups
+                </option>
+
+
+                <option value="cinema" {% if request.GET.group == "cinema" %} selected {% endif %}>
+                    Cinema Hall
+                </option>
+
+
+                <option value="canteen" {% if request.GET.group == "canteen" %} selected {% endif %}>
+                    Canteen
+                </option>
+
+
+                <option value="general" {% if request.GET.group == "general" %} selected {% endif %}>
+                    General
+                </option>
+
+
+            </select>
+
+
+
+
+
+            <!-- Category -->
+
+            <select name="category" onchange="this.form.submit()" class="rounded-lg border border-line px-4 py-3">
+
+                <option value="">
+                    All Categories
+                </option>
+
+
+                {% for category in expense_categories %}
+
+                <option value="{{ category.id }}" {% if request.GET.category == category.id|stringformat:"s" %} selected {% endif %}>
+
+                    {{ category.name }}
+
+                </option>
+
+
+                {% endfor %}
+
+
+            </select>
+
+
+
+
+
+            <!-- Start Date -->
+
+            <input type="date" name="start_date" value="{{ request.GET.start_date }}" onchange="this.form.submit()"
+                class="rounded-lg border border-line px-4 py-3">
+
+
+
+
+
+
+            <!-- End Date -->
+
+            <input type="date" name="end_date" value="{{ request.GET.end_date }}" onchange="this.form.submit()"
+                class="rounded-lg border border-line px-4 py-3">
+
+
+
+        </form>
+
+
+    </div>
+    <!-- Table -->
+
+
+    <div class="overflow-hidden rounded-xl border border-line bg-white">
+
+
+        <table class="w-full">
+
+
+            <thead>
+
+
+                <tr class="border-b border-line text-left text-xs uppercase tracking-wide text-muted">
+
+
+                    <th class="px-6 py-4">
+                        Title
+                    </th>
+
+
+                    <th class="px-6 py-4">
+                        Category
+                    </th>
+
+
+                    <th class="px-6 py-4">
+                        Amount
+                    </th>
+
+
+                    <th class="px-6 py-4">
+                        Date
+                    </th>
+
+
+                    <th class="px-6 py-4">
+                        Action
+                    </th>
+
+
+                </tr>
+
+
+            </thead>
+
+
+
+            <tbody>
+
+
+                {% for expense in expenses %}
+
+
+                <tr class="border-b border-line hover:bg-paper">
+
+
+                    <td class="px-6 py-4 font-medium text-ink">
+
+                        {{ expense.title }}
+
+                    </td>
+
+
+
+
+                    <td class="px-6 py-4">
+                    
+                    
+                        <div class="space-y-1">
+                    
+                    
+                            <span class="rounded-full bg-brand/10 px-3 py-1 text-xs font-semibold text-brand">
+                    
+                                {{ expense.category.name }}
+                    
+                            </span>
+                    
+                    
+                            <p class="text-xs text-muted">
+                    
+                                {{ expense.category.get_group_display }}
+                    
+                            </p>
+                    
+                    
+                        </div>
+                    
+                    
+                    </td>
+
+
+
+
+
+                    <td class="px-6 py-4 font-mono text-red-600">
+
+                        Rs {{ expense.amount }}
+
+                    </td>
+
+
+
+
+                    <td class="px-6 py-4 text-muted">
+
+                        {{ expense.created_at|date:"Y-m-d" }}
+
+                    </td>
+
+
+
+
+                    <td class="px-6 py-4">
+
+
+                        <div class="flex gap-2">
+
+
+                            <a href="{% url 'expense_edit' expense.id %}"
+                                class="rounded-lg border border-line px-3 py-2 hover:bg-paper">
+
+                                <i class="fa-solid fa-pen"></i>
+
+                            </a>
+
+
+
+                            <a href="{% url 'expense_delete' expense.id %}"
+                                onclick="return confirm('Delete this expense?')"
+                                class="rounded-lg border border-red-200 px-3 py-2 text-red-600 hover:bg-red-50">
+
+                                <i class="fa-solid fa-trash"></i>
+
+                            </a>
+
+
+                        </div>
+
+
+                    </td>
+
+
+                </tr>
+
+
+
+                {% empty %}
+
+
+                <tr>
+
+                    <td colspan="5" class="py-10 text-center text-muted">
+
+                        No expenses recorded.
+
+                    </td>
+
+                </tr>
+
+
+                {% endfor %}
+
+
+
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+
+
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+
+
+    const monthlyLabels = {{ monthly_labels| safe }};
+
+    const monthlyValues = {{ monthly_values| safe }};
+
+
+
+    new Chart(
+        document.getElementById(
+            "monthlyExpenseChart"
+        ),
+        {
+
+            type: "line",
+
+            data: {
+
+                labels: monthlyLabels,
+
+
+                datasets: [
+
+                    {
+
+                        label: "Expenses",
+
+                        data: monthlyValues,
+
+                        tension: 0.3,
+
+                    }
+
+                ]
+
+            },
+
+
+            options: {
+
+                responsive: true,
+
+            }
+
+
+        }
+    );
+
+
+
+
+
+    const categoryLabels = {{ category_labels| safe }};
+
+    const categoryValues = {{ category_values| safe }};
+
+
+
+
+    new Chart(
+
+        document.getElementById(
+            "categoryExpenseChart"
+        ),
+
+        {
+
+
+            type: "doughnut",
+
+
+            data: {
+
+
+                labels: categoryLabels,
+
+
+                datasets: [
+
+                    {
+
+                        data: categoryValues
+
+                    }
+
+                ]
+
+
+            },
+
+
+            options: {
+
+                responsive: true
+
+            }
+
+
+        }
+
+    );
+
+
+
+</script>
+
+
+{% endblock %}

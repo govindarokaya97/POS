@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Expense Details
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="mx-auto max-w-3xl space-y-6">
+
+
+
+    <div class="rounded-xl border border-line bg-white p-8">
+
+
+        <div class="flex items-center justify-between">
+
+
+            <div>
+
+                <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+                    Finance
+                </p>
+
+
+                <h1 class="mt-1 text-3xl font-semibold text-ink">
+                    {{ expense.title }}
+                </h1>
+
+
+            </div>
+
+
+
+            <a href="{% url 'expense_edit' expense.id %}"
+                class="rounded-lg bg-brand px-5 py-3 text-white font-semibold">
+
+                <i class="fa-solid fa-pen"></i>
+
+                Edit
+
+            </a>
+
+
+        </div>
+
+
+
+        <div class="mt-8 grid gap-5 md:grid-cols-2">
+
+
+
+            <div class="rounded-lg border border-line p-5">
+
+                <p class="text-sm text-muted">
+                    Category
+                </p>
+
+                <h2 class="mt-2 text-xl font-semibold text-ink">
+
+                    {{ expense.category.name }}
+
+                </h2>
+
+
+                <p class="text-sm text-muted">
+
+                    {{ expense.category.get_group_display }}
+
+                </p>
+
+
+            </div>
+
+
+
+
+            <div class="rounded-lg border border-line p-5">
+
+                <p class="text-sm text-muted">
+                    Amount
+                </p>
+
+
+                <h2 class="mt-2 text-2xl font-semibold text-red-600">
+
+                    Rs {{ expense.amount }}
+
+                </h2>
+
+
+            </div>
+
+
+
+
+            <div class="rounded-lg border border-line p-5">
+
+                <p class="text-sm text-muted">
+                    Created Date
+                </p>
+
+
+                <h2 class="mt-2 font-semibold text-ink">
+
+                    {{ expense.created_at|date:"Y-m-d H:i" }}
+
+                </h2>
+
+
+            </div>
+
+
+
+
+            <div class="rounded-lg border border-line p-5">
+
+                <p class="text-sm text-muted">
+                    Expense ID
+                </p>
+
+
+                <h2 class="mt-2 font-semibold text-ink">
+
+                    #{{ expense.id }}
+
+                </h2>
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+
+
+        <div class="mt-6 rounded-lg border border-line p-5">
+
+
+            <p class="text-sm text-muted mb-2">
+                Description
+            </p>
+
+
+            <p class="text-ink">
+
+                {% if expense.description %}
+
+                {{ expense.description }}
+
+                {% else %}
+
+                No description provided.
+
+                {% endif %}
+
+            </p>
+
+
+        </div>
+
+
+
+        <div class="mt-6 flex gap-3">
+
+
+            <a href="{% url 'expense_list' %}"
+                class="rounded-lg border border-line px-5 py-3 font-semibold hover:bg-paper">
+
+                Back
+
+            </a>
+
+
+
+            <a href="{% url 'expense_delete' expense.id %}" onclick="return confirm('Delete this expense?')"
+                class="rounded-lg border border-red-200 px-5 py-3 font-semibold text-red-600">
+
+                Delete
+
+            </a>
+
+
+        </div>
+
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

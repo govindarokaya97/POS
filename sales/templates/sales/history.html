@@ -1,68 +1,404 @@
-{% extends 'base.html' %}
-{% block title %}Sales history{% endblock title %}
+{% extends "base.html" %}
+
+
+{% block title %}
+Sales History
+{% endblock %}
+
+
 
 {% block content %}
+
+
 <div class="space-y-8">
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-            <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">Point of sale</p>
-            <h1 class="mt-1 font-display text-3xl font-semibold text-ink">Sales history</h1>
-            <p class="mt-1 text-sm text-muted">Every completed transaction, most recent first.</p>
-        </div>
-        <a href="{% url 'create_sales' %}"
-            class="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark">
-            <i class="fa-solid fa-plus"></i>
-            New sale
-        </a>
+
+
+    <div>
+
+        <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+            Sales
+        </p>
+
+
+        <h1 class="mt-1 font-display text-3xl font-semibold text-ink">
+            Sales History
+        </h1>
+
+
+        <p class="mt-1 text-sm text-muted">
+            All generated invoices and payments.
+        </p>
+
+
     </div>
+
+    <!-- SUMMARY CARDS -->
+
+    <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+
+
+        <div class="rounded-xl border border-line bg-white p-5">
+
+            <p class="text-sm text-muted">
+                Total Invoices
+            </p>
+
+            <h2 class="mt-2 text-3xl font-semibold text-ink">
+                {{ total_sales }}
+            </h2>
+
+        </div>
+
+
+
+        <div class="rounded-xl border border-line bg-white p-5">
+
+            <p class="text-sm text-muted">
+                Total Sales
+            </p>
+
+            <h2 class="mt-2 text-3xl font-semibold text-brand">
+                Rs {{ total_amount }}
+            </h2>
+
+        </div>
+
+
+
+        <div class="rounded-xl border border-line bg-white p-5">
+
+            <p class="text-sm text-muted">
+                Paid Amount
+            </p>
+
+            <h2 class="mt-2 text-3xl font-semibold text-brand">
+                Rs {{ paid_amount }}
+            </h2>
+
+        </div>
+
+
+
+        <div class="rounded-xl border border-line bg-white p-5">
+
+            <p class="text-sm text-muted">
+                Due Amount
+            </p>
+
+            <h2 class="mt-2 text-3xl font-semibold text-red">
+                Rs {{ due_amount }}
+            </h2>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- FILTER -->
+
+    <form method="get" id="filterForm"
+        class="flex flex-col gap-4 rounded-xl border border-line bg-white p-5 shadow-sm md:flex-row md:items-end">
+
+
+        <!-- Start Date -->
+        <div class="flex-1">
+
+            <label class="mb-2 block text-sm font-medium text-ink">
+                Start Date
+            </label>
+
+            <input type="date" name="start_date" value="{{ request.GET.start_date }}" onchange="this.form.submit()"
+                class="w-full rounded-lg border border-line bg-white px-4 py-2.5 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20">
+
+        </div>
+
+
+
+        <!-- End Date -->
+        <div class="flex-1">
+
+            <label class="mb-2 block text-sm font-medium text-ink">
+                End Date
+            </label>
+
+            <input type="date" name="end_date" value="{{ request.GET.end_date }}" onchange="this.form.submit()"
+                class="w-full rounded-lg border border-line bg-white px-4 py-2.5 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20">
+
+        </div>
+
+
+
+
+        <!-- Status -->
+        <div class="flex-1">
+
+            <label class="mb-2 block text-sm font-medium text-ink">
+                Payment Status
+            </label>
+
+
+            <select name="status" onchange="this.form.submit()"
+                class="w-full rounded-lg border border-line bg-white px-4 py-2.5 text-sm outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20">
+
+
+                <option value="">
+                    All Status
+                </option>
+
+
+                <option value="paid" {% if request.GET.status == "paid" %}selected{% endif %}>
+                    Paid
+                </option>
+
+
+                <option value="partial" {% if request.GET.status == "partial" %}selected{% endif %}>
+                    Partial
+                </option>
+
+
+                <option value="due" {% if request.GET.status == "due" %}selected{% endif %}>
+                    Due
+                </option>
+
+
+            </select>
+
+        </div>
+
+
+
+
+        <!-- Manual Filter Button -->
+        <div>
+
+            <button type="submit"
+                class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark md:w-auto">
+
+                <i class="fa-solid fa-filter"></i>
+
+                Apply
+
+            </button>
+
+        </div>
+
+
+
+    </form>
+
+    <div class="flex flex-wrap gap-3">
+
+
+        <a href="{% url 'export_sales_csv' %}?{{ request.GET.urlencode }}"
+            class="inline-flex items-center gap-2 rounded-lg border border-line bg-white px-4 py-2.5 text-sm font-semibold text-ink hover:bg-paper">
+
+            <i class="fa-solid fa-file-csv"></i>
+
+            CSV
+
+        </a>
+
+
+
+        <a href="{% url 'export_sales_pdf' %}?{{ request.GET.urlencode }}"
+            class="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark">
+
+            <i class="fa-solid fa-file-pdf"></i>
+
+            PDF
+
+        </a>
+
+
+    </div>
+
+
+    <!-- TABLE -->
+
 
     <div class="overflow-hidden rounded-xl border border-line bg-white">
+
         <div class="overflow-x-auto">
-            <table class="w-full text-sm">
+
+            <table class="min-w-full text-sm">
+
+
                 <thead>
-                    <tr class="border-b border-line text-left text-xs uppercase tracking-wide text-muted">
-                        <th class="px-6 py-3 font-medium">Product</th>
-                        <th class="px-6 py-3 font-medium">Quantity</th>
-                        <th class="px-6 py-3 font-medium">Unit price</th>
-                        <th class="px-6 py-3 font-medium">Total</th>
-                        <th class="px-6 py-3 font-medium">Sold by</th>
-                        <th class="px-6 py-3 font-medium">Date</th>
+
+                    <tr class="border-b border-line text-left text-xs uppercase text-muted">
+
+                        <th class="px-6 py-4">
+                            Invoice
+                        </th>
+
+
+                        <th class="px-6 py-4">
+                            Customer
+                        </th>
+
+
+                        <th class="px-6 py-4">
+                            Amount
+                        </th>
+
+
+                        <th class="px-6 py-4">
+                            Payment
+                        </th>
+
+
+                        <th class="px-6 py-4">
+                            Date
+                        </th>
+
+
+                        <th class="px-6 py-4 text-right">
+                            Action
+                        </th>
+
+
                     </tr>
+
                 </thead>
+
+
+
                 <tbody class="divide-y divide-line">
-                    {% for sale in page_obj %}
-                    <tr class="transition hover:bg-paper/60">
-                        <td class="px-6 py-3.5 text-ink">{{ sale.product.name }}</td>
-                        <td class="px-6 py-3.5 font-mono tabular-nums text-ink">{{ sale.quantity }}</td>
-                        <td class="px-6 py-3.5 font-mono tabular-nums text-muted">Rs {{ sale.product.price }}</td>
-                        <td class="px-6 py-3.5 font-mono tabular-nums font-medium text-brand">Rs {{ sale.total_price }}</td>
-                        <td class="px-6 py-3.5 text-muted">{{ sale.sold_by.username }}</td>
-                        <td class="px-6 py-3.5 font-mono text-xs text-muted">{{ sale.sold_at|date:"M d, Y" }}</td>
+
+
+                    {% for invoice in invoices %}
+
+
+                    <tr class="hover:bg-paper/60">
+
+
+                        <td class="px-6 py-4 font-medium">
+
+                            {{ invoice.invoice_number }}
+
+                        </td>
+
+
+
+                        <td class="px-6 py-4">
+
+                            {% if invoice.customer %}
+
+                            {{ invoice.customer.name }}
+
+                            {% else %}
+
+                            Walk-in Customer
+
+                            {% endif %}
+
+                        </td>
+
+
+
+                        <td class="px-6 py-4 font-mono">
+
+                            Rs {{ invoice.total }}
+
+                        </td>
+
+
+
+
+                        <td class="px-6 py-4">
+
+
+                            {% if invoice.payment_status == "paid" %}
+
+                            <span class="rounded-full bg-brand/10 px-3 py-1 text-xs text-brand">
+                                Paid
+                            </span>
+
+
+                            {% elif invoice.payment_status == "partial" %}
+
+                            <span class="rounded-full bg-amber/10 px-3 py-1 text-xs text-amber">
+                                Partial
+                            </span>
+
+
+                            {% else %}
+
+                            <span class="rounded-full bg-red/10 px-3 py-1 text-xs text-red">
+                                Due
+                            </span>
+
+
+                            {% endif %}
+
+
+                        </td>
+
+
+
+
+                        <td class="px-6 py-4 text-muted">
+
+                            {{ invoice.created_at|date:"Y-m-d" }}
+
+                        </td>
+
+
+
+
+                        <td class="px-6 py-4 text-right">
+
+
+                            <a href="{% url 'invoice_detail' invoice.id %}"
+                                class="rounded-lg border border-line px-3 py-2 hover:bg-paper">
+
+                                <i class="fa-solid fa-eye"></i>
+
+                            </a>
+
+
+                            <a href="{% url 'invoice_detail' invoice.id %}?print=true"
+                                class="ml-2 rounded-lg bg-brand px-3 py-2 text-white">
+
+                                <i class="fa-solid fa-print"></i>
+
+                            </a>
+
+
+                        </td>
+
+
                     </tr>
+
+
                     {% empty %}
+
                     <tr>
-                        <td colspan="6" class="px-6 py-10 text-center text-sm text-muted">No sales found.</td>
+
+                        <td colspan="6" class="px-6 py-12 text-center text-muted">
+
+                            No sales found.
+
+                        </td>
+
                     </tr>
+
+
                     {% endfor %}
+
+
                 </tbody>
+
+
             </table>
+
         </div>
 
-        {% if page_obj.paginator.num_pages > 1 %}
-        <div class="flex items-center justify-between border-t border-line px-6 py-4">
-            <p class="font-mono text-xs text-muted">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</p>
-            <div class="flex items-center gap-2">
-                {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}"
-                    class="rounded-lg border border-line px-3 py-1.5 text-sm font-medium text-ink transition hover:bg-paper">Previous</a>
-                {% endif %}
-                {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}"
-                    class="rounded-lg border border-line px-3 py-1.5 text-sm font-medium text-ink transition hover:bg-paper">Next</a>
-                {% endif %}
-            </div>
-        </div>
-        {% endif %}
     </div>
+
+
 </div>
+
+
 {% endblock %}

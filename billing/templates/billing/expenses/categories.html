@@ -1,0 +1,299 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Expense Categories
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="space-y-8">
+
+
+    <div class="flex justify-between items-center">
+
+
+        <div>
+
+            <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">
+                Finance
+            </p>
+
+
+            <h1 class="text-3xl font-semibold text-ink">
+                Expense Categories
+            </h1>
+
+
+        </div>
+
+
+
+        <a href="{% url 'expense_category_create' %}" class="rounded-lg bg-brand px-5 py-3 text-white font-semibold">
+
+            <i class="fa-solid fa-plus"></i>
+
+            Add Category
+
+        </a>
+
+
+    </div>
+    
+    <div class="grid gap-5 md:grid-cols-3">
+
+
+        <div class="rounded-xl border border-line bg-white p-6">
+
+            <p class="text-sm text-muted">
+                Categories
+            </p>
+
+            <h2 class="text-3xl font-semibold">
+
+                {{ categories|length }}
+
+            </h2>
+
+        </div>
+
+
+
+        <div class="rounded-xl border border-line bg-white p-6">
+
+            <p class="text-sm text-muted">
+                Active Expense Types
+            </p>
+
+            <h2 class="text-3xl font-semibold text-brand">
+
+                {{ categories|length }}
+
+            </h2>
+
+        </div>
+
+
+
+        <div class="rounded-xl border border-line bg-white p-6">
+
+            <p class="text-sm text-muted">
+                Management
+            </p>
+
+            <h2 class="text-xl font-semibold">
+
+                Expense Setup
+
+            </h2>
+
+        </div>
+
+
+    </div>
+
+    <div class="rounded-xl border border-line bg-white p-5">
+
+
+        <form method="get" class="grid gap-4 md:grid-cols-3">
+
+
+            <input name="search" value="{{ request.GET.search }}" placeholder="Search category..."
+                class="rounded-lg border border-line px-4 py-3">
+
+
+            <select name="group" class="rounded-lg border border-line px-4 py-3">
+
+
+                <option value="">
+                    All Groups
+                </option>
+
+
+                <option value="cinema" {% if request.GET.group == "cinema" %}selected{% endif %}>
+                    Cinema Hall
+                </option>
+
+
+                <option value="canteen" {% if request.GET.group == "canteen" %}selected{% endif %}>
+                    Canteen
+                </option>
+
+
+                <option value="general" {% if request.GET.group == "general" %}selected{% endif %}>
+                    General
+                </option>
+
+
+            </select>
+
+
+
+            <button class="rounded-lg bg-brand px-5 py-3 text-white font-semibold">
+
+                Filter
+
+            </button>
+
+
+        </form>
+
+
+    </div>
+
+
+    <div class="rounded-xl border border-line bg-white overflow-hidden">
+
+
+        <table class="w-full">
+
+
+            <thead>
+
+                <tr class="border-b border-line text-left text-sm text-muted">
+
+                    <th class="px-6 py-4">
+                        Name
+                    </th>
+
+
+                    <th class="px-6 py-4">
+                        Group
+                    </th>
+
+                    <th class="px-6 py-4">
+                        Used
+                    </th>
+
+                    <th class="px-6 py-4">
+                        Expenses
+                    </th>
+                    
+                    
+                    <th class="px-6 py-4">
+                        Total Spent
+                    </th>
+
+                    <th class="px-6 py-4">
+                        Action
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+
+            <tbody>
+
+
+                {% for category in categories %}
+
+
+                <tr class="border-b border-line">
+
+
+                    <td class="px-6 py-4 font-semibold">
+
+                        {{ category.name }}
+
+                    </td>
+
+
+
+                    <td class="px-6 py-4">
+
+                        <span class="rounded-full bg-brand/10 px-3 py-1 text-xs">
+
+                            {{ category.get_group_display }}
+
+                        </span>
+
+                    </td>
+                    
+                    <td class="px-6 py-4">
+                    
+                        {{ category.expense_count }}
+                    
+                    </td>
+
+                    <td class="px-6 py-4">
+                    
+                        {{ category.expense_count }}
+                    
+                    </td>
+                    
+                    
+                    
+                    <td class="px-6 py-4 font-semibold text-red-600">
+                    
+                        Rs {{ category.total_amount|default:"0.00" }}
+                    
+                    </td>
+
+
+                    <td class="px-6 py-4">
+                    
+                    
+                        <div class="flex gap-3">
+                    
+                    
+                            <a href="{% url 'expense_category_edit' category.id %}" class="text-brand">
+                    
+                                <i class="fa-solid fa-pen"></i>
+                    
+                            </a>
+                    
+                    
+                    
+                            <a href="{% url 'expense_category_delete' category.id %}" onclick="return confirm('Delete category?')"
+                                class="text-red-600">
+                    
+                                <i class="fa-solid fa-trash"></i>
+                    
+                            </a>
+                    
+                    
+                        </div>
+                    
+                    
+                    </td>
+
+
+                </tr>
+
+
+
+                {% empty %}
+
+
+                <tr>
+
+                    <td colspan="4" class="py-10 text-center text-muted">
+
+                        No categories found.
+
+                    </td>
+
+                </tr>
+
+
+                {% endfor %}
+
+
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

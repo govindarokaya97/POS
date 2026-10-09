@@ -117,6 +117,43 @@
 
         </div>
 
+        <div class="rounded-xl border border-line bg-white p-6">
+
+            <p class="text-sm text-muted">
+                Today's Sales
+            </p>
+
+            <h2 class="mt-2 text-3xl font-semibold text-brand">
+                Rs. {{ today_sales }}
+            </h2>
+
+        </div>
+
+        <div class="rounded-xl border border-line bg-white p-6">
+
+            <p class="text-sm text-muted">
+                Pending Due
+            </p>
+
+            <h2 class="mt-2 text-3xl font-semibold text-red">
+                Rs. {{ total_due }}
+            </h2>
+
+        </div>
+
+        <div class="rounded-xl border border-line bg-white p-6">
+
+            <p class="text-sm text-muted">
+                Net Profit
+            </p>
+
+            <h2 class="mt-2 text-3xl font-semibold text-brand">
+                Rs. {{ net_profit }}
+            </h2>
+
+        </div>
+
+
     </div>
 
     <!-- Tables Section -->
@@ -170,31 +207,55 @@
                         <tr class="border-b border-line">
 
                             <td class="py-3 text-ink">
-                                {{ sale.product.name }}
+
+                                {{ sale.invoice_number }}
+
+                                <br>
+
+                                <span class="text-xs text-muted">
+
+                                    {% if sale.customer %}
+                                    {{ sale.customer.name }}
+                                    {% else %}
+                                    Walk-in Customer
+                                    {% endif %}
+
+                                </span>
+
                             </td>
 
-                            <td class="py-3 font-mono tabular-nums text-ink">
-                                {{ sale.quantity }}
+
+                            <td class="py-3 font-mono">
+
+                                {{ sale.payment_status }}
+
                             </td>
 
-                            <td class="py-3 font-mono font-medium tabular-nums text-brand">
-                                Rs. {{ sale.total_price }}
+
+                            <td class="py-3 font-mono font-medium text-brand">
+
+                                Rs. {{ sale.total }}
+
                             </td>
+
 
                         </tr>
+
 
                         {% empty %}
 
                         <tr>
 
-                            <td colspan="3" class="py-6 text-center text-sm text-muted">
+                            <td colspan="3" class="py-6 text-center text-muted">
+
                                 No sales available.
+
                             </td>
 
                         </tr>
 
-                        {% endfor %}
 
+                        {% endfor %}
                     </tbody>
 
                 </table>

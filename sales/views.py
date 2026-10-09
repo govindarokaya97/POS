@@ -1,18 +1,28 @@
 import logging
+from django.shortcuts import redirect, render
+
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db import transaction
-from django.db.models import Sum
 
-from django.shortcuts import redirect, render
+from billing.models import Invoice
+from django.db.models import Q, Sum
+from datetime import datetime
 
 from inventory.models import Product
 from .models import Sale
 
 logger = logging.getLogger(__name__)
 
+
+import csv
+
+from django.http import HttpResponse
+
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
 
 # Create your views here.
 @login_required
@@ -106,13 +116,447 @@ def sales_dashboard(request):
 
 @login_required
 def sales_history(request):
-    sales = Sale.objects.select_related('product','sold_by').order_by('-id')
-    paginator = Paginator(sales, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+
+    invoices = Invoice.objects.select_related(
+        "customer"
+    ).order_by("-created_at")
+
+
+    # Filters
+
+    start_date = request.GET.get("start_date")
+    end_date = request.GET.get("end_date")
+    status = request.GET.get("status")
+
+
+    if start_date:
+        invoices = invoices.filter(
+            created_at__date__gte=start_date
+        )
+
+
+    if end_date:
+        invoices = invoices.filter(
+            created_at__date__lte=end_date
+        )
+
+
+    if status:
+        invoices = invoices.filter(
+            payment_status=status
+        )
+
+
+
+    # Summary
+
+    total_sales = invoices.count()
+
+
+    total_amount = invoices.aggregate(
+        total=Sum("total")
+    )["total"] or 0
+
+
+    paid_amount = invoices.aggregate(
+        total=Sum("paid_amount")
+    )["total"] or 0
+
+
+    due_amount = invoices.aggregate(
+        total=Sum("due_amount")
+    )["total"] or 0
+
+
+
+    context = {
+
+        "invoices": invoices,
+
+        "total_sales": total_sales,
+
+        "total_amount": total_amount,
+
+        "paid_amount": paid_amount,
+
+        "due_amount": due_amount,
+
+    }
+
+
+    return render(
+        request,
+        "sales/history.html",
+        context
+    )
+
+
+def get_filtered_invoices(request):
+
+    invoices = Invoice.objects.select_related(
+        "customer"
+    ).order_by("-created_at")
+
+
+    start_date = request.GET.get("start_date")
+    end_date = request.GET.get("end_date")
+    status = request.GET.get("status")
+
+
+    if start_date:
+        invoices = invoices.filter(
+            created_at__date__gte=start_date
+        )
+
+
+    if end_date:
+        invoices = invoices.filter(
+            created_at__date__lte=end_date
+        )
+
+
+    if status:
+        invoices = invoices.filter(
+            payment_status=status
+        )
+
+
+    return invoices
+
+
+
+@login_required
+def export_sales_csv(request):
+
+    invoices = get_filtered_invoices(request)
+
+
+    response = HttpResponse(
+        content_type="text/csv"
+    )
+
+
+    response["Content-Disposition"] = (
+        'attachment; filename="sales_report.csv"'
+    )
+
+
+    writer = csv.writer(response)
+
+
+    writer.writerow(
+        [
+            "Invoice",
+            "Customer",
+            "Total",
+            "Paid",
+            "Due",
+            "Status",
+            "Date"
+        ]
+    )
+
+
+    for invoice in invoices:
+
+        writer.writerow(
+            [
+                invoice.invoice_number,
+
+                invoice.customer.name 
+                if invoice.customer else "Walk-in",
+
+                invoice.total,
+
+                invoice.paid_amount,
+
+                invoice.due_amount,
+
+                invoice.payment_status,
+
+                invoice.created_at.strftime(
+                    "%Y-%m-%d"
+                )
+            ]
+        )
+
+
+    return response
+
+
+
+from reportlab.platypus import (
+    SimpleDocTemplate,
+    Table,
+    TableStyle,
+    Paragraph,
+    Spacer
+)
+
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.pagesizes import A4
+from reportlab.lib import colors
+
+
+
+@login_required
+def export_sales_pdf(request):
+
+    invoices = get_filtered_invoices(request)
+
+
+    response = HttpResponse(
+        content_type="application/pdf"
+    )
+
+
+    response["Content-Disposition"] = (
+        'attachment; filename="sales_report.pdf"'
+    )
+
+
+    doc = SimpleDocTemplate(
+        response,
+        pagesize=A4,
+        rightMargin=40,
+        leftMargin=40,
+        topMargin=40,
+        bottomMargin=40,
+    )
+
+
+    elements = []
+
+    styles = getSampleStyleSheet()
+
+
+
+    # TITLE
+
+    title = Paragraph(
+        "MY SHOP<br/>Sales Report",
+        styles["Title"]
+    )
+
+    elements.append(title)
+
+
+    elements.append(
+        Spacer(1,20)
+    )
+
+
+
+    # Summary
+
+    total_sales = sum(
+        invoice.total 
+        for invoice in invoices
+    )
+
+
+    total_paid = sum(
+        invoice.paid_amount
+        for invoice in invoices
+    )
+
+
+    total_due = sum(
+        invoice.due_amount
+        for invoice in invoices
+    )
+
+
+    summary_data = [
+
+        ["Total Invoice", len(invoices)],
+
+        ["Total Sales", f"Rs {total_sales}"],
+
+        ["Paid Amount", f"Rs {total_paid}"],
+
+        ["Due Amount", f"Rs {total_due}"],
+
+    ]
+
+
+
+    summary_table = Table(
+        summary_data,
+        colWidths=[150,150]
+    )
+
+
+    summary_table.setStyle(
+        TableStyle([
+
+            (
+                "GRID",
+                (0,0),
+                (-1,-1),
+                0.5,
+                colors.grey
+            ),
+
+            (
+                "BACKGROUND",
+                (0,0),
+                (-1,0),
+                colors.lightgrey
+            ),
+
+            (
+                "PADDING",
+                (0,0),
+                (-1,-1),
+                8
+            ),
+
+        ])
+    )
+
+
+    elements.append(summary_table)
+
+
+    elements.append(
+        Spacer(1,30)
+    )
+
+
+
+
+    # Invoice table
+
+
+    data = [
+
+        [
+            "Invoice",
+            "Customer",
+            "Amount",
+            "Paid",
+            "Due",
+            "Status",
+            "Date"
+        ]
+
+    ]
+
+
+
+    for invoice in invoices:
+
+        data.append(
+
+            [
+
+                invoice.invoice_number,
+
+                invoice.customer.name
+                if invoice.customer
+                else "Walk-in",
+
+                f"Rs {invoice.total}",
+
+                f"Rs {invoice.paid_amount}",
+
+                f"Rs {invoice.due_amount}",
+
+                invoice.payment_status.title(),
+
+                invoice.created_at.strftime(
+                    "%Y-%m-%d"
+                ),
+
+            ]
+
+        )
+
+
+
+    table = Table(
+        data,
+        repeatRows=1
+    )
+
+
+
+    table.setStyle(
+
+        TableStyle([
+
+
+            (
+                "GRID",
+                (0,0),
+                (-1,-1),
+                0.5,
+                colors.grey
+            ),
+
+
+            (
+                "BACKGROUND",
+                (0,0),
+                (-1,0),
+                colors.darkgrey
+            ),
+
+
+            (
+                "TEXTCOLOR",
+                (0,0),
+                (-1,0),
+                colors.white
+            ),
+
+
+            (
+                "ALIGN",
+                (2,1),
+                (-2,-1),
+                "RIGHT"
+            ),
+
+
+            (
+                "PADDING",
+                (0,0),
+                (-1,-1),
+                6
+            ),
+
+        ])
+
+    )
+
+
+    elements.append(table)
+
+
+
+    elements.append(
+        Spacer(1,30)
+    )
+
+
+    footer = Paragraph(
+        "Thank you for your business.",
+        styles["Normal"]
+    )
+
+
+    elements.append(
+        footer
+    )
+
+
+    doc.build(elements)
+
+
+    return response
+
+
+
     
-    return render(request, 'sales/history.html', {'page_obj':page_obj})
-
-   
-
-

@@ -7,8 +7,10 @@ from django.views.decorators.http import require_POST
 
 
 from inventory.models import Category, Product
-from sales.models import Sale
+from billing.models import Invoice, Expense
 from django.db.models import Sum
+from django.utils import timezone
+from decimal import Decimal
 # Create your views here.
 
 def register(request):
@@ -58,25 +60,119 @@ def logout_user(request):
 
 @login_required
 def dashboard(request):
-    total_categories = Category.objects.count()
-    total_products = Product.objects.count()
-    total_sales = Sale.objects.count()
-    revenue = Sale.objects.aggregate(total=Sum("total_price"))["total"] or 0
 
-    recent_sales = (
-        Sale.objects.select_related("product", "sold_by")
-        .order_by("-sold_at")[:5]
+    today = timezone.now().date()
+
+
+    # Inventory
+    total_categories = Category.objects.count()
+
+    total_products = Product.objects.count()
+
+
+    # Invoice sales
+    total_invoices = Invoice.objects.count()
+
+
+    total_revenue = Invoice.objects.aggregate(
+        total=Sum("total")
+    )["total"] or Decimal("0.00")
+
+
+    # Today sales
+
+    today_invoices = Invoice.objects.filter(
+        created_at__date=today
     )
 
-    low_stock_products = Product.objects.filter(stock__lte=5)
+
+    today_sales = today_invoices.aggregate(
+        total=Sum("total")
+    )["total"] or Decimal("0.00")
+
+
+    today_invoice_count = today_invoices.count()
+
+
+
+    # Payment information
+
+    total_paid = Invoice.objects.aggregate(
+        total=Sum("paid_amount")
+    )["total"] or Decimal("0.00")
+
+
+    total_due = Invoice.objects.aggregate(
+        total=Sum("due_amount")
+    )["total"] or Decimal("0.00")
+
+
+
+    # Expenses
+
+    total_expense = Expense.objects.aggregate(
+        total=Sum("amount")
+    )["total"] or Decimal("0.00")
+
+
+
+    # Profit estimate
+
+    net_profit = total_revenue - total_expense
+
+
+
+    # Recent invoices
+
+    recent_sales = (
+        Invoice.objects
+        .select_related("customer")
+        .order_by("-created_at")[:5]
+    )
+
+
+
+    # Low stock
+
+    low_stock_products = Product.objects.filter(
+        stock__lte=5
+    )
+
+
 
     context = {
+
         "total_categories": total_categories,
+
         "total_products": total_products,
-        "total_sales": total_sales,
-        "revenue": revenue,
+
+        "total_sales": total_invoices,
+
+        "revenue": total_revenue,
+
+
+        "today_sales": today_sales,
+
+        "today_invoice_count": today_invoice_count,
+
+        "total_paid": total_paid,
+
+        "total_due": total_due,
+
+        "total_expense": total_expense,
+
+        "net_profit": net_profit,
+
+
         "recent_sales": recent_sales,
+
         "low_stock_products": low_stock_products,
+
     }
 
-    return render(request, "accounts/dashboard.html", context)
+
+    return render(
+        request,
+        "accounts/dashboard.html",
+        context
+    )

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Edit Category
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="mx-auto max-w-xl">
+
+
+    <div class="rounded-xl border border-line bg-white p-8">
+
+
+        <h1 class="text-2xl font-semibold mb-6">
+            Edit Expense Category
+        </h1>
+
+
+
+        <form method="post" class="space-y-5">
+
+            {% csrf_token %}
+
+
+
+            <input name="name" value="{{ category.name }}" required class="w-full rounded-lg border px-4 py-3">
+
+
+
+
+        <select name="group" class="w-full rounded-lg border px-4 py-3">
+        
+            <option value="cinema" {% if category.group == "cinema" %}selected{% endif %}>
+                Cinema Hall
+            </option>
+        
+        
+            <option value="canteen" {% if category.group == "canteen" %}selected{% endif %}>
+                Canteen
+            </option>
+        
+        
+            <option value="general" {% if category.group == "general" %}selected{% endif %}>
+                General
+            </option>
+        
+        
+        </select>
+
+
+
+
+            <button class="rounded-lg bg-brand px-6 py-3 text-white font-semibold">
+
+                Save Category
+
+            </button>
+
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

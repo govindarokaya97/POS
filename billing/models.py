@@ -121,6 +121,12 @@ class Invoice(models.Model):
         default=0,
     )
 
+    return_amount = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        default=0
+    )
+
     payment_status = models.CharField(
         max_length=20,
         default="due",
@@ -182,34 +188,65 @@ class InvoiceItem(models.Model):
     
 
 
+class ExpenseCategory(models.Model):
+
+    GROUP_CHOICES = [
+
+        ("cinema", "Cinema Hall"),
+
+        ("canteen", "Canteen"),
+
+        ("general", "General"),
+
+    ]
+
+
+    name = models.CharField(
+        max_length=100
+    )
+
+
+    group = models.CharField(
+        max_length=20,
+        choices=GROUP_CHOICES,
+        default="general"
+    )
+
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+
+    class Meta:
+
+        ordering = [
+            "group",
+            "name"
+        ]
+
+
+    def __str__(self):
+
+        return self.name
+
+
+
+
 
 class Expense(models.Model):
-
-    EXPENSE_TYPES = (
-
-        ("rent", "Rent"),
-
-        ("salary", "Salary"),
-
-        ("electricity", "Electricity"),
-
-        ("supplier", "Supplier"),
-
-        ("other", "Other"),
-
-    )
 
 
     title = models.CharField(
         max_length=100
     )
 
-
-    expense_type = models.CharField(
-        max_length=20,
-        choices=EXPENSE_TYPES,
-        default="other"
+    category = models.ForeignKey(
+        ExpenseCategory,
+        on_delete=models.PROTECT,
+        related_name="expenses"
     )
+
 
 
     amount = models.DecimalField(
@@ -231,3 +268,58 @@ class Expense(models.Model):
     def __str__(self):
 
         return self.title
+
+    
+
+class ShopSetting(models.Model):
+
+    shop_name = models.CharField(
+        max_length=100,
+        default="MY SHOP"
+    )
+
+
+    address = models.TextField(
+        blank=True
+    )
+
+
+    phone = models.CharField(
+        max_length=20,
+        blank=True
+    )
+
+
+    email = models.EmailField(
+        blank=True
+    )
+
+
+    vat_number = models.CharField(
+        max_length=50,
+        blank=True
+    )
+
+
+    logo = models.ImageField(
+        upload_to="shop/",
+        blank=True,
+        null=True
+    )
+
+
+    footer_message = models.CharField(
+        max_length=200,
+        default="Thank You! Visit Again"
+    )
+
+
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
+
+
+    def __str__(self):
+
+        return self.shop_name
+

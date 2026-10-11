@@ -9,6 +9,13 @@ Sales Dashboard
 
 {% block content %}
 
+<style>
+    canvas {
+        max-height: 280px;
+    }
+</style>
+
+
 
 <div class="space-y-8">
 
@@ -31,119 +38,259 @@ Sales Dashboard
 
 
     <!-- Stats -->
-
-    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-6">
-
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
 
 
-        <div class="rounded-xl border border-line bg-white p-6">
+        <!-- Sales -->
 
-            <p class="text-sm text-muted">
-                Today's Sales
-            </p>
+        <div class="rounded-xl border border-line bg-white p-5">
+
+            <div class="flex items-center justify-between">
+
+                <p class="text-xs uppercase tracking-wide text-muted">
+                    Today's Sales
+                </p>
+
+                <i class="fa-solid fa-chart-line text-brand"></i>
+
+            </div>
 
 
-            <h2 class="mt-3 font-display text-2xl font-semibold text-ink">
+            <h2 class="mt-3 text-2xl font-semibold text-ink">
+
                 Rs {{ today_sales }}
+
             </h2>
 
         </div>
 
 
 
+        <!-- Invoice -->
+
+        <div class="rounded-xl border border-line bg-white p-5">
+
+            <div class="flex items-center justify-between">
+
+                <p class="text-xs uppercase tracking-wide text-muted">
+                    Invoices
+                </p>
+
+                <i class="fa-solid fa-file-invoice text-brand"></i>
+
+            </div>
 
 
-        <div class="rounded-xl border border-line bg-white p-6">
+            <h2 class="mt-3 text-2xl font-semibold text-ink">
 
-            <p class="text-sm text-muted">
-                Total Invoices
-            </p>
-
-
-            <h2 class="mt-3 font-display text-2xl font-semibold text-ink">
                 {{ total_invoices }}
+
             </h2>
 
         </div>
 
 
 
+        <!-- Payment Due -->
+
+        <div class="rounded-xl border border-line bg-white p-5">
+
+            <div class="flex items-center justify-between">
+
+                <p class="text-xs uppercase tracking-wide text-muted">
+                    Pending
+                </p>
+
+                <i class="fa-solid fa-clock text-red"></i>
+
+            </div>
 
 
-        <div class="rounded-xl border border-line bg-white p-6">
+            <h2 class="mt-3 text-2xl font-semibold text-red">
 
-            <p class="text-sm text-muted">
-                Pending Payment
-            </p>
-
-
-            <h2 class="mt-3 font-display text-2xl font-semibold text-ink">
                 Rs {{ pending_payment }}
+
             </h2>
 
         </div>
 
 
 
+        <!-- Products -->
+
+        <div class="rounded-xl border border-line bg-white p-5">
+
+            <div class="flex items-center justify-between">
+
+                <p class="text-xs uppercase tracking-wide text-muted">
+                    Products Sold
+                </p>
+
+                <i class="fa-solid fa-box text-brand"></i>
+
+            </div>
 
 
-        <div class="rounded-xl border border-line bg-white p-6">
+            <h2 class="mt-3 text-2xl font-semibold text-ink">
 
-            <p class="text-sm text-muted">
-                Products Sold
-            </p>
-
-
-            <h2 class="mt-3 font-display text-2xl font-semibold text-ink">
                 {{ products_sold }}
+
             </h2>
 
         </div>
 
 
 
+        <!-- Expense -->
+
+        <div class="rounded-xl border border-line bg-white p-5">
+
+            <div class="flex items-center justify-between">
+
+                <p class="text-xs uppercase tracking-wide text-muted">
+                    Expenses
+                </p>
+
+                <i class="fa-solid fa-wallet text-red"></i>
+
+            </div>
 
 
-        <div class="rounded-xl border border-line bg-white p-6">
+            <h2 class="mt-3 text-2xl font-semibold text-ink">
 
-            <p class="text-sm text-muted">
-                Expenses
-            </p>
-
-
-            <h2 class="mt-3 font-display text-2xl font-semibold text-ink">
                 Rs {{ today_expenses }}
+
             </h2>
 
         </div>
 
 
 
+        <!-- Profit -->
+
+        <div class="rounded-xl border border-line bg-white p-5">
+
+            <div class="flex items-center justify-between">
+
+                <p class="text-xs uppercase tracking-wide text-muted">
+                    Profit
+                </p>
+
+                <i class="fa-solid fa-coins text-green-600"></i>
+
+            </div>
 
 
-        <div class="rounded-xl border border-line bg-white p-6">
+            <h2 class="mt-3 text-2xl font-semibold text-green-600">
 
-            <p class="text-sm text-muted">
-                Profit
-            </p>
-
-
-            <h2 class="mt-3 font-display text-2xl font-semibold text-brand">
                 Rs {{ today_profit }}
+
             </h2>
 
         </div>
-
 
 
     </div>
 
 
 
-
-
-
-
+    <div class="rounded-xl border border-line bg-white p-6">
+    
+    
+        <h2 class="text-lg font-semibold text-ink mb-5">
+    
+            Quick Actions
+    
+        </h2>
+    
+    
+    
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+    
+    
+            <a href="{% url 'cart' %}" class="rounded-xl border p-5 hover:border-brand transition">
+    
+    
+                <i class="fa-solid fa-cart-shopping text-xl text-brand"></i>
+    
+    
+                <p class="mt-3 font-semibold">
+                    New Sale
+                </p>
+    
+    
+            </a>
+    
+    
+    
+            <a href="{% url 'add_product' %}" class="rounded-xl border p-5 hover:border-brand transition">
+    
+    
+                <i class="fa-solid fa-box-open text-xl text-brand"></i>
+    
+    
+                <p class="mt-3 font-semibold">
+                    Add Product
+                </p>
+    
+    
+            </a>
+    
+    
+    
+    
+            <a href="{% url 'customer_list' %}" class="rounded-xl border p-5 hover:border-brand transition">
+    
+    
+                <i class="fa-solid fa-users text-xl text-brand"></i>
+    
+    
+                <p class="mt-3 font-semibold">
+                    Customers
+                </p>
+    
+    
+            </a>
+    
+    
+    
+    
+    
+            <a href="{% url 'expense_list' %}" class="rounded-xl border p-5 hover:border-brand transition">
+    
+    
+                <i class="fa-solid fa-money-bill text-xl text-brand"></i>
+    
+    
+                <p class="mt-3 font-semibold">
+                    Expenses
+                </p>
+    
+    
+            </a>
+    
+    
+    
+    
+    
+            <a href="{% url 'sales_report' %}" class="rounded-xl border p-5 hover:border-brand transition">
+    
+    
+                <i class="fa-solid fa-chart-column text-xl text-brand"></i>
+    
+    
+                <p class="mt-3 font-semibold">
+                    Reports
+                </p>
+    
+    
+            </a>
+    
+    
+    
+        </div>
+    
+    </div>
 
 
     <!-- Top Products -->
@@ -486,7 +633,7 @@ Sales Dashboard
                             <td class="px-4 py-3 text-sm text-ink">
 
 
-                                <a href="{% url 'invoice_detail' invoice.id %}" class="font-medium hover:text-brand">
+                                <a href="{% url 'invoice' invoice.id %}" class="font-medium hover:text-brand">
 
                                     {{ invoice.invoice_number }}
 
@@ -588,28 +735,21 @@ Sales Dashboard
     <!-- Sales Chart -->
 
     <div class="rounded-xl border border-line bg-white p-6">
-
-
-        <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">
-
-            Analytics
-
-        </p>
-
-
-        <h2 class="mt-1 mb-5 font-display text-xl font-semibold text-ink">
-
-            Sales Last 7 Days
-
-        </h2>
-
-
-
+    
+        <div class="flex items-center justify-between mb-4">
+    
+            <h2 class="text-lg font-semibold text-ink">
+                Sales Last 7 Days
+            </h2>
+    
+            <i class="fa-solid fa-chart-line text-brand"></i>
+    
+        </div>
+    
+    
         <canvas id="salesChart"></canvas>
-
-
+    
     </div>
-
 
 
 
@@ -620,34 +760,139 @@ Sales Dashboard
 
 
     <div class="rounded-xl border border-line bg-white p-6">
-
-
-        <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">
-
-            Payments
-
-        </p>
-
-
-        <h2 class="mt-1 mb-5 font-display text-xl font-semibold text-ink">
-
-            Payment Methods
-
-        </h2>
-
-
-
+    
+        <div class="flex items-center justify-between mb-4">
+    
+            <h2 class="text-lg font-semibold text-ink">
+                Payment Methods
+            </h2>
+    
+            <i class="fa-solid fa-wallet text-brand"></i>
+    
+        </div>
+    
+    
         <canvas id="paymentChart"></canvas>
-
-
+    
     </div>
 
 
 
 </div>
 
+{{ sales_labels|json_script:"sales-labels" }}
+
+{{ sales_values|json_script:"sales-values" }}
+
+{{ payment_labels|json_script:"payment-labels" }}
+
+{{ payment_values|json_script:"payment-values" }}
 
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    const salesLabels =
+        JSON.parse(
+            document.getElementById("sales-labels").textContent
+        );
+
+
+    const salesValues =
+        JSON.parse(
+            document.getElementById("sales-values").textContent
+        );
+
+
+
+    new Chart(
+        document.getElementById("salesChart"),
+        {
+
+            type: "line",
+
+            data: {
+
+                labels: salesLabels,
+
+                datasets: [{
+
+                    label: "Sales",
+
+                    data: salesValues,
+
+                    borderWidth: 2,
+
+                    tension: 0.4
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                plugins: {
+
+                    legend: {
+                        display: true
+                    }
+
+                }
+
+            }
+
+        }
+
+    );
+
+    const paymentLabels =
+        JSON.parse(
+            document.getElementById("payment-labels").textContent
+        );
+
+
+    const paymentValues =
+        JSON.parse(
+            document.getElementById("payment-values").textContent
+        );
+
+
+
+    new Chart(
+        document.getElementById("paymentChart"),
+        {
+
+            type: "doughnut",
+
+            data: {
+
+                labels: paymentLabels,
+
+                datasets: [{
+
+                    data: paymentValues,
+
+                    borderWidth: 1
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true
+
+            }
+
+        }
+
+    );
+
+
+</script>
 
 
 {% endblock %}

@@ -158,9 +158,11 @@ def sales_history(request):
     )["total"] or 0
 
 
+
     paid_amount = invoices.aggregate(
         total=Sum("paid_amount")
     )["total"] or 0
+
 
 
     due_amount = invoices.aggregate(
@@ -170,6 +172,8 @@ def sales_history(request):
 
 
     context = {
+
+        "all_invoices": invoices,
 
         "invoices": invoices,
 
@@ -181,6 +185,12 @@ def sales_history(request):
 
         "due_amount": due_amount,
 
+        "start_date": start_date,
+
+        "end_date": end_date,
+
+        "status": status,
+
     }
 
 
@@ -190,6 +200,8 @@ def sales_history(request):
         context
     )
 
+
+    
 
 def get_filtered_invoices(request):
 

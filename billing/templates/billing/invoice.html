@@ -26,6 +26,32 @@ Invoice {{ invoice.invoice_number }}
 
     }
 </style>
+
+<style>
+    @media print {
+
+        body {
+            width: 80mm;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        .no-print {
+            display: none !important;
+        }
+
+
+        .receipt {
+            width: 80mm;
+            font-size: 12px;
+        }
+
+
+    }
+</style>
+
+
 <style>
     .receipt {
 
@@ -270,14 +296,22 @@ Invoice {{ invoice.invoice_number }}
     </div>
 
 
+
+
+
+    <a href="javascript:window.print()" class="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-white">
+
+        <i class="fa-solid fa-print"></i>
+        Print Receipt
+
+    </a>
+    <a href="{% url 'invoice_pdf' invoice.id %}" class="inline-flex items-center gap-2 rounded-lg border px-4 py-2">
+
+        <i class="fa-solid fa-file-pdf"></i>
+        Download PDF
+
+    </a>
 </div>
-
-
-<button onclick="window.print()" class="no-print">
-    Print Invoice
-</button>
-
-
 {% if auto_print %}
 
 <script>

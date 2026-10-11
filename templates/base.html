@@ -4,61 +4,661 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}POS{% endblock title %}</title>
+
+    <title>
+        {% block title %}POS{% endblock title %}
+    </title>
+
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link
         href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
         rel="stylesheet">
+
+
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+
     <style type="text/tailwindcss">
+
         @theme {
+
             --color-ink: #12141A;
             --color-ink-2: #1C1F27;
             --color-paper: #F4F5F1;
             --color-line: #E4E3DC;
+
             --color-brand: #157A5C;
             --color-brand-dark: #0F5E46;
+
             --color-amber: #C97A1F;
             --color-red: #C43D3D;
+
             --color-muted: #6B6D66;
+
+
             --font-display: "Space Grotesk", sans-serif;
             --font-sans: "Inter", sans-serif;
             --font-mono: "JetBrains Mono", monospace;
+
         }
+
     </style>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 </head>
 
-<body class="font-sans antialiased">
-    <div class="flex min-h-screen bg-paper text-ink">
+
+
+<body class="font-sans antialiased bg-paper text-ink">
+
+
+    <div class="flex min-h-screen">
+
+
+        <!-- Sidebar -->
+
         {% include 'sidebar.html' %}
-        <main class="flex-1 p-6 md:p-10">
-            <div class="mx-auto max-w-6xl">
-                {% block content %}{% endblock content %}
-            </div>
+
+
+
+
+        <!-- Main Area -->
+
+        <main class="flex-1">
+
+
+            <!-- Topbar -->
+
+            <header class="flex h-16 items-center justify-between border-b border-line bg-white px-6">
+
+
+                <div class="relative w-full max-w-xl mx-8">
+                
+                
+                    <input id="globalSearch" type="text" placeholder="Search product, barcode, customer..."
+                        class="w-full rounded-lg border border-line px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand" />
+                
+                
+                
+                    <div id="searchResults" class="hidden absolute mt-2 w-full rounded-xl border border-line bg-white shadow-xl z-50">
+                
+                
+                    </div>
+                
+                
+                </div>
+
+
+
+                <!-- Notification -->
+
+                <div class="flex items-center gap-3">
+                
+                
+                    <!-- Notification -->
+                
+                    <div class="relative">
+                
+                
+                        <button onclick="toggleNotifications()"
+                            class="relative flex h-10 w-10 items-center justify-center rounded-lg text-ink hover:bg-black/5">
+                
+                
+                            <i class="fa-solid fa-bell"></i>
+                
+                
+                            {% if low_stock_count or pending_payment_count %}
+                
+                            <span class="absolute right-1 top-1 h-3 w-3 rounded-full bg-red">
+                            </span>
+                
+                            {% endif %}
+                
+                
+                        </button>
+                
+                
+                        {% include "partials/notifications.html" %}
+                
+                
+                    </div>
+                
+                
+                
+                
+                
+                    <!-- Profile -->
+                
+                    <div class="relative">
+                
+                
+                        <button onclick="toggleProfile()" class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-black/5">
+                
+                
+                            <div class="flex h-9 w-9 items-center justify-center rounded-full bg-brand/20 text-brand font-semibold">
+                
+                
+                                {{ request.user.username|slice:":1"|upper }}
+                
+                
+                            </div>
+                
+                
+                            <div class="hidden md:block text-left">
+                
+                
+                                <p class="text-sm font-medium">
+                
+                                    {{ request.user.username }}
+                
+                                </p>
+                
+                
+                                <p class="text-xs text-muted">
+                
+                                    Account
+                
+                                </p>
+                
+                
+                            </div>
+                
+                
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
+                
+                
+                        </button>
+                
+                
+                
+                
+                
+                        <!-- Profile Dropdown -->
+                
+                
+                        <div id="profileBox"
+                            class="hidden absolute right-0 mt-3 w-64 rounded-xl border border-line bg-white shadow-xl z-50">
+                
+                
+                            <div class="border-b border-line px-5 py-4">
+                
+                
+                                <div class="flex items-center gap-3">
+                
+                
+                                    <div
+                                        class="flex h-12 w-12 items-center justify-center rounded-full bg-brand/20 text-brand text-lg font-bold">
+                
+                
+                                        {{ request.user.username|slice:":1"|upper }}
+                
+                
+                                    </div>
+                
+                
+                                    <div>
+                
+                
+                                        <p class="font-semibold">
+                
+                                            {{ request.user.username }}
+                
+                                        </p>
+                
+                
+                
+                                        {% if request.user.is_superuser %}
+                
+                
+                                        <span class="rounded-full bg-brand/10 px-2 py-1 text-xs text-brand">
+                
+                                            Admin
+                
+                                        </span>
+                
+                
+                                        {% elif request.user.is_staff %}
+                
+                
+                                        <span class="rounded-full bg-amber/10 px-2 py-1 text-xs text-amber">
+                
+                                            Staff
+                
+                                        </span>
+                
+                
+                                        {% else %}
+                
+                
+                                        <span class="rounded-full bg-black/5 px-2 py-1 text-xs text-muted">
+                
+                                            Cashier
+                
+                                        </span>
+                
+                
+                                        {% endif %}
+                
+                
+                                    </div>
+                
+                
+                                </div>
+                
+                
+                            </div>
+                
+                
+                
+                
+                
+                            <div class="p-3 space-y-1">
+                
+                
+                                <a href="#" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-paper">
+                
+                
+                                    <i class="fa-solid fa-user"></i>
+                
+                                    My Profile
+                
+                
+                                </a>
+                
+                
+                
+                
+                
+                                <a href="#" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-paper">
+                
+                
+                                    <i class="fa-solid fa-key"></i>
+                
+                                    Change Password
+                
+                
+                                </a>
+                
+                
+                
+                
+                
+                                <form method="post" action="{% url 'logout' %}">
+                
+                
+                                    {% csrf_token %}
+                
+                
+                                    <button
+                                        class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-red hover:bg-red/10">
+                
+                
+                                        <i class="fa-solid fa-right-from-bracket"></i>
+                
+                
+                                        Logout
+                
+                
+                                    </button>
+                
+                
+                                </form>
+                
+                
+                
+                            </div>
+                
+                
+                        </div>
+                
+                
+                    </div>
+                
+                
+                </div>
+
+
+
+            </header>
+
+
+
+
+
+
+            <!-- Page Content -->
+
+
+            <section class="p-6 md:p-10">
+
+
+                <div class="mx-auto max-w-7xl">
+
+
+                    {% block content %}
+
+                    {% endblock content %}
+
+
+                </div>
+
+
+            </section>
+
+
+
         </main>
+
+
+
     </div>
-    {% if messages %} {% for message in messages %}
+
+
+
+
+
+
+    <!-- Sweet Alert Messages -->
+
+
+    {% if messages %}
+
+    {% for message in messages %}
+
+
     <script>
+
         Swal.fire({
+
             toast: true,
+
             position: "top-end",
-            title: "{{ message.tag|title }}",
+
+            title: "{{ message.tags|title }}",
+
             text: "{{ message }}",
-            icon: "{{ message.tag }}",
+
+            icon: "{{ message.tags }}",
+
             timer: 2800,
+
             timerProgressBar: true,
-            showConfirmButton: false,
+
+            showConfirmButton: false
+
         });
+
     </script>
-    {% endfor %} {% endif %}
+
+
+    {% endfor %}
+
+    {% endif %}
+
+
+
+
+
+
+
+    <!-- Notification Script -->
+
+
+    <script>
+
+
+    const searchInput =
+        document.getElementById(
+            "globalSearch"
+        );
+
+
+    const results =
+        document.getElementById(
+            "searchResults"
+        );
+
+
+
+    if (searchInput) {
+
+
+        searchInput.addEventListener(
+            "input",
+            function () {
+
+
+                let query =
+                    this.value.trim();
+
+
+
+                if (query.length < 2) {
+
+                    results.classList.add(
+                        "hidden"
+                    );
+
+                    return;
+
+                }
+
+
+
+                fetch(
+                    `{% url 'global_search' %}?q=${query}`
+                )
+
+
+                    .then(
+                        response => response.json()
+                    )
+
+
+                    .then(
+                        data => {
+
+
+                            let html = "";
+
+
+
+                            if (data.products.length) {
+
+
+                                html += `
+
+<p class="px-4 py-2 text-xs uppercase text-muted">
+Products
+</p>
+
+`;
+
+
+
+                                data.products.forEach(
+                                    product => {
+
+
+                                        html += `
+
+<a href="/inventory/product/"
+class="block px-4 py-2 hover:bg-paper">
+
+${product.name}
+
+<br>
+
+<span class="text-xs text-muted">
+
+Barcode:
+${product.barcode ?? "-"}
+|
+Stock:
+${product.stock}
+
+</span>
+
+</a>
+
+`;
+
+                                    });
+
+
+                            }
+
+
+
+                            if (data.customers.length) {
+
+
+                                html += `
+
+<p class="border-t px-4 py-2 text-xs uppercase text-muted">
+
+Customers
+
+</p>
+
+`;
+
+
+
+                                data.customers.forEach(
+                                    customer => {
+
+
+                                        html += `
+
+<a href="#"
+class="block px-4 py-2 hover:bg-paper">
+
+${customer.name}
+
+<br>
+
+<span class="text-xs text-muted">
+
+${customer.phone ?? ""}
+
+</span>
+
+</a>
+
+`;
+
+                                    });
+
+
+                            }
+
+
+
+                            if (html) {
+
+                                results.innerHTML = html;
+
+                                results.classList.remove(
+                                    "hidden"
+                                );
+
+
+                            }
+                            else {
+
+                                results.innerHTML =
+                                    `
+<p class="p-4 text-sm text-muted">
+No results
+</p>
+`;
+
+                                results.classList.remove(
+                                    "hidden"
+                                );
+
+                            }
+
+
+                        });
+
+            });
+
+
+    }
+
+
+
+
+        function toggleNotifications() {
+
+
+            const box = document.getElementById(
+                "notificationBox"
+            );
+
+
+            box.classList.toggle(
+                "hidden"
+            );
+
+
+        }
+
+
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+
+                const box =
+                    document.getElementById(
+                        "notificationBox"
+                    );
+
+
+
+                if (
+                    !event.target.closest("#notificationBox")
+                    &&
+                    !event.target.closest("button")
+                ) {
+
+                    box.classList.add(
+                        "hidden"
+                    );
+
+                }
+
+
+
+            });
+
+
+    </script>
+
+
+
+
 </body>
 
 </html>

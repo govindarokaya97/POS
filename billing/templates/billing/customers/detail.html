@@ -315,7 +315,7 @@
 
 
 
-                    {% for invoice in invoices %}
+                    {% for invoice in all_invoices %}
 
 
                     <tr class="border-b border-line hover:bg-paper">
@@ -412,7 +412,7 @@
                         <td class="px-6 py-4">
 
 
-                            <a href="{% url 'invoice_detail' invoice.id %}"
+                            <a href="{% url 'invoice' invoice.id %}"
                                 class="rounded-lg border border-line px-3 py-2 hover:bg-paper">
 
                                 <i class="fa-solid fa-file-invoice"></i>

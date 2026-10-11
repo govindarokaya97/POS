@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import RegisterForm, LoginForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.decorators.http import require_POST
 
 
@@ -13,7 +13,10 @@ from django.utils import timezone
 from decimal import Decimal
 # Create your views here.
 
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
 def register(request):
+    # Only an admin can create accounts; new users get no staff rights.
     if request.method == "POST":
         form = RegisterForm(request.POST)
 

@@ -92,7 +92,45 @@ Sales Report
     </form>
 
 
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
+        <div class="rounded-xl border p-6">
+            <p class="text-sm text-gray-500">
+                Today Sales
+            </p>
+
+            <h2 class="text-2xl font-bold">
+                Rs {{ today_total }}
+            </h2>
+        </div>
+
+
+        <div class="rounded-xl border p-6">
+
+            <p class="text-sm text-gray-500">
+                Last 7 Days
+            </p>
+
+            <h2 class="text-2xl font-bold">
+                Rs {{ week_total }}
+            </h2>
+
+        </div>
+
+
+        <div class="rounded-xl border p-6">
+
+            <p class="text-sm text-gray-500">
+                This Month
+            </p>
+
+            <h2 class="text-2xl font-bold">
+                Rs {{ month_total }}
+            </h2>
+
+        </div>
+
+    </div>
 
     <div class="grid md:grid-cols-3 gap-6">
 
@@ -187,7 +225,7 @@ Sales Report
             <tbody>
 
 
-                {% for invoice in invoices %}
+                {% for invoice in all_invoices %}
 
 
                 <tr class="border-b border-line">
@@ -235,7 +273,7 @@ Sales Report
 
                         <div class="flex gap-2">
 
-                            <a href="{% url 'invoice_detail' invoice.id %}"
+                            <a href="{% url 'invoice' invoice.id %}"
                                 class="rounded-lg bg-brand px-3 py-2 text-xs text-white hover:bg-brand-dark transition">
 
                                 <i class="fa-solid fa-eye"></i>
@@ -244,7 +282,7 @@ Sales Report
                             </a>
 
 
-                            <a href="{% url 'invoice_detail' invoice.id %}?print=true"
+                            <a href="{% url 'invoice' invoice.id %}?print=true"
                                 class="rounded-lg bg-red px-3 py-2 text-xs text-white hover:bg-red/90 transition">
 
                                 <i class="fa-solid fa-print"></i>
@@ -280,7 +318,63 @@ Sales Report
     </div>
 
 
+    <div class="rounded-xl border p-6">
+
+        <h2 class="text-xl font-semibold mb-4">
+            Sales Trend
+        </h2>
+
+
+        <canvas id="salesChart"></canvas>
+
+
+    </div>
+    <div class="grid md:grid-cols-4 gap-4 mt-6">
+
+        {% for payment in payment_summary %}
+
+        <div class="rounded-xl border p-5">
+
+            <p class="text-sm text-gray-500">
+                {{ payment.payment_method|title }}
+            </p>
+
+            <h3 class="text-xl font-bold">
+                Rs {{ payment.total }}
+            </h3>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
 </div>
 
+{{ chart_labels|json_script:"chart-labels" }}
+{{ chart_values|json_script:"chart-values" }}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const labels = JSON.parse(document.getElementById("chart-labels").textContent);
+    const values = JSON.parse(document.getElementById("chart-values").textContent);
+
+    const ctx = document.getElementById("salesChart");
+
+    new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Sales",
+                data: values,
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+</script>
 
 {% endblock %}

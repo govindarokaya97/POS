@@ -15,4 +15,8 @@ urlpatterns = [
     path("product/<int:id>/", views.product_detail, name="product_detail"),
     path("product/<int:id>/edit/", views.update_product, name="update_product"),
     path("product/<int:id>/delete/", views.delete_product, name="delete_product"),
+
+    # Global Search
+    path("search/", views.global_search, name="global_search"),
+
 ]

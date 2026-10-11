@@ -1,0 +1,113 @@
+<div id="notificationBox"
+    class="hidden absolute right-0 mt-3 w-80 rounded-xl border border-line bg-white shadow-xl z-50">
+
+
+    <div class="border-b border-line px-5 py-4">
+
+        <h3 class="font-semibold">
+            Notifications
+        </h3>
+
+    </div>
+
+
+
+    <div class="max-h-96 overflow-y-auto">
+
+
+        {% if low_stock_products %}
+
+
+        <div class="px-5 py-4">
+
+
+            <p class="text-xs font-semibold uppercase text-red">
+                Low Stock
+            </p>
+
+
+            {% for product in low_stock_products %}
+
+
+            <a href="{% url 'view_product' %}" class="mt-3 flex justify-between text-sm hover:text-brand">
+
+
+                <span>
+                    {{ product.name }}
+                </span>
+
+
+                <span class="text-red">
+                    {{ product.stock }}
+                </span>
+
+
+            </a>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+        {% endif %}
+
+
+
+
+
+        {% if pending_invoices %}
+
+
+        <div class="border-t border-line px-5 py-4">
+
+
+            <p class="text-xs font-semibold uppercase text-amber">
+                Pending Payments
+            </p>
+
+
+            {% for invoice in pending_invoices %}
+
+
+            <a href="{% url 'invoice' invoice.id %}" class="mt-3 flex justify-between text-sm hover:text-brand">
+
+
+                <span>
+                    {{ invoice.invoice_number }}
+                </span>
+
+
+                <span class="text-red">
+                    Rs {{ invoice.due_amount }}
+                </span>
+
+
+            </a>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+        {% endif %}
+
+
+
+
+        {% if not low_stock_products and not pending_invoices %}
+
+        <p class="p-5 text-sm text-muted">
+            No notifications
+        </p>
+
+        {% endif %}
+
+
+    </div>
+
+
+</div>

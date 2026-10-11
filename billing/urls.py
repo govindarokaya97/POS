@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
 
+    # Billing dashboard
 
     path(
         "",
@@ -11,12 +12,16 @@ urlpatterns = [
         name="billing_products"
     ),
 
-    
+
     path(
         "dashboard/",
         views.sales_dashboard,
         name="dashboard"
     ),
+
+
+
+    # Cart
 
     path(
         "cart/",
@@ -32,31 +37,38 @@ urlpatterns = [
     ),
 
 
-    path(
-        "remove/<int:product_id>/",
-        views.remove_from_cart,
-        name="remove_from_cart"
-    ),
-
 
     path(
-        "increase/<int:product_id>/",
+        "cart/increase/<int:product_id>/",
         views.increase_quantity,
-        name="increase_quantity"
+        name="increase_cart",
     ),
 
-
     path(
-        "decrease/<int:product_id>/",
+        "cart/decrease/<int:product_id>/",
         views.decrease_quantity,
-        name="decrease_quantity"
+        name="decrease_cart",
     ),
 
+
     path(
-        "clear/",
+        "cart/remove/<int:product_id>/",
+        views.remove_cart,
+        name="remove_cart"
+    ),
+
+
+
+    path(
+        "cart/clear/",
         views.clear_cart,
         name="clear_cart"
     ),
+
+
+
+
+    # Checkout
 
     path(
         "checkout/",
@@ -64,12 +76,41 @@ urlpatterns = [
         name="checkout"
     ),
 
+
+
+
+
+    # Invoice
+
     path(
         "invoice/<int:id>/",
         views.invoice_detail,
-        name="invoice_detail",
+        name="invoice"
     ),
 
+
+    path(
+        "invoice/<int:id>/pdf/",
+        views.invoice_pdf,
+        name="invoice_pdf"
+    ),
+
+
+
+
+    # Barcode Scanner
+
+    path(
+        "scan-barcode/",
+        views.scan_barcode,
+        name="scan_barcode"
+    ),
+
+
+
+
+
+    # Customers
 
     path(
         "customers/",
@@ -77,11 +118,13 @@ urlpatterns = [
         name="customer_list"
     ),
 
+
     path(
         "customers/add/",
         views.customer_create,
         name="customer_create"
     ),
+
 
     path(
         "customers/<int:id>/",
@@ -89,11 +132,13 @@ urlpatterns = [
         name="customer_detail"
     ),
 
+
     path(
         "customers/<int:id>/edit/",
         views.customer_edit,
         name="customer_edit"
     ),
+
 
     path(
         "customers/<int:id>/delete/",
@@ -101,12 +146,18 @@ urlpatterns = [
         name="customer_delete"
     ),
 
+
     path(
         "customers/<int:id>/statement/",
         views.customer_statement_pdf,
         name="customer_statement_pdf"
     ),
 
+
+
+
+
+    # Expenses
 
     path(
         "expense-categories/",
@@ -128,6 +179,7 @@ urlpatterns = [
         name="expense_category_edit"
     ),
 
+
     path(
         "expense-categories/<int:id>/delete/",
         views.expense_category_delete,
@@ -135,12 +187,13 @@ urlpatterns = [
     ),
 
 
-    
+
     path(
         "expenses/",
         views.expense_list,
         name="expense_list"
     ),
+
 
     path(
         "expenses/add/",
@@ -148,11 +201,13 @@ urlpatterns = [
         name="expense_create"
     ),
 
+
     path(
         "expenses/<int:id>/edit/",
         views.expense_edit,
         name="expense_edit"
     ),
+
 
     path(
         "expenses/<int:id>/",
@@ -160,11 +215,14 @@ urlpatterns = [
         name="expense_detail"
     ),
 
+
     path(
         "expenses/<int:id>/delete/",
         views.expense_delete,
         name="expense_delete"
     ),
+
+
 
     path(
         "expenses/export/csv/",
@@ -179,6 +237,12 @@ urlpatterns = [
         name="expense_export_pdf"
     ),
 
+
+
+
+
+    # Reports
+
     path(
         "reports/",
         views.sales_report,
@@ -192,22 +256,11 @@ urlpatterns = [
         name="export_sales_csv"
     ),
 
+
     path(
         "reports/export/pdf/",
         views.export_sales_pdf,
         name="export_sales_pdf"
-    ),
-
-    path(
-        "scan/",
-        views.scan_barcode,
-        name="scan_barcode"
-    ),
-
-    path(
-        "payment/",
-        views.payment,
-        name="payment"
     ),
 
 ]

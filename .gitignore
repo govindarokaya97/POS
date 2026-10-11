@@ -9,6 +9,7 @@ env/
 # Ignore the SQLite database file
 *.sqlite3
 db.sqlite3
+.backup_before_step4
 
 # Ignore compiled Python files
 *.pyc

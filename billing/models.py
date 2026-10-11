@@ -1,4 +1,3 @@
-
 from django.db import models
 from django.contrib.auth.models import User
 from inventory.models import Product
@@ -65,7 +64,7 @@ class Invoice(models.Model):
 
     created_by = models.ForeignKey(
         User,
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
 
@@ -163,7 +162,7 @@ class InvoiceItem(models.Model):
 
     product=models.ForeignKey(
         Product,
-        on_delete=models.CASCADE
+        on_delete=models.PROTECT
     )
 
 
@@ -322,4 +321,3 @@ class ShopSetting(models.Model):
     def __str__(self):
 
         return self.shop_name
-

@@ -1,7 +1,8 @@
 import logging
 from decimal import Decimal, InvalidOperation
 from django.shortcuts import get_object_or_404, redirect, render
-from django.db.models import Sum
+from django.db.models import ProtectedError, Sum, Q
+from django.http import JsonResponse
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -51,6 +52,80 @@ def _parse_product_fields(post):
 
 # Create your views here.
 
+from billing.models import Customer
+
+
+def global_search(request):
+
+    # JSON endpoint called from JavaScript, so answer 401 instead of
+    # redirecting to the HTML login page.
+    if not request.user.is_authenticated:
+        return JsonResponse({"error": "login required"}, status=401)
+
+    query = request.GET.get("q", "").strip()
+
+
+    if not query:
+
+        return JsonResponse({
+            "products": [],
+            "customers": []
+        })
+
+
+
+    products = Product.objects.filter(
+
+        Q(name__icontains=query)
+        |
+        Q(barcode__icontains=query)
+
+    )[:5]
+
+
+
+    customers = Customer.objects.filter(
+
+        Q(name__icontains=query)
+        |
+        Q(phone__icontains=query)
+
+    )[:5]
+
+
+
+    return JsonResponse({
+
+        "products":[
+
+            {
+                "id": product.id,
+                "name": product.name,
+                "barcode": product.barcode,
+                "stock": product.stock,
+            }
+
+            for product in products
+
+        ],
+
+
+        "customers":[
+
+            {
+                "id": customer.id,
+                "name": customer.name,
+                "phone": customer.phone,
+            }
+
+            for customer in customers
+
+        ]
+
+    })
+
+
+
 
 @login_required
 def add_categories(request):
@@ -75,7 +150,7 @@ def update_categories(request, id):
         category.description = request.POST.get("description", category.description)
         category.save()
         messages.success(request, "Category Updated Successfully")
-        return redirect("view_category")
+        return redirect("category")
 
     context = {"category": category}
     return render(request, "inventory/update_categories.html", context)
@@ -86,9 +161,18 @@ def update_categories(request, id):
 @require_POST
 def delete_category(request, id):
     category = get_object_or_404(Category, id=id)
-    category.delete()
+
+    try:
+        category.delete()
+    except ProtectedError:
+        messages.error(
+            request,
+            "This category still has products. Move or remove them first.",
+        )
+        return redirect('category')
+
     messages.success(request, "Deleted successfully")
-    return redirect('view_category')
+    return redirect('category')
 
 
 @login_required
@@ -292,7 +376,20 @@ def update_product(request, id):
 @login_required
 @require_POST
 def delete_product(request, id):
-    product=get_object_or_404(Product, id=id)
-    product.delete()
-    messages.success(request, "Product daleted successfully")
+    product = get_object_or_404(Product, id=id)
+
+    try:
+        product.delete()
+    except ProtectedError:
+        # The product appears on past invoices/sales. Deleting it would
+        # break that history, so retire it instead.
+        product.is_available = False
+        product.save(update_fields=["is_available"])
+        messages.info(
+            request,
+            "Product has sales history, so it was hidden instead of deleted.",
+        )
+        return redirect('view_product')
+
+    messages.success(request, "Product deleted successfully")
     return redirect('view_product')

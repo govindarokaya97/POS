@@ -22,7 +22,8 @@
     </div>
 
 
-    <form method="post">
+    <form method="post" id="checkout-form" data-subtotal-cents="{{ subtotal_cents }}"
+        data-default-vat="{{ vat_percent }}" data-paid-touched="{% if form.paid_amount is not None %}1{% endif %}">
 
         {% csrf_token %}
 
@@ -52,7 +53,8 @@
 
                         {% for customer in customers %}
 
-                        <option value="{{ customer.id }}">
+                        <option value="{{ customer.id }}" {% if form.customer == customer.id|stringformat:"s" %}selected
+                        {% endif %}>
                             {{ customer.name }}
                         </option>
 
@@ -85,21 +87,11 @@
                         <select name="payment_method"
                             class="w-full rounded-lg border border-line bg-white px-4 py-3 text-sm outline-none focus:border-brand">
 
-                            <option value="cash">
-                                Cash
+                            {% for value, label in payment_methods %}
+                            <option value="{{ value }}" {% if form.payment_method == value %}selected{% endif %}>
+                                {{ label }}
                             </option>
-
-                            <option value="card">
-                                Card
-                            </option>
-
-                            <option value="eSewa">
-                                eSewa
-                            </option>
-
-                            <option value="Khalti">
-                                Khalti
-                            </option>
+                            {% endfor %}
 
                         </select>
 
@@ -109,9 +101,14 @@
                     <!-- Paid -->
                     <div class="mt-5">
 
-                        <label class="mb-2 block text-sm font-medium text-ink">
-                            Paid Amount
-                        </label>
+                        <div class="mb-2 flex items-center justify-between">
+                            <label for="paid_amount" class="block text-sm font-medium text-ink">
+                                Paid Amount
+                            </label>
+                            <button type="button" id="paid-full" class="text-xs font-medium text-brand hover:underline">
+                                Paid in full
+                            </button>
+                        </div>
 
                         <div class="relative">
 
@@ -119,8 +116,9 @@
                                 Rs
                             </span>
 
-                            <input type="number" name="paid_amount" id="paid_amount" value="{{ total }}" min="0"
-                                step="0.01"
+                            <input type="number" name="paid_amount" id="paid_amount"
+                                value="{{ form.paid_amount|default_if_none:total }}" min="0" step="0.01"
+                                inputmode="decimal"
                                 class="w-full rounded-lg border border-line bg-white py-3 pl-11 pr-4 font-mono text-sm outline-none focus:border-brand" />
 
                         </div>
@@ -152,12 +150,16 @@
                         Adjustments
                     </h2>
 
-                    <div class="mt-5 grid gap-5 sm:grid-cols-3">
+                    <p class="mt-1 text-sm text-muted">
+                        Totals update as you type.
+                    </p>
+
+                    <div class="mt-5 grid gap-5 sm:grid-cols-2">
 
                         <!-- Discount -->
                         <div>
 
-                            <label class="mb-2 block text-sm font-medium text-ink">
+                            <label for="discount" class="mb-2 block text-sm font-medium text-ink">
                                 Discount
                             </label>
 
@@ -167,31 +169,9 @@
                                     Rs
                                 </span>
 
-                                <input type="number" name="discount" id="discount" value="{{ discount|default:'0' }}"
-                                    min="0" step="0.01"
+                                <input type="number" name="discount" id="discount" value="{{ form.discount }}" min="0"
+                                    step="0.01" inputmode="decimal"
                                     class="w-full rounded-lg border border-line bg-white py-3 pl-11 pr-4 font-mono text-sm outline-none focus:border-brand">
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- Tax -->
-                        <div>
-
-                            <label class="mb-2 block text-sm font-medium text-ink">
-                                Tax (%)
-                            </label>
-
-                            <div class="relative">
-
-                                <input type="number" name="tax" id="tax" value="{{ tax_percent|default:'0' }}" min="0"
-                                    step="0.01"
-                                    class="w-full rounded-lg border border-line bg-white px-4 py-3 pr-10 font-mono text-sm outline-none focus:border-brand">
-
-                                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-muted">
-                                    %
-                                </span>
 
                             </div>
 
@@ -201,13 +181,14 @@
                         <!-- VAT -->
                         <div>
 
-                            <label class="mb-2 block text-sm font-medium text-ink">
+                            <label for="vat" class="mb-2 block text-sm font-medium text-ink">
                                 VAT (%)
                             </label>
 
                             <div class="relative">
 
-                                <input type="number" name="vat" id="vat" value="0" min="0" step="0.01"
+                                <input type="number" name="vat" id="vat" value="{{ form.vat }}" min="0" max="100"
+                                    step="0.01" inputmode="decimal" required
                                     class="w-full rounded-lg border border-line bg-white px-4 py-3 pr-10 font-mono text-sm outline-none focus:border-brand">
 
                                 <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-muted">
@@ -272,70 +253,44 @@
                     <!-- Totals -->
                     <div class="border-t border-line p-5">
 
-                        <div class="space-y-3 text-sm">
+                        <div class="space-y-3 text-sm" aria-live="polite">
 
                             <div class="flex justify-between">
-                                <span class="text-muted">
-                                    Subtotal
-                                </span>
-
-                                <span class="font-mono text-ink">
-                                    Rs {{ subtotal }}
-                                </span>
+                                <span class="text-muted">Subtotal</span>
+                                <span class="font-mono text-ink" id="sum-subtotal">Rs {{ subtotal }}</span>
                             </div>
-
 
                             <div class="flex justify-between">
-                                <span class="text-muted">
-                                    Discount
-                                </span>
-
-                                <span class="font-mono text-ink">
-                                    - Rs {{ discount }}
-                                </span>
+                                <span class="text-muted">Discount</span>
+                                <span class="font-mono text-ink" id="sum-discount">- Rs 0.00</span>
                             </div>
-
 
                             <div class="flex justify-between">
-                                <span class="text-muted">
-                                    Tax
-                                </span>
-
-                                <span class="font-mono text-ink">
-                                    Rs {{ tax }}
-                                </span>
+                                <span class="text-muted" id="sum-vat-label">VAT ({{ vat_percent }}%)</span>
+                                <span class="font-mono text-ink" id="sum-vat">Rs {{ vat }}</span>
                             </div>
-
-
-                            <div class="flex justify-between">
-                                <span class="text-muted">
-                                    VAT
-                                </span>
-
-                                <span class="font-mono text-ink">
-                                    Rs {{ vat }}
-                                </span>
-                            </div>
-
 
                             <div class="flex items-center justify-between border-t border-line pt-4">
+                                <span class="font-semibold text-ink">Total</span>
+                                <span class="font-mono text-xl font-semibold text-ink" id="sum-total">Rs {{ total }}</span>
+                            </div>
 
-                                <span class="font-semibold text-ink">
-                                    Total
-                                </span>
-
-                                <span class="font-mono text-xl font-semibold text-ink">
-                                    Rs {{ total }}
-                                </span>
-
+                            <div id="row-balance" class="hidden">
+                                <div class="flex justify-between text-amber">
+                                    <span>Balance due</span>
+                                    <span class="font-mono font-semibold" id="sum-balance">Rs 0.00</span>
+                                </div>
                             </div>
 
                         </div>
 
+                        <p id="calc-error" role="alert"
+                            class="mt-4 hidden rounded-lg bg-red/10 px-3 py-2 text-sm text-red"></p>
+
 
                         <!-- Complete -->
-                        <button type="submit"
-                            class="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-brand px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark">
+                        <button type="submit" id="complete-btn"
+                            class="mt-6 flex w-full disabled:cursor-not-allowed disabled:opacity-50 items-center justify-center gap-2 rounded-lg bg-brand px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark">
 
                             <i class="fa-solid fa-check"></i>
 
@@ -369,42 +324,105 @@
 
 
 <script>
-    function calculateChange() {
+    (function () {
+        var form = document.getElementById('checkout-form');
+        if (!form) return;
 
-        let total =
-            parseFloat("{{ total }}") || 0;
+        var subtotal = parseInt(form.dataset.subtotalCents, 10) || 0;
+        var defaultVat = form.dataset.defaultVat || '13';
+        var paidTouched = form.dataset.paidTouched === '1';
 
+        var discountInput = document.getElementById('discount');
+        var vatInput = document.getElementById('vat');
+        var paidInput = document.getElementById('paid_amount');
 
-        let paid =
-            parseFloat(
-                document.getElementById("paid_amount").value
-            ) || 0;
+        function $(id) { return document.getElementById(id); }
 
-
-        let change = paid - total;
-
-
-        if (change < 0) {
-            change = 0;
+        // Money is handled as whole paisa (integers) and VAT as basis points,
+        // so the page agrees with the server, which rounds halves up to 2 places.
+        function toCents(raw) {
+            var s = String(raw).trim();
+            if (s === '') return 0;
+            var n = Number(s);
+            if (!isFinite(n) || n < 0) return null;
+            return Math.round(n * 100);
         }
 
+        function toBasisPoints(raw) {
+            var s = String(raw).trim();
+            if (s === '') s = defaultVat;
+            var n = Number(s);
+            if (!isFinite(n) || n < 0 || n > 100) return null;
+            return Math.round(n * 100);
+        }
 
-        document.getElementById(
-            "change_amount"
-        ).innerHTML =
-            "Rs " + change.toFixed(2);
+        // Mirrors calculate_totals() in billing/views.py
+        function calcTotals(subtotalCents, discountCents, vatBp) {
+            var taxable = subtotalCents - discountCents;
+            var vat = Math.floor((taxable * vatBp + 5000) / 10000);
+            return { taxable: taxable, vat: vat, total: taxable + vat };
+        }
 
-    }
+        function rs(cents) { return 'Rs ' + (cents / 100).toFixed(2); }
 
-    document
-        .getElementById("paid_amount")
-        .addEventListener(
-            "input",
-            calculateChange
-        );
+        function update() {
+            var errors = [];
 
-    calculateChange();
+            var discountC = toCents(discountInput.value);
+            if (discountC === null) {
+                errors.push('Enter a valid discount.');
+                discountC = 0;
+            } else if (discountC > subtotal) {
+                errors.push('Discount cannot exceed the subtotal.');
+                discountC = subtotal;
+            }
 
+            var vatBp = toBasisPoints(vatInput.value);
+            if (vatBp === null) {
+                errors.push('VAT must be between 0 and 100.');
+                vatBp = toBasisPoints(defaultVat);
+            }
+
+            var t = calcTotals(subtotal, discountC, vatBp);
+
+            if (!paidTouched) paidInput.value = (t.total / 100).toFixed(2);
+
+            var paidC = toCents(paidInput.value);
+            if (paidC === null) {
+                errors.push('Enter a valid paid amount.');
+                paidC = 0;
+            }
+
+            var change = Math.max(paidC - t.total, 0);
+            var balance = Math.max(t.total - paidC, 0);
+
+            $('sum-discount').textContent = '- ' + rs(discountC);
+            $('sum-vat-label').textContent = 'VAT (' + (vatBp / 100) + '%)';
+            $('sum-vat').textContent = rs(t.vat);
+            $('sum-total').textContent = rs(t.total);
+            $('change_amount').textContent = rs(change);
+            $('sum-balance').textContent = rs(balance);
+            $('row-balance').classList.toggle('hidden', balance === 0);
+
+            var box = $('calc-error');
+            box.textContent = errors.join(' ');
+            box.classList.toggle('hidden', errors.length === 0);
+            $('complete-btn').disabled = errors.length > 0;
+        }
+
+        discountInput.addEventListener('input', update);
+        vatInput.addEventListener('input', update);
+        paidInput.addEventListener('input', function () {
+            paidTouched = true;
+            update();
+        });
+        $('paid-full').addEventListener('click', function () {
+            paidTouched = false;
+            update();
+        });
+
+        update();
+    })();
 </script>
 
 

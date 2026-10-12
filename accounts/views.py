@@ -43,7 +43,7 @@ def login_user(request):
         if form.is_valid():
             login(request, form.get_user())
             messages.success(request, "Login Successfilly")
-            return redirect("dashboard")
+            return redirect("pos_home")
     
     else:
         form = LoginForm()

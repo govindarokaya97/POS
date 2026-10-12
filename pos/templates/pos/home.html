@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+<div class="space-y-8">
+
+
+    <div>
+
+        <h1 class="text-3xl font-bold">
+            MY CINEMA POS
+        </h1>
+
+
+        <p class="text-gray-500">
+            Welcome {{ request.user.username }}
+        </p>
+
+    </div>
+
+
+
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-5">
+
+
+        <a href="/billing/" class="rounded-xl bg-blue-600 p-8 text-white">
+
+            🛒
+            <h2 class="text-xl font-bold">
+                Start Selling
+            </h2>
+
+        </a>
+
+
+
+        <a href="/billing/dashboard/" class="rounded-xl bg-green-600 p-8 text-white">
+
+            📊
+
+            <h2 class="text-xl font-bold">
+                Dashboard
+            </h2>
+
+        </a>
+
+
+
+        <a href="/inventory/product/" class="rounded-xl bg-purple-600 p-8 text-white">
+
+            📦
+
+            <h2 class="text-xl font-bold">
+                Inventory
+            </h2>
+
+        </a>
+
+
+
+
+        <a href="/billing/customers/" class="rounded-xl bg-orange-500 p-8 text-white">
+
+            👥
+
+            <h2 class="text-xl font-bold">
+                Customers
+            </h2>
+
+        </a>
+
+
+
+
+        <a href="/billing/expenses/" class="rounded-xl bg-red-600 p-8 text-white">
+
+            💰
+
+            <h2 class="text-xl font-bold">
+                Expenses
+            </h2>
+
+        </a>
+
+
+
+        <a href="/admin/" class="rounded-xl bg-gray-800 p-8 text-white">
+
+            ⚙
+
+            <h2 class="text-xl font-bold">
+                Admin
+            </h2>
+
+        </a>
+
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

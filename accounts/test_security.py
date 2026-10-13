@@ -87,7 +87,7 @@ class SecurityFixesTests(TestCase):
 
     def test_product_with_sales_is_hidden_not_deleted(self):
         inv = self._sell()
-        self.client.login(username="cashier", password="pw12345!")
+        self.client.login(username="owner", password="pw12345!")
         r = self.client.post(reverse("delete_product", args=[self.product.id]))
         self.assertEqual(r.status_code, 302)
         self.product.refresh_from_db()
@@ -95,19 +95,25 @@ class SecurityFixesTests(TestCase):
         self.assertEqual(inv.items.count(), 1)
 
     def test_product_without_sales_is_deleted(self):
-        self.client.login(username="cashier", password="pw12345!")
+        self.client.login(username="owner", password="pw12345!")
         self.client.post(reverse("delete_product", args=[self.product.id]))
         self.assertFalse(Product.objects.filter(id=self.product.id).exists())
 
     def test_category_with_products_cannot_be_deleted(self):
-        self.client.login(username="cashier", password="pw12345!")
+        self.client.login(username="owner", password="pw12345!")
         r = self.client.post(reverse("delete_category", args=[self.cat.id]))
         self.assertEqual(r.status_code, 302)
         self.assertTrue(Category.objects.filter(id=self.cat.id).exists())
         self.assertTrue(Product.objects.filter(id=self.product.id).exists())
 
+    def test_cashier_cannot_delete_inventory(self):
+        self.client.login(username="cashier", password="pw12345!")
+        response = self.client.post(reverse("delete_product", args=[self.product.id]))
+        self.assertEqual(response.status_code, 403)
+        self.assertTrue(Product.objects.filter(id=self.product.id).exists())
+
     def test_empty_category_can_be_deleted(self):
         empty = Category.objects.create(name="Empty")
-        self.client.login(username="cashier", password="pw12345!")
+        self.client.login(username="owner", password="pw12345!")
         self.client.post(reverse("delete_category", args=[empty.id]))
         self.assertFalse(Category.objects.filter(id=empty.id).exists())

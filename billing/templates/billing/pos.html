@@ -1,0 +1,509 @@
+{% extends "base.html" %}
+
+{% block title %}
+POS Counter | MedQueue POS
+{% endblock %}
+
+
+{% block content %}
+
+<div class="space-y-8">
+
+
+    <!-- HEADER -->
+
+    <div class="flex flex-col md:flex-row justify-between gap-4">
+
+        <div>
+            <h1 class="text-3xl font-bold text-ink">
+                POS Counter
+            </h1>
+
+            <p class="text-gray-500">
+                Fast billing, barcode scanning and inventory sales
+            </p>
+        </div>
+
+
+        <div class="bg-white rounded-xl px-5 py-3 shadow-sm border">
+
+            <p class="text-xs uppercase text-gray-400">
+                Cashier
+            </p>
+
+            <p class="font-semibold">
+                {{request.user.username}}
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- SEARCH -->
+
+    <form method="get">
+
+        <div class="flex gap-3">
+
+
+            <input id="barcodeInput" autofocus type="text" name="q" value="{{query|default:''}}"
+                placeholder="Scan barcode or search product..." class="
+flex-1
+rounded-xl
+border
+px-5
+py-4
+focus:ring-2
+focus:ring-blue-500
+">
+
+
+            <button class="
+px-8
+rounded-xl
+bg-blue-600
+text-white
+font-semibold
+">
+
+                Search
+
+            </button>
+
+
+        </div>
+
+    </form>
+
+
+
+
+
+    <div class="grid xl:grid-cols-4 gap-6">
+
+
+
+        <!-- PRODUCTS -->
+
+        <div class="xl:col-span-3">
+
+
+            <div class="flex justify-between mb-5">
+
+                <h2 class="text-xl font-bold">
+                    Products
+                </h2>
+
+
+                <span class="text-sm text-gray-500">
+                    {{products.count}} items
+                </span>
+
+
+            </div>
+
+
+
+
+
+            <div class="
+grid
+grid-cols-2
+md:grid-cols-4
+gap-5
+">
+
+
+                {% for product in products %}
+
+
+                <div class="
+bg-white
+rounded-2xl
+border
+p-4
+shadow-sm
+hover:shadow-xl
+transition
+">
+
+
+                    {% if product.image %}
+
+                    <img src="{{product.image.url}}" class="
+h-32
+w-full
+object-cover
+rounded-xl
+">
+
+                    {% else %}
+
+
+                    <div class="
+h-32
+bg-gray-100
+rounded-xl
+flex
+items-center
+justify-center
+text-gray-400
+">
+
+                        No image
+
+                    </div>
+
+
+                    {% endif %}
+
+
+
+
+                    <h3 class="
+mt-4
+font-bold
+truncate
+">
+
+                        {{product.name}}
+
+                    </h3>
+
+
+
+                    <p class="text-blue-600 font-semibold">
+
+                        Rs {{product.price}}
+
+                    </p>
+
+
+                    <p class="text-xs text-gray-500">
+
+                        Stock: {{product.stock}}
+
+                    </p>
+
+
+
+                    <a href="{% url 'add_to_cart' product.id %}" class="
+mt-4
+block
+text-center
+rounded-xl
+bg-blue-600
+text-white
+py-2
+font-semibold
+hover:bg-blue-700
+">
+
+                        + Add Cart
+
+                    </a>
+
+
+
+                </div>
+
+
+                {% empty %}
+
+
+                <div class="text-gray-400">
+                    No products found
+                </div>
+
+
+                {% endfor %}
+
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+
+
+
+        <!-- CART -->
+
+
+        <div>
+
+
+            <div class="
+bg-white
+rounded-2xl
+border
+shadow-lg
+p-5
+sticky
+top-5
+">
+
+
+                <div class="flex justify-between mb-5">
+
+
+                    <h2 class="font-bold text-xl">
+                        Cart
+                    </h2>
+
+
+                    <span class="text-sm text-gray-500">
+
+                        {{cart|length}} items
+
+                    </span>
+
+
+                </div>
+
+
+
+
+
+                <div class="max-h-[420px] overflow-y-auto">
+
+
+                    {% for id,item in cart.items %}
+
+
+                    <div class="
+flex
+justify-between
+border-b
+py-4
+">
+
+
+                        <div>
+
+                            <p class="font-semibold">
+
+                                {{item.name}}
+
+                            </p>
+
+
+                            <p class="text-xs text-gray-500">
+
+                                {{item.quantity}}
+                                ×
+                                Rs {{item.price}}
+
+                            </p>
+
+
+                        </div>
+
+
+
+
+                        <div class="text-right">
+
+
+                            <p class="font-bold">
+
+                                Rs {{item.total}}
+
+                            </p>
+
+
+                            <div class="flex gap-3 mt-2 text-lg">
+
+
+                                <a href="{% url 'increase_cart' id %}" class="text-green-600">
+
+                                    +
+
+                                </a>
+
+
+
+                                <a href="{% url 'decrease_cart' id %}" class="text-yellow-600">
+
+                                    -
+
+                                </a>
+
+
+
+                                <a href="{% url 'remove_cart' id %}" class="text-red-600">
+
+                                    ×
+
+
+                                </a>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    {% empty %}
+
+
+                    <div class="text-center py-10 text-gray-400">
+
+                        Cart empty
+
+                    </div>
+
+
+                    {% endfor %}
+
+
+
+                </div>
+
+
+
+
+
+                <div class="border-t mt-5 pt-5 space-y-3">
+
+
+                    <div class="flex justify-between">
+
+                        <span>
+                            Subtotal
+                        </span>
+
+
+                        <strong>
+                            Rs {{subtotal}}
+                        </strong>
+
+
+                    </div>
+
+
+
+
+                    <div class="flex justify-between">
+
+
+                        <span>
+                            VAT (%)
+                        </span>
+
+
+                        <strong>
+                            Rs {{vat}}
+                        </strong>
+
+
+                    </div>
+
+
+
+
+                    <div class="
+flex
+justify-between
+text-xl
+font-bold
+">
+
+
+                        <span>
+                            Total
+                        </span>
+
+
+                        <strong>
+                            Rs {{total}}
+                        </strong>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+                <a href="{% url 'checkout' %}" class="
+block
+mt-6
+text-center
+rounded-xl
+bg-green-600
+text-white
+py-4
+font-bold
+text-lg
+">
+
+                    Checkout
+
+                </a>
+
+
+
+                <a href="{% url 'clear_cart' %}" class="
+block
+text-center
+mt-3
+text-red-600
+">
+
+                    Clear Cart
+
+                </a>
+
+
+
+            </div>
+
+        </div>
+
+
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+<script>
+
+    document
+        .getElementById("barcodeInput")
+        .addEventListener(
+            "keydown",
+            function (e) {
+
+                if (e.key === "Enter") {
+                    this.form.submit();
+                }
+
+            });
+
+</script>
+
+
+{% endblock %}

@@ -52,6 +52,31 @@ class CashierCheckoutFlowTests(TestCase):
         self.assertEqual(r.context["total"], Decimal("169.50"))
         self.assertContains(r, "Rice")
 
+    def test_checkout_uses_cashier_focused_layout_and_preserves_form_contract(self):
+        self.client.post(reverse("add_to_cart", args=[self.rice.id]))
+        response = self.client.get(reverse("checkout"))
+        self.assertEqual(response.status_code, 200)
+        html = response.content.decode()
+        for expected in (
+            'class="checkout-page"',
+            'id="checkout-form"',
+            'name="customer"',
+            'name="payment_method"',
+            'name="paid_amount"',
+            'name="discount"',
+            'name="vat"',
+            'id="change_amount"',
+            'id="sum-subtotal"',
+            'id="sum-discount"',
+            'id="sum-vat"',
+            'id="sum-total"',
+            'id="complete-btn"',
+            'id="paid-full"',
+            'Complete sale',
+            'Order summary',
+        ):
+            self.assertIn(expected, html)
+
     def test_checkout_creates_invoice_and_reduces_stock(self):
         self.client.post(reverse("add_to_cart", args=[self.rice.id]))
         r = self.client.post(reverse("checkout"), {

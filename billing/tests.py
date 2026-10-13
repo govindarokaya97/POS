@@ -24,6 +24,9 @@ class CartAndCheckoutTests(TestCase):
             category=category, name="Book", price=Decimal("100.00"), stock=2
         )
 
+    def test_cashier_cannot_open_financial_dashboard(self):
+        self.assertEqual(self.client.get(reverse("dashboard")).status_code, 403)
+
     # -- helpers ---------------------------------------------------------
     def add(self, product, times=1):
         for _ in range(times):
@@ -209,9 +212,9 @@ class StateChangesRequirePostAndCsrfTests(TestCase):
         before = self.cart_qty()
         urls = [
             reverse("add_to_cart", args=[self.pen.id]),
-            reverse("increase_quantity", args=[self.pen.id]),
-            reverse("decrease_quantity", args=[self.pen.id]),
-            reverse("remove_from_cart", args=[self.pen.id]),
+            reverse("increase_cart", args=[self.pen.id]),
+            reverse("decrease_cart", args=[self.pen.id]),
+            reverse("remove_cart", args=[self.pen.id]),
             reverse("clear_cart"),
             reverse("scan_barcode"),
         ]
@@ -240,7 +243,7 @@ class StateChangesRequirePostAndCsrfTests(TestCase):
             return match.group(1)
 
         # No token -> 403
-        response = client.post(reverse("increase_quantity", args=[self.pen.id]))
+        response = client.post(reverse("increase_cart", args=[self.pen.id]))
         self.assertEqual(response.status_code, 403)
 
         # Token taken from the rendered cart page -> works
@@ -251,7 +254,7 @@ class StateChangesRequirePostAndCsrfTests(TestCase):
         self.assertNotIn("href=\"/billing/remove/", html)
         self.assertNotIn("href=\"/billing/clear/", html)
         response = client.post(
-            reverse("increase_quantity", args=[self.pen.id]),
+            reverse("increase_cart", args=[self.pen.id]),
             {"csrfmiddlewaretoken": token_from(page)},
         )
         self.assertEqual(response.status_code, 302)
@@ -260,11 +263,24 @@ class StateChangesRequirePostAndCsrfTests(TestCase):
         # Checks each <form method="post"> individually, so one form with a
         # token cannot hide another form without one.
         self.client.post(reverse("add_to_cart", args=[self.pen.id]))
-        pages = ["cart", "billing_products", "checkout", "view_product",
-                 "view_category", "dashboard"]
+        pages = ["cart", "billing_products", "checkout"]
         for name in pages:
             with self.subTest(page=name):
                 html = self.client.get(reverse(name)).content.decode()
+                forms = re.findall(r"<form\b[^>]*>.*?</form>", html, re.S | re.I)
+                post_forms = [f for f in forms if re.search(r'method="post"', f, re.I)]
+                self.assertTrue(post_forms, "expected at least one POST form")
+                for form in post_forms:
+                    self.assertIn("csrfmiddlewaretoken", form, form[:120])
+
+        # Inventory management pages require staff privileges; verify their forms
+        # remain CSRF-protected for an authorized manager.
+        manager = User.objects.create_user("manager", password="pw-12345", is_staff=True)
+        manager_client = Client(enforce_csrf_checks=True)
+        manager_client.login(username="manager", password="pw-12345")
+        for name in ["view_product", "category", "dashboard"]:
+            with self.subTest(page=name):
+                html = manager_client.get(reverse(name)).content.decode()
                 forms = re.findall(r"<form\b[^>]*>.*?</form>", html, re.S | re.I)
                 post_forms = [f for f in forms if re.search(r'method="post"', f, re.I)]
                 self.assertTrue(post_forms, "expected at least one POST form")

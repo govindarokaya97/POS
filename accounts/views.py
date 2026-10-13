@@ -11,6 +11,7 @@ from billing.models import Invoice, Expense
 from django.db.models import Sum
 from django.utils import timezone
 from decimal import Decimal
+from core.permissions import staff_required
 # Create your views here.
 
 @login_required
@@ -61,7 +62,7 @@ def logout_user(request):
 
 
 
-@login_required
+@staff_required
 def dashboard(request):
 
     today = timezone.now().date()

@@ -33,6 +33,7 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=Csv(
 # Application definition
 
 INSTALLED_APPS = [
+    "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -46,6 +47,112 @@ INSTALLED_APPS = [
     "billing",
     "pos",
 ]
+
+
+# Jazzmin admin UI: polished, fast-to-navigate back office.
+JAZZMIN_SETTINGS = {
+    "site_title": "POS Administration",
+    "site_header": "POS Control Center",
+    "site_brand": "POS Manager",
+    "welcome_sign": "Welcome to your Point of Sale control center",
+    "copyright": "POS Management",
+    "search_model": [
+        "inventory.Product",
+        "inventory.Category",
+        "billing.Customer",
+        "billing.Invoice",
+        "billing.Expense",
+    ],
+    "topmenu_links": [
+        {"name": "POS Home", "url": "pos_home", "new_window": False},
+        {"name": "Open Checkout", "url": "checkout", "new_window": False},
+        {"model": "auth.User"},
+    ],
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "hide_apps": [],
+    "hide_models": [],
+    "order_with_respect_to": [
+        "inventory",
+        "billing",
+        "sales",
+        "auth",
+        "accounts",
+        "pos",
+    ],
+    "custom_links": {
+        "inventory": [
+            {
+                "name": "Product Catalog",
+                "url": "admin:inventory_product_changelist",
+                "icon": "fas fa-boxes-stacked",
+                "permissions": ["inventory.view_product"],
+            }
+        ],
+        "billing": [
+            {
+                "name": "Invoices",
+                "url": "admin:billing_invoice_changelist",
+                "icon": "fas fa-file-invoice-dollar",
+                "permissions": ["billing.view_invoice"],
+            }
+        ],
+    },
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.group": "fas fa-user-shield",
+        "inventory": "fas fa-boxes-stacked",
+        "inventory.product": "fas fa-box-open",
+        "inventory.category": "fas fa-tags",
+        "billing": "fas fa-cash-register",
+        "billing.customer": "fas fa-user-group",
+        "billing.invoice": "fas fa-file-invoice-dollar",
+        "billing.invoiceitem": "fas fa-receipt",
+        "billing.expense": "fas fa-money-bill-transfer",
+        "billing.expensecategory": "fas fa-folder-open",
+        "billing.shopsetting": "fas fa-store",
+        "sales": "fas fa-chart-line",
+        "sales.sale": "fas fa-bag-shopping",
+        "pos": "fas fa-desktop",
+        "accounts": "fas fa-user-lock",
+    },
+    "default_icon_parents": "fas fa-folder",
+    "default_icon_children": "fas fa-circle",
+    "related_modal_active": True,
+    "show_ui_builder": False,
+    "custom_css": "css/admin-custom.css",
+    "changeform_format": "horizontal_tabs",
+    "language_chooser": False,
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "theme": "flatly",
+    "dark_mode_theme": "darkly",
+    "navbar": "navbar-white navbar-light",
+    "sidebar": "sidebar-dark-primary",
+    "accent": "accent-teal",
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": "navbar-primary",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": True,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": True,
+    "button_classes": {
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
+        "info": "btn-info",
+        "success": "btn-success",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+    },
+    "actions_sticky_top": True,
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

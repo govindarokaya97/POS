@@ -38,8 +38,11 @@ from reportlab.lib.pagesizes import mm
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER
 from django.db.models.functions import TruncMonth
+from django.urls import reverse
 
-@login_required
+
+
+@staff_required
 def sales_dashboard(request):
 
     today = timezone.localdate()
@@ -263,7 +266,12 @@ def sales_dashboard(request):
 
 
 CART_KEY = "cart"
-
+PAYMENT_METHODS = [
+    ("cash", "Cash"),
+    ("card", "Card"),
+    ("esewa", "eSewa"),
+    ("khalti", "Khalti"),
+]
 
 def _get_cart(request):
     cart = request.session.get("cart", {})
@@ -343,7 +351,7 @@ def billing_products(request):
 
     return render(
         request,
-        "billing/products.html",
+        "billing/pos.html",
         {
             "products": products,
             "query": query,
@@ -381,7 +389,7 @@ def add_to_cart(request, product_id):
             cart
         )
 
-    return redirect("cart")
+    return redirect("billing_products")
 
 
 
@@ -506,26 +514,85 @@ def _cart_lines(cart):
     return lines, subtotal
 
 
+
+
 def _checkout_context(cart):
-    """Everything checkout.html needs, for the GET page and for the
-    page re-shown after a validation error."""
-    lines, subtotal = _cart_lines(cart)
 
-    vat_percent = Decimal("0")
+    subtotal = Decimal("0.00")
 
-    vat = (subtotal * vat_percent / 100).quantize(Decimal("0.01"))
+    for item in cart.values():
+
+        subtotal += (
+            Decimal(str(item["price"])) *
+            int(item["quantity"])
+        )
+
+
+    vat_percent = Decimal("0.00")
+
+    vat = (
+        subtotal *
+        vat_percent /
+        Decimal("100")
+    ).quantize(
+        Decimal("0.01")
+    )
+
+
+    total = (
+        subtotal + vat
+    ).quantize(
+        Decimal("0.01")
+    )
+
 
     return {
-        "cart": lines,
-        "customers": Customer.objects.all().order_by("name"),
+
+        "cart": cart,
+
+        "customers": Customer.objects.all(),
+
+        "payment_methods": PAYMENT_METHODS,
+
+
+        # totals
+
         "subtotal": subtotal,
-        "vat_percent": vat_percent,
+
         "vat": vat,
-        "total": subtotal + vat,
+
+        "total": total,
+
+
+        # javascript calculation
+
+        "subtotal_cents": int(
+            subtotal * 100
+        ),
+
+        "vat_percent": vat_percent,
+
+
+        # empty form defaults
+
+        "form": {
+
+            "customer": "",
+
+            "payment_method": "cash",
+
+            "paid_amount": total,
+
+            "discount": Decimal("0.00"),
+
+            "vat": vat_percent,
+
+        },
+
     }
 
 
-
+    
 @login_required
 def cart_view(request):
 
@@ -643,16 +710,20 @@ def _parse_money(raw, label):
 
 
 
-
 @login_required
 def checkout(request):
 
     cart = _get_cart(request)
 
     if not cart:
-        messages.warning(request, "Your cart is empty.")
+        messages.warning(
+            request,
+            "Your cart is empty."
+        )
         return redirect("billing_products")
 
+
+    context = _checkout_context(cart)
 
     if request.method == "POST":
 
@@ -676,44 +747,43 @@ def checkout(request):
             return render(
                 request,
                 "billing/checkout.html",
-                _checkout_context(cart)
+                context
             )
 
 
-        except Exception as e:
+        except Exception:
 
-            logger.exception(e)
+            logger.exception(
+                "Checkout failed"
+            )
 
             messages.error(
                 request,
-                "Something went wrong while creating invoice."
+                "Invoice creation failed."
             )
 
-            return redirect(
-                "cart"
-            )
+            return redirect("cart")
 
 
-        # clear cart after success
         request.session[CART_KEY] = {}
         request.session.modified = True
 
 
         messages.success(
             request,
-            f"Sale {invoice.invoice_number} completed successfully."
+            f"Invoice {invoice.invoice_number} created."
         )
 
 
         return redirect(
-            f"/billing/invoice/{invoice.id}/?print=true"
+            f"{reverse('invoice', kwargs={'id': invoice.id})}?print=true"
         )
 
 
     return render(
         request,
         "billing/checkout.html",
-        _checkout_context(cart)
+        context
     )
 
 
@@ -1005,7 +1075,7 @@ def invoice_detail(request, id):
 # CUSTOMER 
 # -------------------------------------------------------------
 
-@login_required
+@staff_required
 def customer_list(request):
 
     customers = Customer.objects.all().order_by("-created_at")
@@ -1030,7 +1100,7 @@ def customer_list(request):
     )
 
 
-@login_required
+@staff_required
 def customer_create(request):
 
     if request.method == "POST":
@@ -1066,7 +1136,7 @@ def customer_create(request):
 
 
 
-@login_required
+@staff_required
 def customer_detail(request,id):
 
     customer = get_object_or_404(
@@ -1103,7 +1173,7 @@ def customer_detail(request,id):
 
 
 
-@login_required
+@staff_required
 def customer_edit(request,id):
 
     customer = get_object_or_404(
@@ -1172,7 +1242,7 @@ def customer_delete(request,id):
 
 
 
-@login_required
+@staff_required
 def customer_statement_pdf(request,id):
 
     customer = get_object_or_404(

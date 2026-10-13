@@ -5,7 +5,7 @@ from django.urls import reverse
 
 class LogoutTests(TestCase):
     def setUp(self):
-        User.objects.create_user("owner", password="pw-12345")
+        User.objects.create_user("owner", password="pw-12345", is_staff=True)
         self.client.login(username="owner", password="pw-12345")
 
     def test_get_does_not_log_out(self):

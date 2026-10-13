@@ -5,6 +5,9 @@ from .models import Customer,Invoice,InvoiceItem, Expense,ExpenseCategory, ShopS
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
+    search_fields = ("name", "phone", "email")
+    ordering = ("name",)
+    list_per_page = 25
 
     list_display = (
         "name",
@@ -16,6 +19,8 @@ class CustomerAdmin(admin.ModelAdmin):
 
 @admin.register(Invoice)
 class InvoiceAdmin(admin.ModelAdmin):
+    list_per_page = 25
+    date_hierarchy = "created_at"
 
     list_display = (
         "invoice_number",
@@ -80,6 +85,8 @@ class ExpenseCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Expense)
 class ExpenseAdmin(admin.ModelAdmin):
+    list_per_page = 25
+    date_hierarchy = "created_at"
 
     list_display = (
         "title",

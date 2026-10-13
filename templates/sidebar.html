@@ -1,189 +1,24 @@
-{% comment %}
-Sidebar. Included from base.html.
-- Active link is matched on exact URL names (no substring guessing).
-- Expenses and Reports are shown to staff/superusers only (the views enforce it too).
-- Below the lg breakpoint it becomes a slide-in drawer opened by the round button.
-{% endcomment %}
 {% with page=request.resolver_match.url_name %}
-
 <div id="sidebar-backdrop" class="fixed inset-0 z-30 hidden bg-black/50 lg:hidden" aria-hidden="true"></div>
-
-<button id="sidebar-open" type="button"
-    class="fixed bottom-4 left-4 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-ink text-white shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:hidden"
-    aria-controls="sidebar" aria-expanded="false" aria-label="Open menu">
-    <i class="fa-solid fa-bars"></i>
-</button>
-
-<aside id="sidebar" aria-label="Main navigation"
-    class="fixed inset-y-0 left-0 z-40 flex w-64 shrink-0 -translate-x-full flex-col bg-ink text-white/90 transition-transform duration-200 motion-reduce:transition-none lg:sticky lg:top-0 lg:h-screen lg:translate-x-0">
-
-    <!-- Brand -->
+<button id="sidebar-open" type="button" class="fixed bottom-4 left-4 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-ink text-white shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:hidden" aria-controls="sidebar" aria-expanded="false" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+<aside id="sidebar" aria-label="Main navigation" class="fixed inset-y-0 left-0 z-40 flex w-64 shrink-0 -translate-x-full flex-col bg-ink text-white/90 transition-transform duration-200 motion-reduce:transition-none lg:sticky lg:top-0 lg:h-screen lg:translate-x-0">
     <div class="flex items-center justify-between border-b border-white/10 px-6 py-5">
-        <p class="font-display text-lg font-semibold tracking-tight text-white">POS</p>
-
-        <div class="flex items-center gap-2">
-            {% if notification_count %}
-            <span class="rounded-full bg-red px-2 py-0.5 text-xs font-medium text-white tabular-nums"
-                title="{{ notification_count }} alerts">{{ notification_count }}</span>
-            {% endif %}
-            <button id="sidebar-close" type="button"
-                class="flex h-8 w-8 items-center justify-center rounded-lg text-white/70 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 lg:hidden"
-                aria-label="Close menu">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
+        <a href="{% url 'pos_home' %}" class="font-display text-lg font-semibold tracking-tight text-white">POS <span class="text-brand">Workspace</span></a>
+        <button id="sidebar-close" type="button" class="flex h-8 w-8 items-center justify-center rounded-lg text-white/70 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 lg:hidden" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
     </div>
-
-    <!-- Signed-in user -->
     <div class="flex items-center gap-3 border-b border-white/10 px-6 py-4">
-        <div
-            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand/20 font-display text-sm font-semibold text-brand">
-            {{ request.user.username|slice:":1"|upper }}
-        </div>
-        <div class="min-w-0">
-            <p class="truncate text-sm font-medium text-white">{{ request.user.username }}</p>
-            <p class="text-xs text-white/55">
-                {% if request.user.is_superuser %}Admin{% elif request.user.is_staff %}Staff{% else %}Cashier{% endif %}
-            </p>
-        </div>
+        <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand/20 font-display text-sm font-semibold text-brand">{{ request.user.username|slice:":1"|upper }}</div>
+        <div class="min-w-0"><p class="truncate text-sm font-medium text-white">{{ request.user.username }}</p><p class="text-xs text-white/55">{% if request.user.is_superuser %}Administrator{% elif request.user.is_staff %}Staff{% else %}Cashier{% endif %}</p></div>
     </div>
-
-    <!-- Navigation -->
-    <nav class="flex-1 space-y-6 overflow-y-auto px-3 py-4" aria-label="Sections">
-
-        <div class="space-y-1">
-            <a href="{% url 'billing_products' %}"
-                class="mb-3 flex items-center justify-center gap-2 rounded-lg bg-brand px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
-                <i class="fa-solid fa-plus text-xs"></i>
-                <span>New sale</span>
-            </a>
-
-            <a href="{% url 'dashboard' %}" {% if page == 'dashboard' %}aria-current="page" {% endif %}
-                class="relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 {% if page == 'dashboard' %}bg-white/10 text-white{% else %}text-white/70 hover:bg-white/5 hover:text-white{% endif %}">
-                {% if page == 'dashboard' %}<span
-                    class="absolute inset-y-2 left-0 w-0.5 rounded-full bg-brand"></span>{% endif %}
-                <i class="fa-solid fa-gauge-high w-4 text-center"></i>
-                <span>Dashboard</span>
-            </a>
-
-            <a href="{% url 'sales_dashboard' %}" {% if page == 'sales_dashboard' or page == 'sales_history' or page == 'create_sales' or page == 'invoice' or page == 'invoice_pdf' %}aria-current="page" {% endif %}
-                class="relative flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 {% if page == 'sales_dashboard' or page == 'sales_history' or page == 'create_sales' or page == 'invoice' or page == 'invoice_pdf' %}bg-white/10 text-white{% else %}text-white/70 hover:bg-white/5 hover:text-white{% endif %}">
-                {% if page == 'sales_dashboard' or page == 'sales_history' or page == 'create_sales' or page == 'invoice' or page == 'invoice_pdf' %} 
-                <span class="absolute inset-y-2 left-0 w-0.5 rounded-full bg-brand"></span>              
-                {% endif %}
-
-                <span class="flex items-center gap-3">
-                    <i class="fa-solid fa-receipt w-4 text-center"></i>
-                    <span>Sales</span>
-                </span>
-                {% if pending_payment_count %}
-                <span class="rounded-full bg-amber px-2 py-0.5 text-xs font-medium text-white tabular-nums"
-                    title="{{ pending_payment_count }} unpaid invoices">{{ pending_payment_count }}</span>
-                {% endif %}
-            </a>
-
-            <a href="{% url 'customer_list' %}" {% if page == 'customer_list' or page == 'customer_create' or page == 'customer_detail' or page == 'customer_edit' or page == 'customer_statement_pdf' %}
-            aria-current="page" {% endif %} class="relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 
-            {% if page == 'customer_list' or page == 'customer_create' or page == 'customer_detail' or page == 'customer_edit' or page == 'customer_statement_pdf' %}bg-white/10 text-white{% else %}text-white/70 hover:bg-white/5 hover:text-white{% endif %}">
-                {% if page == 'customer_list' or page == 'customer_create' or page == 'customer_detail' or page == 'customer_edit' or page == 'customer_statement_pdf' %}
-                <span class="absolute inset-y-2 left-0 w-0.5 rounded-full bg-brand"></span>
-                {% endif %}
-                <i class="fa-solid fa-users w-4 text-center"></i>
-                <span>Customers</span>
-            </a>
-        </div>
-
-        <div class="space-y-1">
-            <p class="px-3 pb-1 text-xs font-medium text-white/55">Stock</p>
-
-            <a href="{% url 'view_product' %}" {% if page == 'view_product' or page == 'add_product' or page == 'product_detail' or page == 'update_product' %}aria-current="page" {% endif %}
-                class="relative flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 {% if page == 'view_product' or page == 'add_product' or page == 'product_detail' or page == 'update_product' %}bg-white/10 text-white{% else %}text-white/70 hover:bg-white/5 hover:text-white{% endif %}">
-                {% if page == 'view_product' or page == 'add_product' or page == 'product_detail' or page == 'update_product' %}
-                <span class="absolute inset-y-2 left-0 w-0.5 rounded-full bg-brand"></span>
-                {% endif %}
-                <span class="flex items-center gap-3">
-                    <i class="fa-solid fa-box w-4 text-center"></i>
-                    <span>Products</span>
-                </span>
-                {% if low_stock_count %}
-                <span class="rounded-full bg-red px-2 py-0.5 text-xs font-medium text-white tabular-nums"
-                    title="{{ low_stock_count }} products low on stock">{{ low_stock_count }}</span>
-                {% endif %}
-            </a>
-
-            <a href="{% url 'category' %}" {% if page == 'category' or page == 'add_category' or page == 'update_category' %}aria-current="page" {% endif %}
-                class="relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 {% if page == 'category' or page == 'add_category' or page == 'update_category' %}bg-white/10 text-white{% else %}text-white/70 hover:bg-white/5 hover:text-white{% endif %}">
-                {% if page == 'category' or page == 'add_category' or page == 'update_category' %}
-                <span class="absolute inset-y-2 left-0 w-0.5 rounded-full bg-brand"></span>
-                {% endif %}
-                <i class="fa-solid fa-tags w-4 text-center"></i>
-                <span>Categories</span>
-            </a>
-        </div>
-
+    <nav class="flex-1 space-y-2 overflow-y-auto px-3 py-4" aria-label="Main sections">
+        <a href="{% url 'billing_products' %}" {% if page == 'billing_products' or page == 'cart' or page == 'checkout' or page == 'scan_barcode' %}aria-current="page"{% endif %} class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition {% if page == 'billing_products' or page == 'cart' or page == 'checkout' or page == 'scan_barcode' %}bg-brand text-white{% else %}text-white/75 hover:bg-white/10 hover:text-white{% endif %}"><i class="fa-solid fa-cart-shopping w-5 text-center"></i><span>POS &amp; Checkout</span></a>
         {% if request.user.is_staff or request.user.is_superuser %}
-        <div class="space-y-1">
-            <p class="px-3 pb-1 text-xs font-medium text-white/55">Manager</p>
-
-            <a href="{% url 'expense_list' %}" {% if page == 'expense_list' or page == 'expense_create' or
-                page == 'expense_edit' or page == 'expense_detail' or page == 'expense_category_list' or
-                page == 'expense_category_create' or page == 'expense_category_edit' %}aria-current="page" {% endif %}
-                class="relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 {% if page == 'expense_list' or page == 'expense_create' or page == 'expense_edit' or page == 'expense_detail' or page == 'expense_category_list' or page == 'expense_category_create' or page == 'expense_category_edit' %}bg-white/10 text-white{% else %}text-white/70 hover:bg-white/5 hover:text-white{% endif %}">
-                {% if page == 'expense_list' or page == 'expense_create' or page == 'expense_edit' or page == 'expense_detail' or page == 'expense_category_list' or page == 'expense_category_create' or page == 'expense_category_edit' %}
-                <span class="absolute inset-y-2 left-0 w-0.5 rounded-full bg-brand"></span>
-                {% endif %}
-                <i class="fa-solid fa-money-bill-transfer w-4 text-center"></i>
-                <span>Expenses</span>
-            </a>
-
-            <a href="{% url 'sales_report' %}" {% if page == 'sales_report' %}aria-current="page" {% endif %}
-                class="relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 {% if page == 'sales_report' %}bg-white/10 text-white{% else %}text-white/70 hover:bg-white/5 hover:text-white{% endif %}">
-                {% if page == 'sales_report' %}
-                <span class="absolute inset-y-2 left-0 w-0.5 rounded-full bg-brand">
-
-                </span>
-                {% endif %}
-                <i class="fa-solid fa-chart-line w-4 text-center"></i>
-                <span>Reports</span>
-            </a>
-        </div>
-        
+        <a href="{% url 'management_home' %}" {% if page == 'management_home' %}aria-current="page"{% endif %} class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition {% if page == 'management_home' %}bg-white/10 text-white{% else %}text-white/75 hover:bg-white/10 hover:text-white{% endif %}"><i class="fa-solid fa-layer-group w-5 text-center"></i><span>Management</span></a>
+        {% endif %}
     </nav>
-
-    <!-- Log out -->
-    <div class="border-t border-white/10 p-3">
-        <form method="post" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type="submit"
-                class="flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-medium text-white/70 transition hover:bg-red/20 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60">
-                <i class="fa-solid fa-right-from-bracket w-4 text-center"></i>
-                <span>Log out</span>
-            </button>
-        </form>
+    <div class="border-t border-white/10 px-4 py-4">
+        <a href="{% url 'pos_home' %}" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-white/65 hover:bg-white/5 hover:text-white"><i class="fa-solid fa-house w-5 text-center"></i>Home</a>
+        <form method="post" action="{% url 'logout' %}" class="mt-1">{% csrf_token %}<button type="submit" class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-white/65 hover:bg-white/5 hover:text-white"><i class="fa-solid fa-right-from-bracket w-5 text-center"></i>Sign out</button></form>
     </div>
 </aside>
-
-<script>
-    (function () {
-        var sidebar = document.getElementById('sidebar');
-        var backdrop = document.getElementById('sidebar-backdrop');
-        var openBtn = document.getElementById('sidebar-open');
-        var closeBtn = document.getElementById('sidebar-close');
-        if (!sidebar || !openBtn) return;
-
-        function setOpen(open) {
-            sidebar.classList.toggle('-translate-x-full', !open);
-            backdrop.classList.toggle('hidden', !open);
-            openBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-            if (open) { closeBtn.focus(); } else { openBtn.focus(); }
-        }
-
-        openBtn.addEventListener('click', function () { setOpen(true); });
-        closeBtn.addEventListener('click', function () { setOpen(false); });
-        backdrop.addEventListener('click', function () { setOpen(false); });
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && openBtn.getAttribute('aria-expanded') === 'true') { setOpen(false); }
-        });
-    })();
-</script>
 {% endwith %}

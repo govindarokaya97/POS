@@ -202,7 +202,7 @@ def sales_history(request):
 
 
     
-
+@login_required
 def get_filtered_invoices(request):
 
     invoices = Invoice.objects.select_related(

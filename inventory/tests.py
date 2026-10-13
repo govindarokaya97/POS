@@ -7,7 +7,7 @@ from .models import Category, Product
 
 class DeleteRequiresPostTests(TestCase):
     def setUp(self):
-        User.objects.create_user("owner", password="pw-12345")
+        User.objects.create_user("owner", password="pw-12345", is_staff=True)
         self.client.login(username="owner", password="pw-12345")
         self.category = Category.objects.create(name="General")
         self.product = Product.objects.create(
@@ -39,6 +39,6 @@ class DeleteRequiresPostTests(TestCase):
         html = client.get(reverse("view_product")).content.decode()
         self.assertNotIn(f'href="/inventory/product/delete/{self.product.id}"', html)
         self.assertIn("csrfmiddlewaretoken", html)
-        html = client.get(reverse("view_category")).content.decode()
+        html = client.get(reverse("category")).content.decode()
         self.assertNotIn(f'href="/inventory/category/delete/{self.category.id}"', html)
         self.assertIn("csrfmiddlewaretoken", html)

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Management | POS{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-6xl space-y-8 px-4 py-8 sm:px-6 lg:px-8">
+    <header class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div class="space-y-2">
+            <a href="{% url 'pos_home' %}" class="inline-flex items-center gap-2 text-sm font-medium text-brand hover:underline"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to home</a>
+            <p class="text-sm font-semibold uppercase tracking-[0.18em] text-brand">Operations workspace</p>
+            <h1 class="font-display text-3xl font-bold tracking-tight sm:text-4xl">Management</h1>
+            <p class="max-w-2xl text-sm leading-6 text-muted sm:text-base">Choose a work area. Sensitive finance, reporting, and account actions remain subject to their existing permissions.</p>
+        </div>
+        <span class="inline-flex w-fit items-center gap-2 rounded-full bg-brand/10 px-3 py-1.5 text-sm font-semibold text-brand"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>{% if request.user.is_superuser %}Administrator{% else %}Staff access{% endif %}</span>
+    </header>
+
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <a href="{% url 'view_product' %}" class="group rounded-2xl border border-line bg-white p-6 transition hover:border-brand/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand/20">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50 text-xl text-brand"><i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i></div>
+            <h2 class="mt-5 font-display text-xl font-bold">Inventory</h2><p class="mt-2 text-sm leading-6 text-muted">Products, categories, stock quantities, availability, and barcodes.</p>
+            <span class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand">Manage inventory <i class="fa-solid fa-arrow-right transition group-hover:translate-x-1"></i></span>
+        </a>
+
+        <a href="{% url 'dashboard' %}" class="group rounded-2xl border border-line bg-white p-6 transition hover:border-brand/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand/20">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-xl text-blue-700"><i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i></div>
+            <h2 class="mt-5 font-display text-xl font-bold">Billing &amp; Finance</h2><p class="mt-2 text-sm leading-6 text-muted">Sales overview, invoices, payments, expenses, and balances.</p>
+            <span class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand">Open finance <i class="fa-solid fa-arrow-right transition group-hover:translate-x-1"></i></span>
+        </a>
+
+        <a href="{% url 'sales_report' %}" class="group rounded-2xl border border-line bg-white p-6 transition hover:border-brand/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand/20">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-violet-50 text-xl text-violet-700"><i class="fa-solid fa-chart-column" aria-hidden="true"></i></div>
+            <h2 class="mt-5 font-display text-xl font-bold">Reports</h2><p class="mt-2 text-sm leading-6 text-muted">Review sales performance and access available report exports.</p>
+            <span class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand">View reports <i class="fa-solid fa-arrow-right transition group-hover:translate-x-1"></i></span>
+        </a>
+
+        <a href="{% url 'customer_list' %}" class="group rounded-2xl border border-line bg-white p-6 transition hover:border-brand/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand/20">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-50 text-xl text-amber-700"><i class="fa-solid fa-users" aria-hidden="true"></i></div>
+            <h2 class="mt-5 font-display text-xl font-bold">Customers</h2><p class="mt-2 text-sm leading-6 text-muted">Customer records, contact details, account history, and statements.</p>
+            <span class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand">Manage customers <i class="fa-solid fa-arrow-right transition group-hover:translate-x-1"></i></span>
+        </a>
+
+        <a href="{% url 'expense_list' %}" class="group rounded-2xl border border-line bg-white p-6 transition hover:border-brand/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand/20">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-rose-50 text-xl text-rose-700"><i class="fa-solid fa-wallet" aria-hidden="true"></i></div>
+            <h2 class="mt-5 font-display text-xl font-bold">Expenses</h2><p class="mt-2 text-sm leading-6 text-muted">Record and review operating expenses and expense categories.</p>
+            <span class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand">Manage expenses <i class="fa-solid fa-arrow-right transition group-hover:translate-x-1"></i></span>
+        </a>
+
+        {% if request.user.is_superuser %}
+        <a href="{% url 'admin:index' %}" class="group rounded-2xl border border-line bg-white p-6 transition hover:border-brand/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand/20">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-ink text-xl text-white"><i class="fa-solid fa-user-shield" aria-hidden="true"></i></div>
+            <h2 class="mt-5 font-display text-xl font-bold">Users &amp; Security</h2><p class="mt-2 text-sm leading-6 text-muted">Manage user accounts and security settings. Account creation remains administrator-only.</p>
+            <span class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand">Open administration <i class="fa-solid fa-arrow-right transition group-hover:translate-x-1"></i></span>
+        </a>
+        {% else %}
+        <div class="rounded-2xl border border-line bg-gray-50 p-6" aria-label="Users and security restricted to superusers">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-200 text-xl text-gray-600"><i class="fa-solid fa-user-shield" aria-hidden="true"></i></div>
+            <h2 class="mt-5 font-display text-xl font-bold">Users &amp; Security</h2><p class="mt-2 text-sm leading-6 text-muted">User administration is restricted to superusers. Contact an administrator if your access needs to change.</p>
+            <span class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-muted"><i class="fa-solid fa-lock" aria-hidden="true"></i>Restricted access</span>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

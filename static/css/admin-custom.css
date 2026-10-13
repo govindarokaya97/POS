@@ -1,0 +1,9 @@
+/* Optional Jazzmin refinements: calm surfaces, readable tables, and clear actions. */
+.content-wrapper { background: #f5f7fb; }
+.card { border: 0; border-radius: .8rem; box-shadow: 0 3px 18px rgba(15, 23, 42, .06); }
+.card-header { border-bottom-color: #e8edf4; }
+.table thead th { color: #475569; font-size: .78rem; letter-spacing: .035em; text-transform: uppercase; }
+.table td, .table th { vertical-align: middle; }
+.form-control, .custom-select, select.form-control { border-radius: .5rem; }
+.btn { border-radius: .5rem; font-weight: 600; }
+.main-header { box-shadow: 0 2px 12px rgba(15, 23, 42, .04); }

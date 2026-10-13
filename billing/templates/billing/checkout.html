@@ -1,330 +1,717 @@
 {% extends "base.html" %}
 
-{% block title %}Checkout{% endblock title %}
+{% block title %}Checkout | POS{% endblock title %}
 
 {% block content %}
+<style>
+    .checkout-page {
+        --co-brand: #0f766e;
+        --co-brand-dark: #115e59;
+        --co-ink: #111827;
+        --co-muted: #6b7280;
+        --co-line: #e5e7eb;
+        --co-paper: #f8fafc;
+        --co-danger: #dc2626;
+        max-width: 1120px;
+        margin: 0 auto;
+        color: var(--co-ink);
+    }
 
-<div class="mx-auto max-w-6xl space-y-6">
+    /* heading */
+    .checkout-heading {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
 
-    <!-- Header -->
-    <div>
-        <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">
-            Point of Sale
-        </p>
+    .checkout-heading h1 {
+        margin: 6px 0 2px;
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: -.01em;
+    }
 
-        <h1 class="mt-1 font-display text-3xl font-semibold text-ink">
-            Checkout
-        </h1>
+    .checkout-heading p {
+        margin: 0;
+        font-size: 14px;
+        color: var(--co-muted);
+    }
 
-        <p class="mt-1 text-sm text-muted">
-            Review the order and complete the payment.
-        </p>
-    </div>
+    .checkout-eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: ui-monospace, monospace;
+        font-size: 11px;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+        color: var(--co-muted);
+    }
 
+    .checkout-heading-separator {
+        opacity: .5;
+    }
+
+    .checkout-live-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #22c55e;
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, .6);
+        animation: co-pulse 2s infinite;
+    }
+
+    @keyframes co-pulse {
+        70% {
+            box-shadow: 0 0 0 8px rgba(34, 197, 94, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+        }
+    }
+
+    .checkout-back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 14px;
+        border: 1px solid var(--co-line);
+        border-radius: 10px;
+        background: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--co-ink);
+        text-decoration: none;
+        transition: background .15s;
+    }
+
+    .checkout-back-link:hover {
+        background: var(--co-paper);
+    }
+
+    /* layout */
+    .checkout-layout {
+        display: grid;
+        gap: 24px;
+        grid-template-columns: minmax(0, 1fr);
+        align-items: start;
+    }
+
+    @media (min-width: 1024px) {
+        .checkout-layout {
+            grid-template-columns: minmax(0, 1fr) 380px;
+        }
+
+        .checkout-summary-card {
+            position: sticky;
+            top: 24px;
+        }
+    }
+
+    .checkout-main-column {
+        display: grid;
+        gap: 20px;
+    }
+
+    /* panels */
+    .checkout-panel {
+        background: #fff;
+        border: 1px solid var(--co-line);
+        border-radius: 14px;
+        padding: 22px;
+        box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+    }
+
+    .checkout-panel-heading {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        margin-bottom: 18px;
+    }
+
+    .checkout-panel-heading h2 {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 650;
+    }
+
+    .checkout-panel-heading p {
+        margin: 2px 0 0;
+        font-size: 13px;
+        color: var(--co-muted);
+    }
+
+    .checkout-step {
+        flex: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: var(--co-brand);
+        color: #fff;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .checkout-step-muted {
+        background: var(--co-paper);
+        color: var(--co-muted);
+        border: 1px solid var(--co-line);
+        font-size: 12px;
+    }
+
+    /* form controls */
+    .checkout-panel label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .checkout-control {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 11px 14px;
+        border: 1px solid var(--co-line);
+        border-radius: 10px;
+        background: #fff;
+        font-size: 15px;
+        color: var(--co-ink);
+        transition: border-color .15s, box-shadow .15s;
+    }
+
+    .checkout-control:focus {
+        outline: none;
+        border-color: var(--co-brand);
+        box-shadow: 0 0 0 3px rgba(15, 118, 110, .18);
+    }
+
+    .checkout-form-grid {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 640px) {
+        .checkout-form-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    .checkout-label-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .checkout-label-row label {
+        margin-bottom: 6px;
+    }
+
+    .checkout-text-button {
+        border: 0;
+        background: none;
+        padding: 0 0 6px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--co-brand);
+    }
+
+    .checkout-text-button:hover {
+        text-decoration: underline;
+    }
+
+    .checkout-money-input,
+    .checkout-percent-input {
+        position: relative;
+    }
+
+    .checkout-money-input>span,
+    .checkout-percent-input>span {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-family: ui-monospace, monospace;
+        font-size: 14px;
+        color: var(--co-muted);
+        pointer-events: none;
+    }
+
+    .checkout-money-input>span {
+        left: 14px;
+    }
+
+    .checkout-money-input .checkout-control {
+        padding-left: 42px;
+        font-family: ui-monospace, monospace;
+    }
+
+    .checkout-percent-input>span {
+        right: 14px;
+    }
+
+    .checkout-percent-input .checkout-control {
+        padding-right: 36px;
+        font-family: ui-monospace, monospace;
+    }
+
+    .checkout-paid-input {
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    /* change row */
+    .checkout-change-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-top: 18px;
+        padding: 14px 16px;
+        border-radius: 12px;
+        background: #ecfdf5;
+        border: 1px solid #a7f3d0;
+    }
+
+    .checkout-change-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        background: #fff;
+        color: var(--co-brand);
+    }
+
+    .checkout-change-copy {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        font-size: 14px;
+    }
+
+    .checkout-change-copy span {
+        font-size: 12px;
+        color: var(--co-muted);
+    }
+
+    .checkout-change-amount {
+        font-family: ui-monospace, monospace;
+        font-size: 20px;
+        color: var(--co-brand-dark);
+    }
+
+    /* summary */
+    .checkout-summary-card {
+        background: #fff;
+        border: 1px solid var(--co-line);
+        border-radius: 14px;
+        padding: 22px;
+        box-shadow: 0 8px 24px rgba(16, 24, 40, .06);
+    }
+
+    .checkout-summary-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .checkout-summary-kicker {
+        margin: 0;
+        font-family: ui-monospace, monospace;
+        font-size: 11px;
+        letter-spacing: .18em;
+        color: var(--co-muted);
+    }
+
+    .checkout-summary-header h2 {
+        margin: 4px 0 0;
+        font-size: 19px;
+        font-weight: 650;
+    }
+
+    .checkout-item-count {
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: var(--co-paper);
+        border: 1px solid var(--co-line);
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--co-muted);
+    }
+
+    .checkout-items-list {
+        margin: 18px 0;
+        max-height: 280px;
+        overflow-y: auto;
+        border-top: 1px solid var(--co-line);
+        border-bottom: 1px solid var(--co-line);
+    }
+
+    .checkout-item-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 0;
+        font-size: 14px;
+    }
+
+    .checkout-item-row+.checkout-item-row {
+        border-top: 1px dashed var(--co-line);
+    }
+
+    .checkout-item-quantity {
+        flex: none;
+        min-width: 36px;
+        padding: 3px 6px;
+        border-radius: 6px;
+        text-align: center;
+        background: var(--co-paper);
+        font-family: ui-monospace, monospace;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .checkout-item-details {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .checkout-item-details p {
+        margin: 0;
+        font-weight: 600;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .checkout-item-details span {
+        font-size: 12px;
+        color: var(--co-muted);
+    }
+
+    .checkout-item-row strong {
+        font-family: ui-monospace, monospace;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    .checkout-empty-cart {
+        padding: 28px 0;
+        text-align: center;
+        color: var(--co-muted);
+    }
+
+    .checkout-empty-cart i {
+        font-size: 26px;
+    }
+
+    .checkout-totals {
+        display: grid;
+        gap: 10px;
+    }
+
+    .checkout-total-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        color: var(--co-muted);
+    }
+
+    .checkout-total-row strong {
+        font-family: ui-monospace, monospace;
+        font-weight: 500;
+        color: var(--co-ink);
+    }
+
+    .checkout-grand-total {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-top: 4px;
+        padding-top: 14px;
+        border-top: 2px solid var(--co-ink);
+    }
+
+    .checkout-grand-total span {
+        font-size: 15px;
+        font-weight: 650;
+    }
+
+    .checkout-grand-total strong {
+        font-family: ui-monospace, monospace;
+        font-size: 26px;
+        color: var(--co-brand);
+    }
+
+    .checkout-balance-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: #fef2f2;
+        color: var(--co-danger);
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .checkout-balance-row strong {
+        font-family: ui-monospace, monospace;
+    }
+
+    .checkout-error {
+        margin: 14px 0 0;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        color: var(--co-danger);
+        font-size: 13px;
+    }
+
+    .checkout-summary-actions {
+        display: grid;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .checkout-complete-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        padding: 15px 18px;
+        border: 0;
+        border-radius: 12px;
+        cursor: pointer;
+        background: var(--co-brand);
+        color: #fff;
+        font-size: 16px;
+        font-weight: 700;
+        box-shadow: 0 4px 12px rgba(15, 118, 110, .3);
+        transition: background .15s, transform .1s;
+    }
+
+    .checkout-complete-button:hover:not(:disabled) {
+        background: var(--co-brand-dark);
+    }
+
+    .checkout-complete-button:active:not(:disabled) {
+        transform: translateY(1px);
+    }
+
+    .checkout-complete-button:disabled {
+        opacity: .55;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+
+    .checkout-button-arrow {
+        transition: transform .15s;
+    }
+
+    .checkout-complete-button:hover:not(:disabled) .checkout-button-arrow {
+        transform: translateX(3px);
+    }
+
+    .checkout-edit-cart {
+        text-align: center;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--co-muted);
+        text-decoration: none;
+        padding: 6px;
+    }
+
+    .checkout-edit-cart:hover {
+        color: var(--co-ink);
+    }
+
+    .checkout-secure-note {
+        margin-top: 12px;
+        text-align: center;
+        font-size: 12px;
+        color: var(--co-muted);
+    }
+
+    .checkout-page .hidden {
+        display: none !important;
+    }
+</style>
+
+<div class="checkout-page">
+    <header class="checkout-heading">
+        <div>
+            <div class="checkout-eyebrow"><span class="checkout-live-dot"></span> Point of Sale <span
+                    class="checkout-heading-separator">/</span> Checkout</div>
+            <h1>Complete sale</h1>
+            <p>Confirm the customer, take payment, and finish the transaction.</p>
+        </div>
+        <a href="{% url 'cart' %}" class="checkout-back-link"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+            Back to cart</a>
+    </header>
 
     <form method="post" id="checkout-form" data-subtotal-cents="{{ subtotal_cents }}"
-        data-default-vat="{{ vat_percent }}" data-paid-touched="{% if form.paid_amount is not None %}1{% endif %}">
-
+        data-default-vat="{{ vat_percent }}">
         {% csrf_token %}
-
-        <div class="grid gap-6 lg:grid-cols-[1fr_380px]">
-
-
-            <!-- LEFT -->
-            <div class="space-y-6">
-
-                <!-- Customer -->
-                <div class="rounded-xl border border-line bg-white p-6">
-
-                    <h2 class="font-display text-lg font-semibold text-ink">
-                        Customer
-                    </h2>
-
-                    <p class="mt-1 text-sm text-muted">
-                        Select a customer or use Walk-in Customer.
-                    </p>
-
-                    <select name="customer"
-                        class="mt-5 w-full rounded-lg border border-line bg-white px-4 py-3 text-sm outline-none focus:border-brand">
-
-                        <option value="">
-                            Walk-in Customer
-                        </option>
-
+        <div class="checkout-layout">
+            <div class="checkout-main-column">
+                <section class="checkout-panel checkout-customer-panel" aria-labelledby="customer-heading">
+                    <div class="checkout-panel-heading">
+                        <span class="checkout-step">1</span>
+                        <div>
+                            <h2 id="customer-heading">Customer</h2>
+                            <p>Choose a saved customer or keep this as a walk-in sale.</p>
+                        </div>
+                    </div>
+                    <label for="checkout-customer">Customer account</label>
+                    <select id="checkout-customer" name="customer" class="checkout-control">
+                        <option value="">Walk-in Customer</option>
                         {% for customer in customers %}
-
-                        <option value="{{ customer.id }}" {% if form.customer == customer.id|stringformat:"s" %}selected
-                        {% endif %}>
-                            {{ customer.name }}
-                        </option>
-
+                        <option value="{{ customer.id }}" {% if form.customer == customer.id|stringformat:"s" %}selected{% endif %}>{{ customer.name }}</option>
                         {% endfor %}
-
                     </select>
+                </section>
 
-                </div>
-
-
-                <!-- Payment -->
-                <div class="rounded-xl border border-line bg-white p-6">
-
-                    <h2 class="font-display text-lg font-semibold text-ink">
-                        Payment
-                    </h2>
-
-                    <p class="mt-1 text-sm text-muted">
-                        Select payment method and enter the amount received.
-                    </p>
-
-
-                    <!-- Payment Method -->
-                    <div class="mt-5">
-
-                        <label class="mb-2 block text-sm font-medium text-ink">
-                            Payment Method
-                        </label>
-
-                        <select name="payment_method"
-                            class="w-full rounded-lg border border-line bg-white px-4 py-3 text-sm outline-none focus:border-brand">
-
-                            {% for value, label in payment_methods %}
-                            <option value="{{ value }}" {% if form.payment_method == value %}selected{% endif %}>
-                                {{ label }}
-                            </option>
-                            {% endfor %}
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- Paid -->
-                    <div class="mt-5">
-
-                        <div class="mb-2 flex items-center justify-between">
-                            <label for="paid_amount" class="block text-sm font-medium text-ink">
-                                Paid Amount
-                            </label>
-                            <button type="button" id="paid-full" class="text-xs font-medium text-brand hover:underline">
-                                Paid in full
-                            </button>
-                        </div>
-
-                        <div class="relative">
-
-                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-muted">
-                                Rs
-                            </span>
-
-                            <input type="number" name="paid_amount" id="paid_amount"
-                                value="{{ form.paid_amount|default_if_none:total }}" min="0" step="0.01"
-                                inputmode="decimal"
-                                class="w-full rounded-lg border border-line bg-white py-3 pl-11 pr-4 font-mono text-sm outline-none focus:border-brand" />
-
-                        </div>
-                        <div class="mt-5 rounded-lg bg-paper p-4">
-
-                            <div class="flex justify-between items-center">
-
-                                <span class="text-sm text-muted">
-                                    Change Return
-                                </span>
-
-
-                                <span id="change_amount" class="font-mono text-lg font-semibold text-brand">
-                                    Rs 0.00
-                                </span>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-
-
-                <!-- Adjustments -->
-                <div class="rounded-xl border border-line bg-white p-6">
-
-                    <h2 class="font-display text-lg font-semibold text-ink">
-                        Adjustments
-                    </h2>
-
-                    <p class="mt-1 text-sm text-muted">
-                        Totals update as you type.
-                    </p>
-
-                    <div class="mt-5 grid gap-5 sm:grid-cols-2">
-
-                        <!-- Discount -->
+                <section class="checkout-panel" aria-labelledby="payment-heading">
+                    <div class="checkout-panel-heading">
+                        <span class="checkout-step">2</span>
                         <div>
+                            <h2 id="payment-heading">Take payment</h2>
+                            <p>Select the payment method and enter the amount received.</p>
+                        </div>
+                    </div>
 
-                            <label for="discount" class="mb-2 block text-sm font-medium text-ink">
-                                Discount
-                            </label>
+                    <div class="checkout-form-grid">
+                        <div class="checkout-field">
+                            <label for="checkout-payment-method">Payment method</label>
+                            <select id="checkout-payment-method" name="payment_method" class="checkout-control">
+                                {% for value, label in payment_methods %}
+                                <option value="{{ value }}" {% if form.payment_method == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="checkout-field checkout-paid-field">
+                            <div class="checkout-label-row">
+                                <label for="paid_amount">Amount received (Rs)</label>
+                                <button type="button" id="paid-full" class="checkout-text-button">Exact total</button>
+                            </div>
+                            <div class="checkout-money-input">
+                                <span aria-hidden="true"></span>
+                                <input type="number" name="paid_amount" id="paid_amount"
+                                    value="{{ form.paid_amount|default_if_none:total }}" min="0" step="0.01"
+                                    inputmode="decimal" class="checkout-control checkout-paid-input" />
+                            </div>
+                        </div>
+                    </div>
 
-                            <div class="relative">
+                    <div class="checkout-change-row">
+                        <div class="checkout-change-icon"><i class="fa-solid fa-money-bill-wave" aria-hidden="true"></i>
+                        </div>
+                        <div class="checkout-change-copy"><strong>Change to return</strong><span>Calculated
+                                automatically</span></div>
+                        <strong id="change_amount" class="checkout-change-amount">Rs 0.00</strong>
+                    </div>
+                </section>
 
-                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-muted">
-                                    Rs
-                                </span>
-
+                <section class="checkout-panel checkout-adjustments" aria-labelledby="adjustments-heading">
+                    <div class="checkout-panel-heading">
+                        <span class="checkout-step checkout-step-muted"><i class="fa-solid fa-sliders"
+                                aria-hidden="true"></i></span>
+                        <div>
+                            <h2 id="adjustments-heading">Discount & VAT</h2>
+                            <p>Optional adjustments are reflected in the order total.</p>
+                        </div>
+                    </div>
+                    <div class="checkout-form-grid">
+                        <div class="checkout-field">
+                            <label for="discount">Discount (Rs)</label>
+                            <div class="checkout-money-input">
+                                <span aria-hidden="true"></span>
                                 <input type="number" name="discount" id="discount" value="{{ form.discount }}" min="0"
-                                    step="0.01" inputmode="decimal"
-                                    class="w-full rounded-lg border border-line bg-white py-3 pl-11 pr-4 font-mono text-sm outline-none focus:border-brand">
-
+                                    step="0.01" inputmode="decimal" class="checkout-control" />
                             </div>
-
                         </div>
-
-
-                        <!-- VAT -->
-                        <div>
-
-                            <label for="vat" class="mb-2 block text-sm font-medium text-ink">
-                                VAT (%)
-                            </label>
-
-                            <div class="relative">
-
+                        <div class="checkout-field">
+                            <label for="vat">VAT (%)</label>
+                            <div class="checkout-percent-input">
                                 <input type="number" name="vat" id="vat" value="{{ form.vat }}" min="0" max="100"
-                                    step="0.01" inputmode="decimal" required
-                                    class="w-full rounded-lg border border-line bg-white px-4 py-3 pr-10 font-mono text-sm outline-none focus:border-brand">
-
-                                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-muted">
-                                    %
-                                </span>
-
+                                    step="0.01" inputmode="decimal" required class="checkout-control" />
+                                <span aria-hidden="true">%</span>
                             </div>
-
                         </div>
-
                     </div>
-
-                </div>
-
+                </section>
             </div>
 
-
-            <!-- RIGHT -->
-            <div class="lg:sticky lg:top-6 lg:self-start">
-
-                <div class="overflow-hidden rounded-xl border border-line bg-white">
-
-                    <div class="border-b border-line p-5">
-
-                        <h2 class="font-display text-lg font-semibold text-ink">
-                            Order Summary
-                        </h2>
-
+            <aside class="checkout-summary-column" aria-label="Order summary">
+                <section class="checkout-summary-card">
+                    <div class="checkout-summary-header">
+                        <div>
+                            <p class="checkout-summary-kicker">ORDER REVIEW</p>
+                            <h2>Order summary</h2>
+                        </div>
+                        <span class="checkout-item-count">{{ cart|length }} item{{ cart|length|pluralize }}</span>
                     </div>
 
-
-                    <!-- Items -->
-                    <div class="divide-y divide-line">
-
+                    <div class="checkout-items-list">
                         {% for product_id, item in cart.items %}
-
-                        <div class="flex items-center justify-between gap-4 p-4">
-
-                            <div class="min-w-0">
-
-                                <p class="truncate text-sm font-medium text-ink">
-                                    {{ item.name }}
-                                </p>
-
-                                <p class="mt-1 font-mono text-xs text-muted">
-                                    {{ item.quantity }} × Rs {{ item.price }}
-                                </p>
-
+                        <div class="checkout-item-row">
+                            <div class="checkout-item-quantity">{{ item.quantity }}×</div>
+                            <div class="checkout-item-details">
+                                <p>{{ item.name }}</p>
+                                <span>Rs {{ item.price }} each</span>
                             </div>
-
-                            <span class="shrink-0 font-mono text-sm font-semibold text-ink">
-                                Rs {{ item.total }}
-                            </span>
-
+                            <strong>Rs {{ item.total }}</strong>
                         </div>
-
+                        {% empty %}
+                        <div class="checkout-empty-cart"><i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>
+                            <p>Your cart is empty.</p>
+                        </div>
                         {% endfor %}
-
                     </div>
 
+                    <div class="checkout-totals" aria-live="polite">
+                        <div class="checkout-total-row"><span>Subtotal</span><strong id="sum-subtotal">Rs {{ subtotal }}</strong></div>
+                        <div class="checkout-total-row"><span>Discount</span><strong id="sum-discount">- Rs
+                                0.00</strong></div>
+                        <div class="checkout-total-row"><span id="sum-vat-label">VAT ({{ vat_percent }}%)</span><strong
+                                id="sum-vat">Rs {{ vat }}</strong></div>
+                        <div class="checkout-grand-total"><span>Total due</span><strong id="sum-total">Rs {{ total }}</strong></div>
+                        <div id="row-balance" class="hidden checkout-balance-row"><span>Balance due</span><strong
+                                id="sum-balance">Rs 0.00</strong></div>
+                    </div>
 
-                    <!-- Totals -->
-                    <div class="border-t border-line p-5">
+                    <p id="calc-error" role="alert" class="hidden checkout-error"></p>
 
-                        <div class="space-y-3 text-sm" aria-live="polite">
-
-                            <div class="flex justify-between">
-                                <span class="text-muted">Subtotal</span>
-                                <span class="font-mono text-ink" id="sum-subtotal">Rs {{ subtotal }}</span>
-                            </div>
-
-                            <div class="flex justify-between">
-                                <span class="text-muted">Discount</span>
-                                <span class="font-mono text-ink" id="sum-discount">- Rs 0.00</span>
-                            </div>
-
-                            <div class="flex justify-between">
-                                <span class="text-muted" id="sum-vat-label">VAT ({{ vat_percent }}%)</span>
-                                <span class="font-mono text-ink" id="sum-vat">Rs {{ vat }}</span>
-                            </div>
-
-                            <div class="flex items-center justify-between border-t border-line pt-4">
-                                <span class="font-semibold text-ink">Total</span>
-                                <span class="font-mono text-xl font-semibold text-ink" id="sum-total">Rs {{ total }}</span>
-                            </div>
-
-                            <div id="row-balance" class="hidden">
-                                <div class="flex justify-between text-amber">
-                                    <span>Balance due</span>
-                                    <span class="font-mono font-semibold" id="sum-balance">Rs 0.00</span>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <p id="calc-error" role="alert"
-                            class="mt-4 hidden rounded-lg bg-red/10 px-3 py-2 text-sm text-red"></p>
-
-
-                        <!-- Complete -->
-                        <button type="submit" id="complete-btn"
-                            class="mt-6 flex w-full disabled:cursor-not-allowed disabled:opacity-50 items-center justify-center gap-2 rounded-lg bg-brand px-4 py-3 text-sm font-semibold text-white transition hover:bg-brand-dark">
-
-                            <i class="fa-solid fa-check"></i>
-
-                            Complete Sale
-
+                    <div class="checkout-summary-actions">
+                        <button type="submit" id="complete-btn" class="checkout-complete-button">
+                            <i class="fa-solid fa-check" aria-hidden="true"></i><span>Complete sale</span><i
+                                class="fa-solid fa-arrow-right checkout-button-arrow" aria-hidden="true"></i>
                         </button>
-
-
-                        <!-- Back -->
-                        <a href="{% url 'billing_products' %}"
-                            class="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-line px-4 py-3 text-sm font-semibold text-ink transition hover:bg-paper">
-
-                            <i class="fa-solid fa-arrow-left"></i>
-
-                            Back to Cart
-
-                        </a>
-
+                        <a href="{% url 'cart' %}" class="checkout-edit-cart"><i class="fa-solid fa-pen-to-square"
+                                aria-hidden="true"></i> Review cart</a>
                     </div>
-
-                </div>
-
-            </div>
-
+                    <div class="checkout-secure-note"><i class="fa-solid fa-lock" aria-hidden="true"></i> Review totals
+                        before completing payment</div>
+                </section>
+            </aside>
         </div>
-
     </form>
-
 </div>
-
-
 
 <script>
     (function () {
+
         var form = document.getElementById('checkout-form');
         if (!form) return;
 
@@ -338,8 +725,11 @@
 
         function $(id) { return document.getElementById(id); }
 
-        // Money is handled as whole paisa (integers) and VAT as basis points,
-        // so the page agrees with the server, which rounds halves up to 2 places.
+        function setText(id, value) {
+            var el = $(id);
+            if (el) el.textContent = value;
+        }
+
         function toCents(raw) {
             var s = String(raw).trim();
             if (s === '') return 0;
@@ -356,74 +746,94 @@
             return Math.round(n * 100);
         }
 
-        // Mirrors calculate_totals() in billing/views.py
         function calcTotals(subtotalCents, discountCents, vatBp) {
             var taxable = subtotalCents - discountCents;
             var vat = Math.floor((taxable * vatBp + 5000) / 10000);
             return { taxable: taxable, vat: vat, total: taxable + vat };
         }
 
-        function rs(cents) { return 'Rs ' + (cents / 100).toFixed(2); }
+        function rs(cents) {
+            return "Rs " + (cents / 100).toFixed(2);
+        }
 
         function update() {
             var errors = [];
 
             var discountC = toCents(discountInput.value);
             if (discountC === null) {
-                errors.push('Enter a valid discount.');
+                errors.push("Enter valid discount.");
                 discountC = 0;
-            } else if (discountC > subtotal) {
-                errors.push('Discount cannot exceed the subtotal.');
+            }
+            if (discountC > subtotal) {
+                errors.push("Discount cannot exceed subtotal.");
                 discountC = subtotal;
             }
 
             var vatBp = toBasisPoints(vatInput.value);
             if (vatBp === null) {
-                errors.push('VAT must be between 0 and 100.');
+                errors.push("Invalid VAT.");
                 vatBp = toBasisPoints(defaultVat);
             }
 
             var t = calcTotals(subtotal, discountC, vatBp);
 
-            if (!paidTouched) paidInput.value = (t.total / 100).toFixed(2);
+            if (!paidTouched) {
+                paidInput.value = (t.total / 100).toFixed(2);
+            }
 
             var paidC = toCents(paidInput.value);
             if (paidC === null) {
-                errors.push('Enter a valid paid amount.');
+                errors.push("Invalid paid amount.");
                 paidC = 0;
             }
 
             var change = Math.max(paidC - t.total, 0);
             var balance = Math.max(t.total - paidC, 0);
 
-            $('sum-discount').textContent = '- ' + rs(discountC);
-            $('sum-vat-label').textContent = 'VAT (' + (vatBp / 100) + '%)';
-            $('sum-vat').textContent = rs(t.vat);
-            $('sum-total').textContent = rs(t.total);
-            $('change_amount').textContent = rs(change);
-            $('sum-balance').textContent = rs(balance);
-            $('row-balance').classList.toggle('hidden', balance === 0);
+            setText("sum-discount", "- " + rs(discountC));
+            setText("sum-vat", rs(t.vat));
+            setText("sum-total", rs(t.total));
+            setText("change_amount", rs(change));
+            setText("sum-balance", rs(balance));
 
-            var box = $('calc-error');
-            box.textContent = errors.join(' ');
-            box.classList.toggle('hidden', errors.length === 0);
-            $('complete-btn').disabled = errors.length > 0;
+            var row = $("row-balance");
+            if (row) row.classList.toggle("hidden", balance === 0);
+
+            var box = $("calc-error");
+            if (box) {
+                box.textContent = errors.join(" ");
+                box.classList.toggle("hidden", errors.length === 0);
+            }
+
+            var button = $("complete-btn");
+            if (button) button.disabled = errors.length > 0;
         }
 
-        discountInput.addEventListener('input', update);
-        vatInput.addEventListener('input', update);
-        paidInput.addEventListener('input', function () {
+        discountInput.addEventListener("input", update);
+        vatInput.addEventListener("input", update);
+
+        paidInput.addEventListener("input", function () {
             paidTouched = true;
             update();
         });
-        $('paid-full').addEventListener('click', function () {
+
+        $("paid-full").addEventListener("click", function () {
             paidTouched = false;
             update();
         });
 
+        // SUBMIT PROCESSING
+        form.addEventListener("submit", function () {
+            var btn = $("complete-btn");
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+            }
+        });
+
         update();
+
     })();
 </script>
-
 
 {% endblock content %}

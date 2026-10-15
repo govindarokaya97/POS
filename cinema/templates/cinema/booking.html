@@ -1,0 +1,35 @@
+<div class="grid grid-cols-5 gap-3">
+
+
+    {% for seat in seats %}
+
+
+    <label>
+
+        <input type="checkbox" name="seats" value="{{seat}}" {% if seat in booked_seats %} disabled {% endif %}>
+
+        <span class="
+block
+rounded-lg
+border
+p-3
+text-center
+
+{% if seat in booked_seats %}
+bg-red-200
+{% else %}
+bg-green-100
+{% endif %}
+">
+
+            {{seat}}
+
+        </span>
+
+    </label>
+
+
+    {% endfor %}
+
+
+</div>

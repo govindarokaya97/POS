@@ -90,19 +90,20 @@
 
 
                 <div class="relative w-full max-w-xl mx-8">
-                
-                
+
+
                     <input id="globalSearch" type="text" placeholder="Search product, barcode, customer..."
                         class="w-full rounded-lg border border-line px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand" />
-                
-                
-                
-                    <div id="searchResults" class="hidden absolute mt-2 w-full rounded-xl border border-line bg-white shadow-xl z-50">
-                
-                
+
+
+
+                    <div id="searchResults"
+                        class="hidden absolute mt-2 w-full rounded-xl border border-line bg-white shadow-xl z-50">
+
+
                     </div>
-                
-                
+
+
                 </div>
 
 
@@ -110,228 +111,230 @@
                 <!-- Notification -->
 
                 <div class="flex items-center gap-3">
-                
-                
+
+
                     <!-- Notification -->
-                
+
                     <div class="relative">
-                
-                
+
+
                         <button onclick="toggleNotifications()"
                             class="relative flex h-10 w-10 items-center justify-center rounded-lg text-ink hover:bg-black/5">
-                
-                
+
+
                             <i class="fa-solid fa-bell"></i>
-                
-                
+
+
                             {% if low_stock_count or pending_payment_count %}
-                
+
                             <span class="absolute right-1 top-1 h-3 w-3 rounded-full bg-red">
                             </span>
-                
+
                             {% endif %}
-                
-                
+
+
                         </button>
-                
-                
+
+
                         {% include "partials/notifications.html" %}
-                
-                
+
+
                     </div>
-                
-                
-                
-                
-                
+
+
+
+
+
                     <!-- Profile -->
-                
+
                     <div class="relative">
-                
-                
-                        <button onclick="toggleProfile()" class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-black/5">
-                
-                
-                            <div class="flex h-9 w-9 items-center justify-center rounded-full bg-brand/20 text-brand font-semibold">
-                
-                
+
+
+                        <button onclick="toggleProfile()"
+                            class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-black/5">
+
+
+                            <div
+                                class="flex h-9 w-9 items-center justify-center rounded-full bg-brand/20 text-brand font-semibold">
+
+
                                 {{ request.user.username|slice:":1"|upper }}
-                
-                
+
+
                             </div>
-                
-                
+
+
                             <div class="hidden md:block text-left">
-                
-                
+
+
                                 <p class="text-sm font-medium">
-                
+
                                     {{ request.user.username }}
-                
+
                                 </p>
-                
-                
+
+
                                 <p class="text-xs text-muted">
-                
+
                                     Account
-                
+
                                 </p>
-                
-                
+
+
                             </div>
-                
-                
+
+
                             <i class="fa-solid fa-chevron-down text-xs"></i>
-                
-                
+
+
                         </button>
-                
-                
-                
-                
-                
+
+
+
+
+
                         <!-- Profile Dropdown -->
-                
-                
+
+
                         <div id="profileBox"
                             class="hidden absolute right-0 mt-3 w-64 rounded-xl border border-line bg-white shadow-xl z-50">
-                
-                
+
+
                             <div class="border-b border-line px-5 py-4">
-                
-                
+
+
                                 <div class="flex items-center gap-3">
-                
-                
+
+
                                     <div
                                         class="flex h-12 w-12 items-center justify-center rounded-full bg-brand/20 text-brand text-lg font-bold">
-                
-                
+
+
                                         {{ request.user.username|slice:":1"|upper }}
-                
-                
+
+
                                     </div>
-                
-                
+
+
                                     <div>
-                
-                
+
+
                                         <p class="font-semibold">
-                
+
                                             {{ request.user.username }}
-                
+
                                         </p>
-                
-                
-                
+
+
+
                                         {% if request.user.is_superuser %}
-                
-                
+
+
                                         <span class="rounded-full bg-brand/10 px-2 py-1 text-xs text-brand">
-                
+
                                             Admin
-                
+
                                         </span>
-                
-                
+
+
                                         {% elif request.user.is_staff %}
-                
-                
+
+
                                         <span class="rounded-full bg-amber/10 px-2 py-1 text-xs text-amber">
-                
+
                                             Staff
-                
+
                                         </span>
-                
-                
+
+
                                         {% else %}
-                
-                
+
+
                                         <span class="rounded-full bg-black/5 px-2 py-1 text-xs text-muted">
-                
+
                                             Cashier
-                
+
                                         </span>
-                
-                
+
+
                                         {% endif %}
-                
-                
+
+
                                     </div>
-                
-                
+
+
                                 </div>
-                
-                
+
+
                             </div>
-                
-                
-                
-                
-                
+
+
+
+
+
                             <div class="p-3 space-y-1">
-                
-                
+
+
                                 <a href="#" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-paper">
-                
-                
+
+
                                     <i class="fa-solid fa-user"></i>
-                
+
                                     My Profile
-                
-                
+
+
                                 </a>
-                
-                
-                
-                
-                
+
+
+
+
+
                                 <a href="#" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-paper">
-                
-                
+
+
                                     <i class="fa-solid fa-key"></i>
-                
+
                                     Change Password
-                
-                
+
+
                                 </a>
-                
-                
-                
-                
-                
+
+
+
+
+
                                 <form method="post" action="{% url 'logout' %}">
-                
-                
+
+
                                     {% csrf_token %}
-                
-                
+
+
                                     <button
                                         class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-red hover:bg-red/10">
-                
-                
+
+
                                         <i class="fa-solid fa-right-from-bracket"></i>
-                
-                
+
+
                                         Logout
-                
-                
+
+
                                     </button>
-                
-                
+
+
                                 </form>
-                
-                
-                
+
+
+
                             </div>
-                
-                
+
+
                         </div>
-                
-                
+
+
                     </div>
-                
-                
+
+
                 </div>
 
 
@@ -424,66 +427,66 @@
     <script>
 
 
-    const searchInput =
-        document.getElementById(
-            "globalSearch"
-        );
+        const searchInput =
+            document.getElementById(
+                "globalSearch"
+            );
 
 
-    const results =
-        document.getElementById(
-            "searchResults"
-        );
-
-
-
-    if (searchInput) {
-
-
-        searchInput.addEventListener(
-            "input",
-            function () {
-
-
-                let query =
-                    this.value.trim();
+        const results =
+            document.getElementById(
+                "searchResults"
+            );
 
 
 
-                if (query.length < 2) {
-
-                    results.classList.add(
-                        "hidden"
-                    );
-
-                    return;
-
-                }
+        if (searchInput) {
 
 
+            searchInput.addEventListener(
+                "input",
+                function () {
 
-                fetch(
-                    `{% url 'global_search' %}?q=${query}`
-                )
+
+                    let query =
+                        this.value.trim();
 
 
-                    .then(
-                        response => response.json()
+
+                    if (query.length < 2) {
+
+                        results.classList.add(
+                            "hidden"
+                        );
+
+                        return;
+
+                    }
+
+
+
+                    fetch(
+                        `{% url 'global_search' %}?q=${query}`
                     )
 
 
-                    .then(
-                        data => {
+                        .then(
+                            response => response.json()
+                        )
 
 
-                            let html = "";
+                        .then(
+                            data => {
+
+
+                                let html = "";
 
 
 
-                            if (data.products.length) {
+                                if (data.products.length) {
 
 
-                                html += `
+                                    html += `
 
 <p class="px-4 py-2 text-xs uppercase text-muted">
 Products
@@ -493,11 +496,11 @@ Products
 
 
 
-                                data.products.forEach(
-                                    product => {
+                                    data.products.forEach(
+                                        product => {
 
 
-                                        html += `
+                                            html += `
 
 <a href="/inventory/product/"
 class="block px-4 py-2 hover:bg-paper">
@@ -520,17 +523,17 @@ ${product.stock}
 
 `;
 
-                                    });
+                                        });
 
 
-                            }
+                                }
 
 
 
-                            if (data.customers.length) {
+                                if (data.customers.length) {
 
 
-                                html += `
+                                    html += `
 
 <p class="border-t px-4 py-2 text-xs uppercase text-muted">
 
@@ -542,11 +545,11 @@ Customers
 
 
 
-                                data.customers.forEach(
-                                    customer => {
+                                    data.customers.forEach(
+                                        customer => {
 
 
-                                        html += `
+                                            html += `
 
 <a href="#"
 class="block px-4 py-2 hover:bg-paper">
@@ -565,45 +568,45 @@ ${customer.phone ?? ""}
 
 `;
 
-                                    });
+                                        });
 
 
-                            }
+                                }
 
 
 
-                            if (html) {
+                                if (html) {
 
-                                results.innerHTML = html;
+                                    results.innerHTML = html;
 
-                                results.classList.remove(
-                                    "hidden"
-                                );
+                                    results.classList.remove(
+                                        "hidden"
+                                    );
 
 
-                            }
-                            else {
+                                }
+                                else {
 
-                                results.innerHTML =
-                                    `
+                                    results.innerHTML =
+                                        `
 <p class="p-4 text-sm text-muted">
 No results
 </p>
 `;
 
-                                results.classList.remove(
-                                    "hidden"
-                                );
+                                    results.classList.remove(
+                                        "hidden"
+                                    );
 
-                            }
-
-
-                        });
-
-            });
+                                }
 
 
-    }
+                            });
+
+                });
+
+
+        }
 
 
 

@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Cinema Report{% endblock %}
+
+{% block content %}
+
+<div class="space-y-6">
+
+    <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+            <a href="{% url 'cinema_dashboard' %}" class="text-sm font-semibold text-brand">← Counter</a>
+            <h1 class="mt-2 text-3xl font-bold">Collection Report</h1>
+            <p class="mt-1 text-muted">
+                {% if start_day == end_day %}{{ start_day|date:"l, d F Y" }}{% else %}{{ start_day|date:"d M Y" }} – {{ end_day|date:"d M Y" }}{% endif %}
+            </p>
+        </div>
+
+        <form method="get" class="flex flex-wrap items-end gap-3">
+            <label class="text-sm"><span class="block text-muted">From</span>
+                <input type="date" name="from" value="{{ start_day|date:'Y-m-d' }}" class="rounded-lg border border-line bg-white px-3 py-2"></label>
+            <label class="text-sm"><span class="block text-muted">To</span>
+                <input type="date" name="to" value="{{ end_day|date:'Y-m-d' }}" class="rounded-lg border border-line bg-white px-3 py-2"></label>
+            <button class="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white">Show</button>
+            <button type="button" onclick="window.print()" class="rounded-lg border border-line bg-white px-4 py-2 text-sm font-semibold">
+                <i class="fa-solid fa-print mr-1"></i> Print</button>
+        </form>
+    </div>
+
+    <section class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="rounded-2xl border border-line bg-white p-5">
+            <p class="text-sm text-muted">Net collection</p>
+            <p class="mt-1 font-display text-3xl font-semibold text-brand">Rs {{ totals.total|default:0|floatformat:2 }}</p>
+        </div>
+        <div class="rounded-2xl border border-line bg-white p-5">
+            <p class="text-sm text-muted">Tickets sold</p>
+            <p class="mt-1 font-display text-3xl font-semibold">{{ tickets_sold }}</p>
+            <p class="text-xs text-muted">{{ totals.bookings }} bills</p>
+        </div>
+        <div class="rounded-2xl border border-line bg-white p-5">
+            <p class="text-sm text-muted">Discount / VAT</p>
+            <p class="mt-1 text-lg font-semibold">− Rs {{ totals.discount|default:0|floatformat:2 }}</p>
+            <p class="text-sm text-muted">VAT Rs {{ totals.vat|default:0|floatformat:2 }}</p>
+        </div>
+        <div class="rounded-2xl border border-line bg-white p-5">
+            <p class="text-sm text-muted">Cancelled (refunded)</p>
+            <p class="mt-1 font-display text-3xl font-semibold text-red">Rs {{ cancelled_totals.total|default:0|floatformat:2 }}</p>
+            <p class="text-xs text-muted">{{ cancelled_totals.bookings }} bills</p>
+        </div>
+    </section>
+
+    <div class="grid gap-6 lg:grid-cols-3">
+
+        <section class="rounded-2xl border border-line bg-white p-6">
+            <h2 class="mb-4 text-lg font-semibold">By payment method</h2>
+            <table class="w-full text-sm">
+                {% for r in by_method %}
+                <tr class="border-b border-line last:border-0">
+                    <td class="py-2">{{ r.label }}</td><td class="py-2 text-muted">{{ r.bookings }} bills</td>
+                    <td class="py-2 text-right font-semibold">Rs {{ r.total|floatformat:2 }}</td>
+                </tr>
+                {% empty %}<tr><td class="text-muted">No sales.</td></tr>{% endfor %}
+            </table>
+        </section>
+
+        <section class="rounded-2xl border border-line bg-white p-6">
+            <h2 class="mb-4 text-lg font-semibold">By movie</h2>
+            <table class="w-full text-sm">
+                {% for r in by_movie %}
+                <tr class="border-b border-line last:border-0">
+                    <td class="py-2">{{ r.show__movie__title }}</td><td class="py-2 text-muted">{{ r.tickets }} tickets</td>
+                    <td class="py-2 text-right font-semibold">Rs {{ r.total|floatformat:2 }}</td>
+                </tr>
+                {% empty %}<tr><td class="text-muted">No sales.</td></tr>{% endfor %}
+            </table>
+        </section>
+
+        <section class="rounded-2xl border border-line bg-white p-6">
+            <h2 class="mb-4 text-lg font-semibold">By cashier</h2>
+            <table class="w-full text-sm">
+                {% for r in by_cashier %}
+                <tr class="border-b border-line last:border-0">
+                    <td class="py-2">{{ r.created_by__username }}</td><td class="py-2 text-muted">{{ r.bookings }} bills</td>
+                    <td class="py-2 text-right font-semibold">Rs {{ r.total|floatformat:2 }}</td>
+                </tr>
+                {% empty %}<tr><td class="text-muted">No sales.</td></tr>{% endfor %}
+            </table>
+        </section>
+
+    </div>
+</div>
+
+{% endblock %}

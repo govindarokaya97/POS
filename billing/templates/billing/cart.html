@@ -1,213 +1,152 @@
 {% extends "base.html" %}
 
-{% block title %}
-Billing Cart
-{% endblock %}
-
+{% block title %}Billing Cart{% endblock %}
 
 {% block content %}
+<div class="space-y-8">
 
-<div class="space-y-6">
+    <!-- Barcode Scanner -->
+    <div class="rounded-xl border border-line bg-white p-5 shadow-sm">
+        <label for="barcodeInput" class="text-sm font-semibold text-ink">
+            <i class="fa-solid fa-barcode mr-2 text-brand"></i> Scan Barcode
+        </label>
+        <input id="barcodeInput" autofocus type="text" autocomplete="off" placeholder="Scan product barcode..."
+            class="mt-3 w-full rounded-lg border border-line px-4 py-3 font-mono focus:outline-none focus:ring-2 focus:ring-brand">
+        <p id="scanMessage" class="mt-2 hidden text-sm text-red"></p>
+    </div>
 
     <!-- Header -->
-    <div class="flex flex-wrap items-end justify-between gap-4">
-        <div>
-            <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">Billing</p>
-            <h1 class="mt-1 font-display text-3xl font-semibold text-ink">Create Bill</h1>
-            <p class="mt-1 text-sm text-muted">Scan or add products, then proceed to checkout.</p>
-        </div>
-
-        <span
-            class="inline-flex items-center gap-2 rounded-full border border-line bg-white px-3 py-1 text-xs font-medium text-muted">
-            <i class="fa-solid fa-cart-shopping text-brand"></i>
-            {{ cart_items|length }} item{{ cart_items|length|pluralize }}
-        </span>
+    <div>
+        <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">Billing</p>
+        <h1 class="mt-1 font-display text-3xl font-semibold text-ink">Create Bill</h1>
+        <p class="mt-1 text-sm text-muted">Add products and complete checkout.</p>
     </div>
 
-
-    <!-- Barcode scanner -->
-    <div class="rounded-xl border border-line bg-white p-4 shadow-sm">
-        <label for="barcodeInput" class="sr-only">Scan barcode</label>
-
-        <div class="relative">
-            <i
-                class="fa-solid fa-barcode pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-lg text-brand"></i>
-
-            <input id="barcodeInput" autofocus autocomplete="off" type="text"
-                placeholder="Scan product barcode and press Enter…" class="w-full rounded-lg border border-line bg-paper py-3.5 pl-12 pr-4 font-mono
-                          focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand">
+    <!-- Cart -->
+    <div class="overflow-hidden rounded-xl border border-line bg-white shadow-sm">
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead>
+                    <tr class="border-b border-line text-left text-xs uppercase text-muted">
+                        <th class="px-6 py-4">Product</th>
+                        <th class="px-6 py-4">Quantity</th>
+                        <th class="px-6 py-4">Price</th>
+                        <th class="px-6 py-4">Total</th>
+                        <th class="px-6 py-4">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                    <tr class="border-b border-line">
+                        <td class="px-6 py-4 font-medium text-ink">{{ item.product.name }}</td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <a href="{% url 'decrease_cart' item.product.id %}"
+                                    class="flex h-8 w-8 items-center justify-center rounded-lg bg-paper hover:bg-line">-</a>
+                                <span class="font-mono">{{ item.quantity }}</span>
+                                <a href="{% url 'increase_cart' item.product.id %}"
+                                    class="flex h-8 w-8 items-center justify-center rounded-lg bg-paper hover:bg-line">+</a>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 font-mono text-muted">Rs {{ item.price }}</td>
+                        <td class="px-6 py-4 font-mono text-brand">Rs {{ item.total }}</td>
+                        <td class="px-6 py-4">
+                            <a href="{% url 'remove_cart' item.product.id %}" class="text-red hover:text-red-700"
+                                aria-label="Remove {{ item.product.name }}">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="px-6 py-12 text-center text-muted">
+                            <i class="fa-solid fa-cart-shopping text-3xl"></i>
+                            <p class="mt-3">Your cart is empty</p>
+                            <p class="text-sm">Scan a barcode or add products.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-
-        <p id="scanStatus" class="mt-2 hidden text-sm text-red-600" role="alert"></p>
-    </div>
-
-
-    <div class="grid gap-6 lg:grid-cols-3 lg:items-start">
-
-        <!-- Cart table -->
-        <div class="overflow-hidden rounded-xl border border-line bg-white shadow-sm lg:col-span-2">
-
-            <div class="overflow-x-auto">
-                <table class="w-full">
-                    <thead class="bg-paper">
-                        <tr class="border-b border-line text-left text-xs uppercase tracking-wider text-muted">
-                            <th class="px-5 py-3 font-semibold">Product</th>
-                            <th class="px-5 py-3 font-semibold">Quantity</th>
-                            <th class="px-5 py-3 text-right font-semibold">Price</th>
-                            <th class="px-5 py-3 text-right font-semibold"><span class="sr-only">Action</span></th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {% for item in cart_items %}
-                        <tr class="border-b border-line last:border-0 transition hover:bg-paper/60">
-
-                            <td class="px-5 py-4 font-medium text-ink">
-                                {{ item.product.name }}
-                            </td>
-
-                            <td class="px-5 py-4">
-                                <div class="inline-flex items-center rounded-lg border border-line">
-                                    <a href="{% url 'decrease_cart' item.product.id %}" aria-label="Decrease quantity"
-                                        class="flex h-9 w-9 items-center justify-center rounded-l-lg text-muted transition hover:bg-paper hover:text-ink">
-                                        <i class="fa-solid fa-minus text-xs"></i>
-                                    </a>
-
-                                    <span class="min-w-[2.5rem] text-center font-mono text-sm">{{ item.quantity
-                                        }}</span>
-
-                                    <a href="{% url 'increase_cart' item.product.id %}" aria-label="Increase quantity"
-                                        class="flex h-9 w-9 items-center justify-center rounded-r-lg text-muted transition hover:bg-paper hover:text-ink">
-                                        <i class="fa-solid fa-plus text-xs"></i>
-                                    </a>
-                                </div>
-                            </td>
-
-                            <td class="whitespace-nowrap px-5 py-4 text-right font-mono font-medium text-brand">
-                                Rs {{ item.total }}
-                            </td>
-
-                            <td class="px-5 py-4 text-right">
-                                <a href="{% url 'remove_cart' item.product.id %}" aria-label="Remove item"
-                                    class="inline-flex h-9 w-9 items-center justify-center rounded-lg text-muted transition hover:bg-red-50 hover:text-red-600">
-                                    <i class="fa-solid fa-trash"></i>
-                                </a>
-                            </td>
-
-                        </tr>
-
-                        {% empty %}
-
-                        <tr>
-                            <td colspan="4" class="px-6 py-16 text-center text-muted">
-                                <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-paper">
-                                    <i class="fa-solid fa-cart-shopping text-2xl"></i>
-                                </div>
-                                <p class="mt-4 font-medium text-ink">Your cart is empty</p>
-                                <p class="mt-1 text-sm">Scan a barcode to add your first product.</p>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
-            {% if cart_items %}
-            <div class="border-t border-line bg-paper/50 px-5 py-3">
-                <form method="post" action="{% url 'clear_cart' %}"
-                    onsubmit="return confirm('Remove all items from the cart?');">
-                    {% csrf_token %}
-                    <button type="submit"
-                        class="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-muted transition hover:bg-red-50 hover:text-red-600">
-                        <i class="fa-solid fa-trash"></i>
-                        Clear cart
-                    </button>
-                </form>
-            </div>
-            {% endif %}
-        </div>
-
 
         <!-- Summary -->
-        <aside class="rounded-xl border border-line bg-white p-6 shadow-sm lg:sticky lg:top-6">
-
-            <h2 class="text-sm font-semibold uppercase tracking-wider text-muted">Order summary</h2>
-
-            <dl class="mt-4 space-y-3 text-sm">
-                <div class="flex justify-between">
-                    <dt class="text-muted">Subtotal</dt>
-                    <dd class="font-mono">Rs {{ subtotal }}</dd>
+        <div class="border-t border-line p-6">
+            <div class="ml-auto max-w-sm space-y-4">
+                <div class="flex justify-between text-sm">
+                    <span class="text-muted">Subtotal</span>
+                    <span class="font-mono">Rs {{ subtotal }}</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-muted">VAT ({{ vat_percent }}%)</span>
+                    <span class="font-mono">Rs {{ vat }}</span>
+                </div>
+                <div class="flex justify-between border-t border-line pt-4 text-xl font-semibold">
+                    <span>Total</span>
+                    <span class="font-mono text-brand">Rs {{ grand_total }}</span>
                 </div>
 
-                <div class="flex justify-between">
-                    <dt class="text-muted">VAT ({{ vat_percent }}%)</dt>
-                    <dd class="font-mono">Rs {{ vat }}</dd>
-                </div>
-
-                <div class="flex items-baseline justify-between border-t border-dashed border-line pt-4">
-                    <dt class="text-base font-semibold text-ink">Total</dt>
-                    <dd class="font-mono text-2xl font-semibold text-brand">Rs {{ grand_total }}</dd>
-                </div>
-            </dl>
-
-            {% if cart_items %}
-            <a href="{% url 'checkout' %}"
-                class="mt-6 flex items-center justify-center gap-2 rounded-lg bg-brand px-6 py-3.5 text-center font-semibold text-white shadow-sm transition hover:bg-brand-dark">
-                Proceed to checkout
-                <i class="fa-solid fa-arrow-right text-sm"></i>
-            </a>
-            {% else %}
-            <span
-                class="mt-6 flex cursor-not-allowed items-center justify-center gap-2 rounded-lg bg-line px-6 py-3.5 text-center font-semibold text-muted">
-                Proceed to checkout
-            </span>
-            {% endif %}
-        </aside>
-
+                {% if cart_items %}
+                <a href="{% url 'checkout' %}"
+                    class="block rounded-lg bg-brand px-6 py-3 text-center font-semibold text-white transition hover:bg-brand-dark">
+                    Proceed Checkout
+                </a>
+                {% endif %}
+            </div>
+        </div>
     </div>
 
-</div>
+    <!-- Actions -->
+    <div class="flex flex-wrap gap-3">
+        <a href="{% url 'billing_products' %}"
+            class="rounded-lg border border-line px-6 py-3 text-sm font-semibold hover:bg-paper">
+            <i class="fa-solid fa-arrow-left mr-2"></i> Continue Shopping
+        </a>
 
+        {% if cart_items %}
+        <form method="post" action="{% url 'clear_cart' %}">
+            {% csrf_token %}
+            <button type="submit" class="rounded-lg border border-line px-6 py-3 text-sm font-semibold hover:bg-paper">
+                <i class="fa-solid fa-trash mr-2"></i> Clear Cart
+            </button>
+        </form>
+        {% endif %}
+    </div>
+</div>
 
 <script>
     (function () {
-        var barcodeInput = document.getElementById("barcodeInput");
-        var status = document.getElementById("scanStatus");
+        var input = document.getElementById("barcodeInput");
+        var message = document.getElementById("scanMessage");
+        if (!input) return;
 
-        if (!barcodeInput) return;
+        var scanUrl = "{% url 'scan_barcode' %}";
 
-        function showError(msg) {
-            status.textContent = msg;
-            status.classList.remove("hidden");
-        }
-
-        barcodeInput.addEventListener("keydown", function (event) {
+        input.addEventListener("keydown", function (event) {
             if (event.key !== "Enter") return;
-
             event.preventDefault();
 
-            var barcode = this.value.trim();
+            var barcode = input.value.trim();
+            input.value = "";
             if (!barcode) return;
 
-            status.classList.add("hidden");
-
-            fetch(`{% url 'scan_barcode' %}?barcode=${encodeURIComponent(barcode)}`)
-                .then(function (response) { return response.json(); })
+            fetch(scanUrl + "?barcode=" + encodeURIComponent(barcode))
+                .then(function (r) { return r.json(); })
                 .then(function (data) {
                     if (data.success) {
-                        window.location.href =
-                            `{% url 'add_to_cart' 0 %}`.replace("0", data.product.id);
+                        // scan_barcode already added the item to the cart
+                        window.location.reload();
                     } else {
-                        showError(data.message || "Product not found.");
+                        message.textContent = data.message;
+                        message.classList.remove("hidden");
+                        input.focus();
                     }
                 })
                 .catch(function () {
-                    showError("Could not reach the server. Try again.");
+                    message.textContent = "Could not reach the server. Try again.";
+                    message.classList.remove("hidden");
                 });
-
-            this.value = "";
         });
     })();
 </script>
-
 {% endblock %}

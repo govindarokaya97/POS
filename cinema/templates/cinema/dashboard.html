@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Cinema Counter{% endblock %}
+
+{% block content %}
+
+<div class="space-y-8">
+
+    <header class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+            <p class="font-mono text-xs uppercase tracking-[0.2em] text-brand">Cinema Management</p>
+            <h1 class="mt-2 text-3xl font-bold text-ink">Ticket Counter</h1>
+            <p class="mt-2 text-muted">{{ today|date:"l, d F Y" }}</p>
+        </div>
+
+        <div class="flex flex-wrap gap-2 text-sm font-semibold">
+            <a href="{% url 'booking_list' %}" class="rounded-lg border border-line bg-white px-4 py-2 hover:bg-paper">
+                <i class="fa-solid fa-receipt mr-1"></i> Bookings
+            </a>
+            <a href="{% url 'verify_ticket' %}" class="rounded-lg border border-line bg-white px-4 py-2 hover:bg-paper">
+                <i class="fa-solid fa-barcode mr-1"></i> Verify Entry
+            </a>
+            <a href="{% url 'cinema_report' %}" class="rounded-lg border border-line bg-white px-4 py-2 hover:bg-paper">
+                <i class="fa-solid fa-chart-column mr-1"></i> Daily Report
+            </a>
+        </div>
+    </header>
+
+    <!-- Today at a glance -->
+    <section class="grid gap-4 sm:grid-cols-3">
+        <div class="rounded-2xl border border-line bg-white p-5">
+            <p class="text-sm text-muted">Tickets sold today</p>
+            <p class="mt-1 font-display text-3xl font-semibold">{{ tickets_sold_today }}</p>
+        </div>
+        <div class="rounded-2xl border border-line bg-white p-5">
+            <p class="text-sm text-muted">Sales today</p>
+            <p class="mt-1 font-display text-3xl font-semibold text-brand">Rs {{ revenue_today|floatformat:2 }}</p>
+        </div>
+        <div class="rounded-2xl border border-line bg-white p-5">
+            <p class="text-sm text-muted">Bills today</p>
+            <p class="mt-1 font-display text-3xl font-semibold">{{ bookings_today }}</p>
+        </div>
+    </section>
+
+    <!-- Today's shows: the main working list -->
+    <section class="rounded-xl border border-line bg-white p-6">
+        <h2 class="mb-5 text-xl font-semibold">Today's Shows</h2>
+
+        <div class="space-y-3">
+            {% for show in today_shows %}
+            {% include "cinema/_show_row.html" %}
+            {% empty %}
+            <p class="text-muted">No shows scheduled for today. Add shows in
+                <a class="font-semibold text-brand" href="{% url 'admin:cinema_show_changelist' %}">Admin</a>.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    {% if later_shows %}
+    <section class="rounded-xl border border-line bg-white p-6">
+        <h2 class="mb-5 text-xl font-semibold">Upcoming Shows</h2>
+        <div class="space-y-3">
+            {% for show in later_shows %}
+            {% include "cinema/_show_row.html" with show_date=True %}
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Movies -->
+    <section>
+        <div class="mb-5 flex items-center justify-between">
+            <h2 class="text-xl font-semibold">Now Showing</h2>
+            <a href="{% url 'admin:cinema_movie_changelist' %}" class="text-sm font-semibold text-brand">Manage Movies →</a>
+        </div>
+
+        <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+            {% for movie in movies %}
+            <div class="rounded-2xl border border-line bg-white p-6 shadow-sm">
+                <div class="flex gap-4">
+                    {% if movie.poster %}
+                    <img src="{{ movie.poster.url }}" alt="" class="h-24 w-16 rounded-lg object-cover">
+                    {% else %}
+                    <div class="flex h-24 w-16 items-center justify-center rounded-lg bg-brand/10 text-2xl text-brand">
+                        <i class="fa-solid fa-film"></i>
+                    </div>
+                    {% endif %}
+                    <div>
+                        <h3 class="text-lg font-bold">{{ movie.title }}</h3>
+                        <p class="mt-1 text-sm text-muted">{{ movie.language }} • {{ movie.duration }} min</p>
+                    </div>
+                </div>
+
+                <div class="mt-4 flex flex-wrap gap-2">
+                    {% for show in movie.upcoming_shows|slice:":6" %}
+                    <a href="{% url 'seat_selection' show.id %}"
+                        class="rounded-lg border border-line px-3 py-1.5 text-xs font-semibold hover:border-brand hover:text-brand">
+                        {% if show.show_date != today %}{{ show.show_date|date:"d M" }} {% endif %}{{ show.start_time|time:"H:i" }}
+                    </a>
+                    {% empty %}
+                    <span class="text-xs text-muted">No upcoming shows</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-muted">No active movies.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+</div>
+
+{% endblock %}

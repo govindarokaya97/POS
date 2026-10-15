@@ -1,193 +1,58 @@
 {% extends "base.html" %}
 
-{% block title %}
-Invoice {{ invoice.invoice_number }}
-{% endblock %}
-
+{% block title %}Invoice {{ invoice.invoice_number }}{% endblock %}
 
 {% block content %}
 <style>
+    /* Paper width: change 48mm here and in .receipt below to match your printer. */
     @page {
         size: 48mm auto;
-        margin: 2mm;
-    }
-
-    /* ---------- Screen: preview the receipt like a paper slip ---------- */
-    .receipt-stage {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-        padding: 24px 12px 40px;
+        margin: 0;
     }
 
     .receipt {
-        position: relative;
         width: 48mm;
-        box-sizing: content-box;
-        padding: 4mm 3mm 5mm;
-        background: #fff;
-        color: #000;
+        margin: 0 auto;
+        padding: 5px;
         font-family: "Courier New", monospace;
         font-size: 12px;
-        font-weight: 600;
-        line-height: 1.4;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, .08), 0 12px 32px rgba(0, 0, 0, .12);
+        color: #000;
+        background: #fff;
     }
 
-    /* torn-paper edge on screen only */
-    .receipt::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: -6px;
-        height: 6px;
-        background:
-            linear-gradient(135deg, #fff 50%, transparent 50%) 0 0 / 8px 6px repeat-x,
-            linear-gradient(225deg, #fff 50%, transparent 50%) 0 0 / 8px 6px repeat-x;
+    .receipt h2 {
+        margin: 4px 0;
+        font-size: 15px;
     }
 
     .receipt p {
         margin: 2px 0;
     }
 
-    .center {
+    .receipt .center {
         text-align: center;
     }
 
-    .bold,
-    .receipt strong,
-    .receipt b {
-        font-weight: 900;
-    }
-
-    .company-name {
-        margin: 0 0 2px;
-        font-size: 17px;
-        font-weight: 900;
-        letter-spacing: .08em;
-        text-transform: uppercase;
-    }
-
-    .muted {
-        font-size: 11px;
-        font-weight: 600;
-    }
-
-    .divider {
+    .receipt .sep {
         border-top: 1px dashed #000;
-        margin: 7px 0;
+        margin: 6px 0;
     }
 
-    .divider-solid {
-        border-top: 2px solid #000;
-        margin: 7px 0;
-    }
-
-    /* meta rows */
-    .meta-row,
-    .line-row,
-    .sum-row {
+    .receipt .row {
         display: flex;
         justify-content: space-between;
         gap: 6px;
     }
 
-    .meta-row span:first-child {
-        font-weight: 600;
+    .receipt .item {
+        margin-bottom: 5px;
     }
 
-    .meta-row span:last-child {
-        font-weight: 900;
-        text-align: right;
-    }
-
-    /* items */
-    .item {
-        margin: 6px 0;
-    }
-
-    .item-name {
-        font-weight: 900;
-        word-break: break-word;
-    }
-
-    .item-calc {
-        font-weight: 600;
-    }
-
-    /* totals */
-    .sum-row {
-        margin: 2px 0;
-    }
-
-    .sum-total {
-        margin: 4px 0;
-        padding: 3px 0;
-        border-top: 1px solid #000;
-        border-bottom: 1px solid #000;
-        font-size: 15px;
-        font-weight: 900;
-    }
-
-    .footer-msg {
-        font-size: 11px;
-        margin-top: 4px;
-    }
-
-    .footer-msg p {
-        margin: 2px 0;
-    }
-
-    /* ---------- Action bar (screen only) ---------- */
-    .receipt-actions {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-    }
-
-    .btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 18px;
-        border-radius: 10px;
-        font-family: system-ui, sans-serif;
+    .receipt .grand {
+        font-weight: bold;
         font-size: 14px;
-        font-weight: 600;
-        text-decoration: none;
-        cursor: pointer;
-        transition: transform .1s ease, box-shadow .15s ease, background .15s ease;
     }
 
-    .btn:active {
-        transform: translateY(1px);
-    }
-
-    .btn-primary {
-        background: #0f766e;
-        color: #fff;
-        border: 1px solid #0f766e;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
-    }
-
-    .btn-primary:hover {
-        background: #115e59;
-    }
-
-    .btn-secondary {
-        background: #fff;
-        color: #111827;
-        border: 1px solid #d1d5db;
-    }
-
-    .btn-secondary:hover {
-        background: #f3f4f6;
-    }
-
-    /* ---------- Print: only the receipt ---------- */
     @media print {
         body * {
             visibility: hidden;
@@ -202,114 +67,111 @@ Invoice {{ invoice.invoice_number }}
             position: absolute;
             left: 0;
             top: 0;
-            width: 48mm;
-            padding: 2mm;
-            box-shadow: none;
-            font-weight: 700;
+            padding: 2px;
         }
 
-        .receipt::after {
-            display: none;
-        }
-
-        .receipt-actions {
+        .no-print {
             display: none !important;
-        }
-
-        img {
-            max-width: 50px;
         }
     }
 </style>
 
-<div class="receipt-stage">
+<div class="receipt">
 
-    <div class="receipt">
-
-        <div class="center">
-            <h2 class="company-name">ABC Company</h2>
-            <p class="muted">Pahalmanpur</p>
-            <p class="muted">VAT No: 872354687534</p>
-        </div>
-
-        <div class="divider-solid"></div>
-
-        <div>
-            <div class="meta-row">
-                <span>Invoice</span>
-                <span>{{ invoice.invoice_number }}</span>
-            </div>
-            <div class="meta-row">
-                <span>Date</span>
-                <span>{{ invoice.created_at|date:"Y-m-d H:i" }}</span>
-            </div>
-            <div class="meta-row">
-                <span>Customer</span>
-                <span>
-                    {% if invoice.customer %}{{ invoice.customer.name }}{% else %}Walk-in Customer{% endif %}
-                </span>
-            </div>
-        </div>
-
-        <div class="divider"></div>
-
-        {% for item in invoice.items.all %}
-        <div class="item">
-            <div class="item-name">{{ item.product.name }}</div>
-            <div class="line-row item-calc">
-                <span>{{ item.quantity }} x {{ item.price }}</span>
-                <strong>{{ item.total }}</strong>
-            </div>
-        </div>
-        {% endfor %}
-
-        <div class="divider"></div>
-
-        <div class="sum-row"><span>Subtotal</span><span>{{ invoice.subtotal }}</span></div>
-        <div class="sum-row"><span>Discount</span><span>- {{ invoice.discount }}</span></div>
-        <div class="sum-row"><span>VAT</span><span>{{ invoice.tax }}</span></div>
-
-        <div class="sum-row sum-total">
-            <span>TOTAL</span>
-            <span>{{ invoice.total }}</span>
-        </div>
-
-        <div class="sum-row"><span>Paid</span><span>{{ invoice.paid_amount }}</span></div>
-
-        {% if invoice.return_amount > 0 %}
-        <div class="sum-row bold"><span>Return</span><span>{{ invoice.return_amount }}</span></div>
+    <div class="center">
+        {% if shop.logo %}
+        <img src="{{ shop.logo.url }}" alt="" style="width:60px;margin:0 auto;">
         {% endif %}
+        <h2>{{ shop.shop_name|default:"MY SHOP" }}</h2>
+        {% if shop.address %}<p>{{ shop.address }}</p>{% endif %}
+        {% if shop.phone %}<p>Phone: {{ shop.phone }}</p>{% endif %}
+        {% if shop.vat_number %}<p>VAT No: {{ shop.vat_number }}</p>{% endif %}
+    </div>
 
-        <div class="sum-row"><span>Due</span><span>{{ invoice.due_amount }}</span></div>
+    <div class="sep"></div>
 
-        <div class="divider"></div>
+    <div>
+        Invoice: {{ invoice.invoice_number }}<br>
+        Date: {{ invoice.created_at|date:"Y-m-d H:i" }}<br>
+        Customer:
+        {% if invoice.customer %}{{ invoice.customer.name }}{% else %}Walk-in Customer{% endif %}<br>
+        {% if invoice.customer.phone %}Phone: {{ invoice.customer.phone }}<br>{% endif %}
+        Cashier: {{ invoice.created_by.get_username }}
+    </div>
 
-        <div class="center footer-msg">
-            {{ shop.footer_message|linebreaks }}
+    <div class="sep"></div>
+
+    {% for item in invoice.items.all %}
+    <div class="item">
+        {{ item.product.name }}
+        <div class="row">
+            <span>{{ item.quantity }} x {{ item.price }}</span>
+            <span>{{ item.total }}</span>
         </div>
-
     </div>
+    {% endfor %}
 
-    <div class="receipt-actions no-print">
-        <a href="javascript:window.print()" class="btn btn-primary">
-            <i class="fa-solid fa-print"></i>
-            Print Receipt
-        </a>
-        <a href="{% url 'invoice_pdf' invoice.id %}" class="btn btn-secondary">
-            <i class="fa-solid fa-file-pdf"></i>
-            Download PDF
-        </a>
+    <div class="sep"></div>
+
+    <div class="row"><span>Subtotal</span><span>{{ invoice.subtotal }}</span></div>
+    {% if invoice.discount > 0 %}
+    <div class="row"><span>Discount</span><span>- {{ invoice.discount }}</span></div>
+    {% endif %}
+    <div class="row"><span>VAT</span><span>{{ invoice.vat }}</span></div>
+    {% if invoice.tax > 0 %}
+    <div class="row"><span>Tax</span><span>{{ invoice.tax }}</span></div>
+    {% endif %}
+    <div class="row grand"><span>TOTAL</span><span>{{ invoice.total }}</span></div>
+
+    <div class="sep"></div>
+
+    <div class="row"><span>Paid ({{ payment_label }})</span><span>{{ invoice.paid_amount }}</span></div>
+    {% if return_amount > 0 %}
+    <div class="row"><span>Change</span><span>{{ return_amount }}</span></div>
+    {% endif %}
+    {% if invoice.due_amount > 0 %}
+    <div class="row grand"><span>DUE</span><span>{{ invoice.due_amount }}</span></div>
+    {% else %}
+    <div class="center"><strong>** PAID **</strong></div>
+    {% endif %}
+
+    <div class="sep"></div>
+
+    <div class="center">
+        {{ shop.footer_message|default:"Thank You! Visit Again"|linebreaks }}
     </div>
+</div>
 
+<!-- Actions (never printed) -->
+<div class="no-print mx-auto mt-6 flex max-w-md flex-wrap justify-center gap-3">
+    <button type="button" onclick="window.print()"
+        class="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white">
+        <i class="fa-solid fa-print"></i> Print Receipt
+    </button>
+
+    <a href="{% url 'invoice_pdf' invoice.id %}"
+        class="inline-flex items-center gap-2 rounded-lg border border-line px-4 py-2 text-sm font-semibold">
+        <i class="fa-solid fa-file-pdf"></i> Download PDF
+    </a>
+
+    {% if invoice.due_amount > 0 %}
+    <a href="{% url 'invoice_payment' invoice.id %}"
+        class="inline-flex items-center gap-2 rounded-lg border border-line px-4 py-2 text-sm font-semibold">
+        <i class="fa-solid fa-money-bill"></i> Receive Payment
+    </a>
+    {% endif %}
+
+    <a href="{% url 'billing_products' %}"
+        class="inline-flex items-center gap-2 rounded-lg border border-line px-4 py-2 text-sm font-semibold">
+        <i class="fa-solid fa-plus"></i> New Sale
+    </a>
 </div>
 
 {% if auto_print %}
 <script>
-    window.onload = function () {
-        setTimeout(function () {
-            window.print();
-        }, 500);
-    };
+    window.addEventListener("load", function () {
+        setTimeout(function () { window.print(); }, 500);
+    });
 </script>
 {% endif %}
 

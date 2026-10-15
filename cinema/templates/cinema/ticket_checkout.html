@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+
+{% block title %}Billing – {{ show.movie.title }}{% endblock %}
+
+{% block content %}
+
+<div class="space-y-6">
+
+    <div>
+        <a href="{% url 'seat_selection' show.id %}" class="text-sm font-semibold text-brand">← Change seats</a>
+        <h1 class="mt-2 text-3xl font-bold">Billing</h1>
+    </div>
+
+    <form method="post" id="billForm" class="grid gap-6 lg:grid-cols-[1fr_24rem]"
+        data-subtotal="{{ subtotal }}">
+        {% csrf_token %}
+
+        {% for seat in seats %}
+        <input type="hidden" name="seats" value="{{ seat.id }}">
+        {% endfor %}
+
+        <!-- Left: show + payment details -->
+        <div class="space-y-6">
+
+            <section class="rounded-2xl border border-line bg-white p-6">
+                <h2 class="text-lg font-semibold">{{ show.movie.title }}</h2>
+                <p class="mt-1 text-sm text-muted">
+                    {{ show.hall.name }} • {{ show.show_date|date:"D, d M Y" }} {{ show.start_time|time:"H:i" }}
+                </p>
+
+                <div class="mt-4 flex flex-wrap gap-2">
+                    {% for seat in seats %}
+                    <span class="rounded-lg bg-brand/10 px-3 py-1 font-mono text-sm font-semibold text-brand">{{ seat.seat_number }}</span>
+                    {% endfor %}
+                </div>
+
+                <p class="mt-4 text-sm text-muted">
+                    {{ seat_count }} × Rs {{ show.ticket_price|floatformat:2 }}
+                </p>
+            </section>
+
+            <section class="rounded-2xl border border-line bg-white p-6">
+                <h2 class="text-lg font-semibold">Payment</h2>
+
+                <div class="mt-4 grid gap-4 sm:grid-cols-2">
+                    <label class="block text-sm">
+                        <span class="font-medium">Discount (Rs)</span>
+                        <input type="number" step="0.01" min="0" name="discount" id="discount"
+                            value="{{ form.discount|default:'0' }}"
+                            class="mt-1 w-full rounded-lg border border-line px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand">
+                    </label>
+
+                    <label class="block text-sm">
+                        <span class="font-medium">VAT (%)</span>
+                        <input type="number" step="0.01" min="0" max="100" name="vat_percent" id="vat"
+                            value="{{ form.vat_percent|default:default_vat }}"
+                            class="mt-1 w-full rounded-lg border border-line px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand">
+                    </label>
+                </div>
+
+                <div class="mt-4">
+                    <span class="text-sm font-medium">Payment method</span>
+                    <div class="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                        {% for value, label in payment_methods %}
+                        <label>
+                            <input type="radio" name="payment_method" value="{{ value }}" class="peer hidden"
+                                {% if form.payment_method == value or not form.payment_method and value == 'cash' %}checked{% endif %}>
+                            <div class="cursor-pointer rounded-lg border border-line px-3 py-2 text-center text-sm font-semibold peer-checked:border-brand peer-checked:bg-brand peer-checked:text-white">
+                                {{ label }}
+                            </div>
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <label class="block text-sm">
+                        <span class="font-medium">Amount received (Rs)</span>
+                        <div class="mt-1 flex gap-2">
+                            <input type="number" step="0.01" min="0" name="paid_amount" id="received"
+                                value="{{ form.paid_amount }}" placeholder="Leave blank if exact"
+                                class="w-full rounded-lg border border-line px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand">
+                            <button type="button" id="exactBtn"
+                                class="shrink-0 rounded-lg border border-line px-4 py-2 text-sm font-semibold hover:bg-paper">Exact</button>
+                        </div>
+                    </label>
+                </div>
+            </section>
+
+            <section class="rounded-2xl border border-line bg-white p-6">
+                <h2 class="text-lg font-semibold">Customer <span class="text-sm font-normal text-muted">(optional)</span></h2>
+
+                <div class="mt-4 grid gap-4 sm:grid-cols-2">
+                    <input type="text" name="customer_name" maxlength="100" placeholder="Name"
+                        value="{{ form.customer_name }}"
+                        class="w-full rounded-lg border border-line px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand">
+                    <input type="text" name="customer_phone" maxlength="20" placeholder="Phone"
+                        value="{{ form.customer_phone }}"
+                        class="w-full rounded-lg border border-line px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand">
+                </div>
+            </section>
+        </div>
+
+        <!-- Right: bill summary -->
+        <aside class="h-fit rounded-2xl border border-line bg-white p-6 lg:sticky lg:top-6">
+            <h2 class="text-lg font-semibold">Bill</h2>
+
+            <dl class="mt-4 space-y-2 text-sm">
+                <div class="flex justify-between"><dt class="text-muted">Subtotal</dt><dd>Rs <span id="sSub">{{ subtotal }}</span></dd></div>
+                <div class="flex justify-between"><dt class="text-muted">Discount</dt><dd>− Rs <span id="sDisc">0.00</span></dd></div>
+                <div class="flex justify-between"><dt class="text-muted">VAT</dt><dd>Rs <span id="sVat">0.00</span></dd></div>
+            </dl>
+
+            <div class="mt-4 flex justify-between border-t border-line pt-4 text-xl font-bold">
+                <span>Total</span><span>Rs <span id="sTotal">0.00</span></span>
+            </div>
+
+            <div class="mt-3 flex justify-between text-sm">
+                <span class="text-muted">Change to return</span>
+                <span class="font-semibold text-brand">Rs <span id="sChange">0.00</span></span>
+            </div>
+            <p id="shortMsg" class="mt-2 hidden text-sm font-semibold text-red">Received amount is less than the total.</p>
+
+            <button type="submit" id="payBtn"
+                class="mt-6 w-full rounded-lg bg-brand px-6 py-3 font-semibold text-white hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-40">
+                <i class="fa-solid fa-print mr-1"></i> Confirm &amp; Print
+            </button>
+        </aside>
+
+    </form>
+</div>
+
+<script>
+    (function () {
+        const form = document.getElementById("billForm");
+        const subtotal = parseFloat(form.dataset.subtotal);
+        const $ = id => document.getElementById(id);
+        let total = 0;
+
+        function calc() {
+            const disc = Math.max(parseFloat($("discount").value) || 0, 0);
+            const vatPct = Math.max(parseFloat($("vat").value) || 0, 0);
+            const taxable = Math.max(subtotal - disc, 0);
+            const vat = Math.round(taxable * vatPct) / 100;
+            total = taxable + vat;
+
+            $("sDisc").textContent = Math.min(disc, subtotal).toFixed(2);
+            $("sVat").textContent = vat.toFixed(2);
+            $("sTotal").textContent = total.toFixed(2);
+
+            const raw = $("received").value.trim();
+            const received = raw === "" ? total : parseFloat(raw) || 0;
+            const short = received + 0.0001 < total;
+
+            $("sChange").textContent = Math.max(received - total, 0).toFixed(2);
+            $("shortMsg").classList.toggle("hidden", !short);
+            $("payBtn").disabled = short || disc > subtotal;
+        }
+
+        ["discount", "vat", "received"].forEach(id => $(id).addEventListener("input", calc));
+        $("exactBtn").addEventListener("click", () => { $("received").value = total.toFixed(2); calc(); });
+
+        // Stop a double click from creating two bills.
+        form.addEventListener("submit", () => { $("payBtn").disabled = true; });
+
+        window.addEventListener("pageshow", calc);
+        calc();
+    })();
+</script>
+
+{% endblock %}

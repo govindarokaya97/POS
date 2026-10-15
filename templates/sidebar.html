@@ -1,24 +1,65 @@
 {% with page=request.resolver_match.url_name %}
 <div id="sidebar-backdrop" class="fixed inset-0 z-30 hidden bg-black/50 lg:hidden" aria-hidden="true"></div>
-<button id="sidebar-open" type="button" class="fixed bottom-4 left-4 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-ink text-white shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:hidden" aria-controls="sidebar" aria-expanded="false" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
-<aside id="sidebar" aria-label="Main navigation" class="fixed inset-y-0 left-0 z-40 flex w-64 shrink-0 -translate-x-full flex-col bg-ink text-white/90 transition-transform duration-200 motion-reduce:transition-none lg:sticky lg:top-0 lg:h-screen lg:translate-x-0">
+<button id="sidebar-open" type="button"
+    class="fixed bottom-4 left-4 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-ink text-white shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:hidden"
+    aria-controls="sidebar" aria-expanded="false" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+<aside id="sidebar" aria-label="Main navigation"
+    class="fixed inset-y-0 left-0 z-40 flex w-64 shrink-0 -translate-x-full flex-col bg-ink text-white/90 transition-transform duration-200 motion-reduce:transition-none lg:sticky lg:top-0 lg:h-screen lg:translate-x-0">
     <div class="flex items-center justify-between border-b border-white/10 px-6 py-5">
-        <a href="{% url 'pos_home' %}" class="font-display text-lg font-semibold tracking-tight text-white">POS <span class="text-brand">Workspace</span></a>
-        <button id="sidebar-close" type="button" class="flex h-8 w-8 items-center justify-center rounded-lg text-white/70 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 lg:hidden" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+        <a href="{% url 'pos_home' %}" class="font-display text-lg font-semibold tracking-tight text-white">POS <span
+                class="text-brand">Workspace</span></a>
+        <button id="sidebar-close" type="button"
+            class="flex h-8 w-8 items-center justify-center rounded-lg text-white/70 hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 lg:hidden"
+            aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
     </div>
-    <div class="flex items-center gap-3 border-b border-white/10 px-6 py-4">
-        <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand/20 font-display text-sm font-semibold text-brand">{{ request.user.username|slice:":1"|upper }}</div>
-        <div class="min-w-0"><p class="truncate text-sm font-medium text-white">{{ request.user.username }}</p><p class="text-xs text-white/55">{% if request.user.is_superuser %}Administrator{% elif request.user.is_staff %}Staff{% else %}Cashier{% endif %}</p></div>
-    </div>
+
     <nav class="flex-1 space-y-2 overflow-y-auto px-3 py-4" aria-label="Main sections">
-        <a href="{% url 'billing_products' %}" {% if page == 'billing_products' or page == 'cart' or page == 'checkout' or page == 'scan_barcode' %}aria-current="page"{% endif %} class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition {% if page == 'billing_products' or page == 'cart' or page == 'checkout' or page == 'scan_barcode' %}bg-brand text-white{% else %}text-white/75 hover:bg-white/10 hover:text-white{% endif %}"><i class="fa-solid fa-cart-shopping w-5 text-center"></i><span>POS &amp; Checkout</span></a>
+        <a href="{% url 'billing_products' %}" {% if page == 'billing_products' or page == 'cart' or page == 'checkout' or page == 'scan_barcode' %}aria-current="page" {% endif %}
+            class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition {% if page == 'billing_products' or page == 'cart' or page == 'checkout' or page == 'scan_barcode' %}bg-brand text-white{% else %}text-white/75 hover:bg-white/10 hover:text-white{% endif %}"><i
+                class="fa-solid fa-cart-shopping w-5 text-center"></i><span>POS &amp; Checkout</span></a>
         {% if request.user.is_staff or request.user.is_superuser %}
-        <a href="{% url 'management_home' %}" {% if page == 'management_home' %}aria-current="page"{% endif %} class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition {% if page == 'management_home' %}bg-white/10 text-white{% else %}text-white/75 hover:bg-white/10 hover:text-white{% endif %}"><i class="fa-solid fa-layer-group w-5 text-center"></i><span>Management</span></a>
+
+        <a href="{% url 'cinema_dashboard' %}" class="
+        flex
+        items-center
+        gap-3
+        rounded-xl
+        px-4
+        py-3
+        text-sm
+        font-semibold
+        
+        {% if request.path|slice:":8" == '/cinema/' %}
+        bg-brand text-white
+        {% else %}
+        text-white/70 hover:bg-white/10
+        {% endif %}
+        ">
+        
+        
+            <i class="fa-solid fa-film w-5"></i>
+        
+        
+            <span>
+                Cinema Counter
+            </span>
+        
+        
+        </a>
+        
+        <a href="{% url 'management_home' %}" {% if page == 'management_home' %}aria-current="page" {% endif %}
+            class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition {% if page == 'management_home' %}bg-white/10 text-white{% else %}text-white/75 hover:bg-white/10 hover:text-white{% endif %}"><i
+                class="fa-solid fa-layer-group w-5 text-center"></i><span>Management</span></a>
         {% endif %}
     </nav>
     <div class="border-t border-white/10 px-4 py-4">
-        <a href="{% url 'pos_home' %}" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-white/65 hover:bg-white/5 hover:text-white"><i class="fa-solid fa-house w-5 text-center"></i>Home</a>
-        <form method="post" action="{% url 'logout' %}" class="mt-1">{% csrf_token %}<button type="submit" class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-white/65 hover:bg-white/5 hover:text-white"><i class="fa-solid fa-right-from-bracket w-5 text-center"></i>Sign out</button></form>
+        <a href="{% url 'pos_home' %}"
+            class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm text-white/65 hover:bg-white/5 hover:text-white"><i
+                class="fa-solid fa-house w-5 text-center"></i>Home</a>
+        <form method="post" action="{% url 'logout' %}" class="mt-1">{% csrf_token %}<button type="submit"
+                class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm text-white/65 hover:bg-white/5 hover:text-white"><i
+                    class="fa-solid fa-right-from-bracket w-5 text-center"></i>Sign out</button></form>
     </div>
+
 </aside>
 {% endwith %}

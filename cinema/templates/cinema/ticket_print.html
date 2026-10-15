@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+
+{% block title %}{{ booking.booking_number }}{% endblock %}
+
+{% block content %}
+<style>
+    /* Paper width: change 48mm here and in .slip below to match your printer
+       (same setting as the product invoice receipt). */
+    @page {
+        size: 48mm auto;
+        margin: 0;
+    }
+
+    .slip {
+        width: 48mm;
+        margin: 0 auto 16px;
+        padding: 5px;
+        font-family: "Courier New", monospace;
+        font-size: 12px;
+        color: #000;
+        background: #fff;
+        box-sizing: border-box;
+    }
+
+    .slip h2 { margin: 4px 0; font-size: 15px; }
+    .slip p { margin: 2px 0; }
+    .slip .center { text-align: center; }
+    .slip .sep { border-top: 1px dashed #000; margin: 6px 0; }
+    .slip .row { display: flex; justify-content: space-between; gap: 6px; }
+    .slip .grand { font-weight: bold; font-size: 14px; }
+    .slip .big-seat { font-size: 26px; font-weight: bold; margin: 4px 0; }
+    .slip .movie { font-size: 14px; font-weight: bold; }
+    .slip .barcode svg { width: 100%; height: auto; display: block; }
+    .slip .void { border: 2px solid #000; text-align: center; font-weight: bold; margin: 4px 0; padding: 2px; }
+
+    @media print {
+        body * { visibility: hidden; }
+
+        #print-area, #print-area * { visibility: visible; }
+
+        #print-area { position: absolute; left: 0; top: 0; }
+
+        .slip { margin: 0; padding: 2px; page-break-after: always; }
+        .slip:last-child { page-break-after: auto; }
+
+        .no-print { display: none !important; }
+    }
+</style>
+
+<div id="print-area">
+
+    <!-- Bill -->
+    <div class="slip">
+        <div class="center">
+            {% if shop.logo %}
+            <img src="{{ shop.logo.url }}" alt="" style="width:60px;margin:0 auto;">
+            {% endif %}
+            <h2>{{ shop.shop_name|default:"CINEMA" }}</h2>
+            {% if shop.address %}<p>{{ shop.address }}</p>{% endif %}
+            {% if shop.phone %}<p>Phone: {{ shop.phone }}</p>{% endif %}
+            {% if shop.vat_number %}<p>VAT No: {{ shop.vat_number }}</p>{% endif %}
+        </div>
+
+        {% if booking.is_cancelled %}<div class="void">** CANCELLED **</div>{% endif %}
+
+        <div class="sep"></div>
+
+        <div>
+            Bill: {{ booking.booking_number }}<br>
+            Date: {{ booking.created_at|date:"Y-m-d H:i" }}<br>
+            Customer: {% if booking.customer_name %}{{ booking.customer_name }}{% else %}Walk-in{% endif %}<br>
+            {% if booking.customer_phone %}Phone: {{ booking.customer_phone }}<br>{% endif %}
+            Cashier: {{ booking.created_by.get_username }}
+        </div>
+
+        <div class="sep"></div>
+
+        <p class="movie">{{ show.movie.title }}</p>
+        <p>{{ show.hall.name }}</p>
+        <p>{{ show.show_date|date:"D d M Y" }} {{ show.start_time|time:"H:i" }}</p>
+
+        <div class="sep"></div>
+
+        {% for ticket in tickets %}
+        <div class="row"><span>Seat {{ ticket.seat.seat_number }}</span><span>{{ ticket.price }}</span></div>
+        {% endfor %}
+
+        <div class="sep"></div>
+
+        <div class="row"><span>Subtotal</span><span>{{ booking.subtotal }}</span></div>
+        {% if booking.discount > 0 %}
+        <div class="row"><span>Discount</span><span>- {{ booking.discount }}</span></div>
+        {% endif %}
+        {% if booking.vat > 0 %}
+        <div class="row"><span>VAT ({{ booking.vat_percent|floatformat:"-2" }}%)</span><span>{{ booking.vat }}</span></div>
+        {% endif %}
+        <div class="row grand"><span>TOTAL</span><span>{{ booking.total }}</span></div>
+
+        <div class="sep"></div>
+
+        <div class="row"><span>Received ({{ payment_label }})</span><span>{{ received }}</span></div>
+        {% if booking.return_amount > 0 %}
+        <div class="row"><span>Change</span><span>{{ booking.return_amount }}</span></div>
+        {% endif %}
+        <div class="center"><strong>** PAID **</strong></div>
+
+        <div class="sep"></div>
+
+        <div class="center">
+            {{ shop.footer_message|default:"Thank You! Enjoy the show"|linebreaks }}
+        </div>
+    </div>
+
+    <!-- One admission ticket per seat -->
+    {% for ticket in tickets %}
+    <div class="slip">
+        <div class="center">
+            <p><strong>{{ shop.shop_name|default:"CINEMA" }}</strong></p>
+            <p>ADMIT ONE</p>
+        </div>
+
+        {% if booking.is_cancelled %}<div class="void">** CANCELLED **</div>{% endif %}
+
+        <div class="sep"></div>
+
+        <p class="movie">{{ show.movie.title }}</p>
+        <p>{{ show.hall.name }}</p>
+        <p>{{ show.show_date|date:"D d M Y" }}</p>
+        <p>Time: {{ show.start_time|time:"H:i" }}</p>
+
+        <div class="center">
+            <div class="sep"></div>
+            <p>SEAT</p>
+            <p class="big-seat">{{ ticket.seat.seat_number }}</p>
+            <p>Rs {{ ticket.price }}</p>
+            <div class="sep"></div>
+        </div>
+
+        <div class="barcode">{{ ticket.barcode_svg }}</div>
+
+        <p class="center" style="font-size:10px;">{{ ticket.ticket_number }}</p>
+    </div>
+    {% endfor %}
+
+</div>
+
+<!-- Actions (never printed) -->
+<div class="no-print mx-auto mt-6 flex max-w-xl flex-wrap justify-center gap-3">
+
+    {% if not booking.is_cancelled %}
+    <button type="button" onclick="window.print()"
+        class="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white">
+        <i class="fa-solid fa-print"></i> Print Bill &amp; Tickets
+    </button>
+    {% endif %}
+
+    <a href="{% url 'seat_selection' show.id %}"
+        class="inline-flex items-center gap-2 rounded-lg border border-line bg-white px-4 py-2 text-sm font-semibold">
+        <i class="fa-solid fa-plus"></i> Sell More (this show)
+    </a>
+
+    <a href="{% url 'cinema_dashboard' %}"
+        class="inline-flex items-center gap-2 rounded-lg border border-line bg-white px-4 py-2 text-sm font-semibold">
+        <i class="fa-solid fa-film"></i> Counter
+    </a>
+
+    {% if not booking.is_cancelled %}
+    <form method="post" action="{% url 'booking_cancel' booking.id %}"
+        onsubmit="return confirm('Cancel {{ booking.booking_number }} and release the seats?');">
+        {% csrf_token %}
+        <button type="submit"
+            class="inline-flex items-center gap-2 rounded-lg border border-red/40 bg-white px-4 py-2 text-sm font-semibold text-red hover:bg-red/10">
+            <i class="fa-solid fa-ban"></i> Cancel Booking
+        </button>
+    </form>
+    {% endif %}
+</div>
+
+{% if auto_print %}
+<script>
+    window.addEventListener("load", function () {
+        setTimeout(function () { window.print(); }, 500);
+    });
+</script>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Verify Entry{% endblock %}
+
+{% block content %}
+
+<div class="mx-auto max-w-xl space-y-6">
+
+    <div>
+        <a href="{% url 'cinema_dashboard' %}" class="text-sm font-semibold text-brand">← Counter</a>
+        <h1 class="mt-2 text-3xl font-bold">Verify Entry</h1>
+        <p class="mt-1 text-muted">Scan the ticket barcode (or type the ticket number) and press Enter.</p>
+    </div>
+
+    <form id="verifyForm" class="flex gap-2">
+        {% csrf_token %}
+        <input id="code" name="ticket" type="text" autocomplete="off" autofocus placeholder="BK-00001-A1"
+            class="w-full rounded-lg border border-line bg-white px-4 py-3 font-mono text-lg focus:outline-none focus:ring-2 focus:ring-brand">
+        <button class="rounded-lg bg-brand px-6 py-3 font-semibold text-white">Check</button>
+    </form>
+
+    <div id="result" class="hidden rounded-2xl p-6 text-center"></div>
+
+    <div>
+        <h2 class="mb-2 text-sm font-semibold uppercase tracking-wide text-muted">Recent scans</h2>
+        <ul id="history" class="divide-y divide-line rounded-xl border border-line bg-white text-sm"></ul>
+    </div>
+
+</div>
+
+<script>
+    (function () {
+        const form = document.getElementById("verifyForm");
+        const input = document.getElementById("code");
+        const box = document.getElementById("result");
+        const history = document.getElementById("history");
+
+        const styles = {
+            valid:        ["bg-brand", "text-white", "ENTRY ALLOWED"],
+            already_used: ["bg-red", "text-white", "ALREADY USED"],
+            cancelled:    ["bg-red", "text-white", "CANCELLED"],
+            expired:      ["bg-amber", "text-white", "SHOW ENDED"],
+            wrong_date:   ["bg-amber", "text-white", "WRONG DATE"],
+            invalid:      ["bg-red", "text-white", "INVALID TICKET"],
+        };
+
+        function esc(s) {
+            const d = document.createElement("div");
+            d.textContent = s ?? "";
+            return d.innerHTML;
+        }
+
+        form.addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const code = input.value.trim();
+            if (!code) return;
+
+            let data;
+            try {
+                const res = await fetch("{% url 'verify_ticket' %}", {
+                    method: "POST",
+                    headers: { "X-CSRFToken": form.querySelector("[name=csrfmiddlewaretoken]").value },
+                    body: new URLSearchParams({ ticket: code }),
+                });
+                data = await res.json();
+            } catch (err) {
+                data = { status: "invalid", message: "Could not reach the server. Try again." };
+            }
+
+            const [bg, fg, title] = styles[data.status] || styles.invalid;
+            box.className = `rounded-2xl p-6 text-center ${bg} ${fg}`;
+            box.innerHTML = `
+                <p class="text-2xl font-bold">${title}</p>
+                <p class="mt-1">${esc(data.message)}</p>
+                ${data.movie ? `
+                <p class="mt-4 text-lg font-semibold">${esc(data.movie)}</p>
+                <p>${esc(data.hall)} • ${esc(data.date)} ${esc(data.time)}</p>
+                <p class="mt-2 font-mono text-3xl font-bold">Seat ${esc(data.seat)}</p>` : ""}`;
+
+            const li = document.createElement("li");
+            li.className = "flex justify-between px-4 py-2";
+            li.innerHTML = `<span class="font-mono">${esc(code)}</span><span class="font-semibold">${title}</span>`;
+            history.prepend(li);
+            while (history.children.length > 10) history.lastChild.remove();
+
+            input.value = "";
+            input.focus();
+        });
+    })();
+</script>
+
+{% endblock %}

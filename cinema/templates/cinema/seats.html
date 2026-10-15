@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Select Seats{% endblock %}
+
+{% block content %}
+
+<div class="space-y-6">
+
+    <div class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <a href="{% url 'cinema_dashboard' %}" class="text-sm font-semibold text-brand">← Counter</a>
+            <h1 class="mt-2 text-3xl font-bold">{{ show.movie.title }}</h1>
+            <p class="mt-1 text-muted">
+                {{ show.hall.name }} • {{ show.show_date|date:"D, d M Y" }} {{ show.start_time|time:"H:i" }}
+                • Rs {{ show.ticket_price|floatformat:2 }} per seat
+            </p>
+        </div>
+        <p class="text-sm text-muted">{{ sold }} of {{ total_seats }} seats sold</p>
+    </div>
+
+    <form method="get" action="{% url 'ticket_checkout' show.id %}" id="seatForm"
+        data-price="{{ show.ticket_price }}" class="grid gap-6 lg:grid-cols-[1fr_20rem]">
+
+        <div class="overflow-x-auto rounded-2xl border border-line bg-white p-6">
+
+            <div class="mx-auto mb-8 max-w-xl rounded-xl bg-ink py-2 text-center text-sm font-semibold tracking-widest text-white">
+                SCREEN
+            </div>
+
+            <div class="mx-auto w-fit space-y-2">
+                {% for label, row_seats in rows %}
+                <div class="flex items-center gap-2">
+                    <span class="w-6 text-center font-mono text-xs text-muted">{{ label }}</span>
+
+                    {% for seat in row_seats %}
+                    <label title="{{ seat.seat_number }}">
+                        <input type="checkbox" name="seats" value="{{ seat.id }}"
+                            data-label="{{ seat.seat_number }}" class="peer hidden"
+                            {% if seat.is_booked %}disabled{% endif %}>
+                        <div class="flex h-9 w-9 items-center justify-center rounded-lg border text-xs font-medium
+                            {% if seat.is_booked %}cursor-not-allowed border-gray-300 bg-gray-300 text-gray-500 line-through
+                            {% else %}cursor-pointer border-line bg-white hover:border-brand peer-checked:border-brand peer-checked:bg-brand peer-checked:text-white{% endif %}">
+                            {{ seat.seat_number|cut:label }}
+                        </div>
+                    </label>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="mt-8 flex justify-center gap-6 text-xs text-muted">
+                <span class="flex items-center gap-2"><i class="inline-block h-4 w-4 rounded border border-line bg-white"></i> Available</span>
+                <span class="flex items-center gap-2"><i class="inline-block h-4 w-4 rounded bg-brand"></i> Selected</span>
+                <span class="flex items-center gap-2"><i class="inline-block h-4 w-4 rounded bg-gray-300"></i> Sold</span>
+            </div>
+        </div>
+
+        <aside class="h-fit rounded-2xl border border-line bg-white p-6 lg:sticky lg:top-6">
+            <h2 class="text-lg font-semibold">Selection</h2>
+
+            <p id="selSeats" class="mt-3 min-h-6 font-mono text-sm text-muted">No seats selected</p>
+
+            <div class="mt-4 flex justify-between text-sm">
+                <span class="text-muted">Tickets</span><span id="selCount" class="font-semibold">0</span>
+            </div>
+            <div class="mt-2 flex justify-between text-lg font-bold">
+                <span>Subtotal</span><span>Rs <span id="selTotal">0.00</span></span>
+            </div>
+
+            <button id="continueBtn" type="submit" disabled
+                class="mt-6 w-full rounded-lg bg-brand px-6 py-3 font-semibold text-white hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-40">
+                Continue to Billing
+            </button>
+        </aside>
+
+    </form>
+</div>
+
+<script>
+    (function () {
+        const form = document.getElementById("seatForm");
+        const price = parseFloat(form.dataset.price);
+        const boxes = form.querySelectorAll('input[name="seats"]');
+
+        function update() {
+            const picked = Array.from(boxes).filter(b => b.checked);
+            document.getElementById("selCount").textContent = picked.length;
+            document.getElementById("selTotal").textContent = (picked.length * price).toFixed(2);
+            document.getElementById("selSeats").textContent =
+                picked.length ? picked.map(b => b.dataset.label).join(", ") : "No seats selected";
+            document.getElementById("continueBtn").disabled = picked.length === 0;
+        }
+
+        boxes.forEach(b => b.addEventListener("change", update));
+        update();
+    })();
+</script>
+
+{% endblock %}

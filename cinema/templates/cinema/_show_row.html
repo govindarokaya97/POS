@@ -1,0 +1,23 @@
+<div class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-line p-4 hover:bg-paper">
+    <div>
+        <h3 class="font-semibold">{{ show.movie.title }}</h3>
+        <p class="text-sm text-muted">
+            {{ show.hall.name }} •
+            {% if show_date %}{{ show.show_date|date:"D, d M" }} {% endif %}{{ show.start_time|time:"H:i" }}
+            • {{ show.sold_count }}/{{ show.seat_count|default:show.hall.total_seats }} seats sold
+        </p>
+    </div>
+
+    <div class="flex items-center gap-4 text-right">
+        <p class="font-bold text-brand">Rs {{ show.ticket_price|floatformat:2 }}</p>
+
+        {% if show.has_ended %}
+        <span class="rounded-full bg-black/5 px-3 py-1 text-xs font-semibold text-muted">Ended</span>
+        {% else %}
+        <a href="{% url 'seat_selection' show.id %}"
+            class="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark">
+            Sell Tickets
+        </a>
+        {% endif %}
+    </div>
+</div>

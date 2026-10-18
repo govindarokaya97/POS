@@ -4,6 +4,13 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
+from .pricing import (
+    DEFAULT_GOLD_PRICE,
+    DEFAULT_SILVER_PRICE,
+    GOLD,
+    SECTION_CHOICES,
+)
+
 
 class Movie(models.Model):
 
@@ -33,6 +40,14 @@ class CinemaHall(models.Model):
     name = models.CharField(max_length=100)
 
     total_seats = models.PositiveIntegerField(default=100)
+
+    gold_rows = models.PositiveIntegerField(
+        default=3,
+        help_text=(
+            "How many rows, counted from the back of the hall, are Gold. "
+            "All other rows are Silver. Applies to shows created afterwards."
+        ),
+    )
 
     description = models.TextField(blank=True)
 
@@ -65,7 +80,20 @@ class Show(models.Model):
 
     start_time = models.TimeField()
 
-    ticket_price = models.DecimalField(max_digits=10, decimal_places=2)
+    gold_price = models.DecimalField(
+        max_digits=10, decimal_places=2, default=DEFAULT_GOLD_PRICE,
+        help_text="Full price of a Gold seat, VAT and local tax included.",
+    )
+
+    silver_price = models.DecimalField(
+        max_digits=10, decimal_places=2, default=DEFAULT_SILVER_PRICE,
+        help_text="Full price of a Silver seat, VAT and local tax included.",
+    )
+
+    # Single price from the first version. No longer used (see gold/silver).
+    ticket_price = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0, editable=False
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -74,6 +102,9 @@ class Show(models.Model):
 
     def __str__(self):
         return f"{self.movie} - {self.show_date} {self.start_time}"
+
+    def price_for(self, section):
+        return self.gold_price if section == GOLD else self.silver_price
 
     @property
     def starts_at(self):
@@ -103,6 +134,10 @@ class Seat(models.Model):
 
     is_booked = models.BooleanField(default=False)
 
+    section = models.CharField(
+        max_length=10, choices=SECTION_CHOICES, default="silver"
+    )
+
     class Meta:
         unique_together = [("show", "seat_number")]
 
@@ -111,7 +146,7 @@ class Seat(models.Model):
 
 
 class Booking(models.Model):
-    """One counter sale (the bill). Holds one Ticket per seat."""
+    """One invoice = one seat. (A counter sale of 3 seats makes 3 invoices.)"""
 
     PAYMENT_METHODS = (
         ("cash", "Cash"),
@@ -126,6 +161,9 @@ class Booking(models.Model):
     )
 
     booking_number = models.CharField(max_length=30, unique=True)
+
+    # Seats paid for together share a sale_ref; each seat is its own invoice.
+    sale_ref = models.CharField(max_length=30, blank=True, db_index=True)
 
     show = models.ForeignKey(
         Show,
@@ -150,6 +188,12 @@ class Booking(models.Model):
     vat_percent = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
     vat = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+
+    local_tax_percent = models.DecimalField(
+        max_digits=5, decimal_places=2, default=0
+    )
+
+    local_tax = models.DecimalField(max_digits=12, decimal_places=2, default=0)
 
     total = models.DecimalField(max_digits=12, decimal_places=2, default=0)
 
@@ -208,6 +252,10 @@ class Ticket(models.Model):
     )
 
     ticket_number = models.CharField(max_length=40, unique=True)
+
+    section = models.CharField(
+        max_length=10, choices=SECTION_CHOICES, default="silver"
+    )
 
     price = models.DecimalField(max_digits=10, decimal_places=2)
 

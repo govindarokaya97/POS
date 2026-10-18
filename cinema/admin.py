@@ -17,7 +17,7 @@ class MovieAdmin(admin.ModelAdmin):
 @admin.register(CinemaHall)
 class CinemaHallAdmin(admin.ModelAdmin):
 
-    list_display = ("name", "total_seats", "is_active")
+    list_display = ("name", "total_seats", "gold_rows", "is_active")
 
 
 @admin.register(Show)
@@ -28,7 +28,8 @@ class ShowAdmin(admin.ModelAdmin):
         "hall",
         "show_date",
         "start_time",
-        "ticket_price",
+        "gold_price",
+        "silver_price",
     )
 
     list_filter = ("show_date", "hall")
@@ -65,6 +66,8 @@ class BookingAdmin(admin.ModelAdmin):
     list_display = (
         "booking_number",
         "show",
+        "vat",
+        "local_tax",
         "total",
         "payment_method",
         "status",

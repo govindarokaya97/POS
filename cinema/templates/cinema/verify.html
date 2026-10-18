@@ -76,7 +76,8 @@
                 ${data.movie ? `
                 <p class="mt-4 text-lg font-semibold">${esc(data.movie)}</p>
                 <p>${esc(data.hall)} • ${esc(data.date)} ${esc(data.time)}</p>
-                <p class="mt-2 font-mono text-3xl font-bold">Seat ${esc(data.seat)}</p>` : ""}`;
+                <p class="mt-2 font-mono text-3xl font-bold">Seat ${esc(data.seat)}</p>
+                <p class="text-lg font-semibold uppercase tracking-widest">${esc(data.section)}</p>` : ""}`;
 
             const li = document.createElement("li");
             li.className = "flex justify-between px-4 py-2";

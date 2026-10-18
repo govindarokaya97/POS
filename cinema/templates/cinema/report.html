@@ -34,28 +34,41 @@
         <div class="rounded-2xl border border-line bg-white p-5">
             <p class="text-sm text-muted">Tickets sold</p>
             <p class="mt-1 font-display text-3xl font-semibold">{{ tickets_sold }}</p>
-            <p class="text-xs text-muted">{{ totals.bookings }} bills</p>
+            <p class="text-xs text-muted">{{ totals.bookings }} invoices</p>
         </div>
         <div class="rounded-2xl border border-line bg-white p-5">
-            <p class="text-sm text-muted">Discount / VAT</p>
-            <p class="mt-1 text-lg font-semibold">− Rs {{ totals.discount|default:0|floatformat:2 }}</p>
-            <p class="text-sm text-muted">VAT Rs {{ totals.vat|default:0|floatformat:2 }}</p>
+            <p class="text-sm text-muted">Taxes inside collection</p>
+            <p class="mt-1 text-sm">VAT <strong>Rs {{ totals.vat|default:0|floatformat:2 }}</strong></p>
+            <p class="text-sm">Local tax <strong>Rs {{ totals.local_tax|default:0|floatformat:2 }}</strong></p>
+            <p class="text-xs text-muted">Base Rs {{ totals.subtotal|default:0|floatformat:2 }}</p>
         </div>
         <div class="rounded-2xl border border-line bg-white p-5">
             <p class="text-sm text-muted">Cancelled (refunded)</p>
             <p class="mt-1 font-display text-3xl font-semibold text-red">Rs {{ cancelled_totals.total|default:0|floatformat:2 }}</p>
-            <p class="text-xs text-muted">{{ cancelled_totals.bookings }} bills</p>
+            <p class="text-xs text-muted">{{ cancelled_totals.bookings }} invoices</p>
         </div>
     </section>
 
-    <div class="grid gap-6 lg:grid-cols-3">
+    <div class="grid gap-6 lg:grid-cols-2 xl:grid-cols-4">
 
         <section class="rounded-2xl border border-line bg-white p-6">
             <h2 class="mb-4 text-lg font-semibold">By payment method</h2>
             <table class="w-full text-sm">
                 {% for r in by_method %}
                 <tr class="border-b border-line last:border-0">
-                    <td class="py-2">{{ r.label }}</td><td class="py-2 text-muted">{{ r.bookings }} bills</td>
+                    <td class="py-2">{{ r.label }}</td><td class="py-2 text-muted">{{ r.bookings }} invoices</td>
+                    <td class="py-2 text-right font-semibold">Rs {{ r.total|floatformat:2 }}</td>
+                </tr>
+                {% empty %}<tr><td class="text-muted">No sales.</td></tr>{% endfor %}
+            </table>
+        </section>
+
+        <section class="rounded-2xl border border-line bg-white p-6">
+            <h2 class="mb-4 text-lg font-semibold">By section</h2>
+            <table class="w-full text-sm">
+                {% for r in by_section %}
+                <tr class="border-b border-line last:border-0">
+                    <td class="py-2">{{ r.label }}</td><td class="py-2 text-muted">{{ r.tickets }} seats</td>
                     <td class="py-2 text-right font-semibold">Rs {{ r.total|floatformat:2 }}</td>
                 </tr>
                 {% empty %}<tr><td class="text-muted">No sales.</td></tr>{% endfor %}
@@ -79,7 +92,7 @@
             <table class="w-full text-sm">
                 {% for r in by_cashier %}
                 <tr class="border-b border-line last:border-0">
-                    <td class="py-2">{{ r.created_by__username }}</td><td class="py-2 text-muted">{{ r.bookings }} bills</td>
+                    <td class="py-2">{{ r.created_by__username }}</td><td class="py-2 text-muted">{{ r.bookings }} invoices</td>
                     <td class="py-2 text-right font-semibold">Rs {{ r.total|floatformat:2 }}</td>
                 </tr>
                 {% empty %}<tr><td class="text-muted">No sales.</td></tr>{% endfor %}

@@ -4,7 +4,6 @@ from datetime import datetime, time, timedelta
 from decimal import ROUND_HALF_UP, Decimal, InvalidOperation
 from itertools import groupby
 
-from django.conf import settings
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.db import transaction
@@ -19,6 +18,13 @@ from billing.models import ShopSetting
 from core.permissions import staff_required
 
 from .models import Booking, Movie, Seat, Show, Ticket
+from .pricing import (
+    SECTION_CHOICES,
+    local_tax_percent,
+    prices_include_tax,
+    tax_breakdown,
+    vat_percent,
+)
 from .utils import generate_seats, seat_row, seat_sort_key, ticket_barcode_svg
 
 logger = logging.getLogger(__name__)
@@ -32,14 +38,6 @@ TWO_PLACES = Decimal("0.01")
 
 class BookingError(Exception):
     """A problem the cashier can fix (shown as a message, not a crash)."""
-
-
-def _default_vat():
-    """Counter default VAT %. Set CINEMA_VAT_PERCENT in settings.py (e.g. 13)."""
-    try:
-        return Decimal(str(getattr(settings, "CINEMA_VAT_PERCENT", "0")))
-    except InvalidOperation:
-        return Decimal("0")
 
 
 def _money(raw, label, default="0"):
@@ -56,24 +54,27 @@ def _money(raw, label, default="0"):
     return value.quantize(TWO_PLACES, rounding=ROUND_HALF_UP)
 
 
-def _calculate(price, seat_count, discount, vat_percent):
-    subtotal = (price * seat_count).quantize(TWO_PLACES)
+def _price_lines(show, seats):
+    """One line per seat: its section price split into base / VAT / local tax,
+    plus the grand totals for the whole counter sale."""
+    lines = []
 
-    if discount > subtotal:
-        raise BookingError("Discount cannot exceed the subtotal.")
+    for seat in seats:
+        price = show.price_for(seat.section)
+        lines.append({
+            "seat": seat,
+            "section": seat.section,
+            "section_label": seat.get_section_display(),
+            "price": price,
+            **tax_breakdown(price),
+        })
 
-    taxable = subtotal - discount
-
-    vat = (taxable * vat_percent / 100).quantize(
-        TWO_PLACES, rounding=ROUND_HALF_UP
-    )
-
-    return {
-        "subtotal": subtotal,
-        "discount": discount,
-        "vat": vat,
-        "total": (taxable + vat).quantize(TWO_PLACES),
+    totals = {
+        key: sum((line[key] for line in lines), Decimal("0.00"))
+        for key in ("base", "vat", "local_tax", "total")
     }
+
+    return lines, totals
 
 
 def _parse_seat_ids(values):
@@ -190,16 +191,30 @@ def seat_selection(request, id):
 
     seats = sorted(show.seats.all(), key=seat_sort_key)
 
-    rows = [
-        (label, list(group))
-        for label, group in groupby(seats, key=seat_row)
-    ]
+    rows = []
+    previous_section = None
+
+    for label, group in groupby(seats, key=seat_row):
+        row_seats = list(group)
+        section = row_seats[0].section
+        rows.append({
+            "label": label,
+            "seats": row_seats,
+            "section": section,
+            "section_label": row_seats[0].get_section_display(),
+            "price": show.price_for(section),
+            "starts_section": section != previous_section,
+        })
+        previous_section = section
 
     context = {
         "show": show,
         "rows": rows,
         "sold": sum(1 for s in seats if s.is_booked),
         "total_seats": len(seats),
+        "vat_percent": vat_percent(),
+        "local_tax_percent": local_tax_percent(),
+        "tax_included": prices_include_tax(),
     }
 
     return render(request, "cinema/seats.html", context)
@@ -209,9 +224,12 @@ def seat_selection(request, id):
 # Step 2: bill + payment
 # --------------------------------------------------------------------------
 
-def _create_booking(request, show):
+def _create_sale(request, show):
     """Runs inside transaction.atomic(). Locks the seats so two counters
-    can never sell the same seat."""
+    can never sell the same seat, then makes ONE INVOICE PER SEAT.
+
+    Returns (bookings, change_to_return).
+    """
 
     seat_ids = _parse_seat_ids(request.POST.getlist("seats"))
 
@@ -232,73 +250,72 @@ def _create_booking(request, show):
             "Already sold: " + ", ".join(sorted(taken, key=seat_sort_key))
         )
 
-    discount = _money(request.POST.get("discount"), "Discount")
-
-    vat_percent = _money(
-        request.POST.get("vat_percent"),
-        "VAT",
-        default=str(_default_vat()),
-    )
-
-    if vat_percent > 100:
-        raise BookingError("VAT cannot be more than 100%.")
-
     payment_method = request.POST.get("payment_method", "cash")
 
     if payment_method not in dict(Booking.PAYMENT_METHODS):
         raise BookingError("Invalid payment method.")
 
-    amounts = _calculate(show.ticket_price, len(seats), discount, vat_percent)
+    seats.sort(key=seat_sort_key)
 
-    total = amounts["total"]
+    lines, totals = _price_lines(show, seats)
 
     # Blank "received" means the exact amount was paid.
     received = _money(
         request.POST.get("paid_amount"),
         "Received amount",
-        default=str(total),
+        default=str(totals["total"]),
     )
 
-    if received < total:
+    if received < totals["total"]:
         raise BookingError(
             "Received amount is less than the total. "
             "Tickets must be paid in full."
         )
 
-    seats.sort(key=seat_sort_key)
+    sale_ref = f"SL-{uuid.uuid4().hex[:10].upper()}"
+    customer_name = request.POST.get("customer_name", "").strip()[:100]
+    customer_phone = request.POST.get("customer_phone", "").strip()[:20]
 
-    booking = Booking.objects.create(
-        booking_number=f"TEMP-{uuid.uuid4().hex[:12]}",
-        show=show,
-        created_by=request.user,
-        customer_name=request.POST.get("customer_name", "").strip()[:100],
-        customer_phone=request.POST.get("customer_phone", "").strip()[:20],
-        subtotal=amounts["subtotal"],
-        discount=amounts["discount"],
-        vat_percent=vat_percent,
-        vat=amounts["vat"],
-        total=total,
-        paid_amount=total,
-        return_amount=(received - total).quantize(TWO_PLACES),
-        payment_method=payment_method,
-    )
+    bookings = []
 
-    booking.booking_number = f"BK-{booking.pk:05d}"
-    booking.save(update_fields=["booking_number"])
+    for line in lines:
+        seat = line["seat"]
 
-    Ticket.objects.bulk_create([
-        Ticket(
+        booking = Booking.objects.create(
+            booking_number=f"TEMP-{uuid.uuid4().hex[:12]}",
+            sale_ref=sale_ref,
+            show=show,
+            created_by=request.user,
+            customer_name=customer_name,
+            customer_phone=customer_phone,
+            subtotal=line["base"],
+            discount=Decimal("0.00"),
+            vat_percent=line["vat_percent"],
+            vat=line["vat"],
+            local_tax_percent=line["local_tax_percent"],
+            local_tax=line["local_tax"],
+            total=line["total"],
+            paid_amount=line["total"],
+            return_amount=Decimal("0.00"),
+            payment_method=payment_method,
+        )
+
+        booking.booking_number = f"BK-{booking.pk:05d}"
+        booking.save(update_fields=["booking_number"])
+
+        Ticket.objects.create(
             booking=booking,
             seat=seat,
+            section=seat.section,
             ticket_number=f"{booking.booking_number}-{seat.seat_number}",
-            price=show.ticket_price,
+            price=line["total"],
         )
-        for seat in seats
-    ])
+
+        bookings.append(booking)
 
     Seat.objects.filter(id__in=seat_ids).update(is_booked=True)
 
-    return booking
+    return bookings, (received - totals["total"]).quantize(TWO_PLACES)
 
 
 def _load_selected_seats(show, seat_ids):
@@ -339,7 +356,7 @@ def ticket_checkout(request, id):
 
         try:
             with transaction.atomic():
-                booking = _create_booking(request, show)
+                bookings, change = _create_sale(request, show)
 
         except BookingError as e:
             messages.error(request, str(e))
@@ -348,28 +365,31 @@ def ticket_checkout(request, id):
             logger.exception("Cinema booking failed")
             messages.error(
                 request,
-                "Could not create the booking. Nothing was charged.",
+                "Could not create the invoices. Nothing was charged.",
             )
             return redirect("seat_selection", id=show.id)
 
         else:
-            messages.success(
-                request,
-                f"Booking {booking.booking_number} created.",
-            )
+            note = f"{len(bookings)} invoice(s) created."
+            if change > 0:
+                note += f" Return change: Rs {change}."
+            messages.success(request, note)
+
             return redirect(
-                f"{reverse('ticket_print', kwargs={'id': booking.id})}"
+                f"{reverse('sale_print', kwargs={'ref': bookings[0].sale_ref})}"
                 "?print=true"
             )
 
-    subtotal = (show.ticket_price * len(seats)).quantize(TWO_PLACES)
+    lines, totals = _price_lines(show, seats)
 
     context = {
         "show": show,
-        "seats": seats,
+        "lines": lines,
+        "totals": totals,
         "seat_count": len(seats),
-        "subtotal": subtotal,
-        "default_vat": _default_vat(),
+        "vat_percent": vat_percent(),
+        "local_tax_percent": local_tax_percent(),
+        "tax_included": prices_include_tax(),
         "payment_methods": Booking.PAYMENT_METHODS,
         # Keep what the cashier typed if the form comes back with an error.
         "form": request.POST if request.method == "POST" else {},
@@ -382,34 +402,55 @@ def ticket_checkout(request, id):
 # Bill + ticket print
 # --------------------------------------------------------------------------
 
-@staff_required
-def ticket_print(request, id):
+def _render_invoices(request, bookings, *, single):
+    """One printed slip per seat: the invoice and the entry ticket in one."""
 
-    booking = get_object_or_404(
-        Booking.objects.select_related(
-            "show__movie", "show__hall", "created_by"
-        ),
-        id=id,
-    )
+    slips = []
 
-    tickets = list(booking.tickets.select_related("seat"))
-
-    for ticket in tickets:
-        ticket.barcode_svg = ticket_barcode_svg(ticket.ticket_number)
+    for booking in bookings:
+        for ticket in booking.tickets.all():
+            ticket.barcode_svg = ticket_barcode_svg(ticket.ticket_number)
+            slips.append({"booking": booking, "ticket": ticket})
 
     context = {
-        "booking": booking,
-        "show": booking.show,
-        "tickets": tickets,
+        "slips": slips,
+        "bookings": bookings,
+        "show": bookings[0].show,
+        "single": single,
+        "booking": bookings[0],
         "shop": ShopSetting.objects.first(),
-        "payment_label": booking.get_payment_method_display(),
-        "received": booking.paid_amount + booking.return_amount,
         "auto_print": (
-            request.GET.get("print") == "true" and not booking.is_cancelled
+            request.GET.get("print") == "true"
+            and any(not b.is_cancelled for b in bookings)
         ),
     }
 
     return render(request, "cinema/ticket_print.html", context)
+
+
+def _invoice_queryset():
+    return Booking.objects.select_related(
+        "show__movie", "show__hall", "created_by"
+    ).prefetch_related("tickets__seat")
+
+
+@staff_required
+def ticket_print(request, id):
+    """Reprint a single invoice (one seat)."""
+    booking = get_object_or_404(_invoice_queryset(), id=id)
+    return _render_invoices(request, [booking], single=True)
+
+
+@staff_required
+def sale_print(request, ref):
+    """Print every invoice of one counter sale, one slip per seat."""
+    bookings = list(_invoice_queryset().filter(sale_ref=ref).order_by("id"))
+
+    if not bookings:
+        messages.error(request, "Sale not found.")
+        return redirect("cinema_dashboard")
+
+    return _render_invoices(request, bookings, single=False)
 
 
 # --------------------------------------------------------------------------
@@ -429,9 +470,9 @@ def booking_list(request):
 
     bookings = Booking.objects.select_related(
         "show__movie", "show__hall", "created_by"
-    ).annotate(
-        ticket_count=Count("tickets")
-    ).order_by("-created_at", "-id")   # annotate() drops Meta.ordering
+    ).prefetch_related(
+        "tickets__seat"
+    ).order_by("-created_at", "-id")
 
     if query:
         bookings = bookings.filter(
@@ -534,6 +575,7 @@ def _verify(code):
             "movie": show.movie.title,
             "hall": show.hall.name,
             "seat": ticket.seat.seat_number,
+            "section": ticket.get_section_display(),
             "date": show.show_date.strftime("%d %b %Y"),
             "time": show.start_time.strftime("%H:%M"),
             "ticket": ticket.ticket_number,
@@ -606,8 +648,8 @@ def cinema_report(request):
     totals = confirmed.aggregate(
         bookings=Count("id"),
         subtotal=Sum("subtotal"),
-        discount=Sum("discount"),
         vat=Sum("vat"),
+        local_tax=Sum("local_tax"),
         total=Sum("total"),
     )
 
@@ -626,6 +668,17 @@ def cinema_report(request):
             row["payment_method"], row["payment_method"]
         )
 
+    section_names = dict(SECTION_CHOICES)
+
+    by_section = Ticket.objects.filter(
+        booking__in=confirmed
+    ).values("section").annotate(
+        tickets=Count("id"), total=Sum("price")
+    ).order_by("section")
+
+    for row in by_section:
+        row["label"] = section_names.get(row["section"], row["section"])
+
     by_movie = confirmed.values("show__movie__title").annotate(
         tickets=Count("tickets"), total=Sum("total")
     ).order_by("-total")
@@ -641,6 +694,7 @@ def cinema_report(request):
         "tickets_sold": Ticket.objects.filter(booking__in=confirmed).count(),
         "cancelled_totals": cancelled_totals,
         "by_method": by_method,
+        "by_section": by_section,
         "by_movie": by_movie,
         "by_cashier": by_cashier,
     }

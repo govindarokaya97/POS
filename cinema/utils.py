@@ -4,6 +4,7 @@ from io import BytesIO
 from django.utils.safestring import mark_safe
 
 from .models import Seat
+from .pricing import GOLD, SILVER
 
 SEATS_PER_ROW = 10
 
@@ -19,19 +20,25 @@ def row_label(index):
 
 
 def generate_seats(show):
-    """Create the seat map for a show from its hall's seat count.
+    """Create the seat map for a show from its hall.
 
-    Seats are laid out SEATS_PER_ROW to a row (A1..A10, B1..B10 ...). The
-    last row is shorter if the hall size is not a multiple of SEATS_PER_ROW.
-    Safe to call twice: existing seats are left alone.
+    Seats are laid out SEATS_PER_ROW to a row (A1..A10, B1..B10 ...), row A
+    being nearest the screen. The last `hall.gold_rows` rows (the back) are
+    Gold, every row in front of them is Silver. Safe to call twice.
     """
     total = show.hall.total_seats
+    row_count = -(-total // SEATS_PER_ROW)          # ceil
+    first_gold_row = row_count - min(show.hall.gold_rows, row_count)
 
     seats = []
     for n in range(total):
         row, col = divmod(n, SEATS_PER_ROW)
         seats.append(
-            Seat(show=show, seat_number=f"{row_label(row)}{col + 1}")
+            Seat(
+                show=show,
+                seat_number=f"{row_label(row)}{col + 1}",
+                section=GOLD if row >= first_gold_row else SILVER,
+            )
         )
 
     Seat.objects.bulk_create(seats, ignore_conflicts=True)

@@ -10,6 +10,7 @@ urlpatterns = [
     # Sell tickets: seats -> bill/payment -> print
     path("show/<int:id>/seats/", views.seat_selection, name="seat_selection"),
     path("show/<int:id>/checkout/", views.ticket_checkout, name="ticket_checkout"),
+    path("sale/<str:ref>/", views.sale_print, name="sale_print"),
     path("booking/<int:id>/", views.ticket_print, name="ticket_print"),
 
     # Back office at the counter

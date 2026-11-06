@@ -1,28 +1,44 @@
-# Ignore the virtual environment
+
+# Python virtual environments
 venv/
 env/
 .venv/
 
-# Secrets
+# Environment variables and secrets
 .env
+.env.*
 *.env
 !.env.example
 
-
-
-# Ignore the SQLite database file
-*.sqlite3
-db.sqlite3
-.backup_before_step4
-
-# Ignore compiled Python files
-*.pyc
+# Python compiled files
 __pycache__/
 *.py[cod]
+*$py.class
 
+# Django local databases
+*.sqlite3
+db.sqlite3
+
+# Database backups — never commit
+/backup_before_step4.sql
+/cinema_backup.json
 
 # Logs
 logs/
+*.log
 
-# Ignore uploaded user media files
+# Uploaded media
 /media/
+
+# Test and coverage artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE and editor files
+.vscode/
+.idea/
+
+# Operating system files
+.DS_Store
+Thumbs.db

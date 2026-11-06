@@ -1,103 +1,217 @@
-# For Small Shops — POS System
+# Cinema Hall & Canteen POS System
 
-A Django-based Point of Sale (POS) system built for **small business**.
+A full-stack Point of Sale (POS) application built with **Django and MySQL** to manage cinema ticketing, canteen inventory, billing, expenses, and business reporting.
 
+The system brings cinema operations and canteen sales together in one application, with account management, inventory tracking, checkout, and administrative tools.
 
 ## Features
 
-- 🔐 **Accounts** — custom login/register/logout with a staff dashboard
-- 📦 **Inventory management** — categories and products, stock tracking, low-stock alerts
-- 📊 **Dashboard** — quick overview of categories, products, sales, and revenue
-- 🎛️ **Django admin** — customized with Jazzmin for a cleaner admin UI
+### Authentication and Security
+- User registration, login, and logout
+- Email verification and password recovery
+- Password validation and protected user sessions
+- Login-attempt protection with Django Axes
+- Environment-based application configuration
 
-## Tech stack
+### Cinema Management
+- Movie and show management
+- Gold and Silver seating sections
+- Seat selection and booking
+- Cinema ticket generation and billing
+- Ticket pricing and tax breakdown
 
-- **Backend:** Django 6
-- **Database:** MySQL (via `mysqlclient`)
-- **Admin UI:** django-jazzmin
-- **Images:** Pillow
-- **Frontend:** Django templates + Tailwind CSS (via CDN), Font Awesome, SweetAlert2
+### Inventory and Canteen
+- Product and category management
+- Product barcode support
+- Stock and availability management
+- Low-stock monitoring
+- Product search and checkout workflow
 
-## Project structure
+### Billing and Sales
+- Point of Sale checkout
+- Shopping cart and invoice generation
+- Multiple payment methods
+- VAT calculation and payment tracking
+- Invoice printing and reprinting
+- Sales history and reporting
 
-```
+### Expenses and Administration
+- Expense and expense-category management
+- Operational cost tracking
+- Dashboard summaries and notifications
+- Django administration interface powered by Jazzmin
+
+## Technology Stack
+
+| Area | Technology |
+|---|---|
+| Backend | Python, Django 6 |
+| Database | MySQL |
+| Database driver | mysqlclient |
+| Frontend | Django Templates, Tailwind CSS |
+| Admin interface | django-jazzmin |
+| Authentication protection | django-axes |
+| Environment configuration | python-decouple |
+| Images and documents | Pillow, ReportLab |
+| Barcode and QR support | python-barcode, qrcode, django-qr-code |
+
+## Project Structure
+
+```text
 POS/
-├── accounts/       # Auth, dashboard
-├── inventory/      # Categories & products
-├── sales/          # Point of sale, sales history
-├── core/           # Project settings, root URLs
-├── templates/      # Shared base template, sidebar
-├── static/         # CSS, images (logo)
-├── media/          # Uploaded product images
-└── manage.py
+├── accounts/       # Authentication and user accounts
+├── billing/        # Checkout, invoices, customers and expenses
+├── cinema/         # Movies, shows, seats and ticketing
+├── inventory/      # Products, categories and stock
+├── pos/            # POS application functionality
+├── sales/          # Sales operations and reporting
+├── core/           # Django settings and URL configuration
+├── templates/      # Shared application templates
+├── static/         # Static assets
+├── media/          # User-uploaded media (local)
+├── .env.example    # Environment variable template
+├── manage.py
+└── requirements.txt
 ```
 
-## Setup
+## Local Installation
 
-1. **Clone and enter the project**
-   ```bash
-   git clone <this-repo-url>
-   cd POS
-   ```
+### 1. Clone the repository
 
-2. **Create and activate a virtual environment**
-   ```bash
-   python -m venv env
-   # Windows
-   env\Scripts\activate
-   # macOS/Linux
-   source env/bin/activate
-   ```
+```bash
+git clone https://github.com/govindarokaya97/POS.git
+cd POS
+```
 
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+### 2. Create a virtual environment
 
-4. **Configure the database**
+**Windows PowerShell:**
 
-   Create a MySQL database (default name used in `core/settings.py` is `mini_project_db`), then update the credentials in `core/settings.py` under `DATABASES` if needed:
-   ```python
-   DATABASES = {
-       'default': {
-           'ENGINE': 'django.db.backends.mysql',
-           'NAME': 'mini_project_db',
-           'USER': 'root',
-           'PASSWORD': '<your-password>',
-           'HOST': 'localhost',
-           'PORT': '3306',
-       }
-   }
-   ```
+```powershell
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+```
 
-5. **Run migrations**
-   ```bash
-   python manage.py migrate
-   ```
+**macOS / Linux:**
 
-6. **Create an admin/superuser account**
-   ```bash
-   python manage.py createsuperuser
-   ```
+```bash
+python -m venv venv
+source venv/bin/activate
+```
 
-7. **Run the development server**
-   ```bash
-   python manage.py runserver
-   ```
+### 3. Install dependencies
 
-8. Visit `http://127.0.0.1:8000/` to log in, and `http://127.0.0.1:8000/admin/` for the admin panel.
+```bash
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
 
-## Usage
+### 4. Configure environment variables
 
-- Add **categories** and **products** under Inventory before ringing up sales.
-- Go to **Sales → New sale** to check out a customer:
-- View past transactions from **Sales → History**.
+Copy the example configuration:
 
-## Notes
+**Windows PowerShell:**
 
-- `DEBUG = True` and the `SECRET_KEY` in `core/settings.py` are for local development only — do not use these as-is in production.
-- Logs are written to `logs/app.log` (rotating) as well as the console.
+```powershell
+Copy-Item .env.example .env
+```
+
+**macOS / Linux:**
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` and configure your own secret key, database credentials, and email settings.
+
+Example:
+
+```env
+SECRET_KEY=your-generated-secret-key
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
+
+DB_NAME=your_database_name
+DB_USER=your_database_user
+DB_PASSWORD=your_database_password
+DB_HOST=127.0.0.1
+DB_PORT=3306
+
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_HOST_USER=your-email@gmail.com
+EMAIL_HOST_PASSWORD=your-email-app-password
+DEFAULT_FROM_EMAIL=your-email@gmail.com
+```
+
+Never commit your actual `.env` file or share its secrets.
+
+### 5. Create the MySQL database
+
+Create a database in MySQL using the same name configured in `DB_NAME`.
+
+```sql
+CREATE DATABASE your_database_name
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+```
+
+Make sure the configured MySQL user has permission to access this database.
+
+### 6. Apply migrations
+
+```bash
+python manage.py migrate
+```
+
+### 7. Create an administrator account
+
+```bash
+python manage.py createsuperuser
+```
+
+### 8. Start the development server
+
+```bash
+python manage.py runserver
+```
+
+Open the application at:
+
+- Application: http://127.0.0.1:8000/
+- Administration: http://127.0.0.1:8000/admin/
+
+## Useful Development Commands
+
+```bash
+# Check Django configuration
+python manage.py check
+
+# Display migration status
+python manage.py showmigrations
+
+# Run tests
+python manage.py test
+
+# Collect static files
+python manage.py collectstatic
+```
+
+## Security Notes
+
+- Keep `SECRET_KEY`, database passwords, and email credentials outside source control.
+- Use `DEBUG=False` in production.
+- Configure valid production hosts and HTTPS before enabling secure-cookie and HSTS settings.
+- Keep dependencies updated.
+- Protect database backups and uploaded customer or business data.
+- Do not use the Django development server for production hosting.
+
+See [SECURITY.md](SECURITY.md) for the project's security policy.
+
+## Project Status
+
+This project is under active development. Features, automated tests, deployment configuration, and documentation are being improved incrementally.
 
 ## License
 
-Internal project — all rights reserved by POS.
+All rights reserved. No permission is granted to redistribute or commercially use this project without authorization from the project owner.

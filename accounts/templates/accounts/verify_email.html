@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Verify Email | POS System</title>
+</head>
+
+<body class="flex min-h-screen items-center justify-center bg-[#F4F5F1] p-5 text-[#12141A]">
+
+    <main class="w-full max-w-md rounded-2xl border border-[#E4E3DC] bg-white p-8 text-center shadow-xl">
+
+        <div
+            class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#157A5C] text-3xl text-white">
+            ✓
+        </div>
+
+        <h1 class="text-2xl font-bold">Verify your email</h1>
+
+        <p class="mt-3 text-sm leading-6 text-gray-500">
+            Your account is almost ready. Confirm your email address to activate your POS account.
+        </p>
+
+        <p class="mt-4 break-all text-sm font-semibold text-[#157A5C]">
+            {{ user.email }}
+        </p>
+
+        <form method="POST" class="mt-7">
+            {% csrf_token %}
+
+            <button type="submit"
+                class="w-full rounded-xl bg-[#157A5C] px-5 py-3.5 font-semibold text-white transition hover:bg-[#0F5E46]">
+                Confirm Email & Activate Account
+            </button>
+        </form>
+
+        <a href="{% url 'login' %}" class="mt-5 inline-block text-sm font-medium text-gray-500 hover:text-[#157A5C]">
+            Back to Login
+        </a>
+
+    </main>
+
+</body>
+
+</html>

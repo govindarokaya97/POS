@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Verification Link Invalid</title>
+</head>
+
+<body class="flex min-h-screen items-center justify-center bg-[#F4F5F1] p-5">
+
+    <main class="w-full max-w-md rounded-2xl border border-[#E4E3DC] bg-white p-8 text-center shadow-lg">
+
+        <div
+            class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-red-50 text-3xl text-red-600">
+            !
+        </div>
+
+        <h1 class="text-2xl font-bold text-[#12141A]">
+            Verification link invalid
+        </h1>
+
+        <p class="mt-3 text-sm leading-6 text-gray-500">
+            This verification link is invalid or has expired.
+            Request a new verification email to continue.
+        </p>
+
+        <a href="{% url 'resend_verification' %}"
+            class="mt-7 block rounded-xl bg-[#157A5C] px-5 py-3.5 font-semibold text-white hover:bg-[#0F5E46]">
+            Resend Verification Email
+        </a>
+
+        <a href="{% url 'login' %}" class="mt-5 inline-block text-sm text-gray-500">
+            Back to Login
+        </a>
+
+    </main>
+
+</body>
+
+</html>

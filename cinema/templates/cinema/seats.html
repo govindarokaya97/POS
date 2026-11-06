@@ -1,136 +1,937 @@
 {% extends "base.html" %}
 
-{% block title %}Select Seats{% endblock %}
+{% block title %}Select Seats | {{ show.movie.title }}{% endblock %}
 
 {% block content %}
+<style>
+    .cinema-page {
+        --gold: #d9a441;
+        --silver: #aeb8c7;
+        --ink: #111827;
+        --muted: #64748b;
+        color: var(--ink);
+    }
 
-<div class="space-y-6">
+    .cinema-page * {
+        box-sizing: border-box;
+    }
 
-    <div class="flex flex-wrap items-start justify-between gap-4">
+    .cinema-card {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 20px;
+        box-shadow: 0 8px 30px rgb(15 23 42 / 5%);
+    }
+
+    .cinema-kicker {
+        color: #64748b;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+    }
+
+    .cinema-screen {
+        width: min(100%, 700px);
+        margin: 0 auto;
+        padding: 18px 12px 12px;
+        text-align: center;
+    }
+
+    .screen-surface {
+        height: 12px;
+        border-radius: 50%;
+        background: linear-gradient(90deg, #dbeafe, #60a5fa, #dbeafe);
+        box-shadow: 0 8px 22px rgb(59 130 246 / 20%);
+        transform: perspective(120px) rotateX(-8deg);
+    }
+
+    .screen-label {
+        margin-top: 15px;
+        color: #64748b;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: .3em;
+    }
+
+
+
+    /* Compact seating layout */
+    .seat-map-scroll {
+        width: 100%;
+        overflow-x: auto;
+        padding: 14px 8px 20px;
+        scrollbar-width: thin;
+        scrollbar-color: #cbd5e1 transparent;
+    }
+
+    .seat-map {
+        width: max-content;
+        min-width: 0;
+        margin: 0 auto;
+    }
+
+    .cinema-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        min-height: 32px;
+        margin: 0 0 10px;
+    }
+
+    .section-heading {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 20px 0 10px;
+    }
+
+    .section-heading:first-child {
+        margin-top: 0;
+    }
+
+    .section-line {
+        height: 1px;
+        flex: 1;
+        background: #e5e7eb;
+    }
+
+    .section-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 999px;
+        padding: 8px 13px;
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    .section-pill.gold {
+        color: #854d0e;
+        background: #fef3c7;
+    }
+
+    .section-pill.silver {
+        color: #334155;
+        background: #e2e8f0;
+    }
+
+    .cinema-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 39px;
+        margin: 0 0 24px;
+    }
+
+    .row-label {
+        width: 23px;
+        flex: 0 0 23px;
+        color: #64748b;
+        font-size: 10px;
+        font-weight: 900;
+        text-align: center;
+    }
+
+    .seat-block {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .seat {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 30px;
+        flex: 0 0 34px;
+        padding: 0 1px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px 6px 3px 3px;
+        background: #f8fafc;
+        color: #334155;
+        font-size: 9px;
+        font-weight: 900;
+        line-height: 1;
+        cursor: pointer;
+        transition: transform .15s ease, background .15s ease,
+            border-color .15s ease, box-shadow .15s ease;
+    }
+
+    .seat::after {
+        position: absolute;
+        right: 3px;
+        bottom: -3px;
+        left: 3px;
+        height: 2px;
+        border-radius: 0 0 3px 3px;
+        background: currentColor;
+        content: "";
+        opacity: .25;
+    }
+
+    .seat:hover:not(:disabled) {
+        transform: translateY(-2px);
+        border-color: #2563eb;
+        box-shadow: 0 4px 10px rgb(37 99 235 / 12%);
+    }
+
+    .seat.gold-seat {
+        border-color: #e8c56f;
+        background: #fffbeb;
+        color: #92400e;
+    }
+
+    .seat.silver-seat {
+        border-color: #cbd5e1;
+        background: #f1f5f9;
+        color: #475569;
+    }
+
+    .seat.is-selected {
+        border-color: #2563eb !important;
+        background: #2563eb !important;
+        color: #fff !important;
+        box-shadow: 0 0 0 3px rgb(37 99 235 / 15%);
+    }
+
+    .seat.is-reserved,
+    .seat.is-unavailable {
+        border-color: #f59e0b;
+        background: #fef3c7;
+        color: #92400e;
+        cursor: not-allowed;
+        opacity: .85;
+    }
+
+    .seat.is-sold {
+        border-color: #b91c1c;
+        background: #dc2626;
+        color: #fff;
+        cursor: not-allowed;
+        opacity: .85;
+    }
+
+    .seat:disabled {
+        cursor: not-allowed;
+    }
+
+    .seat-aisle {
+        width: 16px;
+        min-width: 16px;
+        flex: 0 0 16px;
+        align-self: stretch;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #cbd5e1;
+        font-size: 7px;
+    }
+
+    .row-walkway {
+        height: 10px;
+        margin: 0;
+    }
+
+    .seat-legend {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 12px 20px;
+    }
+
+    .legend-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #475569;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .legend-swatch {
+        width: 15px;
+        height: 15px;
+        border: 1px solid #cbd5e1;
+        border-radius: 4px;
+    }
+
+    .legend-available {
+        background: #f8fafc;
+    }
+
+    .legend-selected {
+        background: #2563eb;
+        border-color: #2563eb;
+    }
+
+    .legend-reserved {
+        background: #fef3c7;
+        border-color: #f59e0b;
+    }
+
+    .legend-sold {
+        background: #dc2626;
+        border-color: #b91c1c;
+    }
+
+    .summary-stat {
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 14px;
+    }
+
+    .summary-value {
+        font-size: 22px;
+        font-weight: 900;
+        letter-spacing: -.04em;
+    }
+
+    .summary-label {
+        margin-top: 4px;
+        color: #64748b;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+    }
+
+    .checkout-button {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border: 0;
+        border-radius: 12px;
+        padding: 15px 18px;
+        background: #111827;
+        color: #fff;
+        font-size: 14px;
+        font-weight: 900;
+        cursor: pointer;
+        transition: background .15s ease, transform .15s ease;
+    }
+
+    .checkout-button:hover:not(:disabled) {
+        transform: translateY(-1px);
+        background: #1e293b;
+    }
+
+    .checkout-button:disabled {
+        background: #94a3b8;
+        cursor: not-allowed;
+    }
+
+    .price-card {
+        border-radius: 14px;
+        padding: 14px;
+    }
+
+    .price-card.gold {
+        border: 1px solid #f3d58b;
+        background: #fffbeb;
+    }
+
+    .price-card.silver {
+        border: 1px solid #cbd5e1;
+        background: #f8fafc;
+    }
+
+    @media (min-width: 768px) {
+        .seat-map-scroll {
+            padding: 14px 10px 20px;
+        }
+
+        .seat {
+            width: 35px;
+            height: 31px;
+            flex-basis: 35px;
+            font-size: 9px;
+        }
+
+        .seat-block {
+            gap: 6px;
+        }
+
+        .cinema-row {
+            gap: 3px;
+            margin-bottom: 10px;
+        }
+
+        .seat-aisle {
+            width: 20px;
+            min-width: 20px;
+            flex-basis: 20px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .seat-map {
+            min-width: 0;
+            margin: 0;
+        }
+
+        .seat-map-scroll {
+            padding-right: 10px;
+            padding-left: 10px;
+        }
+
+        .seat {
+            width: 32px;
+            height: 31px;
+            flex-basis: 32px;
+            border-radius: 4px 4px 2px 2px;
+            font-size: 9px;
+        }
+
+        .seat-block {
+            gap: 1px;
+        }
+
+        .cinema-row {
+            gap: 2px;
+            margin-bottom: 12px;
+        }
+
+        .row-label {
+            width: 4px;
+            flex-basis: 4px;
+            font-size: 8px;
+        }
+
+        .seat-aisle {
+            width: 7px;
+            min-width: 7px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .cinema-row {
+            gap: 2px;
+            margin-bottom: 8px;
+        }
+
+        .row-label {
+            width: 18px;
+            flex-basis: 18px;
+            font-size: 8px;
+        }
+
+        .seat {
+            width: 27px;
+            height: 27px;
+            flex-basis: 27px;
+            border-radius: 4px 4px 2px 2px;
+            font-size: 8px;
+        }
+
+        .seat-aisle {
+            width: 10px;
+            min-width: 10px;
+            flex-basis: 10px;
+        }
+
+        .seat-map-scroll {
+            padding: 12px 5px 16px;
+        }
+
+        .section-heading {
+            gap: 5px;
+            margin: 16px 0 8px;
+        }
+
+        .section-pill {
+            gap: 5px;
+            padding: 6px 9px;
+            font-size: 9px;
+        }
+    }
+</style>
+
+<div class="cinema-page space-y-6">
+
+    <!-- Page heading -->
+    <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
         <div>
-            <a href="{% url 'cinema_dashboard' %}" class="text-sm font-semibold text-brand">← Counter</a>
-            <h1 class="mt-2 text-3xl font-bold">{{ show.movie.title }}</h1>
-            <p class="mt-1 text-muted">
-                {{ show.hall.name }} • {{ show.show_date|date:"D, d M Y" }} {{ show.start_time|time:"H:i" }}
+            <p class="cinema-kicker">Cinema counter / Ticket booking</p>
+            <h1 class="mt-2 text-2xl font-black tracking-tight text-gray-900 sm:text-3xl">
+                Select Your Seats
+            </h1>
+            <p class="mt-2 text-sm text-gray-500">
+                {{ show.movie.title }}
+                <span class="mx-1">·</span>
+                {{ show.hall.name }}
             </p>
-            <p class="mt-2 text-sm">
-                <span class="rounded-full bg-amber/15 px-3 py-1 font-semibold text-amber">Gold Rs {{ show.gold_price|floatformat:2 }}</span>
-                <span class="ml-1 rounded-full bg-gray-200 px-3 py-1 font-semibold text-gray-600">Silver Rs {{ show.silver_price|floatformat:2 }}</span>
-                <span class="ml-2 text-muted">
-                    {% if tax_included %}incl.{% else %}+{% endif %}
-                    {{ vat_percent|floatformat:"-2" }}% VAT and {{ local_tax_percent|floatformat:"-2" }}% local tax
-                </span>
+            <p class="mt-1 text-sm text-gray-500">
+                {{ show.show_date|date:"D, d M Y" }}
+                <span class="mx-1">·</span>
+                {{ show.start_time|time:"g:i A" }}
             </p>
         </div>
-        <p class="text-sm text-muted">{{ sold }} of {{ total_seats }} seats sold</p>
+
+        <a href="{% url 'cinema_dashboard' %}"
+            class="inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-bold text-gray-700 hover:bg-gray-50">
+            ← Back to shows
+        </a>
     </div>
 
-    <form method="get" action="{% url 'ticket_checkout' show.id %}" id="seatForm"
-        class="grid gap-6 lg:grid-cols-[1fr_20rem]">
+    <!-- Seat map and checkout summary -->
+    <div class="grid grid-cols-1 items-start gap-4 lg:grid-cols-[minmax(0,1fr)_290px]">
 
-        <div class="overflow-x-auto rounded-2xl border border-line bg-white p-6">
+        <!-- Seat map -->
+        <section class="cinema-card min-w-0 overflow-hidden">
 
-            <div class="mx-auto mb-6 max-w-xl rounded-xl bg-ink py-2 text-center text-sm font-semibold tracking-widest text-white">
-                SCREEN
-            </div>
+            <div class="border-b border-gray-100 px-5 py-5 sm:px-7">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                        <h2 class="text-base font-black text-gray-900">Cinema seating plan</h2>
+                        <p class="mt-1 text-xs text-gray-500">
+                            Select available seats to add them to the bill.
+                        </p>
+                    </div>
 
-            <div class="mx-auto w-fit space-y-2">
-                {% for row in rows %}
+                    <div class="rounded-full bg-gray-100 px-3 py-1.5 text-xs font-bold text-gray-600">
+                        <span id="sold-count">{{ sold }}</span> /
+                        <span id="total-count">{{ total_seats }}</span> sold
+                    </div>
+                </div>
 
-                {% if row.starts_section %}
-                <div class="{% if not forloop.first %}pt-4{% endif %} flex items-center gap-3 pl-8">
-                    <span class="rounded-full px-3 py-0.5 text-xs font-bold uppercase tracking-wider
-                        {% if row.section == 'gold' %}bg-amber/15 text-amber{% else %}bg-gray-200 text-gray-600{% endif %}">
-                        {{ row.section_label }}
+                <div class="seat-legend mt-5">
+                    <span class="legend-item">
+                        <span class="legend-swatch legend-available"></span>
+                        Available
                     </span>
-                    <span class="text-xs text-muted">Rs {{ row.price|floatformat:2 }} per seat</span>
+                    <span class="legend-item">
+                        <span class="legend-swatch legend-selected"></span>
+                        Selected
+                    </span>
+                    <span class="legend-item">
+                        <span class="legend-swatch legend-reserved"></span>
+                        Reserved
+                    </span>
+                    <span class="legend-item">
+                        <span class="legend-swatch legend-sold"></span>
+                        Sold
+                    </span>
                 </div>
-                {% endif %}
+            </div>
 
-                <div class="flex items-center gap-2">
-                    <span class="w-6 text-center font-mono text-xs text-muted">{{ row.label }}</span>
+            <div class="cinema-screen">
+                <div class="screen-surface"></div>
+                <div class="screen-label">SCREEN THIS WAY</div>
+            </div>
 
-                    {% for seat in row.seats %}
-                    <label title="{{ seat.seat_number }} – {{ row.section_label }}">
-                        <input type="checkbox" name="seats" value="{{ seat.id }}"
-                            data-label="{{ seat.seat_number }}"
-                            data-section="{{ row.section_label }}"
-                            data-price="{{ row.price }}" class="peer hidden"
-                            {% if seat.is_booked %}disabled{% endif %}>
-                        <div class="flex h-9 w-9 items-center justify-center rounded-lg border text-xs font-medium
-                            {% if seat.is_booked %}cursor-not-allowed border-gray-300 bg-gray-300 text-gray-500 line-through
-                            {% elif row.section == 'gold' %}cursor-pointer border-amber/60 bg-amber/10 hover:border-amber peer-checked:border-brand peer-checked:bg-brand peer-checked:text-white
-                            {% else %}cursor-pointer border-line bg-white hover:border-brand peer-checked:border-brand peer-checked:bg-brand peer-checked:text-white{% endif %}">
-                            {{ seat.seat_number|cut:row.label }}
-                        </div>
-                    </label>
+            <div class="seat-map-scroll">
+                <div class="seat-map" id="seat-map">
+
+                    {% for row in rows %}
+                    {% if row.is_gap %}
+                    <div class="row-walkway" aria-hidden="true"></div>
+                    {% else %}
+
+                    {% if row.starts_section %}
+                    <div class="section-heading">
+                        <span class="section-line"></span>
+                        {% if row.section == "gold" %}
+                        <span class="section-pill gold">
+                            <span>◆</span>
+                            Gold · Rs {{ row.price|floatformat:0 }}
+                        </span>
+                        {% else %}
+                        <span class="section-pill silver">
+                            <span>◆</span>
+                            Silver · Rs {{ row.price|floatformat:0 }}
+                        </span>
+                        {% endif %}
+                        <span class="section-line"></span>
+                    </div>
+                    {% endif %}
+
+                    <div class="cinema-row row-{{ row.label|lower }}">
+                        <span class="row-label">{{ row.label }}</span>
+
+                        {% for seat in row.cells %}
+                            {% if seat %}
+                                <button type="button"
+                                    class="seat {% if row.section == 'gold' %}gold-seat{% else %}silver-seat{% endif %} {% if seat.state == 'sold' %}is-sold{% elif seat.state == 'reserved' %}is-reserved{% elif seat.state == 'unavailable' %}is-unavailable{% endif %}"
+                                    data-seat-id="{{ seat.id }}" data-seat-number="{{ seat.seat_number }}"
+                                    data-seat-state="{{ seat.state }}" data-section="{{ seat.section }}"
+                                    data-price="{{ row.price }}" aria-label="{{ seat.seat_number }} — {{ seat.state }}"
+                                    title="{{ seat.seat_number }} · Rs {{ row.price|floatformat:2 }} · {{ seat.state }}" 
+                                    {% if seat.state != 'available' %}disabled{% endif %}>
+                                    {{ seat.seat_number }}
+                                </button>
+                            {% else %}
+                                <span class="seat-aisle" aria-hidden="true"></span>
+                            {% endif %}
+                        {% endfor %}
+
+                        <span class="row-label">{{ row.label }}</span>
+                    </div>
+
+
+
+                    {% endif %}
+                    {% empty %}
+                    <div class="py-12 text-center text-sm text-gray-500">
+                        No seats have been generated for this show.
+                    </div>
                     {% endfor %}
+
                 </div>
-                {% endfor %}
             </div>
 
-            <div class="mt-8 flex flex-wrap justify-center gap-6 text-xs text-muted">
-                <span class="flex items-center gap-2"><i class="inline-block h-4 w-4 rounded border border-amber/60 bg-amber/10"></i> Gold</span>
-                <span class="flex items-center gap-2"><i class="inline-block h-4 w-4 rounded border border-line bg-white"></i> Silver</span>
-                <span class="flex items-center gap-2"><i class="inline-block h-4 w-4 rounded bg-brand"></i> Selected</span>
-                <span class="flex items-center gap-2"><i class="inline-block h-4 w-4 rounded bg-gray-300"></i> Sold</span>
+            <div class="border-t border-gray-100 bg-gray-50 px-5 py-4 sm:px-7">
+                <p class="text-center text-xs leading-5 text-gray-500">
+                    Arrows mark the seating-row edges. The aisle separates the left and right seating blocks.
+                    Leave the row walkways clear for customer movement.
+                </p>
             </div>
-        </div>
+        </section>
 
-        <aside class="h-fit rounded-2xl border border-line bg-white p-6 lg:sticky lg:top-6">
-            <h2 class="text-lg font-semibold">Selection</h2>
+        <!-- Booking summary -->
+        <aside class="min-w-0 space-y-4 lg:sticky lg:top-20">
 
-            <ul id="selList" class="mt-3 min-h-6 space-y-1 text-sm">
-                <li class="text-muted">No seats selected</li>
-            </ul>
+            <section class="cinema-card p-5 sm:p-6">
+                <p class="cinema-kicker">Your booking</p>
+                <h2 class="mt-2 text-xl font-black text-gray-900">Selected seats</h2>
 
-            <div class="mt-4 flex justify-between text-sm">
-                <span class="text-muted">Invoices to print</span><span id="selCount" class="font-semibold">0</span>
-            </div>
-            <div class="mt-2 flex justify-between text-lg font-bold">
-                <span>Total</span><span>Rs <span id="selTotal">0.00</span></span>
-            </div>
+                <div class="mt-5 grid grid-cols-2 gap-3">
+                    <div class="summary-stat">
+                        <div class="summary-value" id="selected-count">0</div>
+                        <div class="summary-label">Seats selected</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="summary-value text-blue-700" id="selected-total">Rs 0.00</div>
+                        <div class="summary-label">Ticket total</div>
+                    </div>
+                </div>
 
-            <button id="continueBtn" type="submit" disabled
-                class="mt-6 w-full rounded-lg bg-brand px-6 py-3 font-semibold text-white hover:bg-brand-dark disabled:cursor-not-allowed disabled:opacity-40">
-                Continue to Billing
-            </button>
+                <div class="mt-5">
+                    <p class="text-xs font-extrabold uppercase tracking-wider text-gray-500">
+                        Seat details
+                    </p>
+                    <div id="selected-list" class="mt-3 space-y-2">
+                        <p id="empty-selection"
+                            class="rounded-xl bg-gray-50 px-3 py-4 text-center text-sm text-gray-500">
+                            No seats selected yet.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-5 space-y-3 border-t border-gray-100 pt-4">
+                    <div class="flex items-center justify-between gap-3">
+                        <span class="text-sm text-gray-500">Gold ticket</span>
+                        <span class="text-sm font-bold text-gray-900">Rs 400.00</span>
+                    </div>
+                    <div class="flex items-center justify-between gap-3">
+                        <span class="text-sm text-gray-500">Silver ticket</span>
+                        <span class="text-sm font-bold text-gray-900">Rs 300.00</span>
+                    </div>
+
+                    {% if tax_included %}
+                    <p class="rounded-lg bg-blue-50 px-3 py-2 text-xs leading-5 text-blue-800">
+                        Ticket prices include VAT ({{ vat_percent }}%) and local tax
+                        ({{ local_tax_percent }}%). The checkout shows the tax breakdown.
+                    </p>
+                    {% else %}
+                    <p class="text-xs leading-5 text-gray-500">
+                        Applicable taxes are calculated at checkout.
+                    </p>
+                    {% endif %}
+                </div>
+
+                <form id="checkout-form" method="get" action="{{ checkout_url }}" class="mt-5">
+                    <div id="selected-inputs"></div>
+
+                    <button type="submit" id="checkout-button" class="checkout-button" disabled>
+                        Continue to payment
+                        <span aria-hidden="true">→</span>
+                    </button>
+                </form>
+
+                <p id="selection-message" class="mt-3 text-center text-xs text-gray-500" aria-live="polite">
+                    Select one or more available seats to continue.
+                </p>
+            </section>
+
+            <section class="cinema-card p-5">
+                <p class="cinema-kicker">Section capacity</p>
+
+                <div class="mt-4 space-y-3">
+                    <div class="price-card gold">
+                        <div class="flex items-center justify-between gap-3">
+                            <span class="text-sm font-extrabold text-amber-900">Gold section</span>
+                            <span class="text-sm font-black text-amber-900">Rs 400</span>
+                        </div>
+                        <p class="mt-1 text-xs text-amber-800">64 seats · Premium seating</p>
+                    </div>
+
+                    <div class="price-card silver">
+                        <div class="flex items-center justify-between gap-3">
+                            <span class="text-sm font-extrabold text-slate-700">Silver section</span>
+                            <span class="text-sm font-black text-slate-700">Rs 300</span>
+                        </div>
+                        <p class="mt-1 text-xs text-slate-600">194 seats · Standard seating</p>
+                    </div>
+
+                    <div class="flex items-center justify-between border-t border-gray-100 pt-3">
+                        <span class="text-sm font-bold text-gray-600">Expected capacity</span>
+                        <span class="text-sm font-black text-gray-900">258 seats</span>
+                    </div>
+                </div>
+
+                <p class="mt-3 text-xs leading-5 text-gray-500">
+                    Capacity is the intended seating plan. Actual availability comes
+                    from the seats stored for this show.
+                </p>
+            </section>
+
         </aside>
-
-    </form>
+    </div>
 </div>
 
 <script>
     (function () {
-        const form = document.getElementById("seatForm");
-        const boxes = form.querySelectorAll('input[name="seats"]');
-        const list = document.getElementById("selList");
+        "use strict";
 
-        function update() {
-            const picked = Array.from(boxes).filter(b => b.checked);
-            const total = picked.reduce((sum, b) => sum + parseFloat(b.dataset.price), 0);
+        const statusUrl = "{{ status_url|escapejs }}";
+        const form = document.getElementById("checkout-form");
+        const inputsContainer = document.getElementById("selected-inputs");
+        const selectedList = document.getElementById("selected-list");
+        const emptySelection = document.getElementById("empty-selection");
+        const countElement = document.getElementById("selected-count");
+        const totalElement = document.getElementById("selected-total");
+        const soldElement = document.getElementById("sold-count");
+        const totalSeatsElement = document.getElementById("total-count");
+        const checkoutButton = document.getElementById("checkout-button");
+        const selectionMessage = document.getElementById("selection-message");
 
-            list.innerHTML = "";
-            if (!picked.length) {
-                list.innerHTML = '<li class="text-muted">No seats selected</li>';
-            }
-            picked.forEach(b => {
-                const li = document.createElement("li");
-                li.className = "flex justify-between";
-                li.innerHTML = `<span class="font-mono">${b.dataset.label}
-                    <span class="font-sans text-xs text-muted">${b.dataset.section}</span></span>
-                    <span>Rs ${parseFloat(b.dataset.price).toFixed(2)}</span>`;
-                list.appendChild(li);
+        const selected = new Map();
+        const stateClasses = [
+            "is-selected",
+            "is-reserved",
+            "is-sold",
+            "is-unavailable"
+        ];
+
+        function money(value) {
+            return "Rs " + Number(value).toLocaleString("en-IN", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
             });
-
-            document.getElementById("selCount").textContent = picked.length;
-            document.getElementById("selTotal").textContent = total.toFixed(2);
-            document.getElementById("continueBtn").disabled = picked.length === 0;
         }
 
-        boxes.forEach(b => b.addEventListener("change", update));
-        update();
+        function seatButtons() {
+            return document.querySelectorAll(".seat[data-seat-id]");
+        }
+
+        function findSeat(id) {
+            return document.querySelector(
+                '.seat[data-seat-id="' + CSS.escape(String(id)) + '"]'
+            );
+        }
+
+        function updateButtonState(button, state) {
+            button.dataset.seatState = state;
+            button.classList.remove(...stateClasses);
+
+            const isSelected = selected.has(String(button.dataset.seatId));
+
+            if (state === "sold") {
+                button.classList.add("is-sold");
+                button.disabled = true;
+            } else if (state === "reserved") {
+                button.classList.add("is-reserved");
+                button.disabled = true;
+            } else if (state === "unavailable") {
+                button.classList.add("is-unavailable");
+                button.disabled = true;
+            } else if (state === "available" && isSelected) {
+                button.classList.add("is-selected");
+                button.disabled = false;
+            } else {
+                button.disabled = state !== "available";
+            }
+
+            button.setAttribute(
+                "aria-label",
+                button.dataset.seatNumber + " — " + state
+            );
+
+            button.title =
+                button.dataset.seatNumber + " · " +
+                money(button.dataset.price) + " · " + state;
+        }
+
+        function renderSelection() {
+            inputsContainer.replaceChildren();
+
+            const fragment = document.createDocumentFragment();
+            let total = 0;
+
+            selectedList.replaceChildren();
+
+            if (selected.size === 0) {
+                selectedList.appendChild(emptySelection);
+                emptySelection.classList.remove("hidden");
+            } else {
+                emptySelection.classList.add("hidden");
+
+                for (const [id, seat] of selected.entries()) {
+                    total += seat.price;
+
+                    const hidden = document.createElement("input");
+                    hidden.type = "hidden";
+                    hidden.name = "seats";
+                    hidden.value = id;
+                    fragment.appendChild(hidden);
+
+                    const line = document.createElement("div");
+                    line.className =
+                        "flex items-center justify-between gap-3 rounded-xl " +
+                        "border border-gray-100 px-3 py-2.5";
+
+                    const details = document.createElement("div");
+
+                    const name = document.createElement("p");
+                    name.className = "text-sm font-extrabold text-gray-900";
+                    name.textContent = seat.number;
+
+                    const section = document.createElement("p");
+                    section.className = "mt-0.5 text-xs text-gray-500";
+                    section.textContent =
+                        seat.section === "gold" ? "Gold section" : "Silver section";
+
+                    details.append(name, section);
+
+                    const price = document.createElement("span");
+                    price.className = "whitespace-nowrap text-sm font-bold text-gray-900";
+                    price.textContent = money(seat.price);
+
+                    line.append(details, price);
+                    selectedList.appendChild(line);
+                }
+            }
+
+            inputsContainer.appendChild(fragment);
+            countElement.textContent = String(selected.size);
+            totalElement.textContent = money(total);
+            checkoutButton.disabled = selected.size === 0;
+
+            selectionMessage.textContent = selected.size
+                ? selected.size + " seat(s) selected. Continue when ready."
+                : "Select one or more available seats to continue.";
+        }
+
+        function removeSelected(id) {
+            selected.delete(String(id));
+            const button = findSeat(id);
+
+            if (button) {
+                updateButtonState(button, button.dataset.seatState);
+            }
+        }
+
+        seatButtons().forEach(function (button) {
+            button.addEventListener("click", function () {
+                const id = String(button.dataset.seatId);
+                const state = button.dataset.seatState;
+
+                if (state !== "available" && !selected.has(id)) {
+                    return;
+                }
+
+                if (selected.has(id)) {
+                    selected.delete(id);
+                    updateButtonState(button, state);
+                } else {
+                    selected.set(id, {
+                        number: button.dataset.seatNumber,
+                        section: button.dataset.section,
+                        price: Number(button.dataset.price)
+                    });
+                    updateButtonState(button, state);
+                }
+
+                renderSelection();
+            });
+        });
+
+        form.addEventListener("submit", function (event) {
+            if (selected.size === 0) {
+                event.preventDefault();
+                selectionMessage.textContent =
+                    "Please select at least one available seat.";
+                return;
+            }
+
+            // Keep the hidden inputs synchronized with the current selection.
+            renderSelection();
+        });
+
+        async function refreshSeatStatus() {
+            try {
+                const response = await fetch(statusUrl, {
+                    method: "GET",
+                    headers: { "X-Requested-With": "XMLHttpRequest" },
+                    cache: "no-store",
+                    credentials: "same-origin"
+                });
+
+                if (!response.ok) {
+                    return;
+                }
+
+                const data = await response.json();
+
+                if (data.seats && typeof data.seats === "object") {
+                    for (const button of seatButtons()) {
+                        const id = String(button.dataset.seatId);
+                        const state = data.seats[id];
+
+                        if (!state) {
+                            continue;
+                        }
+
+                        if (state !== "available" && selected.has(id)) {
+                            removeSelected(id);
+                            selectionMessage.textContent =
+                                button.dataset.seatNumber +
+                                " is no longer available and was removed.";
+                        }
+
+                        updateButtonState(button, state);
+                    }
+                }
+
+                if (typeof data.sold === "number") {
+                    soldElement.textContent = String(data.sold);
+                }
+
+                if (typeof data.total === "number") {
+                    totalSeatsElement.textContent = String(data.total);
+                }
+
+                renderSelection();
+            } catch (error) {
+                // Keep the current seat map usable if a temporary poll fails.
+                console.warn("Could not refresh cinema seat status.", error);
+            }
+        }
+
+        renderSelection();
+        refreshSeatStatus();
+        window.setInterval(refreshSeatStatus, 8000);
     })();
 </script>
-
 {% endblock %}

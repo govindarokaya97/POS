@@ -9,12 +9,12 @@
     <div>
         <a href="{% url 'cinema_dashboard' %}" class="text-sm font-semibold text-brand">← Counter</a>
         <h1 class="mt-2 text-3xl font-bold">Verify Entry</h1>
-        <p class="mt-1 text-muted">Scan the ticket barcode (or type the ticket number) and press Enter.</p>
+        <p class="mt-1 text-muted">Scan the ticket QR code (or type the code under it) and press Enter.</p>
     </div>
 
     <form id="verifyForm" class="flex gap-2">
         {% csrf_token %}
-        <input id="code" name="ticket" type="text" autocomplete="off" autofocus placeholder="BK-00001-A1"
+        <input id="code" name="ticket" type="text" autocomplete="off" autofocus placeholder="Scan QR or type code"
             class="w-full rounded-lg border border-line bg-white px-4 py-3 font-mono text-lg focus:outline-none focus:ring-2 focus:ring-brand">
         <button class="rounded-lg bg-brand px-6 py-3 font-semibold text-white">Check</button>
     </form>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Resend Verification | POS System</title>
+</head>
+
+<body class="flex min-h-screen items-center justify-center bg-[#F4F5F1] p-5 text-[#12141A]">
+
+    <main class="w-full max-w-md rounded-2xl border border-[#E4E3DC] bg-white p-8 shadow-xl">
+
+        <div class="mb-6 text-center">
+            <div
+                class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#157A5C] text-2xl text-white">
+                @
+            </div>
+
+            <h1 class="text-2xl font-bold">Resend Verification</h1>
+
+            <p class="mt-2 text-sm leading-6 text-gray-500">
+                Enter your registered email address to request another verification link.
+            </p>
+        </div>
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="mb-4 rounded-lg bg-[#157A5C]/10 p-3 text-sm text-[#157A5C]">
+            {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <form method="POST" class="space-y-5">
+            {% csrf_token %}
+
+            <div>
+                <label for="email" class="mb-2 block text-sm font-semibold">
+                    Email Address
+                </label>
+
+                <input type="email" name="email" id="email" required maxlength="254" autocomplete="email"
+                    placeholder="Enter your registered email"
+                    class="w-full rounded-xl border border-[#E4E3DC] bg-[#F4F5F1] px-4 py-3 text-sm outline-none focus:border-[#157A5C] focus:ring-2 focus:ring-[#157A5C]/20">
+            </div>
+
+            <button type="submit"
+                class="w-full rounded-xl bg-[#157A5C] px-5 py-3.5 font-semibold text-white hover:bg-[#0F5E46]">
+                Send Verification Email
+            </button>
+
+        </form>
+
+        <a href="{% url 'login' %}" class="mt-6 block text-center text-sm text-gray-500 hover:text-[#157A5C]">
+            Back to Login
+        </a>
+
+    </main>
+
+</body>
+
+</html>

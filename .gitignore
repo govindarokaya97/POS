@@ -5,6 +5,10 @@ env/
 
 # Secrets
 .env
+*.env
+!.env.example
+
+
 
 # Ignore the SQLite database file
 *.sqlite3
@@ -14,6 +18,8 @@ db.sqlite3
 # Ignore compiled Python files
 *.pyc
 __pycache__/
+*.py[cod]
+
 
 # Logs
 logs/

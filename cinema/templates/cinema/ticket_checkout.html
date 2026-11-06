@@ -11,6 +11,12 @@
         <h1 class="mt-2 text-3xl font-bold">Billing</h1>
     </div>
 
+    <div id="holdBanner" class="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-violet-200 bg-violet-100 px-4 py-3 text-sm text-violet-800"
+        data-seconds="{{ hold_seconds }}">
+        <span><i class="fa-solid fa-lock mr-1"></i> These seats are reserved for you while you bill (other counters see them as Reserved).</span>
+        <span class="font-semibold">Time left: <span id="holdTimer">--:--</span></span>
+    </div>
+
     <form method="post" id="billForm" class="grid gap-6 lg:grid-cols-[1fr_24rem]"
         data-total="{{ totals.total }}">
         {% csrf_token %}
@@ -162,6 +168,27 @@
 
         window.addEventListener("pageshow", calc);
         calc();
+
+        // Reservation countdown. When it runs out the seats are released for
+        // other counters; Confirm stays available and re-checks on the server.
+        const banner = document.getElementById("holdBanner");
+        let left = parseInt(banner.dataset.seconds, 10) || 0;
+        const timer = document.getElementById("holdTimer");
+
+        function tick() {
+            if (left <= 0) {
+                timer.textContent = "00:00";
+                banner.className = banner.className.replace("border-violet-200 bg-violet-100 text-violet-800", "border-amber/40 bg-amber/10 text-amber");
+                banner.querySelector("span").textContent = "Your reservation ran out - the seats may be taken by another counter. Confirming will re-check them.";
+                return;
+            }
+            const m = String(Math.floor(left / 60)).padStart(2, "0");
+            const s = String(left % 60).padStart(2, "0");
+            timer.textContent = m + ":" + s;
+            left -= 1;
+            setTimeout(tick, 1000);
+        }
+        tick();
     })();
 </script>
 

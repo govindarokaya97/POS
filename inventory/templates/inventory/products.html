@@ -6,414 +6,349 @@
 
 <div class="space-y-8">
 
-
-    <!-- HEADER -->
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-
-        <div>
-            <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">
-                Inventory
-            </p>
-
-            <h1 class="mt-1 font-display text-3xl font-semibold text-ink">
-                Products
-            </h1>
-
-            <p class="mt-1 text-sm text-muted">
-                Manage all products currently stocked in your shop.
-            </p>
+    <!-- PAGE HEADER -->
+    <div class="relative overflow-hidden rounded-2xl bg-[#101713] px-6 py-7 text-white shadow-sm sm:px-8">
+        <div class="pointer-events-none absolute -right-12 -top-20 h-64 w-64 rounded-full bg-[#16834A]/20 blur-3xl">
         </div>
+        <div class="pointer-events-none absolute bottom-0 right-1/4 h-28 w-28 rounded-full bg-white/5 blur-2xl"></div>
 
-        <a href="{% url 'add_product' %}"
-            class="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark">
-            <i class="fa-solid fa-plus"></i>
-            Add product
-        </a>
+        <div class="relative flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+                <p class="font-mono text-xs uppercase tracking-[0.2em] text-[#9DB9A7]">
+                    Inventory / Catalogue
+                </p>
+                <h1 class="mt-2 font-display text-3xl font-semibold tracking-tight text-white">
+                    Products
+                </h1>
+                <p class="mt-2 max-w-xl text-sm text-white/60">
+                    Manage your product catalogue, stock levels and pricing from one place.
+                </p>
+            </div>
 
+            <a href="{% url 'add_product' %}"
+                class="inline-flex items-center justify-center gap-2 rounded-xl bg-[#16834A] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-black/20 transition hover:bg-[#116B3B] focus:outline-none focus:ring-2 focus:ring-[#8AD5A7] focus:ring-offset-2 focus:ring-offset-[#101713]">
+                <i class="fa-solid fa-plus"></i>
+                Add product
+            </a>
+        </div>
     </div>
 
-
-    <!-- PRODUCT OVERVIEW -->
     {% if products %}
 
-    <!-- PRODUCT OVERVIEW -->
-
+    <!-- INVENTORY SUMMARY -->
     <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
 
-        <!-- TOTAL PRODUCTS -->
-        <div class="rounded-xl border border-line bg-white p-5 shadow-sm">
-            <div class="flex items-center justify-between">
-
+        <div
+            class="rounded-2xl border border-[#E3EAE5] bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+            <div class="flex items-start justify-between gap-3">
                 <div>
-                    <p class="text-xs font-medium uppercase tracking-wide text-muted">
-                        Total Products
-                    </p>
-
-                    <p class="mt-2 text-3xl font-semibold text-ink">
-                        {{ total_products }}
-                    </p>
-
-                    <p class="mt-1 text-xs text-muted">
-                        Products in inventory
-                    </p>
+                    <p class="text-xs font-semibold uppercase tracking-[0.12em] text-[#77847B]">Total products</p>
+                    <p class="mt-3 font-display text-3xl font-semibold text-[#17211B]">{{ total_products }}</p>
+                    <p class="mt-1 text-xs text-[#87918A]">Products in inventory</p>
                 </div>
-
-                <div class="flex h-11 w-11 items-center justify-center rounded-lg bg-paper text-brand">
-                    <i class="fa-solid fa-box"></i>
+                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-[#EAF4ED] text-[#16834A]">
+                    <i class="fa-solid fa-boxes-stacked text-lg"></i>
                 </div>
-
+            </div>
+            <div class="mt-4 h-1 overflow-hidden rounded-full bg-[#EDF1ED]">
+                <div class="h-full w-full rounded-full bg-[#16834A]"></div>
             </div>
         </div>
 
-
-        <!-- IN STOCK -->
-        <div class="rounded-xl border border-line bg-white p-5 shadow-sm">
-            <div class="flex items-center justify-between">
-
+        <div
+            class="rounded-2xl border border-[#E3EAE5] bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+            <div class="flex items-start justify-between gap-3">
                 <div>
-                    <p class="text-xs font-medium uppercase tracking-wide text-muted">
-                        In Stock
-                    </p>
-
-                    <p class="mt-2 text-3xl font-semibold text-ink">
-                        {{ in_stock }}
-                    </p>
-
-                    <p class="mt-1 text-xs text-muted">
-                        Products available
-                    </p>
+                    <p class="text-xs font-semibold uppercase tracking-[0.12em] text-[#77847B]">In stock</p>
+                    <p class="mt-3 font-display text-3xl font-semibold text-[#17211B]">{{ in_stock }}</p>
+                    <p class="mt-1 text-xs text-[#87918A]">Products available</p>
                 </div>
-
-                <div class="flex h-11 w-11 items-center justify-center rounded-lg bg-brand/10 text-brand">
-                    <i class="fa-solid fa-circle-check"></i>
+                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-[#EAF4ED] text-[#16834A]">
+                    <i class="fa-solid fa-circle-check text-lg"></i>
                 </div>
-
+            </div>
+            <div class="mt-4 h-1 overflow-hidden rounded-full bg-[#EDF1ED]">
+                <div class="h-full rounded-full bg-[#16834A]"
+                    style="width: {% if total_products %}{% widthratio in_stock total_products 100 %}{% else %}0{% endif %}%">
+                </div>
             </div>
         </div>
 
-
-        <!-- OUT OF STOCK -->
-        <div class="rounded-xl border border-line bg-white p-5 shadow-sm">
-            <div class="flex items-center justify-between">
-
+        <div
+            class="rounded-2xl border border-[#E3EAE5] bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+            <div class="flex items-start justify-between gap-3">
                 <div>
-                    <p class="text-xs font-medium uppercase tracking-wide text-muted">
-                        Out of Stock
-                    </p>
-
-                    <p class="mt-2 text-3xl font-semibold text-ink">
-                        {{ out_of_stock }}
-                    </p>
-
-                    <p class="mt-1 text-xs text-muted">
-                        Products unavailable
-                    </p>
+                    <p class="text-xs font-semibold uppercase tracking-[0.12em] text-[#77847B]">Out of stock</p>
+                    <p class="mt-3 font-display text-3xl font-semibold text-[#17211B]">{{ out_of_stock }}</p>
+                    <p class="mt-1 text-xs text-[#87918A]">Products unavailable</p>
                 </div>
-
-                <div class="flex h-11 w-11 items-center justify-center rounded-lg bg-red/10 text-red">
-                    <i class="fa-solid fa-circle-xmark"></i>
+                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-[#FCEDEC] text-[#C34B43]">
+                    <i class="fa-solid fa-circle-xmark text-lg"></i>
                 </div>
-
+            </div>
+            <div class="mt-4 h-1 overflow-hidden rounded-full bg-[#F5E8E7]">
+                <div class="h-full rounded-full bg-[#C34B43]"
+                    style="width: {% if total_products %}{% widthratio out_of_stock total_products 100 %}{% else %}0{% endif %}%">
+                </div>
             </div>
         </div>
 
-
-        <!-- TOTAL UNITS -->
-        <div class="rounded-xl border border-line bg-white p-5 shadow-sm">
-            <div class="flex items-center justify-between">
-
+        <div
+            class="rounded-2xl border border-[#E3EAE5] bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+            <div class="flex items-start justify-between gap-3">
                 <div>
-                    <p class="text-xs font-medium uppercase tracking-wide text-muted">
-                        Total Units
-                    </p>
-
-                    <p class="mt-2 text-3xl font-semibold text-ink">
-                        {{ total_stock }}
-                    </p>
-
-                    <p class="mt-1 text-xs text-muted">
-                        Units currently stocked
-                    </p>
+                    <p class="text-xs font-semibold uppercase tracking-[0.12em] text-[#77847B]">Total units</p>
+                    <p class="mt-3 font-display text-3xl font-semibold text-[#17211B]">{{ total_stock }}</p>
+                    <p class="mt-1 text-xs text-[#87918A]">Units currently stocked</p>
                 </div>
-
-                <div class="flex h-11 w-11 items-center justify-center rounded-lg bg-paper text-brand">
-                    <i class="fa-solid fa-layer-group"></i>
+                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-[#F0F3F0] text-[#263C2E]">
+                    <i class="fa-solid fa-layer-group text-lg"></i>
                 </div>
-
+            </div>
+            <div class="mt-4 h-1 overflow-hidden rounded-full bg-[#EDF1ED]">
+                <div class="h-full w-full rounded-full bg-[#263C2E]"></div>
             </div>
         </div>
 
     </div>
 
-
-    <!-- PRODUCT LIST HEADER -->
-    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-
+    <!-- PRODUCT LIST TOOLBAR -->
+    <div class="flex flex-col gap-4 border-b border-[#E3EAE5] pb-5 lg:flex-row lg:items-end lg:justify-between">
         <div>
-            <h2 class="font-display text-xl font-semibold text-ink">
-                Product List
-            </h2>
-
-            <p class="mt-1 text-sm text-muted">
-                All products currently available in your inventory.
+            <div class="flex items-center gap-3">
+                <h2 class="font-display text-xl font-semibold text-[#17211B]">Product list</h2>
+                <span class="rounded-full bg-[#EAF4ED] px-2.5 py-1 text-xs font-semibold text-[#16834A]">
+                    {{ products|length }} product{{ products|length|pluralize }}
+                </span>
+            </div>
+            <p class="mt-1 text-sm text-[#87918A]">
+                Browse your catalogue and manage each product.
             </p>
         </div>
 
-        <span class="w-fit rounded-full bg-paper px-3 py-1 text-xs font-medium text-muted">
-            {{ products|length }} product{{ products|length|pluralize }}
-        </span>
+        <div class="flex w-full flex-col gap-2 sm:flex-row lg:w-auto">
+            <label class="relative block flex-1 sm:min-w-[280px]">
+                <span class="sr-only">Search products</span>
+                <i
+                    class="fa-solid fa-magnifying-glass pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-sm text-[#87918A]"></i>
+                <input id="productSearch" type="search" placeholder="Search name, category or barcode..."
+                    class="w-full rounded-xl border border-[#DDE5DF] bg-white py-2.5 pl-10 pr-4 text-sm text-[#17211B] outline-none transition placeholder:text-[#A0AAA3] focus:border-[#16834A] focus:ring-4 focus:ring-[#16834A]/10">
+            </label>
 
+            <select id="stockFilter"
+                class="rounded-xl border border-[#DDE5DF] bg-white px-3.5 py-2.5 text-sm text-[#344239] outline-none transition focus:border-[#16834A] focus:ring-4 focus:ring-[#16834A]/10">
+                <option value="all">All stock</option>
+                <option value="in">In stock</option>
+                <option value="out">Out of stock</option>
+            </select>
+        </div>
     </div>
 
-
     <!-- PRODUCT GRID -->
-    <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+    <div id="productGrid" class="grid gap-5 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
 
         {% for product in products %}
+        <article
+            class="product-card group overflow-hidden rounded-2xl border border-[#E3EAE5] bg-white shadow-sm transition duration-200 hover:-translate-y-1 hover:border-[#B8D5C1] hover:shadow-xl hover:shadow-[#17211B]/[0.06]"
+            data-name="{{ product.name|lower }}"
+            data-category="{% if product.category %}{{ product.category.name|lower }}{% else %}uncategorized{% endif %}"
+            data-barcode="{{ product.barcode|default:''|lower }}"
+            data-stock="{% if product.stock > 0 %}in{% else %}out{% endif %}">
 
-        <div class="overflow-hidden rounded-xl border border-line bg-white shadow-sm transition hover:shadow-md">
-
-            <!-- IMAGE -->
-            <div class="flex h-44 items-center justify-center bg-paper">
-
+            <!-- PRODUCT IMAGE -->
+            <div class="relative flex h-48 items-center justify-center overflow-hidden bg-[#F3F6F3]">
                 {% if product.image %}
-
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="h-full w-full object-cover" />
-
+                <img src="{{ product.image.url }}" alt="{{ product.name }}"
+                    class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
                 {% else %}
-
-                <div class="flex flex-col items-center text-muted">
-
-                    <i class="fa-solid fa-box text-3xl"></i>
-
-                    <p class="mt-2 text-xs">
-                        No image
-                    </p>
-
+                <div class="flex flex-col items-center justify-center text-[#A0AAA3]">
+                    <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-sm">
+                        <i class="fa-solid fa-box-open text-2xl"></i>
+                    </div>
+                    <p class="mt-3 text-xs font-medium">No image available</p>
                 </div>
-
                 {% endif %}
 
-            </div>
-
-
-            <!-- PRODUCT CONTENT -->
-            <div class="space-y-4 p-5">
-
-                <!-- NAME + STATUS -->
-                <div class="flex items-start justify-between gap-3">
-
-                    <div class="min-w-0">
-
-                        <h3 class="font-display text-lg font-semibold text-ink">
-                            {{ product.name }}
-                        </h3>
-
-                        <p class="mt-1 text-xs text-muted">
-                            {% if product.category %}
-                            {{ product.category.name }}
-                            {% else %}
-                            Uncategorized
-                            {% endif %}
-                        </p>
-
-                    </div>
-
-
+                <div class="absolute left-3 top-3">
                     {% if product.stock > 0 %}
-
-                    <span class="shrink-0 rounded-full bg-brand/10 px-2.5 py-1 text-xs font-medium text-brand">
+                    <span
+                        class="inline-flex items-center gap-1.5 rounded-full border border-white/70 bg-white/95 px-2.5 py-1 text-[11px] font-semibold text-[#16834A] shadow-sm backdrop-blur">
+                        <span class="h-1.5 w-1.5 rounded-full bg-[#16834A]"></span>
                         In stock
                     </span>
-
                     {% else %}
-
-                    <span class="shrink-0 rounded-full bg-red/10 px-2.5 py-1 text-xs font-medium text-red">
+                    <span
+                        class="inline-flex items-center gap-1.5 rounded-full border border-white/70 bg-white/95 px-2.5 py-1 text-[11px] font-semibold text-[#C34B43] shadow-sm backdrop-blur">
+                        <span class="h-1.5 w-1.5 rounded-full bg-[#C34B43]"></span>
                         Out of stock
                     </span>
-
                     {% endif %}
-
                 </div>
 
-
-                <!-- PRODUCT DETAILS -->
-                <div class="space-y-2 border-t border-line pt-3">
-
-                    <!-- BARCODE -->
-                    <div class="flex items-center justify-between gap-3">
-
-                        <span class="text-xs text-muted">
-                            Barcode
-                        </span>
-
-                        <span class="font-mono text-xs text-ink">
-
-                            {% if product.barcode %}
-                            {{ product.barcode }}
-                            {% else %}
-                            —
-                            {% endif %}
-
-                        </span>
-
-                    </div>
-
-
-                    <!-- PRICE -->
-                    <div class="flex items-center justify-between gap-3">
-
-                        <span class="text-xs text-muted">
-                            Price
-                        </span>
-
-                        <span class="font-mono text-sm font-semibold text-brand">
-                            Rs {{ product.price }}
-                        </span>
-
-                    </div>
-
-
-                    <!-- STOCK -->
-                    <div class="flex items-center justify-between gap-3">
-
-                        <span class="text-xs text-muted">
-                            Stock
-                        </span>
-
-                        <span class="font-mono text-sm font-medium text-ink">
-                            {{ product.stock }} unit{{ product.stock|pluralize }}
-                        </span>
-
-                    </div>
-
+                <div
+                    class="absolute bottom-3 right-3 rounded-lg bg-[#101713]/90 px-2.5 py-1.5 font-mono text-[11px] font-medium text-white backdrop-blur">
+                    {% if product.barcode %}{{ product.barcode }}{% else %}NO BARCODE{% endif %}
                 </div>
-
-
-                <!-- ACTIONS -->
-                <div class="flex items-center justify-between gap-3 border-t border-line pt-4">
-
-                    <!-- ADD TO CART -->
-                    {% if product.stock > 0 %}
-
-                    <form method="post" action="{% url 'add_to_cart' product.id %}" class="flex-1">
-
-                        {% csrf_token %}
-
-                        <button type="submit"
-                            class="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark">
-
-                            <i class="fa-solid fa-cart-plus"></i>
-
-                            Add To Cart
-
-                        </button>
-
-                    </form>
-
-                    {% else %}
-
-                    <button type="button" disabled
-                        class="inline-flex flex-1 cursor-not-allowed items-center justify-center gap-2 rounded-lg bg-line px-4 py-2.5 text-sm font-semibold text-muted">
-
-                        <i class="fa-solid fa-ban"></i>
-
-                        Out Of Stock
-
-                    </button>
-
-                    {% endif %}
-
-
-                    <!-- MORE ACTIONS -->
-                    <div class="flex items-center gap-1">
-
-                        <!-- DETAILS -->
-                        <a href="{% url 'product_detail' product.id %}"
-                            class="rounded-lg p-2.5 text-muted transition hover:bg-paper hover:text-brand"
-                            aria-label="View product details" title="View Details">
-
-                            <i class="fa-solid fa-eye"></i>
-
-                        </a>
-
-
-                        <!-- EDIT -->
-                        <a href="{% url 'update_product' product.id %}"
-                            class="rounded-lg p-2.5 text-muted transition hover:bg-paper hover:text-ink"
-                            aria-label="Edit product" title="Edit Product">
-
-                            <i class="fa-solid fa-pen-to-square"></i>
-
-                        </a>
-
-
-                        <!-- DELETE -->
-                        <form method="post" action="{% url 'delete_product' product.id %}" class="inline"
-                            onsubmit="return confirm('Delete this product? This cannot be undone.')">
-
-                            {% csrf_token %}
-
-                            <button type="submit"
-                                class="cursor-pointer rounded-lg p-2.5 text-muted transition hover:bg-red/5 hover:text-red"
-                                aria-label="Delete product" title="Delete Product">
-
-                                <i class="fa-solid fa-trash"></i>
-
-                            </button>
-
-                        </form>
-
-                    </div>
-
-                </div>
-
             </div>
 
-        </div>
+            <!-- PRODUCT INFORMATION -->
+            <div class="space-y-4 p-4">
+                <div class="min-w-0">
+                    <p class="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#16834A]">
+                        {% if product.category %}{{ product.category.name }}{% else %}Uncategorized{% endif %}
+                    </p>
+                    <h3 class="mt-1 truncate font-display text-lg font-semibold text-[#17211B]"
+                        title="{{ product.name }}">
+                        {{ product.name }}
+                    </h3>
+                </div>
 
+                <div class="flex items-end justify-between gap-3 border-t border-[#EDF1ED] pt-3">
+                    <div>
+                        <p class="text-[11px] font-medium uppercase tracking-wide text-[#87918A]">Selling price</p>
+                        <p class="mt-1 font-mono text-xl font-semibold tracking-tight text-[#16834A]">
+                            Rs {{ product.price }}
+                        </p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-[11px] font-medium uppercase tracking-wide text-[#87918A]">Available stock</p>
+                        <p class="mt-1 font-mono text-sm font-semibold text-[#17211B]">
+                            {{ product.stock }} <span class="font-sans text-xs font-medium text-[#87918A]">units</span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- PRODUCT ACTIONS -->
+                <div class="flex items-center gap-2 border-t border-[#EDF1ED] pt-3">
+                    {% if product.stock > 0 %}
+                    <form method="post" action="{% url 'add_to_cart' product.id %}" class="min-w-0 flex-1">
+                        {% csrf_token %}
+                        <button type="submit"
+                            class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#16834A] px-3 py-2.5 text-sm font-semibold text-white transition hover:bg-[#116B3B] focus:outline-none focus:ring-4 focus:ring-[#16834A]/15">
+                            <i class="fa-solid fa-cart-plus"></i>
+                            Add to cart
+                        </button>
+                    </form>
+                    {% else %}
+                    <button type="button" disabled
+                        class="inline-flex min-w-0 flex-1 cursor-not-allowed items-center justify-center gap-2 rounded-xl bg-[#EEF1EE] px-3 py-2.5 text-sm font-semibold text-[#98A29B]">
+                        <i class="fa-solid fa-ban"></i>
+                        Out of stock
+                    </button>
+                    {% endif %}
+
+                    <a href="{% url 'product_detail' product.id %}"
+                        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#E3EAE5] text-[#66736A] transition hover:border-[#16834A] hover:bg-[#EAF4ED] hover:text-[#16834A]"
+                        aria-label="View product details" title="View details">
+                        <i class="fa-solid fa-eye"></i>
+                    </a>
+
+                    <a href="{% url 'update_product' product.id %}"
+                        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#E3EAE5] text-[#66736A] transition hover:border-[#CBD5CE] hover:bg-[#F0F3F0] hover:text-[#17211B]"
+                        aria-label="Edit product" title="Edit product">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </a>
+
+                    <form method="post" action="{% url 'delete_product' product.id %}" class="shrink-0"
+                        onsubmit="return confirm('Delete this product? This cannot be undone.')">
+                        {% csrf_token %}
+                        <button type="submit"
+                            class="flex h-10 w-10 items-center justify-center rounded-xl border border-[#F0DEDC] text-[#B65A52] transition hover:border-[#E7BDB9] hover:bg-[#FCEDEC] hover:text-[#A83C34]"
+                            aria-label="Delete product" title="Delete product">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </article>
         {% endfor %}
 
     </div>
 
+    <!-- NO SEARCH RESULTS -->
+    <div id="noProductResults"
+        class="hidden rounded-2xl border border-dashed border-[#CBD5CE] bg-white px-6 py-12 text-center">
+        <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#F0F3F0] text-[#87918A]">
+            <i class="fa-solid fa-magnifying-glass text-xl"></i>
+        </div>
+        <h3 class="mt-4 font-display text-lg font-semibold text-[#17211B]">No matching products</h3>
+        <p class="mt-1 text-sm text-[#87918A]">Try another search term or change the stock filter.</p>
+        <button id="clearProductFilters" type="button"
+            class="mt-4 inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-[#16834A] transition hover:bg-[#EAF4ED]">
+            <i class="fa-solid fa-rotate-left"></i>
+            Clear filters
+        </button>
+    </div>
 
     {% else %}
 
-
-    <!-- EMPTY STATE -->
-    <div class="rounded-xl border border-line bg-white px-6 py-16 text-center">
-
-        <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-paper text-muted">
-
-            <i class="fa-solid fa-box text-xl"></i>
-
+    <!-- EMPTY INVENTORY STATE -->
+    <div class="overflow-hidden rounded-2xl border border-[#E3EAE5] bg-white px-6 py-16 text-center shadow-sm">
+        <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#EAF4ED] text-[#16834A]">
+            <i class="fa-solid fa-box-open text-2xl"></i>
         </div>
-
-
-        <h2 class="mt-4 font-display text-lg font-semibold text-ink">
-            No products yet
-        </h2>
-
-
-        <p class="mt-1 text-sm text-muted">
-            Start by adding your first product to inventory.
+        <h2 class="mt-5 font-display text-xl font-semibold text-[#17211B]">No products yet</h2>
+        <p class="mx-auto mt-2 max-w-sm text-sm text-[#87918A]">
+            Your product catalogue is empty. Add your first product to start managing inventory and sales.
         </p>
-
-
         <a href="{% url 'add_product' %}"
-            class="mt-5 inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark">
-
+            class="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#16834A] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#116B3B]">
             <i class="fa-solid fa-plus"></i>
-
-            Add Your First Product
-
+            Add your first product
         </a>
-
     </div>
-
 
     {% endif %}
 
 </div>
+
+{% if products %}
+<script>
+    (function () {
+        const searchInput = document.getElementById('productSearch');
+        const stockFilter = document.getElementById('stockFilter');
+        const productCards = Array.from(document.querySelectorAll('.product-card'));
+        const noResults = document.getElementById('noProductResults');
+        const clearButton = document.getElementById('clearProductFilters');
+
+        if (!searchInput || !stockFilter || !productCards.length) return;
+
+        function filterProducts() {
+            const query = searchInput.value.trim().toLowerCase();
+            const stock = stockFilter.value;
+            let visibleCount = 0;
+
+            productCards.forEach((card) => {
+                const searchableText = [
+                    card.dataset.name || '',
+                    card.dataset.category || '',
+                    card.dataset.barcode || ''
+                ].join(' ');
+
+                const matchesSearch = searchableText.includes(query);
+                const matchesStock = stock === 'all' || card.dataset.stock === stock;
+                const isVisible = matchesSearch && matchesStock;
+
+                card.classList.toggle('hidden', !isVisible);
+                if (isVisible) visibleCount++;
+            });
+
+            noResults.classList.toggle('hidden', visibleCount !== 0);
+        }
+
+        searchInput.addEventListener('input', filterProducts);
+        stockFilter.addEventListener('change', filterProducts);
+
+        if (clearButton) {
+            clearButton.addEventListener('click', function () {
+                searchInput.value = '';
+                stockFilter.value = 'all';
+                filterProducts();
+                searchInput.focus();
+            });
+        }
+    })();
+</script>
+{% endif %}
 
 {% endblock content %}

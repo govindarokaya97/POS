@@ -5,10 +5,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
     <style type="text/tailwindcss">
         @theme {
             --color-ink: #12141A;
@@ -25,70 +30,121 @@
             --font-mono: "JetBrains Mono", monospace;
         }
     </style>
+
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-    <title>Login</title>
+    <title>Login | POS System</title>
 </head>
 
 <body class="font-sans antialiased">
+
     <div class="flex min-h-screen items-center justify-center bg-paper px-4 py-12 text-ink sm:px-6 lg:px-8">
+
         <div class="w-full max-w-md">
+
             <!-- Header -->
-            <div class="text-center mb-8">
-                <div class="flex justify-center mb-4">
+            <div class="mb-8 text-center">
+
+                <div class="mb-4 flex justify-center">
                     <div class="rounded-full bg-brand p-3">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
                             </path>
                         </svg>
                     </div>
                 </div>
-                <h1 class="mb-2 font-display text-3xl font-semibold text-ink">Welcome Back</h1>
-                <p class="text-sm text-muted">Sign in to your account</p>
+
+                <h1 class="mb-2 font-display text-3xl font-semibold text-ink">
+                    Welcome Back
+                </h1>
+
+                <p class="text-sm text-muted">
+                    Sign in to your account
+                </p>
+
             </div>
 
             <!-- Form Container -->
             <div class="rounded-xl border border-line bg-white p-8 shadow-sm">
+
+                <!-- Django Messages -->
                 {% if messages %}
-                <div class="mb-4 space-y-2">
+                <div class="mb-5 space-y-2">
                     {% for message in messages %}
-                    <div class="rounded-lg px-3 py-2 text-sm {% if message.tags == 'error' %}bg-red/10 text-red{% else %}bg-brand/10 text-brand{% endif %}">
+                    <div class="rounded-lg border px-3 py-3 text-sm
+                        {% if message.tags == 'error' %}
+                            border-red-200 bg-red-50 text-red-700
+                        {% else %}
+                            border-green-200 bg-green-50 text-brand
+                        {% endif %}">
                         {{ message }}
                     </div>
                     {% endfor %}
                 </div>
                 {% endif %}
 
-                <form method="POST" class="space-y-6">
+                <form method="POST" class="space-y-5">
                     {% csrf_token %}
 
+                    <!-- Authentication Error -->
+                    {% if form.non_field_errors %}
+                    <div class="rounded-lg border border-red-200 bg-red-50 p-4">
+                        <div class="flex items-start gap-2">
+                            <svg class="mt-0.5 h-5 w-5 shrink-0 text-red-600" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z">
+                                </path>
+                            </svg>
+
+                            <div class="text-sm text-red-700">
+                                {% for error in form.non_field_errors %}
+                                <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
 
                     <!-- Username Field -->
                     <div>
-                        <label for="{{ form.username.id_for_label }}"
-                            class="mb-2 block text-sm font-medium text-ink">
+                        <label for="{{ form.username.id_for_label }}" class="mb-2 block text-sm font-medium text-ink">
                             Username
                         </label>
+
                         {{ form.username }}
+
+                        {% for error in form.username.errors %}
+                        <p class="mt-2 text-xs text-red-600">{{ error }}</p>
+                        {% endfor %}
                     </div>
 
                     <!-- Password Field -->
                     <div>
-                        <label for="{{ form.password.id_for_label }}"
-                            class="mb-2 block text-sm font-medium text-ink">
+                        <label for="{{ form.password.id_for_label }}" class="mb-2 block text-sm font-medium text-ink">
                             Password
                         </label>
+
                         {{ form.password }}
+
+                        {% for error in form.password.errors %}
+                        <p class="mt-2 text-xs text-red-600">{{ error }}</p>
+                        {% endfor %}
                     </div>
 
                     <!-- Remember Me & Forgot Password -->
-                    <div class="flex items-center justify-between text-sm">
-                        <label class="flex items-center gap-2 cursor-pointer">
+                    <div class="flex items-center justify-between gap-3 text-sm">
+
+                        <label class="flex cursor-pointer items-center gap-2">
                             <input type="checkbox" name="remember_me"
-                                class="h-4 w-4 cursor-pointer rounded border-line text-brand focus:ring-brand" />
+                                class="h-4 w-4 cursor-pointer rounded border-line text-brand focus:ring-brand">
                             <span class="text-muted">Remember me</span>
                         </label>
-                        <a href="#" class="font-medium text-brand hover:text-brand-dark">Forgot password?</a>
+
+                        <a href="{% url 'password_reset' %}" class="font-medium text-brand hover:text-brand-dark">
+                            Forgot password?
+                        </a>
+
                     </div>
 
                     <!-- Submit Button -->
@@ -96,15 +152,28 @@
                         class="w-full rounded-lg bg-brand px-4 py-3 font-semibold text-white transition hover:bg-brand-dark focus:outline-none focus:ring-2 focus:ring-brand/30">
                         Sign In
                     </button>
+
                 </form>
+
+                <!-- Verification Resend -->
+                <p class="mt-5 text-center text-sm text-muted">
+                    Didn't receive your verification email?
+
+                    <a href="{% url 'resend_verification' %}" class="font-semibold text-brand hover:text-brand-dark">
+                        Resend verification
+                    </a>
+                </p>
 
                 <!-- Divider -->
                 <div class="relative my-6">
                     <div class="absolute inset-0 flex items-center">
                         <div class="w-full border-t border-line"></div>
                     </div>
+
                     <div class="relative flex justify-center text-sm">
-                        <span class="bg-white px-2 text-muted">Don't have an account?</span>
+                        <span class="bg-white px-2 text-muted">
+                            Don't have an account?
+                        </span>
                     </div>
                 </div>
 
@@ -113,15 +182,18 @@
                     class="block w-full rounded-lg bg-paper px-4 py-3 text-center font-semibold text-ink transition hover:bg-line">
                     Create Account
                 </a>
+
             </div>
 
             <!-- Footer -->
-            <div class="text-center mt-6">
+            <div class="mt-6 text-center">
                 <p class="font-mono text-xs text-muted">
                     © 2026 POS System. All rights reserved.
                 </p>
             </div>
+
         </div>
+
     </div>
 
 </body>

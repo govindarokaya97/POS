@@ -9293,3 +9293,1371 @@ django.db.utils.IntegrityError: (1364, "Field 'sale_ref' doesn't have a default 
 2026-10-18 09:25:50,035 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\urls.py changed, reloading.
 2026-10-18 09:25:52,796 INFO django.utils.autoreload Watching for file changes with StatReloader
 2026-10-18 09:26:57,956 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-18 09:29:02,888 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-18 13:40:33,266 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-18 13:54:44,901 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\utils.py changed, reloading.
+2026-10-18 13:54:49,460 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-18 13:56:45,307 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-18 13:57:04,438 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 13:57:04,454 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 13:57:04,463 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 13:57:04,481 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 13:57:12,624 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 13:57:12,638 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 13:57:12,641 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 13:57:12,654 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 13:57:15,264 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 13:57:15,316 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 13:57:41,585 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 13:57:41,598 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 13:57:41,600 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 13:57:41,606 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:01:17,736 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:01:17,756 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:01:17,763 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:01:17,781 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:01:20,971 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:01:20,982 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:01:20,984 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:01:20,995 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:01:24,358 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:01:24,383 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:01:51,590 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:01:51,602 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:01:51,603 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:01:51,611 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:01:56,369 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:02:45,897 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:02:45,910 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:02:45,911 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:02:45,916 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:02:50,082 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:02:50,090 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:02:50,093 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:02:50,101 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:02:56,349 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:02:56,371 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:02:56,379 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:03:07,617 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:03:07,629 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:03:07,630 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:03:07,638 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-10-18 14:09:46,977 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\migrations\__init__.py changed, reloading.
+2026-10-18 14:09:52,059 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-18 14:12:06,608 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-18 14:12:43,260 ERROR cinema.views Cinema booking failed
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\backends\mysql\base.py", line 78, in execute
+    return self.cursor.execute(query, args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
+    db.query(q)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\MySQLdb\connections.py", line 286, in query
+    _mysql.connection.query(self, query)
+MySQLdb.OperationalError: (1054, "Unknown column 'print_count' in 'field list'")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py", line 387, in ticket_checkout
+    bookings, change = _create_sale(request, show)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py", line 311, in _create_sale
+    booking = Booking.objects.create(
+              ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\query.py", line 669, in create
+    obj.save(force_insert=True, using=self.db)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\base.py", line 874, in save
+    self.save_base(
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\base.py", line 966, in save_base
+    updated = self._save_table(
+              ^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+              ^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\base.py", line 1220, in _do_insert
+    return manager._insert(
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\query.py", line 1918, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1925, in execute_sql
+    cursor.execute(sql, params)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\utils.py", line 94, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\backends\mysql\base.py", line 78, in execute
+    return self.cursor.execute(query, args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\MySQLdb\cursors.py", line 330, in _query
+    db.query(q)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\MySQLdb\connections.py", line 286, in query
+    _mysql.connection.query(self, query)
+django.db.utils.OperationalError: (1054, "Unknown column 'print_count' in 'field list'")
+2026-10-18 14:14:44,624 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 12:22:50,873 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 12:34:10,554 ERROR django.request Internal Server Error: /cinema/show/9/seats/
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\smartif.py", line 181, in translate_token
+    op = OPERATORS[token]
+         ~~~~~~~~~^^^^^^^
+KeyError: "!='available'"
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\core\permissions.py", line 14, in _wrapped
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py", line 321, in seat_selection
+    return render(request, "cinema/seats.html", context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\engine.py", line 186, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 157, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 199, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 307, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 235, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 1008, in do_if
+    nodelist = parser.parse(("endif",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 994, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 993, in do_if
+    condition = TemplateIfParser(parser, bits).parse()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 926, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\smartif.py", line 172, in __init__
+    mapped_tokens.append(self.translate_token(token))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\smartif.py", line 183, in translate_token
+    return self.create_var(token)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 929, in create_var
+    return TemplateLiteral(self.template_parser.compile_filter(value), value)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 676, in compile_filter
+    return FilterExpression(token, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 776, in __init__
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: Template: C:\Users\govin\OneDrive\Desktop\POS\cinema\templates\cinema\seats.html, Could not parse the remainder: '!='available'' from '!='available''
+2026-10-19 20:31:17,732 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 20:36:23,959 ERROR django.request Internal Server Error: /cinema/show/9/seats/
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\smartif.py", line 181, in translate_token
+    op = OPERATORS[token]
+         ~~~~~~~~~^^^^^^^
+KeyError: "!='available'"
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\core\permissions.py", line 14, in _wrapped
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py", line 321, in seat_selection
+    return render(request, "cinema/seats.html", context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\engine.py", line 186, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 157, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 199, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 307, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 235, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 1008, in do_if
+    nodelist = parser.parse(("endif",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 994, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 993, in do_if
+    condition = TemplateIfParser(parser, bits).parse()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 926, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\smartif.py", line 172, in __init__
+    mapped_tokens.append(self.translate_token(token))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\smartif.py", line 183, in translate_token
+    return self.create_var(token)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 929, in create_var
+    return TemplateLiteral(self.template_parser.compile_filter(value), value)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 676, in compile_filter
+    return FilterExpression(token, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 776, in __init__
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: Template: C:\Users\govin\OneDrive\Desktop\POS\cinema\templates\cinema\seats.html, Could not parse the remainder: '!='available'' from '!='available''
+2026-10-19 20:46:46,400 ERROR django.request Internal Server Error: /cinema/show/9/seats/
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\smartif.py", line 181, in translate_token
+    op = OPERATORS[token]
+         ~~~~~~~~~^^^^^^^
+KeyError: "!='available'"
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\core\permissions.py", line 14, in _wrapped
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py", line 321, in seat_selection
+    return render(request, "cinema/seats.html", context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\engine.py", line 186, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 157, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 199, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 307, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 235, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 1008, in do_if
+    nodelist = parser.parse(("endif",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 994, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 993, in do_if
+    condition = TemplateIfParser(parser, bits).parse()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 926, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\smartif.py", line 172, in __init__
+    mapped_tokens.append(self.translate_token(token))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\smartif.py", line 183, in translate_token
+    return self.create_var(token)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 929, in create_var
+    return TemplateLiteral(self.template_parser.compile_filter(value), value)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 676, in compile_filter
+    return FilterExpression(token, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 776, in __init__
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: Template: C:\Users\govin\OneDrive\Desktop\POS\cinema\templates\cinema\seats.html, Could not parse the remainder: '!='available'' from '!='available''
+2026-10-19 20:47:23,835 ERROR django.request Internal Server Error: /cinema/show/9/seats/
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\smartif.py", line 181, in translate_token
+    op = OPERATORS[token]
+         ~~~~~~~~~^^^^^^^
+KeyError: "!='available'"
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\core\permissions.py", line 14, in _wrapped
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py", line 321, in seat_selection
+    return render(request, "cinema/seats.html", context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\engine.py", line 186, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 157, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 199, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 307, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 235, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 1008, in do_if
+    nodelist = parser.parse(("endif",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 994, in do_if
+    nodelist = parser.parse(("elif", "else", "endif"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 993, in do_if
+    condition = TemplateIfParser(parser, bits).parse()
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 926, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\smartif.py", line 172, in __init__
+    mapped_tokens.append(self.translate_token(token))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\smartif.py", line 183, in translate_token
+    return self.create_var(token)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 929, in create_var
+    return TemplateLiteral(self.template_parser.compile_filter(value), value)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 676, in compile_filter
+    return FilterExpression(token, self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 776, in __init__
+    raise TemplateSyntaxError(
+django.template.exceptions.TemplateSyntaxError: Template: C:\Users\govin\OneDrive\Desktop\POS\cinema\templates\cinema\seats.html, Could not parse the remainder: '!='available'' from '!='available''
+2026-10-19 20:57:22,956 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-19 20:57:27,845 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 21:00:36,424 ERROR django.request Internal Server Error: /cinema/show/9/seats/
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 577, in parse
+    compile_func = self.tags[command]
+                   ~~~~~~~~~^^^^^^^^^
+KeyError: 'else'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\core\permissions.py", line 14, in _wrapped
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py", line 326, in seat_selection
+    return render(request, "cinema/seats.html", context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\engine.py", line 186, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 157, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 199, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 307, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 235, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 1008, in do_if
+    nodelist = parser.parse(("endif",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 579, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 634, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Template: C:\Users\govin\OneDrive\Desktop\POS\cinema\templates\cinema\seats.html, Invalid block tag on line 520: 'else', expected 'empty' or 'endfor'. Did you forget to register or load this tag?
+2026-10-19 21:12:34,174 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\utils.py changed, reloading.
+2026-10-19 21:12:38,235 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 21:39:38,276 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-19 21:39:42,666 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 21:41:48,277 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-19 21:41:51,487 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 21:42:08,973 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-19 21:42:13,381 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 21:42:49,399 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-19 21:42:53,476 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 21:43:12,393 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-19 21:43:16,374 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 21:43:32,475 ERROR django.request Internal Server Error: /cinema/show/9/seats/
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\core\permissions.py", line 14, in _wrapped
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py", line 297, in seat_selection
+    _ensure_seats(show)
+    ^^^^^^^^^^^^^
+NameError: name '_ensure_seats' is not defined. Did you mean: 'generate_seats'?
+2026-10-19 21:44:51,696 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-19 21:44:55,515 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 22:12:51,377 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\utils.py changed, reloading.
+2026-10-19 22:12:55,838 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 22:15:29,722 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-19 22:15:34,626 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 22:17:03,371 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-19 22:17:07,301 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 22:17:10,941 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-19 22:17:14,727 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 22:17:49,213 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-19 22:17:53,565 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 22:19:03,099 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-19 22:19:07,383 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 22:19:29,646 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-19 22:19:33,483 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 22:22:02,520 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-19 22:22:06,306 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 22:22:18,071 ERROR django.request Internal Server Error: /cinema/show/9/seats/
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\core\permissions.py", line 14, in _wrapped
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py", line 366, in seat_selection
+    row_seats = sorted(
+                ^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py", line 369, in <lambda>
+    0 if by_row[i][0].section == GOLD else 1,
+                ^
+NameError: name 'i' is not defined
+2026-10-19 22:24:03,619 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-19 22:24:08,100 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 22:24:27,263 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 22:35:17,368 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-19 22:35:18,244 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-19 22:35:22,970 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 22:35:25,481 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 22:36:28,913 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-19 22:36:29,106 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-19 22:36:33,345 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 22:36:35,494 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 22:37:16,172 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-19 22:37:17,240 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-19 22:37:20,055 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 22:37:22,587 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 22:37:42,215 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-19 22:37:42,859 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-19 22:37:47,011 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 22:37:49,345 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-19 22:38:32,057 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-20 10:13:35,982 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-20 10:14:29,028 WARNING django.security.csrf Forbidden (CSRF token from POST incorrect.): /
+2026-10-20 10:15:30,186 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-20 10:15:34,757 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-20 10:15:56,491 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py changed, reloading.
+2026-10-20 10:16:01,097 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-20 10:16:30,432 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-20 10:18:28,253 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\cinema\migrations\0003_booking_ticket.py changed, reloading.
+2026-10-20 10:18:32,446 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-20 10:22:02,851 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-20 10:36:21,389 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-10-20 10:36:32,053 ERROR django.request Internal Server Error: /cinema/show/9/seats/
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 577, in parse
+    compile_func = self.tags[command]
+                   ~~~~~~~~~^^^^^^^^^
+KeyError: 'else'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\core\permissions.py", line 14, in _wrapped
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\cinema\views.py", line 475, in seat_selection
+    return render(request, "cinema/seats.html", context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader.py", line 61, in render_to_string
+    template = get_template(template_name, using=using)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader.py", line 15, in get_template
+    return engine.get_template(template_name)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\backends\django.py", line 79, in get_template
+    return Template(self.engine.get_template(template_name), self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\engine.py", line 186, in get_template
+    template, origin = self.find_template(template_name)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\engine.py", line 159, in find_template
+    template = loader.get_template(name, skip=skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loaders\cached.py", line 57, in get_template
+    template = super().get_template(template_name, skip)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loaders\base.py", line 28, in get_template
+    return Template(
+           ^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 157, in __init__
+    self.nodelist = self.compile_nodelist()
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 199, in compile_nodelist
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 307, in do_extends
+    nodelist = parser.parse()
+               ^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\loader_tags.py", line 235, in do_block
+    nodelist = parser.parse(("endblock",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 1008, in do_if
+    nodelist = parser.parse(("endif",))
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 585, in parse
+    raise self.error(token, e)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 583, in parse
+    compiled_result = compile_func(self, token)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\defaulttags.py", line 894, in do_for
+    nodelist_loop = parser.parse(
+                    ^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 579, in parse
+    self.invalid_block_tag(token, command, parse_until)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\template\base.py", line 634, in invalid_block_tag
+    raise self.error(
+django.template.exceptions.TemplateSyntaxError: Template: C:\Users\govin\OneDrive\Desktop\POS\cinema\templates\cinema\seats.html, Invalid block tag on line 573: 'else', expected 'empty' or 'endfor'. Did you forget to register or load this tag?
+2026-10-20 10:38:38,631 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-05 19:45:33,997 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-05 19:49:22,119 ERROR django.request Internal Server Error: /billing/reports/
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\core\permissions.py", line 14, in _wrapped
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\billing\views.py", line 2464, in sales_report
+    sale["day"].strftime("%d %b")
+    ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'strftime'
+2026-11-05 19:49:39,503 ERROR django.request Internal Server Error: /billing/expenses/
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\core\permissions.py", line 14, in _wrapped
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\billing\views.py", line 1847, in expense_list
+    for item in monthly_data
+                ^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\query.py", line 390, in __iter__
+    self._fetch_all()
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\query.py", line 222, in __iter__
+    for row in compiler.results_iter(
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1542, in apply_converters
+    value = converter(value, expression, connection)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\functions\datetime.py", line 354, in convert_value
+    raise ValueError(
+ValueError: Database returned an invalid datetime value. Are time zone definitions for your database installed?
+2026-11-05 19:49:45,201 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-05 19:50:05,165 ERROR django.request Internal Server Error: /billing/expenses/
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\core\permissions.py", line 14, in _wrapped
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\billing\views.py", line 1847, in expense_list
+    for item in monthly_data
+                ^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\query.py", line 390, in __iter__
+    self._fetch_all()
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\query.py", line 222, in __iter__
+    for row in compiler.results_iter(
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1542, in apply_converters
+    value = converter(value, expression, connection)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\functions\datetime.py", line 354, in convert_value
+    raise ValueError(
+ValueError: Database returned an invalid datetime value. Are time zone definitions for your database installed?
+2026-11-05 19:51:55,912 ERROR django.request Internal Server Error: /billing/expenses/
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\core\permissions.py", line 14, in _wrapped
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\billing\views.py", line 1847, in expense_list
+    for item in monthly_data
+                ^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\query.py", line 390, in __iter__
+    self._fetch_all()
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\query.py", line 222, in __iter__
+    for row in compiler.results_iter(
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1542, in apply_converters
+    value = converter(value, expression, connection)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\functions\datetime.py", line 354, in convert_value
+    raise ValueError(
+ValueError: Database returned an invalid datetime value. Are time zone definitions for your database installed?
+2026-11-05 20:02:37,040 ERROR django.request Internal Server Error: /billing/expenses/
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\core\permissions.py", line 14, in _wrapped
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\billing\views.py", line 1847, in expense_list
+    for item in monthly_data
+                ^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\query.py", line 390, in __iter__
+    self._fetch_all()
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\query.py", line 2000, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\query.py", line 222, in __iter__
+    for row in compiler.results_iter(
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1542, in apply_converters
+    value = converter(value, expression, connection)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\db\models\functions\datetime.py", line 354, in convert_value
+    raise ValueError(
+ValueError: Database returned an invalid datetime value. Are time zone definitions for your database installed?
+2026-11-05 20:30:22,426 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-05 20:31:29,891 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 11:35:35,912 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 11:37:16,605 WARNING django.security.csrf Forbidden (CSRF token from POST incorrect.): /
+2026-11-06 12:52:00,115 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 12:57:02,283 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\accounts\views.py changed, reloading.
+2026-11-06 12:57:06,979 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 12:57:28,519 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\accounts\views.py changed, reloading.
+2026-11-06 12:57:32,983 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 13:06:45,151 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\core\settings.py changed, reloading.
+2026-11-06 13:06:49,797 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 13:20:02,479 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\accounts\views.py changed, reloading.
+2026-11-06 13:20:06,729 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 13:20:48,269 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\accounts\views.py changed, reloading.
+2026-11-06 13:20:52,591 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 13:25:49,677 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\accounts\views.py changed, reloading.
+2026-11-06 13:25:53,511 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 13:27:02,058 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 13:29:09,296 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\accounts\views.py changed, reloading.
+2026-11-06 13:29:13,179 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 13:30:02,984 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 13:30:42,509 ERROR django.request Internal Server Error: /user/logout
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\accounts\views.py", line 312, in logout_user
+    logout(request)
+    ^^^^^^
+NameError: name 'logout' is not defined
+2026-11-06 13:32:03,535 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\accounts\views.py changed, reloading.
+2026-11-06 13:32:06,438 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 13:32:20,275 ERROR django.request Internal Server Error: /user/logout
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\accounts\views.py", line 314, in logout_user
+    messages.success(
+    ^^^^^^^^
+NameError: name 'messages' is not defined
+2026-11-06 13:32:52,621 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\accounts\views.py changed, reloading.
+2026-11-06 13:32:56,572 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 13:32:58,408 ERROR django.request Internal Server Error: /
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\handlers\base.py", line 198, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\accounts\views.py", line 298, in login_user
+    form = LoginForm()
+           ^^^^^^^^^
+NameError: name 'LoginForm' is not defined
+2026-11-06 13:34:06,172 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\accounts\views.py changed, reloading.
+2026-11-06 13:34:10,081 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 13:34:35,909 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\accounts\views.py changed, reloading.
+2026-11-06 13:34:40,219 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 13:38:50,677 ERROR accounts.views Failed to send verification email for user ID 3
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\accounts\views.py", line 100, in register
+    send_verification_email(request, user)
+  File "C:\Users\govin\OneDrive\Desktop\POS\accounts\views.py", line 73, in send_verification_email
+    email.send(fail_silently=False)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\mail\message.py", line 358, in send
+    return self.get_connection(fail_silently).send_messages([self])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\mail\backends\smtp.py", line 148, in send_messages
+    new_conn_created = self.open()
+                       ^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\mail\backends\smtp.py", line 103, in open
+    self._partial_connection.login(self.username, self.password)
+  File "C:\Users\govin\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 739, in login
+    (code, resp) = self.auth(
+                   ^^^^^^^^^^
+  File "C:\Users\govin\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 642, in auth
+    (code, resp) = self.docmd("AUTH", mechanism + " " + response)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 432, in docmd
+    return self.getreply()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\govin\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 405, in getreply
+    raise SMTPServerDisconnected("Connection unexpectedly closed")
+smtplib.SMTPServerDisconnected: Connection unexpectedly closed
+2026-11-06 13:39:04,674 ERROR accounts.views Failed to resend verification email for user ID 3
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\accounts\views.py", line 224, in resend_verification
+    send_verification_email(request, user)
+  File "C:\Users\govin\OneDrive\Desktop\POS\accounts\views.py", line 73, in send_verification_email
+    email.send(fail_silently=False)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\mail\message.py", line 358, in send
+    return self.get_connection(fail_silently).send_messages([self])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\mail\backends\smtp.py", line 148, in send_messages
+    new_conn_created = self.open()
+                       ^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\mail\backends\smtp.py", line 103, in open
+    self._partial_connection.login(self.username, self.password)
+  File "C:\Users\govin\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 739, in login
+    (code, resp) = self.auth(
+                   ^^^^^^^^^^
+  File "C:\Users\govin\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 642, in auth
+    (code, resp) = self.docmd("AUTH", mechanism + " " + response)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 432, in docmd
+    return self.getreply()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\govin\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 405, in getreply
+    raise SMTPServerDisconnected("Connection unexpectedly closed")
+smtplib.SMTPServerDisconnected: Connection unexpectedly closed
+2026-11-06 13:41:55,385 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\core\settings.py changed, reloading.
+2026-11-06 13:41:59,222 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 14:21:13,097 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 14:21:58,098 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:22:05,223 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:22:11,978 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:22:11,992 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:22:11,999 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:22:12,016 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:22:14,416 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:22:27,348 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:22:27,359 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:22:27,364 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:22:32,599 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:22:34,099 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:22:34,160 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:22:34,165 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:22:56,826 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:22:56,840 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:22:56,843 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:22:56,849 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:23:10,184 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:23:30,527 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:23:30,539 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:23:30,541 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:23:30,544 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:23:37,588 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:23:39,881 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:23:39,892 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:23:39,894 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:23:39,897 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:23:47,373 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:23:53,831 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:23:53,850 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:23:53,857 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:23:53,858 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:23:53,883 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:23:59,250 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:24:01,173 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:24:01,186 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:24:01,191 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:24:01,192 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:24:01,213 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:24:07,398 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:24:07,410 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:24:07,414 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:24:07,415 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:24:07,436 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:24:10,725 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:24:12,730 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:24:12,760 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:24:12,762 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:24:15,305 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:24:15,316 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:24:15,318 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:24:15,323 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:24:24,795 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:24:27,387 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:24:27,397 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:24:27,398 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:24:27,404 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 14:25:34,422 ERROR accounts.views Failed to send verification email for user ID 4
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\accounts\views.py", line 100, in register
+    send_verification_email(request, user)
+  File "C:\Users\govin\OneDrive\Desktop\POS\accounts\views.py", line 73, in send_verification_email
+    email.send(fail_silently=False)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\mail\message.py", line 358, in send
+    return self.get_connection(fail_silently).send_messages([self])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\mail\backends\smtp.py", line 148, in send_messages
+    new_conn_created = self.open()
+                       ^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\mail\backends\smtp.py", line 103, in open
+    self._partial_connection.login(self.username, self.password)
+  File "C:\Users\govin\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 739, in login
+    (code, resp) = self.auth(
+                   ^^^^^^^^^^
+  File "C:\Users\govin\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 642, in auth
+    (code, resp) = self.docmd("AUTH", mechanism + " " + response)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 432, in docmd
+    return self.getreply()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\govin\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 405, in getreply
+    raise SMTPServerDisconnected("Connection unexpectedly closed")
+smtplib.SMTPServerDisconnected: Connection unexpectedly closed
+2026-11-06 14:26:24,431 ERROR accounts.views Failed to resend verification email for user ID 4
+Traceback (most recent call last):
+  File "C:\Users\govin\OneDrive\Desktop\POS\accounts\views.py", line 224, in resend_verification
+    send_verification_email(request, user)
+  File "C:\Users\govin\OneDrive\Desktop\POS\accounts\views.py", line 73, in send_verification_email
+    email.send(fail_silently=False)
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\mail\message.py", line 358, in send
+    return self.get_connection(fail_silently).send_messages([self])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\mail\backends\smtp.py", line 148, in send_messages
+    new_conn_created = self.open()
+                       ^^^^^^^^^^^
+  File "C:\Users\govin\OneDrive\Desktop\POS\venv\Lib\site-packages\django\core\mail\backends\smtp.py", line 103, in open
+    self._partial_connection.login(self.username, self.password)
+  File "C:\Users\govin\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 739, in login
+    (code, resp) = self.auth(
+                   ^^^^^^^^^^
+  File "C:\Users\govin\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 642, in auth
+    (code, resp) = self.docmd("AUTH", mechanism + " " + response)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\govin\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 432, in docmd
+    return self.getreply()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\govin\AppData\Local\Programs\Python\Python312\Lib\smtplib.py", line 405, in getreply
+    raise SMTPServerDisconnected("Connection unexpectedly closed")
+smtplib.SMTPServerDisconnected: Connection unexpectedly closed
+2026-11-06 14:44:10,620 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 14:48:56,927 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 14:49:31,260 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 14:53:41,234 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 15:02:41,316 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 15:02:48,723 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 15:02:52,122 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 15:02:52,203 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 15:02:52,209 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 15:02:54,709 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 15:02:54,726 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 15:02:54,732 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 15:02:54,746 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 15:03:03,960 WARNING django.security.csrf Forbidden (CSRF token from POST incorrect.): /
+2026-11-06 15:03:15,506 WARNING jazzmin.settings JAZZMIN_UI_TWEAKS['dark_mode_theme'] is deprecated and ignored. Use default_theme_mode='auto' (or 'light'/'dark') instead. All themes now support light/dark via data-bs-theme.
+2026-11-06 15:03:22,704 WARNING django.security.csrf Forbidden (CSRF token from POST incorrect.): /
+2026-11-06 15:07:34,008 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\accounts\urls.py changed, reloading.
+2026-11-06 15:07:39,020 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 18:32:57,468 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\core\settings.py changed, reloading.
+2026-11-06 18:33:00,434 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 18:35:23,352 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\core\settings.py changed, reloading.
+2026-11-06 18:35:26,560 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 18:36:02,032 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\core\settings.py changed, reloading.
+2026-11-06 18:36:05,331 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 18:36:26,769 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\core\settings.py changed, reloading.
+2026-11-06 18:36:29,864 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 18:36:58,973 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\core\settings.py changed, reloading.
+2026-11-06 18:37:01,983 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 18:39:14,545 INFO axes.apps AXES: BEGIN version 9.0.0, blocking by username or ip_address
+2026-11-06 18:39:59,828 INFO axes.apps AXES: BEGIN version 9.0.0, blocking by username or ip_address
+2026-11-06 18:41:34,326 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\core\settings.py changed, reloading.
+2026-11-06 18:41:37,859 INFO axes.apps AXES: BEGIN version 9.0.0, blocking by username or ip_address
+2026-11-06 18:41:37,929 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 18:42:24,969 INFO axes.apps AXES: BEGIN version 9.0.0, blocking by username or ip_address
+2026-11-06 18:43:52,617 INFO django.utils.autoreload C:\Users\govin\OneDrive\Desktop\POS\core\settings.py changed, reloading.
+2026-11-06 18:43:55,948 INFO axes.apps AXES: BEGIN version 9.0.0, blocking by username or ip_address
+2026-11-06 18:43:56,017 INFO django.utils.autoreload Watching for file changes with StatReloader
+2026-11-06 18:44:03,226 INFO axes.apps AXES: BEGIN version 9.0.0, blocking by username or ip_address
+2026-11-06 18:46:34,823 INFO axes.apps AXES: BEGIN version 9.0.0, blocking by username or ip_address
+2026-11-06 18:49:30,056 INFO axes.apps AXES: BEGIN version 9.0.0, blocking by username or ip_address

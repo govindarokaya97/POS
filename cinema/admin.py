@@ -1,13 +1,13 @@
 from django.contrib import admin
 
-from .models import Booking, CinemaHall, Movie, Show, Ticket
+from .models import Booking, CinemaHall, Movie, Seat, Show, Ticket
 from .utils import generate_seats
 
 
 @admin.register(Movie)
 class MovieAdmin(admin.ModelAdmin):
 
-    list_display = ("title", "language", "duration", "is_active")
+    list_display = ("title", "language", "grade", "screen_format", "duration", "is_active")
 
     list_filter = ("is_active", "language")
 
@@ -89,3 +89,39 @@ class BookingAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
+
+
+@admin.register(Seat)
+class SeatAdmin(admin.ModelAdmin):
+    """Take seats out of sale (broken seat, owner's seat ...) or put them back."""
+
+    list_display = ("seat_number", "show", "section", "is_booked", "is_blocked")
+
+    list_filter = ("show", "section", "is_blocked", "is_booked")
+
+    search_fields = ("seat_number",)
+
+    actions = ["make_unavailable", "make_available"]
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    @admin.action(description="Mark selected seats UNAVAILABLE (not sold)")
+    def make_unavailable(self, request, queryset):
+        updated = queryset.filter(is_booked=False).update(
+            is_blocked=True, held_by=None, held_until=None
+        )
+        skipped = queryset.count() - updated
+        self.message_user(
+            request,
+            f"{updated} seat(s) made unavailable."
+            + (f" {skipped} already-sold seat(s) were left alone." if skipped else ""),
+        )
+
+    @admin.action(description="Mark selected seats AVAILABLE again")
+    def make_available(self, request, queryset):
+        updated = queryset.update(is_blocked=False)
+        self.message_user(request, f"{updated} seat(s) made available.")

@@ -4,45 +4,50 @@
 
 {% block content %}
 <style>
-    /* Paper width: change 48mm here and in .slip below to match your printer
-       (same setting as the product invoice receipt). */
-    @page {
-        size: 48mm auto;
-        margin: 0;
-    }
+    /* Paper width: 72mm suits an 80mm thermal roll. For a 58mm roll use 48mm
+       (change it in BOTH places: @page and --paper). */
+    @page { size: 72mm auto; margin: 0; }
 
     .slip {
-        width: 48mm;
+        --paper: 72mm;
+        width: var(--paper);
         margin: 0 auto 16px;
-        padding: 5px;
-        font-family: "Courier New", monospace;
+        padding: 4mm 3mm;
+        font-family: Arial, Helvetica, sans-serif;
         font-size: 12px;
+        line-height: 1.35;
         color: #000;
         background: #fff;
         box-sizing: border-box;
     }
 
-    .slip h2 { margin: 4px 0; font-size: 15px; }
-    .slip p { margin: 2px 0; }
+    .slip p { margin: 1px 0; }
     .slip .center { text-align: center; }
-    .slip .sep { border-top: 1px dashed #000; margin: 6px 0; }
-    .slip .row { display: flex; justify-content: space-between; gap: 6px; }
-    .slip .grand { font-weight: bold; font-size: 14px; }
-    .slip .section { font-size: 15px; font-weight: bold; letter-spacing: 2px; }
-    .slip .big-seat { font-size: 28px; font-weight: bold; margin: 2px 0; }
-    .slip .movie { font-size: 14px; font-weight: bold; }
-    .slip .barcode svg { width: 100%; height: auto; display: block; }
+    .slip .shop { font-size: 18px; font-weight: bold; margin: 4px 0 2px; }
+    .slip .rule { border-top: 1.5px solid #000; margin: 6px 0; }
+    .slip .dash { border-top: 1px dashed #000; margin: 6px 0; }
+    .slip .title { text-align: center; font-weight: bold; letter-spacing: 2px; font-size: 14px;
+                   border-top: 1.5px solid #000; border-bottom: 1.5px solid #000; padding: 3px 0; margin: 8px 0; }
+    .slip .kv { display: grid; grid-template-columns: 24mm 1fr; column-gap: 2px; margin: 2px 0; }
+    .slip .kv b { font-weight: bold; }
+    .slip .cols { display: grid; grid-template-columns: 1fr 1fr 1fr; text-align: center; }
+    .slip .cols span { font-size: 11px; letter-spacing: 1px; }
+    .slip .cols b { font-size: 13px; }
+    .slip .row { display: flex; justify-content: space-between; gap: 6px; margin: 2px 0; }
+    .slip .total { font-weight: bold; font-size: 14px; border-top: 1.5px solid #000;
+                   border-bottom: 1.5px solid #000; padding: 3px 0; margin-top: 4px; }
+    .slip .qr svg { width: 30mm; height: 30mm; display: block; margin: 0 auto; }
+    .slip .code { text-align: center; font-weight: bold; letter-spacing: 1px; margin-top: 3px; }
+    .slip .terms { font-size: 11px; }
     .slip .void { border: 2px solid #000; text-align: center; font-weight: bold; margin: 4px 0; padding: 2px; }
 
     @media print {
         body * { visibility: hidden; }
-
         #print-area, #print-area * { visibility: visible; }
-
         #print-area { position: absolute; left: 0; top: 0; }
 
         /* One seat = one invoice = one page. */
-        .slip { margin: 0; padding: 2px; page-break-after: always; }
+        .slip { margin: 0; page-break-after: always; }
         .slip:last-child { page-break-after: auto; }
 
         .no-print { display: none !important; }
@@ -57,59 +62,58 @@
 
         <div class="center">
             {% if shop.logo %}
-            <img src="{{ shop.logo.url }}" alt="" style="width:60px;margin:0 auto;">
+            <img src="{{ shop.logo.url }}" alt="" style="width:22mm;margin:0 auto;display:block;">
             {% endif %}
-            <h2>{{ shop.shop_name|default:"CINEMA" }}</h2>
+            <p class="shop">{{ shop.shop_name|default:"CINEMA" }}</p>
             {% if shop.address %}<p>{{ shop.address }}</p>{% endif %}
-            {% if shop.phone %}<p>Phone: {{ shop.phone }}</p>{% endif %}
-            {% if shop.vat_number %}<p>VAT No: {{ shop.vat_number }}</p>{% endif %}
-            <p><strong>TAX INVOICE</strong></p>
+            {% if shop.vat_number %}<p>VAT {{ shop.vat_number }}</p>{% endif %}
         </div>
 
-        {% if booking.is_cancelled %}<div class="void">** CANCELLED **</div>{% endif %}
+        <div class="title">INVOICE</div>
 
-        <div class="sep"></div>
+        {% if booking.is_cancelled %}<div class="void">** CANCELLED **</div>
+        {% elif booking.copy_number %}<div class="void">COPY OF ORIGINAL ({{ booking.copy_number }})</div>{% endif %}
 
-        <div>
-            Invoice: {{ booking.booking_number }}<br>
-            Date: {{ booking.created_at|date:"Y-m-d H:i" }}<br>
-            {% if booking.customer_name %}Customer: {{ booking.customer_name }}<br>{% endif %}
-            {% if booking.customer_phone %}Phone: {{ booking.customer_phone }}<br>{% endif %}
-            Cashier: {{ booking.created_by.get_username }}
+        <div class="kv"><span>S.No.</span><span>: {{ booking.booking_number }}</span></div>
+        <div class="kv"><span>Movie</span><b>: {{ booking.show.movie.title }}</b></div>
+        <div class="kv"><span>Movie Info</span>
+            <span>: {% if booking.show.movie.grade %}Grade {{ booking.show.movie.grade }} - {% endif %}{{ booking.show.movie.screen_format }}</span></div>
+        <div class="kv"><span>Screen</span><b>: {{ booking.show.hall.name }} · {{ ticket.get_section_display }}</b></div>
+        <div class="kv"><span>HS Code</span><span>: {{ hs_code }}</span></div>
+        {% if booking.customer_name %}
+        <div class="kv"><span>Customer</span><span>: {{ booking.customer_name }}</span></div>
+        {% endif %}
+
+        <div class="dash"></div>
+
+        <div class="cols"><span>DATE</span><span>TIME</span><span>SEAT</span></div>
+        <div class="cols" style="margin-top:3px;">
+            <b>{{ booking.show.show_date|date:"n/j/Y" }}</b>
+            <b>{{ booking.show.start_time|time:"g:i A" }}</b>
+            <b>{{ ticket.seat.seat_number }}</b>
         </div>
 
-        <div class="sep"></div>
+        <div class="dash"></div>
 
-        <p class="movie">{{ booking.show.movie.title }}</p>
-        <p>{{ booking.show.hall.name }}</p>
-        <p>{{ booking.show.show_date|date:"D d M Y" }} &nbsp; {{ booking.show.start_time|time:"H:i" }}</p>
+        <div class="row"><span>Entrance Fee</span><span>Rs. {{ booking.subtotal }}</span></div>
+        <div class="row"><span>VAT ({{ booking.vat_percent|floatformat:"2" }}%)</span><span>Rs. {{ booking.vat }}</span></div>
+        <div class="row"><span>Local Tax ({{ booking.local_tax_percent|floatformat:"2" }}%)</span><span>Rs. {{ booking.local_tax }}</span></div>
+        <div class="row total"><span>Total Cost</span><span>Rs. {{ booking.total|floatformat:"-2" }}</span></div>
+        <p>In words: {{ booking.total_words }}</p>
 
-        <div class="center">
-            <div class="sep"></div>
-            <p class="section">{{ ticket.get_section_display|upper }}</p>
-            <p>SEAT</p>
-            <p class="big-seat">{{ ticket.seat.seat_number }}</p>
-            <div class="sep"></div>
-        </div>
+        <div class="qr" style="margin-top:8px;">{{ ticket.code_svg }}</div>
+        <p class="code">{{ ticket.code|default:ticket.ticket_number }}</p>
 
-        <div class="row"><span>Base Amount</span><span>{{ booking.subtotal }}</span></div>
-        <div class="row"><span>VAT ({{ booking.vat_percent|floatformat:"-2" }}%)</span><span>{{ booking.vat }}</span></div>
-        <div class="row"><span>Local Tax ({{ booking.local_tax_percent|floatformat:"-2" }}%)</span><span>{{ booking.local_tax }}</span></div>
-        <div class="row grand"><span>TOTAL</span><span>{{ booking.total }}</span></div>
+        <div class="dash"></div>
 
-        <div class="sep"></div>
+        <p><b>Terms and Conditions:</b></p>
+        <p class="terms">Tickets non-refunded.<br>Seats non-alterable.</p>
 
-        <div class="row"><span>Paid ({{ booking.get_payment_method_display }})</span><span>{{ booking.paid_amount }}</span></div>
-        <div class="center"><strong>** PAID **</strong></div>
+        <div class="kv" style="grid-template-columns:20mm 1fr;margin-top:4px;"><span>Issued At</span><span>: {{ booking.created_at|date:"jS M Y, g:i A" }}</span></div>
+        <div class="kv" style="grid-template-columns:20mm 1fr;"><span>Device</span><span>: {{ device }}</span></div>
+        <div class="kv" style="grid-template-columns:20mm 1fr;"><span>Issued By</span><span>: {{ booking.created_by.email|default:booking.created_by.get_username }}</span></div>
 
-        <div class="sep"></div>
-
-        <div class="barcode">{{ ticket.barcode_svg }}</div>
-        <p class="center" style="font-size:10px;">{{ ticket.ticket_number }}</p>
-
-        <div class="center" style="margin-top:4px;">
-            {{ shop.footer_message|default:"Thank You! Enjoy the show"|linebreaks }}
-        </div>
+        <p class="center" style="margin-top:6px;">Enjoy your movie at {{ shop.shop_name|default:"our cinema" }}</p>
     </div>
     {% endwith %}
     {% endfor %}

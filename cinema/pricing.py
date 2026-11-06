@@ -1,19 +1,22 @@
-"""Ticket tax rules for the cinema counter.
+"""Ticket tax rules for the cinema counter (same rule as the printed invoice).
 
-Fixed by the business rules:
+    Gold seat Rs 400   |   Silver seat Rs 300
 
-    Gold seat    Rs 400   |  Silver seat  Rs 300
-    VAT          13%      |  Local tax     3%
+    Local tax = 3% of the base (entrance fee)
+    VAT       = 13% of (base + local tax)
 
-The prices are the FULL amount the customer pays: VAT and local tax are
-contained inside them (so Rs 400 stays Rs 400 on the bill). The two taxes
-are both taken from the pre-tax amount (not on top of each other).
+The ticket price is the FULL amount the customer pays, so the taxes are
+inside it: Rs 300 -> fee 257.76 + VAT 34.51 + local tax 7.73 = 300.00.
+The base absorbs any rounding so the parts always add up exactly.
 
-Everything can be overridden in settings.py if the law or prices change:
+Override in settings.py if the law, prices or counter details change:
 
     CINEMA_VAT_PERCENT        = 13
     CINEMA_LOCAL_TAX_PERCENT  = 3
     CINEMA_PRICES_INCLUDE_TAX = True    # False -> taxes are added on top
+    CINEMA_HS_CODE            = "00"    # printed on the invoice
+    CINEMA_DEVICE_NAME        = "BOX OFFICE 1"
+    CINEMA_HOLD_MINUTES       = 7       # how long seats stay Reserved at billing
 """
 from decimal import ROUND_HALF_UP, Decimal
 
@@ -53,27 +56,39 @@ def _round(value):
     return value.quantize(TWO_PLACES, rounding=ROUND_HALF_UP)
 
 
-def tax_breakdown(price):
-    """Split one seat's price into base + VAT + local tax.
+def hs_code():
+    return str(getattr(settings, "CINEMA_HS_CODE", "00"))
 
-    Returns a dict where base + vat + local_tax == total, to the paisa
-    (the base absorbs any rounding difference, so the bill always adds up).
+
+def hold_minutes():
+    return int(getattr(settings, "CINEMA_HOLD_MINUTES", 7))
+
+
+def device_name():
+    return str(getattr(settings, "CINEMA_DEVICE_NAME", "BOX OFFICE 1"))
+
+
+def tax_breakdown(price):
+    """Split one seat's price into base + local tax + VAT.
+
+    Returns a dict where base + local_tax + vat == total, to the paisa.
     """
     price = Decimal(price)
     vat_p = vat_percent()
     local_p = local_tax_percent()
 
     if prices_include_tax():
-        divisor = 1 + (vat_p + local_p) / 100
-        vat = _round(price * vat_p / 100 / divisor)
-        local_tax = _round(price * local_p / 100 / divisor)
         total = _round(price)
-        base = total - vat - local_tax
+        base_exact = price / ((1 + local_p / 100) * (1 + vat_p / 100))
+        local_exact = base_exact * local_p / 100
+        local_tax = _round(local_exact)
+        vat = _round((base_exact + local_exact) * vat_p / 100)
+        base = total - local_tax - vat
     else:
         base = _round(price)
-        vat = _round(base * vat_p / 100)
         local_tax = _round(base * local_p / 100)
-        total = base + vat + local_tax
+        vat = _round((base + local_tax) * vat_p / 100)
+        total = base + local_tax + vat
 
     return {
         "base": base,

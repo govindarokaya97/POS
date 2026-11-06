@@ -1,0 +1,27 @@
+# SK Cinemas - Audi 1  (transcribed from the Khalti seat-map screenshots)
+# Paste this whole text into: Admin > Cinema halls > Audi 1 > Seat layout
+#
+#   o = seat     . = empty space (aisle)     gap = walkway row
+#   Rows are listed BACK row first; the screen is below the last row.
+#   Every pattern is 20 columns wide. Seats are numbered left to right.
+#
+# GOLD (back, GA-GE)
+GA gold   ooooo..........ooooo
+GB gold   .oooo..........oooo.
+GC gold   ooooo..........ooooo
+GD gold   oooooooo...ooooooooo
+GE gold   oooooooooo.ooooooooo
+gap
+# SILVER (A-L)
+A  silver oooooooo...ooooooooo
+B  silver oooooooo....ooooooo.
+C  silver ..ooooooo..oooooooo.
+D  silver ..ooooooo..oooooooo.
+E  silver ..ooooooo..oooooooo.
+F  silver ..ooooooo..oooooooo.
+G  silver ooooooooo..ooooooooo
+H  silver ooooooooo..ooooooooo
+I  silver ooooooooo..ooooooooo
+J  silver ooooooooo..ooooooooo
+K  silver ooooooooo..ooooooooo
+L  silver ooooooooo........ooo

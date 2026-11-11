@@ -47,14 +47,14 @@ class InvoiceBase(TestCase):
         cls.invoice = Invoice.objects.create(
             invoice_number="INV-00001", customer=cls.customer, created_by=cls.cashier,
             subtotal=Decimal("6900.00"), discount=Decimal("400.00"), vat=Decimal("845.00"),
-            vat_percent=Decimal("13.00"), total=Decimal("7345.00"), paid_amount=Decimal("5000.00"),
+            total=Decimal("7345.00"), paid_amount=Decimal("5000.00"),
             due_amount=Decimal("2345.00"), payment_status="partial", payment_method="esewa",
         )
         InvoiceItem.objects.create(invoice=cls.invoice, product=cls.rice, quantity=2,
                                    price=Decimal("3450.00"), total=Decimal("6900.00"))
 
     def setUp(self):
-        self.client.login(username="cashier", password="pw12345!")
+        self.client.force_login(self.cashier)
 
     def page(self, qs=""):
         r = self.client.get(reverse("invoice", args=[self.invoice.id]) + qs)
@@ -121,6 +121,197 @@ class InvoicePageTests(InvoiceBase):
         self.assertEqual(r.status_code, 302)
 
 
+    def test_cashier_can_view_own_invoice(self):
+        response = self.client.get(
+            reverse("invoice", args=[self.invoice.id])
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_cashier_cannot_view_another_users_invoice(self):
+        other_invoice = Invoice.objects.create(
+            invoice_number="INV-OTHER-01",
+            created_by=self.owner,
+            subtotal=Decimal("100.00"),
+            vat=Decimal("13.00"),
+            total=Decimal("113.00"),
+            paid_amount=Decimal("0.00"),
+            due_amount=Decimal("113.00"),
+            payment_status="due",
+        )
+
+        response = self.client.get(
+            reverse("invoice", args=[other_invoice.id])
+        )
+        self.assertEqual(response.status_code, 404)
+
+    def test_staff_can_view_another_users_invoice(self):
+        self.client.force_login(self.owner)
+
+        response = self.client.get(
+            reverse("invoice", args=[self.invoice.id])
+        )
+        self.assertEqual(response.status_code, 200)
+
+
+
+    def test_cashier_can_open_payment_page_for_own_invoice(self):
+        response = self.client.get(
+            reverse("invoice_payment", args=[self.invoice.id])
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_cashier_cannot_open_payment_page_for_another_users_invoice(self):
+        other_invoice = Invoice.objects.create(
+            invoice_number="INV-PAY-OTHER",
+            created_by=self.owner,
+            subtotal=Decimal("100.00"),
+            vat=Decimal("13.00"),
+            total=Decimal("113.00"),
+            due_amount=Decimal("113.00"),
+            payment_status="due",
+        )
+
+        response = self.client.get(
+            reverse("invoice_payment", args=[other_invoice.id])
+        )
+        self.assertEqual(response.status_code, 404)
+
+    def test_staff_can_open_payment_page_for_another_users_invoice(self):
+        self.client.force_login(self.owner)
+
+        response = self.client.get(
+            reverse("invoice_payment", args=[self.invoice.id])
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_partial_payment_updates_invoice(self):
+        response = self.client.post(
+            reverse("invoice_payment", args=[self.invoice.id]),
+            {
+                "paid_amount": "1000.00",
+                "payment_method": "cash",
+            },
+        )
+
+        self.invoice.refresh_from_db()
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(self.invoice.paid_amount, Decimal("6000.00"))
+        self.assertEqual(self.invoice.due_amount, Decimal("1345.00"))
+        self.assertEqual(self.invoice.payment_status, "partial")
+
+    def test_full_payment_marks_invoice_paid(self):
+        response = self.client.post(
+            reverse("invoice_payment", args=[self.invoice.id]),
+            {
+                "paid_amount": "2345.00",
+                "payment_method": "esewa",
+            },
+        )
+
+        self.invoice.refresh_from_db()
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(self.invoice.paid_amount, Decimal("7345.00"))
+        self.assertEqual(self.invoice.due_amount, Decimal("0.00"))
+        self.assertEqual(self.invoice.payment_status, "paid")
+
+    def test_overpayment_is_rejected(self):
+        response = self.client.post(
+            reverse("invoice_payment", args=[self.invoice.id]),
+            {
+                "paid_amount": "3000.00",
+                "payment_method": "cash",
+            },
+        )
+
+        self.invoice.refresh_from_db()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "cannot exceed")
+        self.assertEqual(self.invoice.paid_amount, Decimal("5000.00"))
+        self.assertEqual(self.invoice.due_amount, Decimal("2345.00"))
+
+    def test_cashier_cannot_pay_another_users_invoice(self):
+        other_invoice = Invoice.objects.create(
+            invoice_number="INV-PAY-POST",
+            created_by=self.owner,
+            subtotal=Decimal("100.00"),
+            vat=Decimal("13.00"),
+            total=Decimal("113.00"),
+            due_amount=Decimal("113.00"),
+            payment_status="due",
+        )
+
+        response = self.client.post(
+            reverse("invoice_payment", args=[other_invoice.id]),
+            {
+                "paid_amount": "50.00",
+                "payment_method": "cash",
+            },
+        )
+
+        other_invoice.refresh_from_db()
+
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(other_invoice.paid_amount, Decimal("0.00"))
+        self.assertEqual(other_invoice.due_amount, Decimal("113.00"))
+
+
+    def test_invalid_payment_amounts_are_rejected(self):
+        invalid_amounts = [
+            "NaN",
+            "Infinity",
+            "-Infinity",
+            "0",
+            "-10",
+            "abc",
+            "",
+        ]
+
+        for amount in invalid_amounts:
+            with self.subTest(amount=amount):
+                response = self.client.post(
+                    reverse("invoice_payment", args=[self.invoice.id]),
+                    {
+                        "paid_amount": amount,
+                        "payment_method": "cash",
+                    },
+                )
+
+                self.assertEqual(response.status_code, 200)
+                self.assertContains(
+                    response,
+                    "valid payment amount",
+                )
+
+                self.invoice.refresh_from_db()
+                self.assertEqual(
+                    self.invoice.paid_amount,
+                    Decimal("5000.00"),
+                )
+                self.assertEqual(
+                    self.invoice.due_amount,
+                    Decimal("2345.00"),
+                )
+
+    def test_invalid_payment_method_is_rejected(self):
+        response = self.client.post(
+            reverse("invoice_payment", args=[self.invoice.id]),
+            {
+                "paid_amount": "100.00",
+                "payment_method": "bitcoin",
+            },
+        )
+
+        self.invoice.refresh_from_db()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Select a valid payment method")
+        self.assertEqual(self.invoice.paid_amount, Decimal("5000.00"))
+        self.assertEqual(self.invoice.due_amount, Decimal("2345.00"))
+
+
 class InvoiceSavedRateTests(InvoiceBase):
     def test_checkout_saves_the_vat_percent_used(self):
         s = self.client.session
@@ -183,3 +374,29 @@ class InvoicePdfTests(InvoiceBase):
             self.assertTrue("VAT No.: 601234567" in lines[i + 1] or "VAT No.: 601234567" in lines[i + 2], qs)
             self.assertIn("VAT (13%)", text)
             self.assertIn("Rice & <Beans> 25kg", text)
+
+
+    def test_cashier_cannot_download_another_users_invoice_pdf(self):
+        other_invoice = Invoice.objects.create(
+            invoice_number="INV-OTHER-PDF",
+            created_by=self.owner,
+            subtotal=Decimal("100.00"),
+            vat=Decimal("13.00"),
+            total=Decimal("113.00"),
+            due_amount=Decimal("113.00"),
+            payment_status="due",
+        )
+
+        response = self.client.get(
+            reverse("invoice_pdf", args=[other_invoice.id])
+        )
+        self.assertEqual(response.status_code, 404)
+
+    def test_staff_can_download_another_users_invoice_pdf(self):
+        self.client.force_login(self.owner)
+
+        response = self.client.get(
+            reverse("invoice_pdf", args=[self.invoice.id])
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["Content-Type"], "application/pdf")

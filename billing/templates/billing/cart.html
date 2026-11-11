@@ -12,6 +12,9 @@
         </label>
         <input id="barcodeInput" autofocus type="text" autocomplete="off" placeholder="Scan product barcode..."
             class="mt-3 w-full rounded-lg border border-line px-4 py-3 font-mono focus:outline-none focus:ring-2 focus:ring-brand">
+        <form id="barcodeScanCsrf" class="hidden">
+            {% csrf_token %}
+        </form>
         <p id="scanMessage" class="mt-2 hidden text-sm text-red"></p>
     </div>
 
@@ -41,20 +44,30 @@
                         <td class="px-6 py-4 font-medium text-ink">{{ item.product.name }}</td>
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
-                                <a href="{% url 'decrease_cart' item.product.id %}"
-                                    class="flex h-8 w-8 items-center justify-center rounded-lg bg-paper hover:bg-line">-</a>
+                                <form method="post" action="{% url 'decrease_cart' item.product.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" aria-label="Decrease quantity"
+                                        class="flex h-8 w-8 items-center justify-center rounded-lg bg-paper hover:bg-line">&minus;</button>
+                                </form>
+
                                 <span class="font-mono">{{ item.quantity }}</span>
-                                <a href="{% url 'increase_cart' item.product.id %}"
-                                    class="flex h-8 w-8 items-center justify-center rounded-lg bg-paper hover:bg-line">+</a>
+
+                                <form method="post" action="{% url 'increase_cart' item.product.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" aria-label="Increase quantity"
+                                        class="flex h-8 w-8 items-center justify-center rounded-lg bg-paper hover:bg-line">+</button>
+                                </form>
                             </div>
                         </td>
                         <td class="px-6 py-4 font-mono text-muted">Rs {{ item.price }}</td>
                         <td class="px-6 py-4 font-mono text-brand">Rs {{ item.total }}</td>
                         <td class="px-6 py-4">
-                            <a href="{% url 'remove_cart' item.product.id %}" class="text-red hover:text-red-700"
-                                aria-label="Remove {{ item.product.name }}">
-                                <i class="fa-solid fa-trash"></i>
-                            </a>
+                            <form method="post" action="{% url 'remove_cart' item.product.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="text-red hover:text-red-700" aria-label="Remove {{ item.product.name }}">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                     {% empty %}
@@ -115,38 +128,57 @@
 </div>
 
 <script>
-    (function () {
-        var input = document.getElementById("barcodeInput");
-        var message = document.getElementById("scanMessage");
-        if (!input) return;
+(function () {
+    const input = document.getElementById("barcodeInput");
+    const message = document.getElementById("scanMessage");
+    const csrfForm = document.getElementById("barcodeScanCsrf");
 
-        var scanUrl = "{% url 'scan_barcode' %}";
+    if (!input || !csrfForm) return;
 
-        input.addEventListener("keydown", function (event) {
-            if (event.key !== "Enter") return;
-            event.preventDefault();
+    const scanUrl = "{% url 'scan_barcode' %}";
+    const csrfToken = csrfForm.querySelector(
+        '[name="csrfmiddlewaretoken"]'
+    ).value;
 
-            var barcode = input.value.trim();
-            input.value = "";
-            if (!barcode) return;
+    input.addEventListener("keydown", function (event) {
+        if (event.key !== "Enter") return;
 
-            fetch(scanUrl + "?barcode=" + encodeURIComponent(barcode))
-                .then(function (r) { return r.json(); })
-                .then(function (data) {
-                    if (data.success) {
-                        // scan_barcode already added the item to the cart
-                        window.location.reload();
-                    } else {
-                        message.textContent = data.message;
-                        message.classList.remove("hidden");
-                        input.focus();
-                    }
-                })
-                .catch(function () {
-                    message.textContent = "Could not reach the server. Try again.";
-                    message.classList.remove("hidden");
-                });
+        event.preventDefault();
+
+        const barcode = input.value.trim();
+        input.value = "";
+
+        if (!barcode) return;
+
+        message.classList.add("hidden");
+
+        fetch(scanUrl, {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-CSRFToken": csrfToken
+            },
+            body: new URLSearchParams({
+                barcode: barcode
+            })
+        })
+        .then(async function (response) {
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+                throw new Error(data.message || "Barcode scan failed.");
+            }
+
+            window.location.reload();
+        })
+        .catch(function (error) {
+            message.textContent = error.message;
+            message.classList.remove("hidden");
+            input.focus();
         });
-    })();
+    });
+})();
 </script>
+
 {% endblock %}

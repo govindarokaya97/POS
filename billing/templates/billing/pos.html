@@ -34,7 +34,7 @@
                     <i class="fa-solid fa-barcode text-lg"></i>
                 </div>
 
-                <input id="barcodeInput" autofocus type="text" name="q" value="{{ query|default:'' }}"
+                <input id="barcodeInput" autofocus type="text" name="barcode" value="{{ request.GET.barcode }}"
                     placeholder="Scan barcode or search product..." autocomplete="off"
                     class="w-full rounded-xl border border-gray-200 bg-white py-4 pl-12 pr-4 text-sm font-medium text-[#202824] shadow-sm outline-none transition placeholder:font-normal placeholder:text-gray-400 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10">
             </div>
@@ -137,11 +137,14 @@
 
                         </div>
 
-                        <a href="{% url 'add_to_cart' product.id %}"
-                            class="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#202824] px-3 py-2.5 text-xs font-bold text-white transition hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-500/15">
-                            <i class="fa-solid fa-plus text-emerald-400"></i>
-                            Add to cart
-                        </a>
+                        <form method="post" action="{% url 'add_to_cart' product.id %}" class="mt-3">
+                            {% csrf_token %}
+                            <button type="submit"
+                                class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#202824] px-3 py-2.5 text-xs font-bold text-white transition hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-500/15">
+                                <i class="fa-solid fa-plus text-emerald-400"></i>
+                                Add to cart
+                            </button>
+                        </form>
 
                     </div>
 

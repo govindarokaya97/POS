@@ -42,3 +42,15 @@ htmlcov/
 # Operating system files
 .DS_Store
 Thumbs.db
+
+# Local backups and temporary development artifacts
+*.bak
+*-test-output.txt
+*-test-results.txt
+test-results.txt
+update_invoice_template.py
+
+
+# Django collected static files
+/staticfiles/
+billing-views-review.txt

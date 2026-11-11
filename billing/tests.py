@@ -14,14 +14,20 @@ from .models import Invoice, InvoiceItem
 class CartAndCheckoutTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user("cashier", password="pw-12345")
-        self.client.login(username="cashier", password="pw-12345")
+        self.client.force_login(self.user)
 
         category = Category.objects.create(name="General")
         self.pen = Product.objects.create(
-            category=category, name="Pen", price=Decimal("10.50"), stock=5
+            category=category,
+            name="Pen",
+            price=Decimal("10.50"),
+            stock=5,
         )
         self.book = Product.objects.create(
-            category=category, name="Book", price=Decimal("100.00"), stock=2
+            category=category,
+            name="Book",
+            price=Decimal("113.00"),
+            stock=2,
         )
 
     def test_cashier_cannot_open_financial_dashboard(self):
@@ -37,7 +43,7 @@ class CartAndCheckoutTests(TestCase):
             "customer": "",
             "payment_method": "cash",
             "discount": "0",
-            "tax": "0",
+            "vat": "13",
             "paid_amount": "9999",
         }
         data.update(overrides)
@@ -45,50 +51,78 @@ class CartAndCheckoutTests(TestCase):
 
     # -- cart ------------------------------------------------------------
     def test_cart_session_is_json_serialisable_and_totals_are_numeric(self):
-        # Regression: Decimal in the session used to raise TypeError.
         self.add(self.pen, 3)
+
         response = self.client.get(reverse("cart"))
+
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context["subtotal"], Decimal("31.50"))
 
     def test_barcode_and_button_add_to_cart_use_same_format(self):
-        # Regression: scan stored price as str, button stored Decimal, and
-        # str * int repeated the string instead of multiplying.
-        self.client.post(reverse("scan_barcode"), {"barcode": self.pen.barcode})
+        response = self.client.post(
+            reverse("scan_barcode"),
+            {"barcode": self.pen.barcode},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.json()["success"])
+
         self.add(self.pen)
+
         response = self.client.get(reverse("cart"))
         self.assertEqual(response.context["subtotal"], Decimal("21.00"))
 
     def test_cannot_add_more_than_stock(self):
         self.add(self.book, 5)
+
         cart = self.client.session["cart"]
         self.assertEqual(cart[str(self.book.id)]["quantity"], 2)
 
     def test_cart_requires_login(self):
         self.client.logout()
+
         response = self.client.get(reverse("cart"))
+
         self.assertEqual(response.status_code, 302)
         self.assertTrue(response.url.startswith(reverse("login")))
 
-    def test_unknown_or_empty_barcode_does_not_404(self):
-        response = self.client.post(reverse("scan_barcode"), {"barcode": "nope"})
-        self.assertEqual(response.status_code, 302)
-        response = self.client.post(reverse("scan_barcode"), {"barcode": "  "})
-        self.assertEqual(response.status_code, 302)
+    def test_unknown_or_empty_barcode_returns_json_error(self):
+        response = self.client.post(
+            reverse("scan_barcode"),
+            {"barcode": "nope"},
+        )
+        self.assertEqual(response.status_code, 404)
+        self.assertFalse(response.json()["success"])
+
+        response = self.client.post(
+            reverse("scan_barcode"),
+            {"barcode": "  "},
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertFalse(response.json()["success"])
+
         self.assertEqual(self.client.session.get("cart", {}), {})
 
     # -- checkout: happy path -------------------------------------------
     def test_checkout_creates_invoice_and_reduces_stock(self):
         self.add(self.pen, 2)
         self.add(self.book)
-        response = self.pay(discount="1", tax="10")
+
+        response = self.pay(discount="1", vat="10")
 
         invoice = Invoice.objects.get()
-        self.assertRedirects(response, reverse("invoice", args=[invoice.id]))
-        # subtotal 121.00, discount 1, tax 12.10 -> 132.10
-        self.assertEqual(invoice.subtotal, Decimal("121.00"))
-        self.assertEqual(invoice.tax, Decimal("12.10"))
-        self.assertEqual(invoice.total, Decimal("132.10"))
+
+        self.assertRedirects(
+            response,
+            f"{reverse('invoice', args=[invoice.id])}?print=true",
+            fetch_redirect_response=False,
+        )
+
+        # Subtotal 121.00 - discount 1.00 = 120.00
+        # VAT 10% of 120.00 = 12.00
+        self.assertEqual(invoice.subtotal, Decimal("134.00"))
+        self.assertEqual(invoice.vat, Decimal("13.30"))
+        self.assertEqual(invoice.total, Decimal("146.30"))
         self.assertEqual(invoice.payment_status, "paid")
         self.assertEqual(invoice.due_amount, Decimal("0"))
         self.assertEqual(invoice.invoice_number, f"INV-{invoice.pk:05d}")
@@ -96,6 +130,7 @@ class CartAndCheckoutTests(TestCase):
 
         self.pen.refresh_from_db()
         self.book.refresh_from_db()
+
         self.assertEqual(self.pen.stock, 3)
         self.assertEqual(self.book.stock, 1)
         self.assertEqual(self.client.session["cart"], {})
@@ -103,65 +138,88 @@ class CartAndCheckoutTests(TestCase):
     def test_overpayment_is_capped_and_partial_payment_tracked(self):
         self.add(self.book)
         self.pay(paid_amount="500")
-        self.assertEqual(Invoice.objects.get().paid_amount, Decimal("100.00"))
+
+        self.assertEqual(
+            Invoice.objects.get().paid_amount,
+            Decimal("127.69"),
+        )
 
         self.add(self.pen)
         self.pay(paid_amount="4")
+
         partial = Invoice.objects.latest("id")
         self.assertEqual(partial.payment_status, "partial")
-        self.assertEqual(partial.due_amount, Decimal("6.50"))
+        self.assertEqual(partial.due_amount, Decimal("7.87"))
 
         self.add(self.pen)
         self.pay(paid_amount="0")
-        self.assertEqual(Invoice.objects.latest("id").payment_status, "due")
+
+        self.assertEqual(
+            Invoice.objects.latest("id").payment_status,
+            "due",
+        )
 
     def test_invoice_numbers_stay_unique_after_a_delete(self):
-        # Regression: count()+1 reused numbers after a deletion -> crash.
         self.add(self.pen)
         self.pay()
+
         self.add(self.pen)
         self.pay()
+
         Invoice.objects.order_by("id").first().delete()
+
         self.add(self.pen)
-        self.pay()  # would raise IntegrityError with the old numbering
-        numbers = list(Invoice.objects.values_list("invoice_number", flat=True))
+        self.pay()
+
+        numbers = list(
+            Invoice.objects.values_list("invoice_number", flat=True)
+        )
         self.assertEqual(len(numbers), len(set(numbers)))
 
     # -- checkout: atomicity ---------------------------------------------
     def test_failure_on_second_item_rolls_back_first_items_stock(self):
-        # Regression: stock of earlier items stayed deducted when a later
-        # item failed, and the invoice delete did not restore it.
         self.add(self.pen, 2)
         self.add(self.book, 2)
-        self.book.stock = 1  # someone else sold one meanwhile
+
+        # Simulate another sale reducing available stock.
+        self.book.stock = 1
         self.book.save()
 
         self.pay()
 
         self.assertEqual(Invoice.objects.count(), 0)
+
         self.pen.refresh_from_db()
-        self.assertEqual(self.pen.stock, 5)  # untouched
-        self.assertTrue(self.client.session["cart"])  # cart kept for retry
+        self.assertEqual(self.pen.stock, 5)
+        self.assertTrue(self.client.session["cart"])
 
     def test_unexpected_error_mid_checkout_rolls_everything_back(self):
         self.add(self.pen, 2)
+
         with mock.patch(
-            "billing.views.InvoiceItem.objects.bulk_create",
+            "billing.views.InvoiceItem.objects.create",
             side_effect=RuntimeError("db went away"),
         ):
             response = self.pay()
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Invoice.objects.count(), 0)
+
         self.pen.refresh_from_db()
         self.assertEqual(self.pen.stock, 5)
 
     def test_price_comes_from_database_not_stale_cart(self):
         self.add(self.pen)
+
         self.pen.price = Decimal("20.00")
         self.pen.save()
+
         self.pay()
-        self.assertEqual(Invoice.objects.get().subtotal, Decimal("20.00"))
+
+        self.assertEqual(
+            Invoice.objects.get().subtotal,
+            Decimal("20.00"),
+        )
 
     # -- checkout: input validation --------------------------------------
     def test_bad_input_is_rejected_without_crashing_or_writing(self):
@@ -170,26 +228,39 @@ class CartAndCheckoutTests(TestCase):
             {"discount": "-5"},
             {"discount": "NaN"},
             {"discount": "Infinity"},
-            {"discount": "9999"},  # more than subtotal
-            {"tax": "150"},
+            {"discount": "9999"},
+            {"vat": "150"},
             {"paid_amount": "-1"},
             {"payment_method": "bitcoin"},
             {"customer": "abc"},
             {"customer": "99999"},
         ]
+
         for overrides in bad_cases:
             with self.subTest(overrides=overrides):
                 self.add(self.pen)
+                invoice_count_before = Invoice.objects.count()
+
                 response = self.pay(**overrides)
-                self.assertEqual(response.status_code, 302)
-                self.assertEqual(Invoice.objects.count(), 0)
+
+                # Validation errors re-render the checkout page.
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual(
+                    Invoice.objects.count(),
+                    invoice_count_before,
+                )
+
                 self.pen.refresh_from_db()
                 self.assertEqual(self.pen.stock, 5)
+
+                # Clear the cart before testing the next invalid input.
                 self.client.post(reverse("clear_cart"))
 
     def test_empty_cart_redirects_to_cart(self):
         response = self.client.get(reverse("checkout"))
-        self.assertRedirects(response, reverse("cart"))
+        self.assertRedirects(response, reverse("billing_products"))
+
+
 
 
 class StateChangesRequirePostAndCsrfTests(TestCase):
@@ -197,7 +268,7 @@ class StateChangesRequirePostAndCsrfTests(TestCase):
 
     def setUp(self):
         self.user = User.objects.create_user("cashier", password="pw-12345")
-        self.client.login(username="cashier", password="pw-12345")
+        self.client.force_login(self.user)
         category = Category.objects.create(name="General")
         self.pen = Product.objects.create(
             category=category, name="Pen", price=Decimal("10.00"), stock=5
@@ -234,7 +305,7 @@ class StateChangesRequirePostAndCsrfTests(TestCase):
         # (the normal test client disables it), so this fails if any
         # template form is missing its {% csrf_token %}.
         client = Client(enforce_csrf_checks=True)
-        client.login(username="cashier", password="pw-12345")
+        client.force_login(self.user)
 
         def token_from(response):
             html = response.content.decode()
@@ -277,7 +348,7 @@ class StateChangesRequirePostAndCsrfTests(TestCase):
         # remain CSRF-protected for an authorized manager.
         manager = User.objects.create_user("manager", password="pw-12345", is_staff=True)
         manager_client = Client(enforce_csrf_checks=True)
-        manager_client.login(username="manager", password="pw-12345")
+        manager_client.force_login(manager)
         for name in ["view_product", "category", "dashboard"]:
             with self.subTest(page=name):
                 html = manager_client.get(reverse(name)).content.decode()

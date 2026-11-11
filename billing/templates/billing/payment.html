@@ -34,12 +34,18 @@
         <form method="post" id="payment-form" class="mt-6 space-y-5" data-due="{{ invoice.due_amount }}">
             {% csrf_token %}
 
+            {% if error %}
+                <div class="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                    {{ error }}
+                </div>
+            {% endif %}
+
             <div>
                 <label for="payment_method" class="mb-2 block text-sm font-medium text-ink">Payment Method</label>
                 <select name="payment_method" id="payment_method"
                     class="w-full rounded-lg border border-line bg-white px-4 py-3 text-sm outline-none focus:border-brand">
                     {% for value, label in payment_methods %}
-                    <option value="{{ value }}" {% if form.payment_method==value %}selected{% endif %}>{{ label }}
+                    <option value="{{ value }}" {% if selected_payment_method == value %}selected{% endif %}>{{ label }}
                     </option>
                     {% endfor %}
                 </select>

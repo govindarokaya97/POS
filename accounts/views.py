@@ -79,7 +79,7 @@ def send_verification_email(request, user):
 
 def register(request):
 
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and not request.user.is_superuser:
         return redirect("pos_home")
 
     if request.method == "POST":
@@ -246,7 +246,7 @@ def resend_verification(request):
 
 def login_user(request):
 
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and not request.user.is_superuser:
         return redirect("pos_home")
 
     if request.method == "POST":

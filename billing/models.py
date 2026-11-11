@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from inventory.models import Product
-
+from decimal import Decimal, ROUND_HALF_UP
 
 
 class Customer(models.Model):
@@ -102,6 +102,13 @@ class Invoice(models.Model):
         default=0,
     )
 
+    vat_percent = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        null=True,
+        blank=True,
+    )
+
     total = models.DecimalField(
         max_digits=12,
         decimal_places=2,
@@ -142,6 +149,28 @@ class Invoice(models.Model):
         auto_now_add=True
     )
 
+
+    @property
+    def vat_percent_display(self):
+        """
+        Return the saved VAT rate, or derive it for legacy invoices.
+        """
+        if self.vat_percent is not None:
+            return self.vat_percent
+
+        taxable = (self.subtotal or Decimal("0.00")) - (
+            self.discount or Decimal("0.00")
+        )
+
+        if taxable <= 0:
+            return Decimal("0.00")
+
+        return (
+            (self.vat or Decimal("0.00")) / taxable * Decimal("100")
+        ).quantize(
+            Decimal("0.01"),
+            rounding=ROUND_HALF_UP,
+        )
 
 
     def __str__(self):

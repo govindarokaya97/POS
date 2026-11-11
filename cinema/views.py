@@ -34,6 +34,7 @@ from .utils import (
     amount_in_words,
     generate_seats,
     new_ticket_code,
+    parse_layout,
     seat_row,
     seat_sort_key,
     ticket_code_svg,
@@ -387,6 +388,7 @@ def cinema_dashboard(request):
 # Step 1: Pick seats
 # --------------------------------------------------------------------------
 
+
 @staff_required
 def seat_selection(request, id):
     show = _get_show(id)
@@ -416,11 +418,60 @@ def seat_selection(request, id):
         seat.state = seat.state_for(request.user, now)
         by_row[seat.row_index].append(seat)
 
+
     rows = []
     previous_section = None
 
-    # FIX: sort row GROUPS, not the individual seat list.
-    # Gold rows are alphabetical first, then Silver rows.
+    # Map each physical seat-row label to its original layout position.
+    layout_rows = parse_layout(show.hall.layout)
+
+    layout_row_indexes = {
+        row["label"]: index
+        for index, row in enumerate(layout_rows)
+        if not row.get("gap")
+    }
+
+
+    gap_indexes = {
+        index
+        for index, row in enumerate(layout_rows)
+        if row.get("gap")
+    }
+
+    # Identify walkways separating Gold and Silver sections.
+    section_boundary_gap_indexes = set()
+
+    for gap_index in gap_indexes:
+        previous_layout_row = next(
+            (
+                layout_rows[position]
+                for position in range(gap_index - 1, -1, -1)
+                if not layout_rows[position].get("gap")
+            ),
+            None,
+        )
+
+        next_layout_row = next(
+            (
+                layout_rows[position]
+                for position in range(gap_index + 1, len(layout_rows))
+                if not layout_rows[position].get("gap")
+            ),
+            None,
+        )
+
+        if (
+            previous_layout_row
+            and next_layout_row
+            and previous_layout_row["section"] != next_layout_row["section"]
+        ):
+            section_boundary_gap_indexes.add(gap_index)
+
+
+    inserted_gaps = set()
+    previous_layout_index = None
+
+    # Display Gold first and Silver second, alphabetically.
     for index in _ordered_seat_rows(by_row):
         row_seats = sorted(
             by_row[index],
@@ -435,12 +486,56 @@ def seat_selection(request, id):
 
         section = row_seats[0].section
         row_label = seat_row(row_seats[0])
+        current_layout_index = layout_row_indexes.get(row_label)
 
-        if row_label == "L" and len(row_seats) == 12:
-            # Row L: place the aisle after seat L9.
+        # Insert walkways between adjacent displayed rows when
+        # the original physical layout contains a gap between them.
+
+        if (
+            previous_layout_index is not None
+            and current_layout_index is not None
+        ):
+            if section != previous_section:
+                # Insert only the Gold/Silver section boundary.
+                candidate_gap_indexes = section_boundary_gap_indexes
+            else:
+                # Preserve internal walkways within the same section.
+                lower = min(previous_layout_index, current_layout_index)
+                upper = max(previous_layout_index, current_layout_index)
+
+                candidate_gap_indexes = {
+                    gap_index
+                    for gap_index in gap_indexes
+                    if lower < gap_index < upper
+                    and gap_index not in section_boundary_gap_indexes
+                }
+
+            for gap_index in sorted(candidate_gap_indexes):
+                if gap_index not in inserted_gaps:
+                    rows.append({
+                        "is_gap": True,
+                        "label": "",
+                        "cells": [],
+                    })
+                    inserted_gaps.add(gap_index)
+
+
+        # Reconstruct the physical layout using original column indexes.
+        max_col_index = max(seat.col_index for seat in row_seats)
+        physical_cells = [None] * (max_col_index + 1)
+
+        for seat in row_seats:
+            physical_cells[seat.col_index] = seat
+
+        if any(cell is None for cell in physical_cells):
+            cells = physical_cells
+
+        elif row_label == "L" and len(row_seats) == 12:
+            # Row L: aisle after seat L9.
             cells = row_seats[:9] + [None] + row_seats[9:]
+
         else:
-            # Other rows retain their normal center aisle.
+            # Default centre aisle when the layout has no explicit gaps.
             midpoint = (len(row_seats) + 1) // 2
             cells = (
                 row_seats[:midpoint]
@@ -459,6 +554,17 @@ def seat_selection(request, id):
         })
 
         previous_section = section
+        previous_layout_index = current_layout_index
+
+
+    # Preserve any walkway rows at the end of the layout.
+    for gap_index in gap_indexes:
+        if gap_index not in inserted_gaps:
+            rows.append({
+                "is_gap": True,
+                "label": "",
+                "cells": [],
+            })
 
     context = {
         "show": show,
@@ -473,6 +579,8 @@ def seat_selection(request, id):
     }
 
     return render(request, "cinema/seats.html", context)
+
+
 
 
 @staff_required

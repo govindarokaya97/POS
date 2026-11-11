@@ -25,38 +25,66 @@ class SecurityFixesTests(TestCase):
         self.assertNotIn("Rice", r.content.decode())
 
     def test_search_works_when_logged_in(self):
-        self.client.login(username="cashier", password="pw12345!")
+        self.client.force_login(self.cashier)
         r = self.client.get(reverse("global_search"), {"q": "rice"})
         self.assertEqual(r.status_code, 200)
         self.assertEqual(r.json()["products"][0]["name"], "Rice")
 
     # -- registration --------------------------------------------------
-    def test_register_is_not_public(self):
-        data = {"username": "evil", "email": "e@x.com", "password1": "Str0ngPass!9", "password2": "Str0ngPass!9"}
-        self.client.post(reverse("register"), data)
-        self.assertFalse(User.objects.filter(username="evil").exists())
+
+    def test_register_is_public(self):
+        data = {
+            "full_name": "Public Customer",
+            "username": "publiccustomer",
+            "email": "public@example.com",
+            "mobile_number": "9812345678",
+            "password1": "Str0ngPass!9",
+            "password2": "Str0ngPass!9",
+        }
+
+        response = self.client.post(reverse("register"), data)
+
+        self.assertEqual(response.status_code, 302)
+
+        user = User.objects.get(username="publiccustomer")
+
+        # Public registration must not grant staff privileges.
+        self.assertFalse(user.is_staff)
+        self.assertFalse(user.is_superuser)
+
+        # Email verification is required before login.
+        self.assertFalse(user.is_active)
+
+
 
     def test_cashier_cannot_register_users(self):
-        self.client.login(username="cashier", password="pw12345!")
+        self.client.force_login(self.cashier)
         data = {"username": "evil2", "email": "e@x.com", "password1": "Str0ngPass!9", "password2": "Str0ngPass!9"}
         self.client.post(reverse("register"), data)
         self.assertFalse(User.objects.filter(username="evil2").exists())
 
     def test_superuser_can_register_users(self):
-        self.client.login(username="admin", password="pw12345!")
-        data = {"username": "newcashier", "email": "n@x.com", "password1": "Str0ngPass!9", "password2": "Str0ngPass!9"}
+        self.client.force_login(self.admin)
+        data = {
+            "full_name": "New Cashier",
+            "username": "newcashier",
+            "email": "n@x.com",
+            "mobile_number": "9812345678",
+            "password1": "Str0ngPass!9",
+            "password2": "Str0ngPass!9",
+        }
         self.client.post(reverse("register"), data)
         u = User.objects.get(username="newcashier")
         self.assertFalse(u.is_staff)
 
     # -- staff-only pages ---------------------------------------------
     def test_cashier_gets_403_on_expenses_and_reports(self):
-        self.client.login(username="cashier", password="pw12345!")
+        self.client.force_login(self.cashier)
         for name in ["expense_list", "expense_category_list", "sales_report", "expense_export_csv", "export_sales_csv"]:
             self.assertEqual(self.client.get(reverse(name)).status_code, 403, name)
 
     def test_staff_can_open_expenses_and_reports(self):
-        self.client.login(username="owner", password="pw12345!")
+        self.client.force_login(self.owner)
         for name in ["expense_list", "sales_report"]:
             self.assertEqual(self.client.get(reverse(name)).status_code, 200, name)
 
@@ -64,7 +92,7 @@ class SecurityFixesTests(TestCase):
     def test_expense_delete_rejects_get_and_works_with_post(self):
         c = ExpenseCategory.objects.create(name="Rent")
         e = Expense.objects.create(title="June rent", category=c, amount=Decimal("500"))
-        self.client.login(username="owner", password="pw12345!")
+        self.client.force_login(self.owner)
         self.assertEqual(self.client.get(reverse("expense_delete", args=[e.id])).status_code, 405)
         self.assertTrue(Expense.objects.filter(id=e.id).exists())
         self.client.post(reverse("expense_delete", args=[e.id]))
@@ -73,7 +101,7 @@ class SecurityFixesTests(TestCase):
     def test_cashier_cannot_post_delete_expense(self):
         c = ExpenseCategory.objects.create(name="Rent")
         e = Expense.objects.create(title="June rent", category=c, amount=Decimal("500"))
-        self.client.login(username="cashier", password="pw12345!")
+        self.client.force_login(self.cashier)
         self.assertEqual(self.client.post(reverse("expense_delete", args=[e.id])).status_code, 403)
         self.assertTrue(Expense.objects.filter(id=e.id).exists())
 
@@ -87,7 +115,7 @@ class SecurityFixesTests(TestCase):
 
     def test_product_with_sales_is_hidden_not_deleted(self):
         inv = self._sell()
-        self.client.login(username="owner", password="pw12345!")
+        self.client.force_login(self.owner)
         r = self.client.post(reverse("delete_product", args=[self.product.id]))
         self.assertEqual(r.status_code, 302)
         self.product.refresh_from_db()
@@ -95,25 +123,25 @@ class SecurityFixesTests(TestCase):
         self.assertEqual(inv.items.count(), 1)
 
     def test_product_without_sales_is_deleted(self):
-        self.client.login(username="owner", password="pw12345!")
+        self.client.force_login(self.owner)
         self.client.post(reverse("delete_product", args=[self.product.id]))
         self.assertFalse(Product.objects.filter(id=self.product.id).exists())
 
     def test_category_with_products_cannot_be_deleted(self):
-        self.client.login(username="owner", password="pw12345!")
+        self.client.force_login(self.owner)
         r = self.client.post(reverse("delete_category", args=[self.cat.id]))
         self.assertEqual(r.status_code, 302)
         self.assertTrue(Category.objects.filter(id=self.cat.id).exists())
         self.assertTrue(Product.objects.filter(id=self.product.id).exists())
 
     def test_cashier_cannot_delete_inventory(self):
-        self.client.login(username="cashier", password="pw12345!")
+        self.client.force_login(self.cashier)
         response = self.client.post(reverse("delete_product", args=[self.product.id]))
         self.assertEqual(response.status_code, 403)
         self.assertTrue(Product.objects.filter(id=self.product.id).exists())
 
     def test_empty_category_can_be_deleted(self):
         empty = Category.objects.create(name="Empty")
-        self.client.login(username="owner", password="pw12345!")
+        self.client.force_login(self.owner)
         self.client.post(reverse("delete_category", args=[empty.id]))
         self.assertFalse(Category.objects.filter(id=empty.id).exists())

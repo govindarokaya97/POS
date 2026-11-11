@@ -29,6 +29,15 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=Csv())
 
+CSRF_TRUSTED_ORIGINS = config(
+    "CSRF_TRUSTED_ORIGINS",
+    default="",
+    cast=Csv(),
+)
+
+# Railway terminates HTTPS at its proxy and forwards this header.
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 
 # Application definition
 
@@ -40,6 +49,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.humanize",
 
     "accounts",
     "inventory",
@@ -159,6 +169,7 @@ JAZZMIN_UI_TWEAKS = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -201,6 +212,9 @@ DATABASES = {
         "PASSWORD": config("DB_PASSWORD"),
         "HOST": config("DB_HOST"),
         "PORT": config("DB_PORT"),
+        "TEST": {
+            "NAME": config("TEST_DB_NAME", default="test_pos_db_qa"),
+        },
     }
 }
 
@@ -247,13 +261,35 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
+
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
+# Destination for collected production static files
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# Production static-file storage (WhiteNoise)
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+
+
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / "media"
+
+# Use Railway's persistent volume when deployed.
+# Locally, continue using the project's media directory.
+MEDIA_ROOT = Path(
+    config("RAILWAY_VOLUME_MOUNT_PATH", default=str(BASE_DIR / "media"))
+)
+MEDIA_ROOT.mkdir(parents=True, exist_ok=True)
 
 
 LOGIN_URL = "login"
@@ -278,16 +314,30 @@ EMAIL_TIMEOUT = 20
 
 
 # Logging
-# https://docs.djangoproject.com/en/6.0/topics/logging/
-#
-# Without this, exceptions caught in views (see the try/except blocks in
-# sales/views.py and inventory/views.py) are silently swallowed -- the
-# user sees a friendly message but there's no record anywhere that
-# something went wrong. This sends warnings/errors to the console (picked
-# up by most hosting platforms automatically) and to a rotating file.
+# Production logs go to stdout/stderr so Railway can capture them.
+# Local development additionally writes rotating logs to logs/app.log.
 
 LOGS_DIR = BASE_DIR / "logs"
-LOGS_DIR.mkdir(exist_ok=True)
+
+LOG_HANDLERS = {
+    "console": {
+        "class": "logging.StreamHandler",
+        "formatter": "verbose",
+    },
+}
+
+ACTIVE_LOG_HANDLERS = ["console"]
+
+if DEBUG:
+    LOGS_DIR.mkdir(exist_ok=True)
+    LOG_HANDLERS["file"] = {
+        "class": "logging.handlers.RotatingFileHandler",
+        "filename": LOGS_DIR / "app.log",
+        "maxBytes": 5 * 1024 * 1024,
+        "backupCount": 5,
+        "formatter": "verbose",
+    }
+    ACTIVE_LOG_HANDLERS.append("file")
 
 LOGGING = {
     "version": 1,
@@ -298,35 +348,19 @@ LOGGING = {
             "style": "{",
         },
     },
-    "handlers": {
-        "console": {
-            "class": "logging.StreamHandler",
-            "formatter": "verbose",
-        },
-        "file": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": LOGS_DIR / "app.log",
-            "maxBytes": 5 * 1024 * 1024,  # 5 MB
-            "backupCount": 5,
-            "formatter": "verbose",
-        },
-    },
+    "handlers": LOG_HANDLERS,
     "root": {
-        "handlers": ["console", "file"],
+        "handlers": ACTIVE_LOG_HANDLERS,
         "level": "INFO",
     },
     "loggers": {
-        # Django's own request logger -- this is what would otherwise
-        # print unhandled-500 tracebacks to the console with no file
-        # record and no way to search/alert on them later.
         "django.request": {
-            "handlers": ["console", "file"],
+            "handlers": ACTIVE_LOG_HANDLERS,
             "level": "ERROR",
             "propagate": False,
         },
     },
 }
-
 
 # ==========================================
 # LOGIN SECURITY - DJANGO AXES

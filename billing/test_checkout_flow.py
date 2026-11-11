@@ -30,15 +30,15 @@ class CashierCheckoutFlowTests(TestCase):
         cls.oil = Product.objects.create(category=cat, name="Oil", price=Decimal("50.00"), stock=5, barcode="222")
 
     def setUp(self):
-        self.client.login(username="cashier", password="pw12345!")
+        self.client.force_login(self.cashier)
 
     def test_cashier_can_add_to_cart(self):
         r = self.client.post(reverse("add_to_cart", args=[self.rice.id]))
-        self.assertRedirects(r, reverse("cart"))
+        self.assertRedirects(r, reverse("billing_products"))
         self.assertIn(str(self.rice.id), self.client.session["cart"])
 
     def test_cashier_can_scan_barcode(self):
-        r = self.client.get(reverse("scan_barcode"), {"barcode": "222"})
+        r = self.client.post(reverse("scan_barcode"), {"barcode": "222"})
         self.assertTrue(r.json()["success"])
         self.assertIn(str(self.oil.id), self.client.session["cart"])
 
@@ -112,7 +112,7 @@ class VatAndTotalsTests(TestCase):
         cls.coin = Product.objects.create(category=cat, name="Candy", price=Decimal("0.50"), stock=50)
 
     def setUp(self):
-        self.client.login(username="cashier", password="pw12345!")
+        self.client.force_login(self.cashier)
 
     def _checkout(self, product, **fields):
         self.client.post(reverse("add_to_cart", args=[product.id]))

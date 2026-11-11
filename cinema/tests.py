@@ -678,20 +678,90 @@ class LayoutTests(CinemaTestBase):
         self.assertEqual(pos["A5"], (2, 6))
         self.assertEqual(hall.total_seats, 9)
 
+
+
     def test_seat_map_keeps_aisles_and_walkway(self):
         hall = CinemaHall.objects.create(
-            name="Mini", layout="GA gold oo...oo\ngap\nA silver .ooo.oo\n"
+            name="Mini",
+            layout="GA gold oo...oo\ngap\nA silver .ooo.oo\n",
         )
         show = Show.objects.create(
-            movie=self.movie, hall=hall, show_date=self.today, start_time=time(4, 0),
+            movie=self.movie,
+            hall=hall,
+            show_date=self.today,
+            start_time=time(4, 0),
         )
-        r = self.client.get(reverse("seat_selection", args=[show.id]))
-        rows = r.context["rows"]
-        self.assertEqual([x["is_gap"] for x in rows], [False, True, False])
-        ga = [c.seat_number if c else None for c in rows[0]["cells"]]
-        self.assertEqual(ga, ["GA1", "GA2", None, None, None, "GA3", "GA4"])
-        a = [c.seat_number if c else None for c in rows[2]["cells"]]
-        self.assertEqual(a, [None, "A1", "A2", "A3", None, "A4", "A5"])
+
+        response = self.client.get(
+            reverse("seat_selection", args=[show.id])
+        )
+        rows = response.context["rows"]
+
+        self.assertEqual(
+            [row["is_gap"] for row in rows],
+            [False, True, False],
+        )
+
+        ga = [
+            cell.seat_number if cell else None
+            for cell in rows[0]["cells"]
+        ]
+        self.assertEqual(
+            ga,
+            ["GA1", "GA2", None, None, None, "GA3", "GA4"],
+        )
+
+        a = [
+            cell.seat_number if cell else None
+            for cell in rows[2]["cells"]
+        ]
+        self.assertEqual(
+            a,
+            [None, "A1", "A2", "A3", None, "A4", "A5"],
+        )
+
+
+
+    def test_seat_map_keeps_walkways_when_physical_rows_are_reversed(self):
+        hall = CinemaHall.objects.create(
+           name="Reversed",
+            layout=(
+                "GB gold oo\n"
+                "gap\n"
+                "GA gold oo\n"
+                "gap\n"
+                "B silver oo\n"
+                "gap\n"
+                "A silver oo\n"
+            ),
+        )
+        show = Show.objects.create(
+            movie=self.movie,
+            hall=hall,
+            show_date=self.today,
+            start_time=time(5, 0),
+        )
+        generate_seats(show)
+
+        response = self.client.get(
+            reverse("seat_selection", args=[show.id])
+        )
+
+        self.assertEqual(response.status_code, 200)
+        rows = response.context["rows"]
+        self.assertEqual(
+            [(row["is_gap"], row.get("label")) for row in rows],
+            [
+                (False, "GA"),
+                (True, ""),
+                (False, "GB"),
+                (True, ""),
+                (False, "A"),
+                (True, ""),
+                (False, "B"),
+            ],
+        )
+
 
     def test_admin_validation_message(self):
         from django.core.exceptions import ValidationError
@@ -770,7 +840,7 @@ class ReprintAndQrTests(CinemaTestBase):
         for path in list(base.glob("*.py")) + list(base.glob("templates/cinema/*.html")):
             if path.name == "tests.py":
                 continue
-            text = path.read_text().lower()
+            text = path.read_text(encoding="utf-8").lower()
             self.assertNotIn("code128", text, path.name)
             self.assertNotIn("import barcode", text, path.name)
 

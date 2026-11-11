@@ -283,6 +283,11 @@
         border-color: #b91c1c;
     }
 
+    .legend-unavailable {
+        background: #e2e8f0;
+        border-color: #94a3b8;
+    }
+
     .summary-stat {
         border: 1px solid #e5e7eb;
         border-radius: 14px;
@@ -522,6 +527,10 @@
                         <span class="legend-swatch legend-sold"></span>
                         Sold
                     </span>
+                    <span class="legend-item">
+                        <span class="legend-swatch legend-unavailable"></span>
+                        Unavailable
+                    </span>
                 </div>
             </div>
 
@@ -564,9 +573,9 @@
                                 <button type="button"
                                     class="seat {% if row.section == 'gold' %}gold-seat{% else %}silver-seat{% endif %} {% if seat.state == 'sold' %}is-sold{% elif seat.state == 'reserved' %}is-reserved{% elif seat.state == 'unavailable' %}is-unavailable{% endif %}"
                                     data-seat-id="{{ seat.id }}" data-seat-number="{{ seat.seat_number }}"
-                                    data-seat-state="{{ seat.state }}" data-section="{{ seat.section }}"
+                                    data-seat-state="{{ seat.state }}" data-state="{{ seat.state }}" data-section="{{ seat.section }}"
                                     data-price="{{ row.price }}" aria-label="{{ seat.seat_number }} — {{ seat.state }}"
-                                    title="{{ seat.seat_number }} · Rs {{ row.price|floatformat:2 }} · {{ seat.state }}" 
+                                    title="{{ seat.seat_number }} · Rs {{ row.price|floatformat:2 }} · {{ seat.state }}"
                                     {% if seat.state != 'available' %}disabled{% endif %}>
                                     {{ seat.seat_number }}
                                 </button>

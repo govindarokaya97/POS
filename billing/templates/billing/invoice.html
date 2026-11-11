@@ -1,73 +1,302 @@
 {% extends "base.html" %}
+{% load humanize %}
 
 {% block title %}Invoice {{ invoice.invoice_number }}{% endblock %}
 
 {% block content %}
 <style>
-    /* Paper width: change 48mm here and in .receipt below to match your printer. */
-    @page {
-        size: 48mm auto;
+    .invoice-page {
+        color: #17211d;
+        font-family: Inter, Arial, sans-serif;
+    }
+
+    .sheet {
+        width: min(100%, 820px);
+        margin: 24px auto;
+        padding: 42px;
+        background: #fff;
+        border: 1px solid #e5e9e6;
+        border-radius: 14px;
+        box-shadow: 0 12px 35px rgba(15, 35, 25, .07);
+    }
+
+    .invoice-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        align-items: flex-start;
+        padding-bottom: 24px;
+        border-bottom: 2px solid #17211d;
+    }
+
+    .company h2 {
+        margin: 0 0 8px;
+        font-size: 23px;
+        font-weight: 800;
+    }
+
+    .company p,
+    .invoice-meta p {
+        margin: 3px 0;
+        color: #59665f;
+        font-size: 12px;
+    }
+
+    .invoice-heading {
+        text-align: right;
+    }
+
+    .invoice-heading h1 {
         margin: 0;
+        font-size: 27px;
+        font-weight: 800;
+        letter-spacing: .04em;
+    }
+
+    .invoice-heading .tax-label {
+        margin-top: 5px;
+        color: #087b50;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+
+    .invoice-meta {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        padding: 22px 0;
+    }
+
+    .meta-label {
+        display: block;
+        margin-bottom: 5px;
+        color: #849088;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+    }
+
+    .invoice-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+    }
+
+    .invoice-table th {
+        padding: 11px 8px;
+        background: #f0f5f1;
+        color: #45534a;
+        text-align: left;
+        font-size: 10px;
+        text-transform: uppercase;
+    }
+
+    .invoice-table td {
+        padding: 12px 8px;
+        border-bottom: 1px solid #e9eeea;
+        vertical-align: top;
+    }
+
+    .text-right {
+        text-align: right !important;
+    }
+
+    .totals {
+        width: min(100%, 350px);
+        margin: 20px 0 0 auto;
+        font-size: 12px;
+    }
+
+    .total-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 6px 0;
+    }
+
+    .total-row.grand {
+        margin-top: 7px;
+        padding: 12px 0;
+        border-top: 2px solid #17211d;
+        border-bottom: 2px solid #17211d;
+        font-size: 17px;
+        font-weight: 800;
+    }
+
+    .balance {
+        color: #b45309;
+        font-weight: 800;
+    }
+
+    .words {
+        margin-top: 22px;
+        padding: 12px 14px;
+        border-radius: 8px;
+        background: #f4f7f4;
+        font-size: 11px;
+    }
+
+    .invoice-footer {
+        margin-top: 28px;
+        padding-top: 16px;
+        border-top: 1px dashed #cbd5ce;
+        color: #657168;
+        text-align: center;
+        font-size: 11px;
+    }
+
+    .invoice-notice {
+        margin: 14px 0;
+        padding: 10px 13px;
+        border: 1px solid #f2d5a3;
+        border-radius: 8px;
+        background: #fff9ed;
+        color: #865817;
+        font-size: 11px;
     }
 
     .receipt {
         width: 48mm;
-        margin: 0 auto;
-        padding: 5px;
-        font-family: "Courier New", monospace;
-        font-size: 12px;
-        color: #000;
+        margin: 20px auto;
+        padding: 3mm;
         background: #fff;
+        color: #000;
+        font-family: "Courier New", monospace;
+        font-size: 10px;
     }
 
-    .receipt h2 {
+    .receipt.p58 {
+        width: 58mm;
+    }
+
+    .receipt.p80 {
+        width: 80mm;
+    }
+
+    .receipt .company {
+        text-align: center;
+    }
+
+    .receipt .company h2 {
         margin: 4px 0;
         font-size: 15px;
     }
 
-    .receipt p {
+    .receipt .company p {
         margin: 2px 0;
+        font-size: 10px;
     }
 
-    .receipt .center {
+    .receipt .receipt-title {
+        margin: 8px 0;
         text-align: center;
+        font-weight: bold;
     }
 
-    .receipt .sep {
-        border-top: 1px dashed #000;
+    .receipt .receipt-sep {
+        margin: 7px 0;
+        border-top: 1px dashed #555;
+    }
+
+    .receipt .receipt-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 5px;
+        margin: 4px 0;
+    }
+
+    .receipt .receipt-item {
         margin: 6px 0;
     }
 
-    .receipt .row {
-        display: flex;
-        justify-content: space-between;
-        gap: 6px;
-    }
-
-    .receipt .item {
-        margin-bottom: 5px;
-    }
-
-    .receipt .grand {
+    .receipt .receipt-total {
         font-weight: bold;
-        font-size: 14px;
+        font-size: 13px;
+    }
+
+    .receipt .receipt-center {
+        text-align: center;
+    }
+
+    @media (max-width: 640px) {
+        .sheet {
+            padding: 20px 14px;
+        }
+
+        .invoice-top {
+            flex-direction: column;
+        }
+
+        .invoice-heading {
+            text-align: left;
+        }
+
+        .invoice-meta {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @page a4 {
+        size: A4;
+        margin: 12mm;
+    }
+
+    @page receipt58 {
+        size: 58mm auto;
+        margin: 0;
+    }
+
+    @page receipt80 {
+        size: 80mm auto;
+        margin: 0;
+    }
+
+    .sheet {
+        page: a4;
+    }
+
+    .receipt.p58 {
+        page: receipt58;
+    }
+
+    .receipt.p80 {
+        page: receipt80;
     }
 
     @media print {
         body * {
-            visibility: hidden;
+            visibility: hidden !important;
         }
 
-        .receipt,
-        .receipt * {
-            visibility: visible;
+        .sheet,
+        .sheet *,
+        .print-area,
+        .print-area * {
+            visibility: visible !important;
         }
 
-        .receipt {
+        .sheet,
+        .print-area {
             position: absolute;
             left: 0;
             top: 0;
-            padding: 2px;
+            margin: 0;
+            box-shadow: none;
+            border: 0;
+        }
+
+        .sheet {
+            width: 100%;
+        }
+
+        .receipt.p58 {
+            width: 58mm;
+        }
+
+        .receipt.p80 {
+            width: 80mm;
         }
 
         .no-print {
@@ -76,80 +305,181 @@
     }
 </style>
 
-<div class="receipt">
+<div class="invoice-page">
+    {% if layout == "receipt" %}
+    <div class="receipt p{{ paper }} print-area">
+        <div class="company">
+            {% if shop and shop.logo %}
+            <img src="{{ shop.logo.url }}" alt="" style="width:55px;margin:0 auto;">
+            {% endif %}
+            <h2>{% if shop and shop.shop_name %}{{ shop.shop_name }}{% else %}Company name not set{% endif %}</h2>
+            {% if shop and shop.address %}<p>{{ shop.address }}</p>{% endif %}
+            {% if shop and shop.phone %}<p>Phone: {{ shop.phone }}</p>{% endif %}
+            {% if shop and shop.vat_number %}<p>VAT No.: {{ shop.vat_number }}</p>{% endif %}
+        </div>
 
-    <div class="center">
-        {% if shop.logo %}
-        <img src="{{ shop.logo.url }}" alt="" style="width:60px;margin:0 auto;">
+        {% if is_tax_invoice %}
+        <div class="receipt-title">TAX INVOICE</div>
+        {% elif shop %}
+        <div class="invoice-notice">Please add your VAT number in Shop Settings to issue a tax invoice.</div>
+        {% else %}
+        <div class="invoice-notice">Please configure your company name and VAT number in Shop Settings.</div>
         {% endif %}
-        <h2>{{ shop.shop_name|default:"MY SHOP" }}</h2>
-        {% if shop.address %}<p>{{ shop.address }}</p>{% endif %}
-        {% if shop.phone %}<p>Phone: {{ shop.phone }}</p>{% endif %}
-        {% if shop.vat_number %}<p>VAT No: {{ shop.vat_number }}</p>{% endif %}
+
+        <div class="receipt-sep"></div>
+        <div>Invoice: {{ invoice.invoice_number }}</div>
+        <div>Date: {{ invoice.created_at|date:"Y-m-d H:i" }}</div>
+        <div>Customer: {% if invoice.customer %}{{ invoice.customer.name }}{% else %}Walk-in Customer{% endif %}</div>
+        <div>Cashier: {{ invoice.created_by.get_username }}</div>
+        <div class="receipt-sep"></div>
+
+        {% for item in invoice.items.all %}
+        <div class="receipt-item">
+            {{ item.product.name }}
+            <div class="receipt-row">
+                <span>{{ item.quantity }} x {{ item.price|floatformat:2 }}</span>
+                <span>Rs {{ item.total|floatformat:2|intcomma }}</span>
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="receipt-sep"></div>
+        <div class="receipt-row"><span>Taxable amount</span><span>Rs {{ taxable|floatformat:2|intcomma }}</span></div>
+        {% if invoice.discount > 0 %}
+        <div class="receipt-row"><span>Discount</span><span>Rs {{ invoice.discount|floatformat:2|intcomma }}</span>
+        </div>
+        {% endif %}
+        <div class="receipt-row"><span>VAT ({{ vat_percent|floatformat:"-2" }}%)</span><span>Rs {{ invoice.vat|floatformat:2|intcomma }}</span></div>
+        {% if invoice.tax > 0 %}
+        <div class="receipt-row"><span>Tax</span><span>Rs {{ invoice.tax|floatformat:2|intcomma }}</span></div>
+        {% endif %}
+        <div class="receipt-row receipt-total"><span>TOTAL</span><span>Rs {{ invoice.total|floatformat:2|intcomma
+                }}</span></div>
+        <div class="receipt-sep"></div>
+        <div class="receipt-row"><span>Paid ({{ payment_label }})</span><span>Rs {{ invoice.paid_amount|floatformat:2|intcomma }}</span></div>
+        {% if return_amount > 0 %}
+        <div class="receipt-row"><span>Change</span><span>Rs {{ return_amount|floatformat:2|intcomma }}</span></div>
+        {% endif %}
+        {% if invoice.due_amount > 0 %}
+        <div class="receipt-row receipt-total"><span>Balance due</span><span>Rs {{ invoice.due_amount|floatformat:2|intcomma }}</span></div>
+        {% else %}
+        <div class="receipt-center"><strong>** PAID **</strong></div>
+        {% endif %}
+        <div class="receipt-sep"></div>
+        <div class="receipt-center">{{ amount_in_words }}</div>
+        <div class="receipt-sep"></div>
+        <div class="receipt-center">{% if shop and shop.footer_message %}{{ shop.footer_message }}{% else %}Thank You!
+            Visit Again{% endif %}</div>
     </div>
+    {% else %}
+    <div class="sheet">
+        <div class="invoice-top">
+            <div class="company">
+                {% if shop and shop.logo %}
+                <img src="{{ shop.logo.url }}" alt="" style="max-width:90px;max-height:65px;margin-bottom:10px;">
+                {% endif %}
+                <h2>{% if shop and shop.shop_name %}{{ shop.shop_name }}{% else %}Company name not set{% endif %}</h2>
+                {% if shop and shop.vat_number %}<p><strong>VAT No.: {{ shop.vat_number }}</strong></p>{% endif %}
+                {% if shop and shop.address %}<p>{{ shop.address }}</p>{% endif %}
+                {% if shop and shop.phone %}<p>Phone: {{ shop.phone }}</p>{% endif %}
+                {% if shop and shop.email %}<p>{{ shop.email }}</p>{% endif %}
 
-    <div class="sep"></div>
+            </div>
+            <div class="invoice-heading">
+                <h1>INVOICE</h1>
+                {% if is_tax_invoice %}<div class="tax-label">Tax Invoice</div>{% endif %}
+                <div style="margin-top:12px;font-size:12px;font-weight:700;">{{ invoice.invoice_number }}</div>
+                <div style="margin-top:5px;color:#68756d;font-size:11px;">{{ invoice.created_at|date:"d M Y, h:i A" }}
+                </div>
+            </div>
+        </div>
 
-    <div>
-        Invoice: {{ invoice.invoice_number }}<br>
-        Date: {{ invoice.created_at|date:"Y-m-d H:i" }}<br>
-        Customer:
-        {% if invoice.customer %}{{ invoice.customer.name }}{% else %}Walk-in Customer{% endif %}<br>
-        {% if invoice.customer.phone %}Phone: {{ invoice.customer.phone }}<br>{% endif %}
-        Cashier: {{ invoice.created_by.get_username }}
-    </div>
+        {% if shop and not shop.vat_number %}
+        <div class="invoice-notice">Please add your VAT number in Shop Settings before issuing a tax invoice.</div>
+        {% elif not shop %}
+        <div class="invoice-notice">Please configure your company name and VAT number in Shop Settings.</div>
+        {% endif %}
 
-    <div class="sep"></div>
+        <div class="invoice-meta">
+            <div>
+                <span class="meta-label">Bill to</span>
+                <strong>{% if invoice.customer %}{{ invoice.customer.name }}{% else %}Walk-in Customer{% endif %}</strong>
+                {% if invoice.customer and invoice.customer.phone %}<p>{{ invoice.customer.phone }}</p>{% endif %}
+            </div>
+            <div>
+                <span class="meta-label">Served by</span>
+                <strong>{{ invoice.created_by.get_username }}</strong>
+                <p>Payment: {{ payment_label|title }}</p>
+            </div>
+        </div>
 
-    {% for item in invoice.items.all %}
-    <div class="item">
-        {{ item.product.name }}
-        <div class="row">
-            <span>{{ item.quantity }} x {{ item.price }}</span>
-            <span>{{ item.total }}</span>
+        <table class="invoice-table">
+            <thead>
+                <tr>
+                    <th style="width:48px;">#</th>
+                    <th>Description</th>
+                    <th class="text-right">Qty</th>
+                    <th class="text-right">Rate</th>
+                    <th class="text-right">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in invoice.items.all %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ item.product.name }}</td>
+                    <td class="text-right">{{ item.quantity }}</td>
+                    <td class="text-right">Rs {{ item.price|floatformat:2|intcomma }}</td>
+                    <td class="text-right">Rs {{ item.total|floatformat:2|intcomma }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No invoice items.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="totals">
+            <div class="total-row"><span>Subtotal</span><strong>Rs {{ invoice.subtotal|floatformat:2|intcomma }}</strong></div>
+            {% if invoice.discount > 0 %}
+            <div class="total-row"><span>Discount</span><span>- Rs {{ invoice.discount|floatformat:2|intcomma }}</span>
+            </div>
+            {% endif %}
+            <div class="total-row"><span>Taxable amount</span><span>Rs {{ taxable|floatformat:2|intcomma }}</span></div>
+            <div class="total-row"><span>VAT ({{ vat_percent|floatformat:"-2" }}%)</span><span>Rs {{ invoice.vat|floatformat:2|intcomma }}</span></div>
+            {% if invoice.tax > 0 %}
+            <div class="total-row"><span>Tax</span><span>Rs {{ invoice.tax|floatformat:2|intcomma }}</span></div>
+            {% endif %}
+            <div class="total-row grand"><span>Total</span><span>Rs {{ invoice.total|floatformat:2|intcomma }}</span>
+            </div>
+            <div class="total-row"><span>Paid ({{ payment_label }})</span><span>Rs {{ invoice.paid_amount|floatformat:2|intcomma }}</span></div>
+            {% if return_amount > 0 %}
+            <div class="total-row"><span>Change</span><span>Rs {{ return_amount|floatformat:2|intcomma }}</span></div>
+            {% endif %}
+            {% if invoice.due_amount > 0 %}
+            <div class="total-row balance"><span>Balance due</span><span>Rs {{ invoice.due_amount|floatformat:2|intcomma }}</span></div>
+            {% else %}
+            <div class="total-row"><strong>Payment status</strong><strong>PAID</strong></div>
+            {% endif %}
+        </div>
+
+        <div class="words"><strong>Amount in words:</strong> {{ amount_in_words }}</div>
+        <div class="invoice-footer">
+            {% if shop and shop.footer_message %}{{ shop.footer_message|linebreaksbr }}{% else %}Thank you for your
+            business!{% endif %}
         </div>
     </div>
-    {% endfor %}
-
-    <div class="sep"></div>
-
-    <div class="row"><span>Subtotal</span><span>{{ invoice.subtotal }}</span></div>
-    {% if invoice.discount > 0 %}
-    <div class="row"><span>Discount</span><span>- {{ invoice.discount }}</span></div>
     {% endif %}
-    <div class="row"><span>VAT</span><span>{{ invoice.vat }}</span></div>
-    {% if invoice.tax > 0 %}
-    <div class="row"><span>Tax</span><span>{{ invoice.tax }}</span></div>
-    {% endif %}
-    <div class="row grand"><span>TOTAL</span><span>{{ invoice.total }}</span></div>
-
-    <div class="sep"></div>
-
-    <div class="row"><span>Paid ({{ payment_label }})</span><span>{{ invoice.paid_amount }}</span></div>
-    {% if return_amount > 0 %}
-    <div class="row"><span>Change</span><span>{{ return_amount }}</span></div>
-    {% endif %}
-    {% if invoice.due_amount > 0 %}
-    <div class="row grand"><span>DUE</span><span>{{ invoice.due_amount }}</span></div>
-    {% else %}
-    <div class="center"><strong>** PAID **</strong></div>
-    {% endif %}
-
-    <div class="sep"></div>
-
-    <div class="center">
-        {{ shop.footer_message|default:"Thank You! Visit Again"|linebreaks }}
-    </div>
 </div>
 
-<!-- Actions (never printed) -->
-<div class="no-print mx-auto mt-6 flex max-w-md flex-wrap justify-center gap-3">
+<div class="no-print mx-auto mt-6 flex max-w-3xl flex-wrap justify-center gap-3">
     <button type="button" onclick="window.print()"
         class="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white">
-        <i class="fa-solid fa-print"></i> Print Receipt
+        <i class="fa-solid fa-print"></i> Print {% if layout == "receipt" %}Receipt{% else %}Invoice{% endif %}
     </button>
 
-    <a href="{% url 'invoice_pdf' invoice.id %}"
+    <a href="{% url 'invoice_pdf' invoice.id %}?layout={{ layout }}&paper={{ paper }}"
         class="inline-flex items-center gap-2 rounded-lg border border-line px-4 py-2 text-sm font-semibold">
         <i class="fa-solid fa-file-pdf"></i> Download PDF
     </a>
@@ -174,5 +504,4 @@
     });
 </script>
 {% endif %}
-
 {% endblock %}

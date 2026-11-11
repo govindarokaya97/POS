@@ -88,6 +88,12 @@ urlpatterns = [
         name="invoice"
     ),
 
+    path(
+        "invoice/<int:id>/payment/",
+        views.invoice_payment,
+        name="invoice_payment"
+    ),
+
 
     path(
         "invoice/<int:id>/pdf/",

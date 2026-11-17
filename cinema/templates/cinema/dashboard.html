@@ -7,7 +7,11 @@
 <div class="space-y-8">
 
     <header class="flex flex-wrap items-end justify-between gap-4">
-        <div>
+
+        <div class="space-y-2">
+            <a href="{% url 'pos_home' %}" class="inline-flex items-center gap-2 text-sm font-medium text-brand hover:underline"><i
+                    class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to home</a>
+
             <p class="font-mono text-xs uppercase tracking-[0.2em] text-brand">Cinema Management</p>
             <h1 class="mt-2 text-3xl font-bold text-ink">Ticket Counter</h1>
             <p class="mt-2 text-muted">{{ today|date:"l, d F Y" }}</p>

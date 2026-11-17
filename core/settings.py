@@ -139,23 +139,29 @@ JAZZMIN_SETTINGS = {
     "language_chooser": False,
 }
 
+
+
 JAZZMIN_UI_TWEAKS = {
     "theme": "flatly",
-    "dark_mode_theme": "darkly",
+    "default_theme_mode": "auto",
+
     "navbar": "navbar-white navbar-light",
-    "sidebar": "sidebar-dark-primary",
-    "accent": "accent-teal",
+    "sidebar": "sidebar-light-primary",
+    "accent": "accent-primary",
+    "brand_colour": "navbar-white",
+
     "navbar_small_text": False,
     "footer_small_text": False,
     "body_small_text": False,
     "brand_small_text": False,
-    "brand_colour": "navbar-primary",
+
     "sidebar_nav_small_text": False,
     "sidebar_disable_expand": False,
     "sidebar_nav_child_indent": True,
-    "sidebar_nav_compact_style": False,
+    "sidebar_nav_compact_style": True,
     "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": True,
+
     "button_classes": {
         "primary": "btn-primary",
         "secondary": "btn-secondary",
@@ -164,8 +170,11 @@ JAZZMIN_UI_TWEAKS = {
         "warning": "btn-warning",
         "danger": "btn-danger",
     },
+
     "actions_sticky_top": True,
 }
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -193,6 +202,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'billing.context_processors.sidebar_notifications',
+                'accounts.context_processors.user_appearance',
             ],
         },
     },
@@ -212,9 +222,21 @@ DATABASES = {
         "PASSWORD": config("DB_PASSWORD"),
         "HOST": config("DB_HOST"),
         "PORT": config("DB_PORT"),
+        # Reuse each worker's DB connection briefly to avoid a fresh
+        # handshake for every page request on hosted deployments.
+        "CONN_MAX_AGE": 60,
+        "CONN_HEALTH_CHECKS": True,
         "TEST": {
             "NAME": config("TEST_DB_NAME", default="test_pos_db_qa"),
         },
+    }
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "pos-app-cache",
+        "TIMEOUT": 60,
     }
 }
 
@@ -230,7 +252,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
         "OPTIONS": {
-            "min_length": 12,
+            "min_length": 8,
         },
     },
     {
@@ -310,7 +332,7 @@ DEFAULT_FROM_EMAIL = config(
     default=EMAIL_HOST_USER
 )
 
-EMAIL_TIMEOUT = 20
+EMAIL_TIMEOUT = 40
 
 
 # Logging
@@ -334,7 +356,7 @@ if DEBUG:
         "class": "logging.handlers.RotatingFileHandler",
         "filename": LOGS_DIR / "app.log",
         "maxBytes": 5 * 1024 * 1024,
-        "backupCount": 5,
+        "backupCount": 10,
         "formatter": "verbose",
     }
     ACTIVE_LOG_HANDLERS.append("file")
@@ -368,7 +390,7 @@ LOGGING = {
 
 from datetime import timedelta
 
-AXES_FAILURE_LIMIT = 5
+AXES_FAILURE_LIMIT = 10
 AXES_COOLOFF_TIME = timedelta(minutes=30)
 
 # Lock out based on username or IP address.

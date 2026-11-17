@@ -169,3 +169,188 @@ class RegisterForm(UserCreationForm):
             "password1",
             "password2",
         )
+
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ("username", "first_name", "last_name")
+
+        widgets = {
+            "username": forms.TextInput(attrs={
+                "class": INPUT_CLASSES,
+                "autocomplete": "username",
+            }),
+            "first_name": forms.TextInput(attrs={
+                "class": INPUT_CLASSES,
+                "autocomplete": "given-name",
+            }),
+            "last_name": forms.TextInput(attrs={
+                "class": INPUT_CLASSES,
+                "autocomplete": "family-name",
+            }),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields["username"].label = "Username"
+        self.fields["first_name"].label = "First name"
+        self.fields["last_name"].label = "Last name"
+
+
+
+
+
+class UserManagementForm(UserCreationForm):
+    email = forms.EmailField(
+        required=True,
+        widget=forms.EmailInput(attrs={
+            "class": INPUT_CLASSES,
+            "placeholder": "Enter email address",
+        }),
+    )
+
+    ROLE_CHOICES = (
+        ("cashier", "Cashier"),
+        ("staff", "Staff"),
+        ("admin", "Administrator"),
+    )
+
+    role = forms.ChoiceField(
+        choices=ROLE_CHOICES,
+        widget=forms.Select(attrs={
+            "class": INPUT_CLASSES,
+        }),
+    )
+
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = (
+            "username",
+            "first_name",
+            "last_name",
+            "email",
+            "password1",
+            "password2",
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field in self.fields.values():
+            field.widget.attrs.update({
+                "class": INPUT_CLASSES,
+            })
+
+        self.fields["username"].widget.attrs.update({
+            "placeholder": "Enter username",
+        })
+        self.fields["first_name"].widget.attrs.update({
+            "placeholder": "First name",
+        })
+        self.fields["last_name"].widget.attrs.update({
+            "placeholder": "Last name",
+        })
+        self.fields["password1"].widget.attrs.update({
+            "placeholder": "Create password",
+        })
+        self.fields["password2"].widget.attrs.update({
+            "placeholder": "Confirm password",
+        })
+
+    def clean_email(self):
+        email = self.cleaned_data["email"].strip().lower()
+
+        if User.objects.filter(email__iexact=email).exists():
+            raise ValidationError(
+                "An account with this email already exists."
+            )
+
+        return email
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+
+        user.email = self.cleaned_data["email"]
+        user.is_active = True
+
+        role = self.cleaned_data["role"]
+        user.is_staff = role in ("staff", "admin")
+        user.is_superuser = role == "admin"
+
+        if commit:
+            user.save()
+
+        return user
+
+
+
+
+
+class UserEditForm(forms.ModelForm):
+    ROLE_CHOICES = (
+        ("cashier", "Cashier"),
+        ("staff", "Staff"),
+        ("admin", "Administrator"),
+    )
+
+    role = forms.ChoiceField(
+        choices=ROLE_CHOICES,
+        widget=forms.Select(attrs={
+            "class": INPUT_CLASSES,
+        }),
+    )
+
+    class Meta:
+        model = User
+        fields = (
+            "username",
+            "first_name",
+            "last_name",
+            "email",
+            "role",
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field in self.fields.values():
+            field.widget.attrs.update({
+                "class": INPUT_CLASSES,
+            })
+
+        if self.instance and self.instance.pk:
+            if self.instance.is_superuser:
+                self.fields["role"].initial = "admin"
+            elif self.instance.is_staff:
+                self.fields["role"].initial = "staff"
+            else:
+                self.fields["role"].initial = "cashier"
+
+    def clean_email(self):
+        email = self.cleaned_data["email"].strip().lower()
+
+        existing = User.objects.filter(
+            email__iexact=email
+        ).exclude(pk=self.instance.pk)
+
+        if existing.exists():
+            raise ValidationError(
+                "Another account already uses this email."
+            )
+
+        return email
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+
+        role = self.cleaned_data["role"]
+        user.is_staff = role in ("staff", "admin")
+        user.is_superuser = role == "admin"
+
+        if commit:
+            user.save()
+
+        return user

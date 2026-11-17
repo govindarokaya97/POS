@@ -1,28 +1,88 @@
+
 {% extends "base.html" %}
+{% load humanize %}
 
 {% block title %}Invoice {{ invoice.invoice_number }}{% endblock %}
 
-{% block content %}
+{% block extra_head %}
 <style>
-    /* Paper width: change 48mm here and in .receipt below to match your printer. */
-    @page {
-        size: 48mm auto;
-        margin: 0;
+    .invoice-page {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    .invoice-paper {
+        background: #fff;
+        color: #171717;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 38px;
+        box-shadow: 0 8px 30px rgba(0,0,0,.06);
+    }
+
+    .invoice-paper table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .invoice-paper th,
+    .invoice-paper td {
+        padding: 11px 9px;
+        border-bottom: 1px solid #e5e7eb;
+        text-align: left;
+    }
+
+    .invoice-paper th:last-child,
+    .invoice-paper td:last-child {
+        text-align: right;
+    }
+
+    .invoice-paper .company {
+        font-size: 21px;
+        font-weight: 800;
+        line-height: 1.3;
+    }
+
+    .invoice-paper .summary-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 6px 0;
+    }
+
+    .invoice-paper .grand-total {
+        border-top: 2px solid #171717;
+        margin-top: 8px;
+        padding-top: 12px;
+        font-size: 20px;
+        font-weight: 800;
     }
 
     .receipt {
-        width: 48mm;
+        display: none;
+        width: 80mm;
         margin: 0 auto;
-        padding: 5px;
+        padding: 3mm;
+        background: #fff;
+        color: #000;
         font-family: "Courier New", monospace;
         font-size: 12px;
-        color: #000;
-        background: #fff;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+    }
+
+    .receipt.p58 {
+        width: 58mm;
+    }
+
+    .receipt.p80 {
+        width: 80mm;
     }
 
     .receipt h2 {
-        margin: 4px 0;
-        font-size: 15px;
+        font-size: 16px;
+        font-weight: bold;
+        margin: 3px 0;
     }
 
     .receipt p {
@@ -33,41 +93,88 @@
         text-align: center;
     }
 
-    .receipt .sep {
+    .receipt .separator {
         border-top: 1px dashed #000;
-        margin: 6px 0;
+        margin: 7px 0;
     }
 
-    .receipt .row {
+    .receipt .receipt-row {
         display: flex;
         justify-content: space-between;
-        gap: 6px;
+        gap: 8px;
     }
 
-    .receipt .item {
-        margin-bottom: 5px;
+    .receipt .receipt-row span:last-child {
+        text-align: right;
+        white-space: nowrap;
     }
 
-    .receipt .grand {
+    .receipt .receipt-item {
+        margin: 5px 0;
+    }
+
+    .receipt .receipt-total {
         font-weight: bold;
-        font-size: 14px;
+        font-size: 15px;
+    }
+
+    .receipt .receipt-words {
+        overflow-wrap: anywhere;
     }
 
     @media print {
+        @page {
+            margin: 0;
+        }
+
+        html,
+        body {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: #fff !important;
+        }
+
         body * {
-            visibility: hidden;
+            visibility: hidden !important;
         }
 
-        .receipt,
-        .receipt * {
-            visibility: visible;
+        body.invoice-print-a4 .invoice-paper,
+        body.invoice-print-a4 .invoice-paper * {
+            visibility: visible !important;
         }
 
-        .receipt {
+        body.invoice-print-a4 .invoice-paper {
             position: absolute;
             left: 0;
             top: 0;
-            padding: 2px;
+            width: 100%;
+            border: 0;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 12mm;
+        }
+
+        body.invoice-print-receipt .receipt,
+        body.invoice-print-receipt .receipt * {
+            visibility: visible !important;
+        }
+
+        body.invoice-print-receipt .receipt {
+            display: block !important;
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin: 0;
+            border: 0;
+            padding: 2mm;
+        }
+
+        body.invoice-print-receipt .receipt.p58 {
+            width: 58mm;
+        }
+
+        body.invoice-print-receipt .receipt.p80 {
+            width: 80mm;
         }
 
         .no-print {
@@ -75,104 +182,380 @@
         }
     }
 </style>
+{% endblock %}
 
-<div class="receipt">
+{% block content %}
+<div class="invoice-page space-y-6">
 
-    <div class="center">
-        {% if shop.logo %}
-        <img src="{{ shop.logo.url }}" alt="" style="width:60px;margin:0 auto;">
-        {% endif %}
-        <h2>{{ shop.shop_name|default:"MY SHOP" }}</h2>
-        {% if shop.address %}<p>{{ shop.address }}</p>{% endif %}
-        {% if shop.phone %}<p>Phone: {{ shop.phone }}</p>{% endif %}
-        {% if shop.vat_number %}<p>VAT No: {{ shop.vat_number }}</p>{% endif %}
-    </div>
+    <div class="no-print flex flex-wrap items-center justify-between gap-3">
+        <div>
+            <h1 class="text-2xl font-bold text-ink">Invoice {{ invoice.invoice_number }}</h1>
+            <p class="mt-1 text-sm text-muted">
+                {% if layout == "receipt" %}
+                    Thermal receipt · {{ paper }}mm
+                {% else %}
+                    A4 tax invoice
+                {% endif %}
+            </p>
+        </div>
 
-    <div class="sep"></div>
-
-    <div>
-        Invoice: {{ invoice.invoice_number }}<br>
-        Date: {{ invoice.created_at|date:"Y-m-d H:i" }}<br>
-        Customer:
-        {% if invoice.customer %}{{ invoice.customer.name }}{% else %}Walk-in Customer{% endif %}<br>
-        {% if invoice.customer.phone %}Phone: {{ invoice.customer.phone }}<br>{% endif %}
-        Cashier: {{ invoice.created_by.get_username }}
-    </div>
-
-    <div class="sep"></div>
-
-    {% for item in invoice.items.all %}
-    <div class="item">
-        {{ item.product.name }}
-        <div class="row">
-            <span>{{ item.quantity }} x {{ item.price }}</span>
-            <span>{{ item.total }}</span>
+        <div class="flex flex-wrap gap-2">
+            <a href="?layout=a4"
+                class="rounded-lg border border-line px-3 py-2 text-sm font-semibold hover:bg-paper">
+                A4
+            </a>
+            <a href="?layout=receipt&paper=58"
+                class="rounded-lg border border-line px-3 py-2 text-sm font-semibold hover:bg-paper">
+                58mm
+            </a>
+            <a href="?layout=receipt&paper=80"
+                class="rounded-lg border border-line px-3 py-2 text-sm font-semibold hover:bg-paper">
+                80mm
+            </a>
         </div>
     </div>
-    {% endfor %}
 
-    <div class="sep"></div>
-
-    <div class="row"><span>Subtotal</span><span>{{ invoice.subtotal }}</span></div>
-    {% if invoice.discount > 0 %}
-    <div class="row"><span>Discount</span><span>- {{ invoice.discount }}</span></div>
-    {% endif %}
-    <div class="row"><span>VAT</span><span>{{ invoice.vat }}</span></div>
-    {% if invoice.tax > 0 %}
-    <div class="row"><span>Tax</span><span>{{ invoice.tax }}</span></div>
-    {% endif %}
-    <div class="row grand"><span>TOTAL</span><span>{{ invoice.total }}</span></div>
-
-    <div class="sep"></div>
-
-    <div class="row"><span>Paid ({{ payment_label }})</span><span>{{ invoice.paid_amount }}</span></div>
-    {% if return_amount > 0 %}
-    <div class="row"><span>Change</span><span>{{ return_amount }}</span></div>
-    {% endif %}
-    {% if invoice.due_amount > 0 %}
-    <div class="row grand"><span>DUE</span><span>{{ invoice.due_amount }}</span></div>
-    {% else %}
-    <div class="center"><strong>** PAID **</strong></div>
+    <!-- A4 INVOICE -->
+    <div class="sheet" {% if layout == "receipt" %}style="display:none"{% endif %}>
+    <section class="invoice-paper">
+        <header class="flex flex-col justify-between gap-6 border-b-2 border-gray-900 pb-6 sm:flex-row">
+            <div>
+    {% if shop and shop.logo %}
+        <img src="{{ shop.logo.url }}" alt="Company logo"
+            style="max-width:100px;max-height:75px;object-fit:contain;margin-bottom:10px">
     {% endif %}
 
-    <div class="sep"></div>
+    <div class="company">
+        {% if shop and shop.shop_name %}
+            {{ shop.shop_name }}
+        {% else %}
+            Company name not set
+        {% endif %}
+        {% if shop and shop.vat_number %}
+            <span class="ml-2 text-sm font-semibold">VAT No.: {{ shop.vat_number }}</span>
+        {% endif %}
+    </div>
 
-    <div class="center">
-        {{ shop.footer_message|default:"Thank You! Visit Again"|linebreaks }}
+                {% if shop and shop.address %}
+                    <p class="mt-2 text-sm font-normal">{{ shop.address }}</p>
+                {% endif %}
+                {% if shop and shop.phone %}
+                    <p class="text-sm font-normal">Phone: {{ shop.phone }}</p>
+                {% endif %}
+                {% if shop and shop.email %}
+                    <p class="text-sm font-normal">{{ shop.email }}</p>
+                {% endif %}
+            </div>
+
+            <div class="text-left sm:text-right">
+                <h2 class="text-3xl font-extrabold uppercase tracking-wide">
+                    {% if is_tax_invoice %}Tax Invoice{% else %}Invoice{% endif %}
+                </h2>
+                <p class="mt-2 text-sm">Invoice No: <strong>{{ invoice.invoice_number }}</strong></p>
+                <p class="text-sm">Date: {{ invoice.created_at|date:"Y-m-d H:i" }}</p>
+                {% if invoice.due_amount > 0 %}
+                    <p class="mt-2 inline-block rounded bg-red-50 px-3 py-1 text-sm font-bold text-red-700">
+                        PARTIALLY PAID
+                    </p>
+                {% else %}
+                    <p class="mt-2 inline-block rounded bg-green-50 px-3 py-1 text-sm font-bold text-green-700">
+                        PAID
+                    </p>
+                {% endif %}
+            </div>
+        </header>
+
+        {% if not shop %}
+            <div class="mt-5 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
+                <strong>Shop details not configured.</strong>
+               Add your company name and VAT number in shop settings before issuing invoices.
+            </div>
+        {% elif not shop.vat_number %}
+            <div class="mt-5 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
+                <strong>VAT number not configured.</strong>
+                Add your VAT number in shop settings before issuing invoices.
+            </div>
+        {% endif %}
+                </p>
+                {% if invoice.customer and invoice.customer.phone %}
+                    <p class="text-sm text-gray-600">{{ invoice.customer.phone }}</p>
+                {% endif %}
+            </div>
+
+            <div class="sm:text-right">
+                <p class="text-xs font-bold uppercase tracking-wider text-gray-500">Payment</p>
+                <p class="mt-2 font-semibold">{{ payment_label }}</p>
+                <p class="text-sm text-gray-600">
+                    Cashier: {{ invoice.created_by.get_full_name|default:invoice.created_by.username }}
+                </p>
+            </div>
+        </section>
+
+        <div class="mt-7 overflow-x-auto">
+            <table class="text-sm">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Unit Price</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in invoice.items.all %}
+                        <tr>
+                            <td>{{ item.product.name }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>Rs {{ item.price|floatformat:2|intcomma }}</td>
+                            <td>Rs {{ item.total|floatformat:2|intcomma }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center text-gray-500">No invoice items found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="ml-auto mt-7 w-full max-w-sm text-sm">
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <span>Rs {{ invoice.subtotal|floatformat:2|intcomma }}</span>
+            </div>
+
+            {% if invoice.discount > 0 %}
+                <div class="summary-row">
+                    <span>Discount</span>
+                    <span>- Rs {{ invoice.discount|floatformat:2|intcomma }}</span>
+                </div>
+                <div class="summary-row">
+                    <span>Taxable Amount</span>
+                    <span>Rs {{ taxable|floatformat:2|intcomma }}</span>
+                </div>
+            {% endif %}
+
+            <div class="summary-row">
+                <span>VAT ({{ vat_percent|floatformat:"-2" }}%)</span>
+                <span>Rs {{ invoice.vat|floatformat:2|intcomma }}</span>
+            </div>
+
+            {% if invoice.tax > 0 %}
+                <div class="summary-row">
+                    <span>Other Tax</span>
+                    <span>Rs {{ invoice.tax|floatformat:2|intcomma }}</span>
+                </div>
+            {% endif %}
+
+            <div class="summary-row grand-total">
+                <span>Total</span>
+                <span>Rs {{ invoice.total|floatformat:2|intcomma }}</span>
+            </div>
+
+            <div class="summary-row mt-3">
+                <span>Paid ({{ payment_label }})</span>
+                <span>Rs {{ invoice.paid_amount|floatformat:2|intcomma }}</span>
+            </div>
+
+            {% if return_amount > 0 %}
+                <div class="summary-row">
+                    <span>Change returned</span>
+                    <span>Rs {{ return_amount|floatformat:2|intcomma }}</span>
+                </div>
+            {% endif %}
+
+            <div class="summary-row border-t border-gray-300 pt-3 font-bold">
+                <span>Balance due</span>
+                <span class="{% if invoice.due_amount > 0 %}text-red-700{% else %}text-green-700{% endif %}">
+                    Rs {{ invoice.due_amount|floatformat:2|intcomma }}
+                </span>
+            </div>
+        </div>
+
+        {% if amount_in_words %}
+            <div class="mt-6 border-t border-gray-200 pt-4 text-sm">
+                <strong>Amount in words:</strong> {{ amount_in_words }}
+            </div>
+        {% endif %}
+
+        <footer class="mt-10 border-t border-gray-300 pt-5 text-center text-sm text-gray-600">
+            {% if shop and shop.footer_message %}
+                {{ shop.footer_message|linebreaksbr }}
+            {% else %}
+                Thank you for your business!
+            {% endif %}
+        </footer>
+    </section>
+    </div>
+
+    <!-- THERMAL RECEIPT -->
+    <section class="receipt p{{ paper }}" {% if layout != "receipt" %}style="display:none"{% endif %}>
+        <div class="center">
+            {% if shop and shop.logo %}
+                <img src="{{ shop.logo.url }}" alt="Logo"
+                    style="max-width:65px;max-height:55px;object-fit:contain;margin:0 auto 5px">
+            {% endif %}
+
+            <h2>
+                {% if shop and shop.shop_name %}
+                    {{ shop.shop_name }}
+                {% else %}
+                    Company name not set
+                {% endif %}
+            </h2>
+
+            {% if shop and shop.address %}<p>{{ shop.address }}</p>{% endif %}
+            {% if shop and shop.phone %}<p>Phone: {{ shop.phone }}</p>{% endif %}
+            {% if shop and shop.vat_number %}
+                <p><strong>VAT No.: {{ shop.vat_number }}</strong></p>
+            {% endif %}
+
+            <p><strong>{% if is_tax_invoice %}Tax Invoice{% else %}Invoice{% endif %}</strong></p>
+        </div>
+
+        <div class="separator"></div>
+
+        <p>Invoice: {{ invoice.invoice_number }}</p>
+        <p>Date: {{ invoice.created_at|date:"Y-m-d H:i" }}</p>
+        <p>
+            Customer:
+            {% if invoice.customer %}{{ invoice.customer.name }}{% else %}Walk-in Customer{% endif %}
+        </p>
+        {% if invoice.customer and invoice.customer.phone %}
+            <p>Phone: {{ invoice.customer.phone }}</p>
+        {% endif %}
+        <p>Cashier: {{ invoice.created_by.get_username }}</p>
+        <p>Payment: {{ payment_label }}</p>
+
+        <div class="separator"></div>
+
+        {% for item in invoice.items.all %}
+            <div class="receipt-item">
+                <div><strong>{{ item.product.name }}</strong></div>
+                <div class="receipt-row">
+                    <span>{{ item.quantity }} x {{ item.price|floatformat:2|intcomma }}</span>
+                    <span>{{ item.total|floatformat:2|intcomma }}</span>
+                </div>
+            </div>
+        {% empty %}
+            <p>No invoice items found.</p>
+        {% endfor %}
+
+        <div class="separator"></div>
+
+        <div class="receipt-row">
+            <span>Subtotal</span>
+            <span>{{ invoice.subtotal|floatformat:2|intcomma }}</span>
+        </div>
+
+        {% if invoice.discount > 0 %}
+            <div class="receipt-row">
+                <span>Discount</span>
+                <span>-{{ invoice.discount|floatformat:2|intcomma }}</span>
+            </div>
+            <div class="receipt-row">
+                <span>Taxable Amount</span>
+                <span>{{ taxable|floatformat:2|intcomma }}</span>
+            </div>
+        {% endif %}
+
+        <div class="receipt-row">
+            <span>VAT ({{ vat_percent|floatformat:"-2" }}%)</span>
+            <span>{{ invoice.vat|floatformat:2|intcomma }}</span>
+        </div>
+
+        {% if invoice.tax > 0 %}
+            <div class="receipt-row">
+                <span>Other Tax</span>
+                <span>{{ invoice.tax|floatformat:2|intcomma }}</span>
+            </div>
+        {% endif %}
+
+        <div class="separator"></div>
+
+        <div class="receipt-row receipt-total">
+            <span>TOTAL</span>
+            <span>Rs {{ invoice.total|floatformat:2|intcomma }}</span>
+        </div>
+
+        <div class="separator"></div>
+
+        <div class="receipt-row">
+            <span>Paid</span>
+            <span>{{ invoice.paid_amount|floatformat:2|intcomma }}</span>
+        </div>
+
+        {% if return_amount > 0 %}
+            <div class="receipt-row">
+                <span>Change</span>
+                <span>{{ return_amount|floatformat:2|intcomma }}</span>
+            </div>
+        {% endif %}
+
+        <div class="receipt-row receipt-total">
+            <span>Balance due</span>
+            <span>{{ invoice.due_amount|floatformat:2|intcomma }}</span>
+        </div>
+
+        {% if amount_in_words %}
+            <div class="separator"></div>
+            <p class="receipt-words"><strong>Amount in words:</strong> {{ amount_in_words }}</p>
+        {% endif %}
+
+        <div class="separator"></div>
+
+        <div class="center">
+            {% if shop and shop.footer_message %}
+                {{ shop.footer_message|linebreaksbr }}
+            {% else %}
+                Thank You! Visit Again
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- ACTIONS -->
+    <div class="no-print flex flex-wrap justify-center gap-3 pb-6">
+        <button type="button" onclick="window.print()"
+            class="inline-flex items-center gap-2 rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-white">
+            <i class="fa-solid fa-print"></i> Print Invoice
+        </button>
+
+        <a href="{% url 'invoice_pdf' invoice.id %}?layout={{ layout }}&paper={{ paper }}"
+            class="inline-flex items-center gap-2 rounded-lg border border-line px-5 py-2.5 text-sm font-semibold">
+            <i class="fa-solid fa-file-pdf"></i> Download PDF
+        </a>
+
+        {% if invoice.due_amount > 0 %}
+            <a href="{% url 'invoice_payment' invoice.id %}"
+                class="inline-flex items-center gap-2 rounded-lg border border-line px-5 py-2.5 text-sm font-semibold">
+                <i class="fa-solid fa-money-bill"></i> Receive Payment
+            </a>
+        {% endif %}
+
+        <a href="{% url 'billing_products' %}"
+            class="inline-flex items-center gap-2 rounded-lg border border-line px-5 py-2.5 text-sm font-semibold">
+            <i class="fa-solid fa-plus"></i> New Sale
+        </a>
     </div>
 </div>
 
-<!-- Actions (never printed) -->
-<div class="no-print mx-auto mt-6 flex max-w-md flex-wrap justify-center gap-3">
-    <button type="button" onclick="window.print()"
-        class="inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white">
-        <i class="fa-solid fa-print"></i> Print Receipt
-    </button>
-
-    <a href="{% url 'invoice_pdf' invoice.id %}"
-        class="inline-flex items-center gap-2 rounded-lg border border-line px-4 py-2 text-sm font-semibold">
-        <i class="fa-solid fa-file-pdf"></i> Download PDF
-    </a>
-
-    {% if invoice.due_amount > 0 %}
-    <a href="{% url 'invoice_payment' invoice.id %}"
-        class="inline-flex items-center gap-2 rounded-lg border border-line px-4 py-2 text-sm font-semibold">
-        <i class="fa-solid fa-money-bill"></i> Receive Payment
-    </a>
-    {% endif %}
-
-    <a href="{% url 'billing_products' %}"
-        class="inline-flex items-center gap-2 rounded-lg border border-line px-4 py-2 text-sm font-semibold">
-        <i class="fa-solid fa-plus"></i> New Sale
-    </a>
-</div>
+<script>
+    (function () {
+        const layout = "{{ layout|escapejs }}";
+        document.body.classList.remove("invoice-print-a4", "invoice-print-receipt");
+        document.body.classList.add(
+            layout === "receipt" ? "invoice-print-receipt" : "invoice-print-a4"
+        );
+    })();
+</script>
 
 {% if auto_print %}
 <script>
     window.addEventListener("load", function () {
-        setTimeout(function () { window.print(); }, 500);
+        setTimeout(function () {
+            window.print();
+        }, 700);
     });
 </script>
 {% endif %}
-
 {% endblock %}

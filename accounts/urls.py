@@ -66,4 +66,27 @@ urlpatterns = [
 
     # Dashboard
     path("dashboard/", views.dashboard, name="dashboard"),
+
+    # Profile
+    path("profile/", views.profile, name="profile"),
+    path("profile/edit/", views.edit_profile, name="edit_profile"),
+    path("profile/change-password/", views.change_password, name="change_password"),
+    path("profile/delete/", views.delete_account, name="delete_account"),
+	path("profile/theme/", views.save_theme, name="save_theme"),
+
+	    # User Management
+    path("users/", views.user_management, name="user_management"),
+    path("users/create/", views.create_user, name="create_user"),
+    path("users/<int:user_id>/edit/", views.edit_user, name="edit_user"),
+    path("users/<int:user_id>/toggle-status/", views.toggle_user_status, name="toggle_user_status"),
+    path(
+        "users/<int:user_id>/password/",
+        views.reset_user_password,
+        name="reset_user_password",
+    ),
+    path(
+        "activity-log/",
+        views.activity_log,
+        name="activity_log",
+    ),
 ]

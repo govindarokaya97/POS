@@ -3,7 +3,8 @@
 {% block title %}Management | POS{% endblock %}
 
 {% block content %}
-<section class="mx-auto max-w-6xl space-y-8 px-4 py-8 sm:px-6 lg:px-8">
+
+<section class="relative -left-8 -top-2 mx-auto max-w-6xl space-y-2 pb-3 sm:px-5 lg:px-7">
     <header class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div class="space-y-2">
             <a href="{% url 'pos_home' %}" class="inline-flex items-center gap-2 text-sm font-medium text-brand hover:underline"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to home</a>
@@ -44,6 +45,21 @@
             <h2 class="mt-5 font-display text-xl font-bold">Expenses</h2><p class="mt-2 text-sm leading-6 text-muted">Record and review operating expenses and expense categories.</p>
             <span class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand">Manage expenses <i class="fa-solid fa-arrow-right transition group-hover:translate-x-1"></i></span>
         </a>
+
+
+        {% if request.user.is_superuser %}
+        <a href="{% url 'pos_settings' %}" class="group rounded-2xl border border-line bg-white p-6 transition hover:border-brand/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand/20">
+            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-sky-50 text-xl text-sky-700">
+                <i class="fa-solid fa-sliders" aria-hidden="true"></i>
+            </div>
+            <h2 class="mt-5 font-display text-xl font-bold">POS Settings</h2>
+            <p class="mt-2 text-sm leading-6 text-muted">Configure business information, shop logo, contact details, VAT/PAN number and receipt settings.</p>
+            <span class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand">
+                Configure settings <i class="fa-solid fa-arrow-right transition group-hover:translate-x-1"></i>
+            </span>
+        </a>
+        {% endif %}
+
 
         {% if request.user.is_superuser %}
         <a href="{% url 'admin:index' %}" class="group rounded-2xl border border-line bg-white p-6 transition hover:border-brand/40 hover:shadow-md focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand/20">

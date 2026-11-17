@@ -7,7 +7,11 @@
 
     <!-- HEADER -->
     <section class="flex flex-col justify-between gap-5 lg:flex-row lg:items-center">
-        <div>
+        <div class="space-y-2">
+            <a href="{% url 'management_home' %}"
+                class="inline-flex items-center gap-2 text-sm font-medium text-brand hover:underline"><i
+                    class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to home</a>
+
             <div class="mb-2 flex items-center gap-2">
                 <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
                 <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-gray-400">

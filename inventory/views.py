@@ -59,7 +59,7 @@ def global_search(request):
     if not request.user.is_authenticated:
         return JsonResponse({"error": "login required"}, status=401)
 
-    query = request.GET.get("q", "").strip()
+    query = request.GET.get("q", "").strip()[:80]
 
 
     if not query:
@@ -77,7 +77,7 @@ def global_search(request):
         |
         Q(barcode__icontains=query)
 
-    )[:5]
+    ).only("id", "name", "barcode", "stock")[:5]
 
 
 
@@ -87,7 +87,7 @@ def global_search(request):
         |
         Q(phone__icontains=query)
 
-    )[:5]
+    ).only("id", "name", "phone")[:5]
 
 
 

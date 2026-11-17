@@ -1,0 +1,92 @@
+
+{% extends "base.html" %}
+
+{% block title %}Edit User | POS Workspace{% endblock %}
+
+{% block content %}
+<div class="mx-auto max-w-4xl space-y-6">
+
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <p class="text-xs font-bold uppercase tracking-[0.18em] text-brand">Administration</p>
+            <h1 class="mt-2 text-2xl font-bold tracking-tight text-ink">Edit User</h1>
+            <p class="mt-1 text-sm text-muted">
+                Update account information and permissions for {{ target_user.username }}.
+            </p>
+        </div>
+
+        <a href="{% url 'user_management' %}"
+           class="inline-flex items-center justify-center gap-2 rounded-xl border border-line bg-white px-4 py-3 text-sm font-semibold text-ink hover:bg-paper">
+            <i class="fa-solid fa-arrow-left"></i>
+            Back to Users
+        </a>
+    </div>
+
+    <div class="overflow-hidden rounded-2xl border border-line bg-white shadow-sm">
+        <div class="border-b border-line bg-paper/70 px-6 py-5">
+            <div class="flex items-center gap-3">
+                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-brand/10 text-brand">
+                    <i class="fa-solid fa-user-pen text-lg"></i>
+                </div>
+                <div>
+                    <h2 class="font-bold text-ink">Account Information</h2>
+                    <p class="text-xs text-muted">Edit the selected user's details.</p>
+                </div>
+            </div>
+        </div>
+
+        <form method="post" class="space-y-6 p-6">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                {% for field in form %}
+                    <div class="space-y-2">
+                        <label for="{{ field.id_for_label }}" class="block text-sm font-semibold text-ink">
+                            {{ field.label }}
+                            {% if field.field.required %}<span class="text-red-500">*</span>{% endif %}
+                        </label>
+
+                        {{ field }}
+
+                        {% for error in field.errors %}
+                            <p class="text-xs font-medium text-red-600">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="rounded-xl border border-amber-200 bg-amber-50 p-4">
+                <div class="flex gap-3">
+                    <i class="fa-solid fa-shield-halved mt-0.5 text-amber-600"></i>
+                    <div>
+                        <p class="text-sm font-bold text-amber-900">Role permissions</p>
+                        <p class="mt-1 text-xs leading-5 text-amber-800">
+                            Administrator has full system access. Staff has staff permissions.
+                            Cashier has standard account permissions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col-reverse gap-3 border-t border-line pt-5 sm:flex-row sm:justify-end">
+                <a href="{% url 'user_management' %}"
+                   class="rounded-xl border border-line px-5 py-3 text-center text-sm font-semibold text-ink hover:bg-paper">
+                    Cancel
+                </a>
+
+                <button type="submit"
+                        class="rounded-xl bg-brand px-6 py-3 text-sm font-bold text-white shadow-lg shadow-brand/20 hover:opacity-90">
+                    <i class="fa-solid fa-floppy-disk mr-2"></i>
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

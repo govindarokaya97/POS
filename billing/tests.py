@@ -113,10 +113,10 @@ class CartAndCheckoutTests(TestCase):
         invoice = Invoice.objects.get()
 
         self.assertRedirects(
-            response,
-            f"{reverse('invoice', args=[invoice.id])}?print=true",
-            fetch_redirect_response=False,
-        )
+    response,
+    f"{reverse('invoice', args=[invoice.id])}?layout=receipt&paper=80&print=true",
+    fetch_redirect_response=False,
+)
 
         # Subtotal 121.00 - discount 1.00 = 120.00
         # VAT 10% of 120.00 = 12.00

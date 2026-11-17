@@ -1,4 +1,4 @@
-import csv
+﻿import csv
 import logging
 import uuid
 import json
@@ -11,6 +11,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.db.models import Q, Sum, Count, Avg
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
@@ -292,11 +293,22 @@ def _get_cart(request):
 
     cleaned = {}
 
+    if not isinstance(cart, dict):
+        return cleaned
+
     for product_id, item in cart.items():
-        cleaned[str(product_id)] = {
-            "quantity": int(item.get("quantity", 1)),
-            "price": str(Decimal(str(item.get("price", "0")))),
-        }
+        try:
+            normalized_id = str(int(product_id))
+            if not isinstance(item, dict):
+                continue
+            quantity = int(item.get("quantity", 1))
+            price = Decimal(str(item.get("price", "0")))
+            if quantity <= 0 or not price.is_finite() or price < 0:
+                continue
+        except (TypeError, ValueError, InvalidOperation):
+            continue
+
+        cleaned[normalized_id] = {"quantity": quantity, "price": str(price)}
 
     return cleaned
 
@@ -316,6 +328,8 @@ def _add_product(cart, product):
 
     if product.stock <= 0:
         return f"{product.name} is out of stock."
+    if not product.is_available:
+        return f"{product.name} is currently unavailable."
 
     if current_quantity >= product.stock:
         return f"Not enough stock for {product.name}."
@@ -329,36 +343,41 @@ def _add_product(cart, product):
 
 @login_required
 def billing_products(request):
-    query = request.GET.get("barcode", request.GET.get("q", "")).strip()
+    query = request.GET.get("barcode", request.GET.get("q", "")).strip()[:100]
 
-    products = Product.objects.all()
+    products = Product.objects.filter(is_available=True).order_by("name", "id")
 
     if query:
-        products = products.filter(
-            Q(name__icontains=query)
-            | Q(barcode__icontains=query)
-        )
+        if query.isdigit():
+            barcode_match = products.filter(barcode=query)
+            if barcode_match.exists():
+                products = barcode_match
+            else:
+                products = products.filter(
+                    Q(name__icontains=query) | Q(barcode__icontains=query)
+                )
+        else:
+            products = products.filter(
+                Q(name__icontains=query) | Q(barcode__icontains=query)
+            )
 
-    cart = _get_cart(request)
+    products_page = Paginator(products, 24).get_page(request.GET.get("page"))
 
-    subtotal = Decimal("0.00")
-
-    for item in cart.values():
-        price = Decimal(str(item["price"]))
-        quantity = int(item["quantity"])
-
-        item["total"] = price * quantity
-
-        subtotal += item["total"]
+    cart, subtotal = _cart_lines(_get_cart(request))
+    vat = (subtotal * Decimal("13.00") / Decimal("100")).quantize(
+        Decimal("0.01"), rounding=ROUND_HALF_UP
+    )
 
     return render(
         request,
         "billing/pos.html",
         {
-            "products": products,
+            "products": products_page,
             "query": query,
             "cart": cart,
             "subtotal": subtotal,
+            "vat": vat,
+            "total": subtotal + vat,
         },
     )
 
@@ -412,10 +431,14 @@ def increase_quantity(request, product_id):
 
     quantity = int(cart[key]["quantity"])
 
-    if quantity >= product.stock:
+    if not product.is_available or quantity >= product.stock:
         messages.error(
             request,
-            f"Only {product.stock} {product.name} available.",
+            (
+                f"{product.name} is currently unavailable."
+                if not product.is_available
+                else f"Only {product.stock} {product.name} available."
+            ),
         )
         return redirect("billing_products")
 
@@ -525,15 +548,7 @@ def _cart_lines(cart):
 
 
 def _checkout_context(cart):
-
-    subtotal = Decimal("0.00")
-
-    for item in cart.values():
-
-        subtotal += (
-            Decimal(str(item["price"])) *
-            int(item["quantity"])
-        )
+    cart, subtotal = _cart_lines(cart)
 
 
     vat_percent = Decimal("13.00")
@@ -788,8 +803,8 @@ def checkout(request):
 
 
         return redirect(
-            f"{reverse('invoice', kwargs={'id': invoice.id})}?print=true"
-        )
+    f"{reverse('invoice', kwargs={'id': invoice.id})}?layout=receipt&paper=80&print=true"
+)
 
 
     return render(
@@ -908,6 +923,16 @@ def _create_invoice(request, cart):
             raise CheckoutError(
                 "Product unavailable."
             )
+
+
+        if not product.is_available:
+            raise CheckoutError(
+                f"{product.name} is currently unavailable."
+            )
+
+
+        if qty <= 0:
+            raise CheckoutError("Cart quantities must be greater than zero.")
 
 
         if product.stock < qty:

@@ -1,0 +1,195 @@
+
+{% extends "base.html" %}
+
+{% block title %}POS Settings | POS{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-6xl space-y-7 px-4 py-8 sm:px-6 lg:px-8">
+
+    <!-- Page header -->
+    <header class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div class="space-y-2">
+            <a href="{% url 'management_home' %}"
+               class="inline-flex items-center gap-2 text-sm font-medium text-brand hover:underline">
+                <i class="fa-solid fa-arrow-left"></i>
+                Back to Management
+            </a>
+
+            <p class="text-sm font-semibold uppercase tracking-[0.18em] text-brand">
+                System configuration
+            </p>
+
+            <h1 class="font-display text-3xl font-bold tracking-tight sm:text-4xl">
+                POS Settings
+            </h1>
+
+            <p class="max-w-2xl text-sm leading-6 text-muted">
+                Configure your business information, receipt details and shop identity.
+            </p>
+        </div>
+
+        <span class="inline-flex w-fit items-center gap-2 rounded-full bg-brand/10 px-3 py-2 text-sm font-semibold text-brand">
+            <i class="fa-solid fa-shield-halved"></i>
+            Administrator only
+        </span>
+    </header>
+
+    <!-- Success and error messages -->
+    {% if messages %}
+        <div class="space-y-2">
+            {% for message in messages %}
+                <div class="flex items-center gap-3 rounded-xl border border-line bg-white px-4 py-3 text-sm
+                    {% if message.tags == 'success' %}text-emerald-700{% else %}text-red-600{% endif %}">
+                    <i class="fa-solid {% if message.tags == 'success' %}fa-circle-check{% else %}fa-circle-exclamation{% endif %}"></i>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" class="space-y-6">
+        {% csrf_token %}
+
+        <!-- Business information -->
+        <div class="overflow-hidden rounded-2xl border border-line bg-white shadow-sm">
+            <div class="border-b border-line px-5 py-5 sm:px-7">
+                <div class="flex items-center gap-3">
+                    <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-brand/10 text-lg text-brand">
+                        <i class="fa-solid fa-store"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-display text-lg font-bold">Business Information</h2>
+                        <p class="mt-1 text-sm text-muted">Your shop identity displayed across the POS and invoices.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid gap-5 p-5 sm:grid-cols-2 sm:p-7">
+
+                <div class="space-y-2 sm:col-span-2">
+                    <label for="{{ form.shop_name.id_for_label }}" class="text-sm font-semibold text-ink">
+                        Business / Shop Name <span class="text-red-500">*</span>
+                    </label>
+                    {{ form.shop_name }}
+                    {% for error in form.shop_name.errors %}
+                        <p class="text-xs text-red-600">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="space-y-2 sm:col-span-2">
+                    <label for="{{ form.address.id_for_label }}" class="text-sm font-semibold text-ink">
+                        Business Address
+                    </label>
+                    {{ form.address }}
+                    {% for error in form.address.errors %}
+                        <p class="text-xs text-red-600">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="space-y-2">
+                    <label for="{{ form.phone.id_for_label }}" class="text-sm font-semibold text-ink">
+                        Phone Number
+                    </label>
+                    {{ form.phone }}
+                    {% for error in form.phone.errors %}
+                        <p class="text-xs text-red-600">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="space-y-2">
+                    <label for="{{ form.email.id_for_label }}" class="text-sm font-semibold text-ink">
+                        Business Email
+                    </label>
+                    {{ form.email }}
+                    {% for error in form.email.errors %}
+                        <p class="text-xs text-red-600">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="space-y-2 sm:col-span-2">
+                    <label for="{{ form.vat_number.id_for_label }}" class="text-sm font-semibold text-ink">
+                        VAT / PAN Number
+                    </label>
+                    {{ form.vat_number }}
+                    {% for error in form.vat_number.errors %}
+                        <p class="text-xs text-red-600">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Logo and receipt -->
+        <div class="overflow-hidden rounded-2xl border border-line bg-white shadow-sm">
+            <div class="border-b border-line px-5 py-5 sm:px-7">
+                <div class="flex items-center gap-3">
+                    <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-violet-50 text-lg text-violet-700">
+                        <i class="fa-solid fa-receipt"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-display text-lg font-bold">Logo & Receipt Settings</h2>
+                        <p class="mt-1 text-sm text-muted">Customize your printed invoice identity and footer.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6 p-5 sm:p-7">
+
+                <div class="space-y-3">
+                    <label for="{{ form.logo.id_for_label }}" class="text-sm font-semibold text-ink">
+                        Business Logo
+                    </label>
+
+                    {% if settings.logo %}
+                        <div class="flex items-center gap-4 rounded-xl border border-line bg-paper/50 p-4">
+                            <img src="{{ settings.logo.url }}" alt="Current business logo"
+                                 class="h-16 w-16 rounded-lg border border-line bg-white object-contain p-1">
+                            <div>
+                                <p class="text-sm font-semibold text-ink">Current logo</p>
+                                <p class="mt-1 text-xs text-muted">Upload a new image to replace it.</p>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {{ form.logo }}
+                    {% for error in form.logo.errors %}
+                        <p class="text-xs text-red-600">{{ error }}</p>
+                    {% endfor %}
+                    <p class="text-xs text-muted">Choose an image file for your business logo.</p>
+                </div>
+
+                <div class="space-y-2">
+                    <label for="{{ form.footer_message.id_for_label }}" class="text-sm font-semibold text-ink">
+                        Receipt Footer Message
+                    </label>
+                    {{ form.footer_message }}
+                    {% for error in form.footer_message.errors %}
+                        <p class="text-xs text-red-600">{{ error }}</p>
+                    {% endfor %}
+                    <p class="text-xs text-muted">This message is used as the footer on receipts and invoices.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <p class="text-xs leading-5 text-muted">
+                <i class="fa-solid fa-circle-info mr-1"></i>
+                Changes will update the existing business settings used by billing.
+            </p>
+
+            <div class="flex flex-col gap-3 sm:flex-row">
+                <a href="{% url 'management_home' %}"
+                   class="inline-flex items-center justify-center rounded-xl border border-line bg-white px-5 py-3 text-sm font-semibold text-ink transition hover:bg-paper">
+                    Cancel
+                </a>
+
+                <button type="submit"
+                        class="inline-flex items-center justify-center gap-2 rounded-xl bg-brand px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand/20">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Save Settings
+                </button>
+            </div>
+        </div>
+    </form>
+</section>
+{% endblock %}

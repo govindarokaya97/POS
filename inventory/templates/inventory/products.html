@@ -13,7 +13,12 @@
         <div class="pointer-events-none absolute bottom-0 right-1/4 h-28 w-28 rounded-full bg-white/5 blur-2xl"></div>
 
         <div class="relative flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-            <div>
+
+            <div class="space-y-2">
+                <a href="{% url 'management_home' %}"
+                    class="inline-flex items-center gap-2 text-sm font-medium text-brand hover:underline"><i
+                        class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to home</a>
+
                 <p class="font-mono text-xs uppercase tracking-[0.2em] text-[#9DB9A7]">
                     Inventory / Catalogue
                 </p>

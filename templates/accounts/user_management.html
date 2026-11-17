@@ -1,0 +1,251 @@
+﻿{% extends "base.html" %}
+
+{% block title %}User Management | POS Workspace{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+    <!-- Page heading -->
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+            <p class="text-xs font-semibold uppercase tracking-widest text-brand">
+                Administration
+            </p>
+            <h1 class="mt-1 text-2xl font-bold tracking-tight text-ink">
+                User Management
+            </h1>
+            <p class="mt-1 text-sm text-muted">
+                Manage employee accounts and monitor access to your POS system.
+            </p>
+        </div>
+
+        <div class="flex items-center gap-2 rounded-xl border border-line bg-white px-4 py-2.5 text-sm text-muted">
+            <i class="fa-solid fa-shield-halved text-brand"></i>
+            Administrator access
+        </div>
+    </div>
+<a href="{% url 'create_user' %}"
+   class="inline-flex items-center gap-2 rounded-xl bg-brand px-5 py-3 text-sm font-bold text-white shadow-lg shadow-brand/20 transition hover:opacity-90">
+    <i class="fa-solid fa-user-plus"></i>
+    Create User
+</a>
+
+    <!-- Statistics -->
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+
+        <div class="rounded-2xl border border-line bg-white p-5 shadow-sm">
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-muted">Total Users</span>
+                <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                    <i class="fa-solid fa-users"></i>
+                </span>
+            </div>
+            <p class="mt-4 text-3xl font-bold text-ink">{{ total_users }}</p>
+            <p class="mt-1 text-xs text-muted">All registered accounts</p>
+        </div>
+
+        <div class="rounded-2xl border border-line bg-white p-5 shadow-sm">
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-muted">Active Users</span>
+                <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-green-50 text-green-600">
+                    <i class="fa-solid fa-user-check"></i>
+                </span>
+            </div>
+            <p class="mt-4 text-3xl font-bold text-ink">{{ active_users }}</p>
+            <p class="mt-1 text-xs text-muted">Accounts enabled for login</p>
+        </div>
+
+        <div class="rounded-2xl border border-line bg-white p-5 shadow-sm">
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-muted">Staff Accounts</span>
+                <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-50 text-purple-600">
+                    <i class="fa-solid fa-user-tie"></i>
+                </span>
+            </div>
+            <p class="mt-4 text-3xl font-bold text-ink">{{ staff_users }}</p>
+            <p class="mt-1 text-xs text-muted">Staff and administrator accounts</p>
+        </div>
+
+    </div>
+
+    <!-- User list -->
+    <div class="overflow-hidden rounded-2xl border border-line bg-white shadow-sm">
+
+        <div class="flex flex-col gap-4 border-b border-line p-5 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+                <h2 class="font-bold text-ink">All Users</h2>
+                <p class="mt-1 text-xs text-muted">
+                    View registered employees and their account status.
+                </p>
+            </div>
+
+            <form method="get" class="flex w-full gap-2 sm:w-auto">
+                <div class="relative min-w-0 flex-1 sm:w-72">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted"></i>
+                    <input
+                        type="search"
+                        name="q"
+                        value="{{ search }}"
+                        placeholder="Search users..."
+                        class="w-full rounded-xl border border-line bg-paper py-2.5 pl-9 pr-3 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/10"
+                    >
+                </div>
+                <button type="submit"
+                    class="rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-90">
+                    Search
+                </button>
+                {% if search %}
+                <a href="{% url 'user_management' %}"
+                    class="flex items-center rounded-xl border border-line px-3 text-sm text-muted transition hover:bg-paper"
+                    title="Clear search">
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
+                {% endif %}
+            </form>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full min-w-[720px] text-left text-sm">
+                <thead class="bg-paper text-xs uppercase tracking-wider text-muted">
+                    <tr>
+                        <th class="px-5 py-4 font-semibold">User</th>
+                        <th class="px-5 py-4 font-semibold">Role</th>
+                        <th class="px-5 py-4 font-semibold">Status</th>
+                        <th class="px-5 py-4 font-semibold">Date Joined</th>
+<th class="px-5 py-4 text-right font-semibold">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y divide-line">
+                    {% for account in users %}
+                    <tr class="transition hover:bg-paper/70">
+
+                        <td class="px-5 py-4">
+                            <div class="flex items-center gap-3">
+                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand/10 font-bold text-brand">
+                                    {{ account.username|slice:":1"|upper }}
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="truncate font-semibold text-ink">
+                                        {{ account.get_full_name|default:account.username }}
+                                    </p>
+                                    <p class="truncate text-xs text-muted">
+                                        @{{ account.username }}
+                                    </p>
+                                    <p class="truncate text-xs text-muted">
+                                        {{ account.email|default:"No email address" }}
+                                    </p>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="px-5 py-4">
+                            {% if account.is_superuser %}
+                                <span class="inline-flex items-center gap-1.5 rounded-full bg-purple-50 px-3 py-1 text-xs font-semibold text-purple-700">
+                                    <i class="fa-solid fa-crown"></i>
+                                    Administrator
+                                </span>
+                            {% elif account.is_staff %}
+                                <span class="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
+                                    <i class="fa-solid fa-user-tie"></i>
+                                    Staff
+                                </span>
+                            {% else %}
+                                <span class="inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
+                                    <i class="fa-solid fa-user"></i>
+                                    Cashier
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <td class="px-5 py-4">
+                            {% if account.is_active %}
+                                <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-green-700">
+                                    <span class="h-2 w-2 rounded-full bg-green-500"></span>
+                                    Active
+                                </span>
+                            {% else %}
+                                <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-red-600">
+                                    <span class="h-2 w-2 rounded-full bg-red-500"></span>
+                                    Inactive
+                                </span>
+                            {% endif %}
+                        </td>
+
+                        <td class="px-5 py-4 text-sm text-muted">
+                            {{ account.date_joined|date:"d M Y" }}
+                        </td>
+<td class="px-5 py-4 text-right">
+    <div class="flex items-center justify-end gap-2">
+
+        <a href="{% url 'edit_user' account.id %}"
+           class="inline-flex items-center gap-2 rounded-lg border border-line px-3 py-2 text-xs font-semibold text-brand transition hover:bg-brand hover:text-white">
+            <i class="fa-solid fa-pen-to-square"></i>
+            Edit
+        </a>
+
+<a href="{% url 'reset_user_password' account.id %}"
+   class="rounded-lg border border-line px-3 py-2 text-xs font-semibold text-ink hover:bg-paper">
+    Reset Password
+</a>
+
+        {% if account.id != request.user.id %}
+        <form method="post"
+              action="{% url 'toggle_user_status' account.id %}"
+              onsubmit="return confirm('{% if account.is_active %}Deactivate{% else %}Activate{% endif %} this user account?');">
+            {% csrf_token %}
+
+            {% if account.is_active %}
+            <button type="submit"
+                    class="inline-flex items-center gap-2 rounded-lg border border-red-200 px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-50">
+                <i class="fa-solid fa-user-slash"></i>
+                Deactivate
+            </button>
+            {% else %}
+            <button type="submit"
+                    class="inline-flex items-center gap-2 rounded-lg border border-green-200 px-3 py-2 text-xs font-semibold text-green-700 transition hover:bg-green-50">
+                <i class="fa-solid fa-user-check"></i>
+                Activate
+            </button>
+            {% endif %}
+        </form>
+        {% endif %}
+
+    </div>
+</td>
+
+
+
+
+
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="px-5 py-14 text-center">
+                            <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-paper text-xl text-muted">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                            <p class="mt-4 font-semibold text-ink">No users found</p>
+                            <p class="mt-1 text-sm text-muted">
+                                {% if search %}
+                                    Try another username, email, or name.
+                                {% else %}
+                                    No registered accounts are available.
+                                {% endif %}
+                            </p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="border-t border-line px-5 py-3 text-xs text-muted">
+            Showing {{ users|length }} user{{ users|length|pluralize }}
+            {% if search %} matching "{{ search }}"{% endif %}
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

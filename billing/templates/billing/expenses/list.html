@@ -15,7 +15,11 @@ Expenses
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 
 
-        <div>
+        <div class="space-y-2">
+            <a href="{% url 'management_home' %}"
+                class="inline-flex items-center gap-2 text-sm font-medium text-brand hover:underline"><i
+                    class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to home</a>
+
 
             <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">
                 Finance

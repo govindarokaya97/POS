@@ -20,7 +20,11 @@ Sales Dashboard
 <div class="space-y-8">
 
 
-    <div>
+    <div class="space-y-2">
+        <a href="{% url 'management_home' %}"
+            class="inline-flex items-center gap-2 text-sm font-medium text-brand hover:underline"><i
+                class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to home</a>
+
 
         <p class="font-mono text-xs uppercase tracking-[0.2em] text-muted">
             Overview
@@ -724,10 +728,6 @@ Sales Dashboard
 
 
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
 
 <div class="grid gap-6 lg:grid-cols-2">
 

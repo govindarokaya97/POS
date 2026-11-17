@@ -363,3 +363,115 @@ td {
     .checkout-page *::before,
     .checkout-page *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+
+
+
+/* ==================================================
+   POS APPEARANCE — DARK THEME
+================================================== */
+
+html[data-active-theme="dark"] {
+    color-scheme: dark;
+
+    --color-ink: #F1F5F9;
+    --color-ink-2: #1E293B;
+    --color-paper: #111827;
+    --color-line: #334155;
+    --color-brand: #34A982;
+    --color-brand-dark: #218665;
+    --color-muted: #A1A1AA;
+    --color-red: #F87171;
+}
+
+html[data-active-theme="dark"],
+html[data-active-theme="dark"] body {
+    background-color: #111827;
+    color: #F1F5F9;
+}
+
+/* Main surfaces and cards */
+html[data-active-theme="dark"] .bg-white {
+    background-color: #1E293B !important;
+}
+
+html[data-active-theme="dark"] .bg-paper {
+    background-color: #111827 !important;
+}
+
+html[data-active-theme="dark"] .bg-paper\/70 {
+    background-color: rgb(30 41 59 / 0.8) !important;
+}
+
+html[data-active-theme="dark"] .bg-ink {
+    background-color: #0B1220 !important;
+}
+
+/* Text */
+html[data-active-theme="dark"] .text-ink {
+    color: #F1F5F9 !important;
+}
+
+html[data-active-theme="dark"] .text-muted {
+    color: #A1A1AA !important;
+}
+
+/* Borders */
+html[data-active-theme="dark"] .border-line {
+    border-color: #334155 !important;
+}
+
+/* Form controls */
+html[data-active-theme="dark"] input,
+html[data-active-theme="dark"] select,
+html[data-active-theme="dark"] textarea {
+    background-color: #1E293B;
+    color: #F1F5F9;
+    border-color: #475569;
+}
+
+html[data-active-theme="dark"] input::placeholder,
+html[data-active-theme="dark"] textarea::placeholder {
+    color: #94A3B8;
+}
+
+/* Dropdowns and menus */
+html[data-active-theme="dark"] #profileBox,
+html[data-active-theme="dark"] #notificationBox,
+html[data-active-theme="dark"] #searchResults {
+    background-color: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
+}
+
+/* Tables */
+html[data-active-theme="dark"] table,
+html[data-active-theme="dark"] th,
+html[data-active-theme="dark"] td {
+    color: #F1F5F9;
+    border-color: #334155;
+}
+
+/* Hover surfaces */
+html[data-active-theme="dark"] .hover\:bg-paper:hover {
+    background-color: #334155 !important;
+}
+
+/* Receipt edge */
+html[data-active-theme="dark"] .receipt-edge::before {
+    background:
+        linear-gradient(135deg, #111827 50%, transparent 50%),
+        linear-gradient(-135deg, #111827 50%, transparent 50%);
+    background-size: 16px 16px;
+    background-repeat: repeat-x;
+    background-position: bottom left;
+}
+
+/* Smooth theme transitions */
+html,
+body,
+#sidebar,
+#topbar,
+#main-content {
+    transition: background-color 180ms ease, color 180ms ease;
+}

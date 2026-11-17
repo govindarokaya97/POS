@@ -1,667 +1,683 @@
-{% load static %}
-
+﻿{% load static %}
 <!doctype html>
-<html lang="en">
-
+<html lang="en" data-theme="{{ preference.theme|default:'system' }}">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#12141A">
 
-    <meta charset="UTF-8" />
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>
-        {% block title %}POS{% endblock title %}
-    </title>
-
+    <title>{% block title %}POS{% endblock title %}</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
         rel="stylesheet">
 
+    <script defer src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script>
+        (function () {
+            const root = document.documentElement;
+            const savedTheme = root.dataset.theme || "system";
+            const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+            const activeTheme = savedTheme === "system"
+                ? (systemDark ? "dark" : "light")
+                : savedTheme;
 
+            root.dataset.activeTheme = activeTheme;
+            root.style.colorScheme = activeTheme;
+        })();
+    </script>
 
     <style type="text/tailwindcss">
-
         @theme {
-
             --color-ink: #12141A;
             --color-ink-2: #1C1F27;
             --color-paper: #F4F5F1;
             --color-line: #E4E3DC;
-
             --color-brand: #157A5C;
             --color-brand-dark: #0F5E46;
-
             --color-amber: #C97A1F;
             --color-red: #C43D3D;
-
             --color-muted: #6B6D66;
-
-
             --font-display: "Space Grotesk", sans-serif;
             --font-sans: "Inter", sans-serif;
             --font-mono: "JetBrains Mono", monospace;
-
         }
-
     </style>
 
-
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-
-
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
+        html {
+            min-width: 320px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #app-layout {
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        #main-content {
+            min-width: 0;
+            width: 100%;
+        }
+
+        #topbar {
+            position: sticky;
+            top: 0;
+            z-index: 25;
+            min-height: 68px;
+        }
+
+        #globalSearch {
+            min-width: 0;
+        }
+
+        #searchResults {
+            max-height: min(70vh, 480px);
+            overflow-y: auto;
+        }
+
+        #profileBox,
+        #notificationBox {
+            max-width: calc(100vw - 24px);
+            max-height: min(75vh, 560px);
+            overflow-y: auto;
+        }
+
+        #page-content {
+            width: 100%;
+            min-width: 0;
+            padding: clamp(14px, 2.5vw, 32px);
+        }
+
+        #page-content-inner {
+            width: 100%;
+            max-width: 1600px;
+            margin-inline: auto;
+            min-width: 0;
+        }
+
+        /* Prevent wide tables and grids from breaking the page. */
+        #page-content table {
+            max-width: 100%;
+        }
+
+        #page-content img {
+            max-width: 100%;
+        }
+
+        /* Mobile and tablet topbar. */
+        @media (max-width: 767px) {
+            #topbar {
+                min-height: 62px;
+                padding: 10px 14px;
+                gap: 10px;
+            }
+
+            #topbar-search {
+                margin: 0;
+                flex: 1;
+                min-width: 0;
+            }
+
+            #globalSearch {
+                width: 100%;
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+
+            #profile-trigger {
+                padding: 6px;
+                gap: 6px;
+            }
+
+            #profile-trigger .profile-chevron {
+                display: none;
+            }
+
+            #page-content {
+                padding: 16px 12px 82px;
+            }
+
+            #sidebar-open {
+                bottom: 16px;
+                left: 14px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            #topbar {
+                padding-inline: 10px;
+                gap: 7px;
+            }
+
+            #globalSearch {
+                font-size: 12px;
+            }
+
+            #page-content {
+                padding-inline: 10px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+            }
+        }
+    </style>
+
+    {% block extra_head %}{% endblock extra_head %}
 </head>
-
-
 
 <body class="font-sans antialiased bg-paper text-ink">
 
-
-    <div class="flex min-h-screen">
-
-
-        <!-- Sidebar -->
+    <div id="app-layout" class="flex min-h-screen w-full">
 
         {% include 'sidebar.html' %}
 
+        <main id="main-content" class="flex min-w-0 flex-1 flex-col">
 
+            <!-- Responsive topbar -->
+            <header id="topbar"
+                class="flex items-center justify-between gap-4 border-b border-line bg-white px-4 md:px-6">
 
-
-        <!-- Main Area -->
-
-        <main class="flex-1">
-
-
-            <!-- Topbar -->
-
-            <header class="flex h-16 items-center justify-between border-b border-line bg-white px-6">
-
-
-                <div class="relative w-full max-w-xl mx-8">
-
-
-                    <input id="globalSearch" type="text" placeholder="Search product, barcode, customer..."
-                        class="w-full rounded-lg border border-line px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand" />
-
-
+                <div id="topbar-search" class="relative mx-auto w-full max-w-2xl">
+                    <div class="relative">
+                        <i
+                            class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-muted text-sm"></i>
+                        <input id="globalSearch" type="search" autocomplete="on" placeholder="Search product, barcode, customer..."
+                            aria-label="Search products and customers" style="padding-left: 42px !important;"
+                            class="w-full rounded-xl border border-line bg-paper/70 py-2.5 pr-4 text-sm outline-none transition focus:border-brand focus:bg-white focus:ring-2 focus:ring-brand/15">
+                    </div>
 
                     <div id="searchResults"
-                        class="hidden absolute mt-2 w-full rounded-xl border border-line bg-white shadow-xl z-50">
-
-
+                        class="hidden absolute left-5 right-0 top-full z-50 mt-2 rounded-xl border border-line bg-white shadow-xl">
                     </div>
-
-
                 </div>
 
+                <div class="flex shrink-0 items-center gap-1 sm:gap-3">
 
-
-                <!-- Notification -->
-
-                <div class="flex items-center gap-3">
-
-
-                    <!-- Notification -->
-
+                    <!-- Notifications -->
                     <div class="relative">
-
-
-                        <button onclick="toggleNotifications()"
-                            class="relative flex h-10 w-10 items-center justify-center rounded-lg text-ink hover:bg-black/5">
-
-
+                        <button id="notification-trigger" type="button" onclick="toggleNotifications()"
+                            aria-label="Notifications" aria-expanded="false" aria-controls="notificationBox"
+                            class="relative flex h-10 w-10 items-center justify-center rounded-xl text-ink transition hover:bg-paper focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">
                             <i class="fa-solid fa-bell"></i>
 
-
                             {% if low_stock_count or pending_payment_count %}
-
-                            <span class="absolute right-1 top-1 h-3 w-3 rounded-full bg-red">
-                            </span>
-
+                            <span
+                                class="absolute right-2 top-2 h-2.5 w-2.5 rounded-full border-2 border-white bg-red"></span>
                             {% endif %}
-
-
                         </button>
-
 
                         {% include "partials/notifications.html" %}
-
-
                     </div>
 
-
-
-
-
-                    <!-- Profile -->
-
+                    <!-- Appearance -->
+                    {% if request.user.is_authenticated %}
                     <div class="relative">
-
-
-                        <button onclick="toggleProfile()"
-                            class="flex items-center gap-3 rounded-lg px-3 py-2 hover:bg-black/5">
-
-
-                            <div
-                                class="flex h-9 w-9 items-center justify-center rounded-full bg-brand/20 text-brand font-semibold">
-
-
-                                {{ request.user.username|slice:":1"|upper }}
-
-
-                            </div>
-
-
-                            <div class="hidden md:block text-left">
-
-
-                                <p class="text-sm font-medium">
-
-                                    {{ request.user.username }}
-
-                                </p>
-
-
-                                <p class="text-xs text-muted">
-
-                                    Account
-
-                                </p>
-
-
-                            </div>
-
-
-                            <i class="fa-solid fa-chevron-down text-xs"></i>
-
-
+                        <button id="appearance-trigger" type="button"
+                            onclick="toggleAppearance()"
+                            aria-label="Appearance settings"
+                            aria-expanded="false"
+                            aria-controls="appearanceBox"
+                            class="flex h-10 w-10 items-center justify-center rounded-xl text-ink transition hover:bg-paper focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">
+                            <i class="fa-solid fa-circle-half-stroke"></i>
                         </button>
 
+                        <div id="appearanceBox"
+                            class="hidden absolute right-0 top-full z-50 mt-2 w-56 rounded-xl border border-line bg-white p-3 shadow-xl">
+
+                            <p class="px-2 pb-2 text-xs font-bold uppercase tracking-wider text-muted">
+                                Appearance
+                            </p>
+
+                            <form method="post" action="{% url 'save_theme' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="theme" value="light">
+                                <button type="submit"
+                                    class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-ink transition hover:bg-paper">
+                                    <i class="fa-solid fa-sun w-4 text-amber-500"></i>
+                                    Light
+                                    {% if preference.theme == "light" %}
+                                    <i class="fa-solid fa-check ml-auto text-brand"></i>
+                                    {% endif %}
+                                </button>
+                            </form>
+
+                            <form method="post" action="{% url 'save_theme' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="theme" value="dark">
+                                <button type="submit"
+                                    class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-ink transition hover:bg-paper">
+                                    <i class="fa-solid fa-moon w-4 text-indigo-500"></i>
+                                    Dark
+                                    {% if preference.theme == "dark" %}
+                                    <i class="fa-solid fa-check ml-auto text-brand"></i>
+                                    {% endif %}
+                                </button>
+                            </form>
+
+                            <form method="post" action="{% url 'save_theme' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="theme" value="system">
+                                <button type="submit"
+                                    class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-ink transition hover:bg-paper">
+                                    <i class="fa-solid fa-desktop w-4 text-muted"></i>
+                                    System Default
+                                    {% if preference.theme == "system" %}
+                                    <i class="fa-solid fa-check ml-auto text-brand"></i>
+                                    {% endif %}
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endif %}
 
 
 
+                    <!-- User profile -->
+                    <div class="relative">
+                        <button id="profile-trigger" type="button" onclick="toggleProfile()" aria-label="User profile"
+                            aria-expanded="false" aria-controls="profileBox"
+                            class="flex items-center gap-2 rounded-xl px-2 py-2 transition hover:bg-paper focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand sm:px-3">
+                            <span
+                                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand/10 font-semibold text-brand">
+                                {{ request.user.username|slice:":1"|upper }}
+                            </span>
 
-                        <!-- Profile Dropdown -->
+                            <span class="hidden min-w-0 text-left md:block">
+                                <span class="block max-w-36 truncate text-sm font-semibold">{{ request.user.username|upper }}</span>
+                                <span class="block text-xs text-muted">Account</span>
+                            </span>
 
+                            <i class="profile-chevron fa-solid fa-chevron-down hidden text-xs text-muted sm:block"></i>
+                        </button>
 
                         <div id="profileBox"
-                            class="hidden absolute right-0 mt-3 w-64 rounded-xl border border-line bg-white shadow-xl z-50">
+                            class="hidden absolute right-0 top-full z-50 mt-2 w-64 rounded-2xl border border-line bg-white shadow-xl">
 
-
-                            <div class="border-b border-line px-5 py-4">
-
-
+                            <div class="border-b border-line px-4 py-4">
                                 <div class="flex items-center gap-3">
-
-
                                     <div
-                                        class="flex h-12 w-12 items-center justify-center rounded-full bg-brand/20 text-brand text-lg font-bold">
-
-
+                                        class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand/10 text-lg font-bold text-brand">
                                         {{ request.user.username|slice:":1"|upper }}
-
-
                                     </div>
 
-
-                                    <div>
-
-
-                                        <p class="font-semibold">
-
-                                            {{ request.user.username }}
-
-                                        </p>
-
-
+                                    <div class="min-w-0">
+                                        <p class="truncate font-semibold">{{ request.user.username }}</p>
 
                                         {% if request.user.is_superuser %}
-
-
-                                        <span class="rounded-full bg-brand/10 px-2 py-1 text-xs text-brand">
-
-                                            Admin
-
-                                        </span>
-
-
+                                        <span class="text-xs font-medium text-brand">Administrator</span>
                                         {% elif request.user.is_staff %}
-
-
-                                        <span class="rounded-full bg-amber/10 px-2 py-1 text-xs text-amber">
-
-                                            Staff
-
-                                        </span>
-
-
+                                        <span class="text-xs font-medium text-amber">Staff</span>
                                         {% else %}
-
-
-                                        <span class="rounded-full bg-black/5 px-2 py-1 text-xs text-muted">
-
-                                            Cashier
-
-                                        </span>
-
-
+                                        <span class="text-xs text-muted">Cashier</span>
                                         {% endif %}
-
-
                                     </div>
-
-
                                 </div>
-
-
                             </div>
 
-
-
-
-
-                            <div class="p-3 space-y-1">
-
-
-                                <a href="#" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-paper">
-
-
-                                    <i class="fa-solid fa-user"></i>
-
+                            <div class="space-y-1 p-2">
+                                <a href="{% url 'profile' %}"
+                                    class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition hover:bg-paper">
+                                    <i class="fa-solid fa-user w-4 text-muted"></i>
                                     My Profile
-
-
                                 </a>
 
-
-
-
-
-                                <a href="#" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm hover:bg-paper">
-
-
-                                    <i class="fa-solid fa-key"></i>
-
+                                <a href="{% url 'change_password' %}"
+                                    class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition hover:bg-paper">
+                                    <i class="fa-solid fa-key w-4 text-muted"></i>
                                     Change Password
-
-
                                 </a>
 
+                                {% if request.user.is_superuser %}
+                                <a href="{% url 'pos_settings' %}"
+                                    class="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition hover:bg-paper">
+                                    <i class="fa-solid fa-sliders w-4 text-muted"></i>
+                                    POS Settings
+                                </a>
+                                {% endif %}
 
 
-
+                                <div class="my-1 border-t border-line"></div>
 
                                 <form method="post" action="{% url 'logout' %}">
-
-
                                     {% csrf_token %}
-
-
-                                    <button
-                                        class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-red hover:bg-red/10">
-
-
-                                        <i class="fa-solid fa-right-from-bracket"></i>
-
-
+                                    <button type="submit"
+                                        class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm text-red transition hover:bg-red/5">
+                                        <i class="fa-solid fa-right-from-bracket w-4"></i>
                                         Logout
-
-
                                     </button>
-
-
                                 </form>
-
-
-
                             </div>
-
-
                         </div>
-
-
                     </div>
-
-
                 </div>
-
-
-
             </header>
 
-
-
-
-
-
-            <!-- Page Content -->
-
-
-            <section class="p-6 md:p-10">
-
-
-                <div class="mx-auto max-w-7xl">
-
-
+            <!-- Page content -->
+            <section id="page-content" class="flex-1">
+                <div id="page-content-inner">
                     {% block content %}
-
                     {% endblock content %}
-
-
                 </div>
-
-
             </section>
 
-
-
         </main>
-
-
-
     </div>
 
-
-
-
-
-
-    <!-- Sweet Alert Messages -->
-
-
+    <!-- Django messages -->
     {% if messages %}
-
     {% for message in messages %}
-
-
     <script>
-
-        Swal.fire({
-
-            toast: true,
-
-            position: "top-end",
-
-            title: "{{ message.tags|title }}",
-
-            text: "{{ message }}",
-
-            icon: "{{ message.tags }}",
-
-            timer: 2800,
-
-            timerProgressBar: true,
-
-            showConfirmButton: false
-
+        document.addEventListener("DOMContentLoaded", function () {
+            if (window.Swal) {
+                Swal.fire({
+                    toast: true,
+                    position: "top-end",
+                    title: "{{ message.tags|title|escapejs }}",
+                    text: "{{ message|escapejs }}",
+                    icon: "{% if message.tags == 'error' %}error{% elif message.tags == 'warning' %}warning{% elif message.tags == 'success' %}success{% else %}info{% endif %}",
+                    timer: 2800,
+                    timerProgressBar: true,
+                    showConfirmButton: false
+                });
+            }
         });
-
     </script>
-
-
     {% endfor %}
-
     {% endif %}
 
-
-
-
-
-
-
-    <!-- Notification Script -->
-
-
     <script>
-
-
-        const searchInput =
-            document.getElementById(
-                "globalSearch"
-            );
-
-
-        const results =
-            document.getElementById(
-                "searchResults"
-            );
-
-
-
-        if (searchInput) {
-
-
-            searchInput.addEventListener(
-                "input",
-                function () {
-
-
-                    let query =
-                        this.value.trim();
-
-
-
-                    if (query.length < 2) {
-
-                        results.classList.add(
-                            "hidden"
-                        );
-
-                        return;
-
-                    }
-
-
-
-                    fetch(
-                        `{% url 'global_search' %}?q=${query}`
-                    )
-
-
-                        .then(
-                            response => response.json()
-                        )
-
-
-                        .then(
-                            data => {
-
-
-                                let html = "";
-
-
-
-                                if (data.products.length) {
-
-
-                                    html += `
-
-<p class="px-4 py-2 text-xs uppercase text-muted">
-Products
-</p>
-
-`;
-
-
-
-                                    data.products.forEach(
-                                        product => {
-
-
-                                            html += `
-
-<a href="/inventory/product/"
-class="block px-4 py-2 hover:bg-paper">
-
-${product.name}
-
-<br>
-
-<span class="text-xs text-muted">
-
-Barcode:
-${product.barcode ?? "-"}
-|
-Stock:
-${product.stock}
-
-</span>
-
-</a>
-
-`;
-
-                                        });
-
-
-                                }
-
-
-
-                                if (data.customers.length) {
-
-
-                                    html += `
-
-<p class="border-t px-4 py-2 text-xs uppercase text-muted">
-
-Customers
-
-</p>
-
-`;
-
-
-
-                                    data.customers.forEach(
-                                        customer => {
-
-
-                                            html += `
-
-<a href="#"
-class="block px-4 py-2 hover:bg-paper">
-
-${customer.name}
-
-<br>
-
-<span class="text-xs text-muted">
-
-${customer.phone ?? ""}
-
-</span>
-
-</a>
-
-`;
-
-                                        });
-
-
-                                }
-
-
-
-                                if (html) {
-
-                                    results.innerHTML = html;
-
-                                    results.classList.remove(
-                                        "hidden"
-                                    );
-
-
-                                }
-                                else {
-
-                                    results.innerHTML =
-                                        `
-<p class="p-4 text-sm text-muted">
-No results
-</p>
-`;
-
-                                    results.classList.remove(
-                                        "hidden"
-                                    );
-
-                                }
-
-
-                            });
-
-                });
-
-
-        }
-
-
-
-
-        function toggleNotifications() {
-
-
-            const box = document.getElementById(
-                "notificationBox"
-            );
-
-
-            box.classList.toggle(
-                "hidden"
-            );
-
-
-        }
-
-
-
-        document.addEventListener(
-            "click",
-            function (event) {
-
-
-                const box =
-                    document.getElementById(
-                        "notificationBox"
-                    );
-
-
-
-                if (
-                    !event.target.closest("#notificationBox")
-                    &&
-                    !event.target.closest("button")
-                ) {
-
-                    box.classList.add(
-                        "hidden"
-                    );
-
+        /* --------------------------------------------------
+           Mobile sidebar
+        -------------------------------------------------- */
+        (function () {
+            const sidebar = document.getElementById("sidebar");
+            const backdrop = document.getElementById("sidebar-backdrop");
+            const openButton = document.getElementById("sidebar-open");
+            const closeButton = document.getElementById("sidebar-close");
+
+            if (!sidebar || !backdrop || !openButton) return;
+
+            function openSidebar() {
+                sidebar.classList.remove("-translate-x-full");
+                backdrop.classList.remove("hidden");
+                openButton.setAttribute("aria-expanded", "true");
+                document.body.classList.add("overflow-hidden");
+                if (closeButton) closeButton.focus();
+            }
+
+            function closeSidebar() {
+                sidebar.classList.add("-translate-x-full");
+                backdrop.classList.add("hidden");
+                openButton.setAttribute("aria-expanded", "false");
+                document.body.classList.remove("overflow-hidden");
+            }
+
+            openButton.addEventListener("click", openSidebar);
+            if (closeButton) closeButton.addEventListener("click", closeSidebar);
+            backdrop.addEventListener("click", closeSidebar);
+
+            document.addEventListener("keydown", function (event) {
+                if (event.key === "Escape") {
+                    closeSidebar();
+                    closeDropdowns();
                 }
-
-
-
             });
 
+            sidebar.querySelectorAll("a").forEach(function (link) {
+                link.addEventListener("click", function () {
+                    if (window.innerWidth < 1024) closeSidebar();
+                });
+            });
 
+            window.addEventListener("resize", function () {
+                if (window.innerWidth >= 1024) {
+                    closeSidebar();
+                }
+            });
+        })();
+
+
+        function toggleAppearance() {
+            const box = document.getElementById("appearanceBox");
+            const profile = document.getElementById("profileBox");
+            const notification = document.getElementById("notificationBox");
+            const trigger = document.getElementById("appearance-trigger");
+
+            if (!box) return;
+
+            const willOpen = box.classList.contains("hidden");
+
+            box.classList.toggle("hidden", !willOpen);
+
+            if (profile) profile.classList.add("hidden");
+            if (notification) notification.classList.add("hidden");
+
+            if (trigger) {
+                trigger.setAttribute("aria-expanded", String(willOpen));
+            }
+
+            document.getElementById("profile-trigger")
+                ?.setAttribute("aria-expanded", "false");
+
+            document.getElementById("notification-trigger")
+                ?.setAttribute("aria-expanded", "false");
+        }
+
+
+
+        /* --------------------------------------------------
+           Dropdowns
+        -------------------------------------------------- */
+        function toggleNotifications() {
+            const box = document.getElementById("notificationBox");
+            const profile = document.getElementById("profileBox");
+            const trigger = document.getElementById("notification-trigger");
+            const profileTrigger = document.getElementById("profile-trigger");
+
+            if (!box) return;
+
+            const willOpen = box.classList.contains("hidden");
+            box.classList.toggle("hidden", !willOpen);
+
+            if (profile) profile.classList.add("hidden");
+            if (trigger) trigger.setAttribute("aria-expanded", String(willOpen));
+            if (profileTrigger) profileTrigger.setAttribute("aria-expanded", "false");
+        }
+
+        function toggleProfile() {
+            const box = document.getElementById("profileBox");
+            const notification = document.getElementById("notificationBox");
+            const trigger = document.getElementById("profile-trigger");
+            const notificationTrigger = document.getElementById("notification-trigger");
+
+            if (!box) return;
+
+            const willOpen = box.classList.contains("hidden");
+            box.classList.toggle("hidden", !willOpen);
+
+            if (notification) notification.classList.add("hidden");
+            if (trigger) trigger.setAttribute("aria-expanded", String(willOpen));
+            if (notificationTrigger) notificationTrigger.setAttribute("aria-expanded", "false");
+        }
+
+        function closeDropdowns() {
+
+            const appearance = document.getElementById("appearanceBox");
+
+            if (appearance) appearance.classList.add("hidden");
+
+            document.getElementById("appearance-trigger")
+                ?.setAttribute("aria-expanded", "false");
+
+            const profile = document.getElementById("profileBox");
+            const notification = document.getElementById("notificationBox");
+
+            if (profile) profile.classList.add("hidden");
+            if (notification) notification.classList.add("hidden");
+
+            document.getElementById("profile-trigger")?.setAttribute("aria-expanded", "false");
+            document.getElementById("notification-trigger")?.setAttribute("aria-expanded", "false");
+        }
+
+        document.addEventListener("click", function (event) {
+            if (
+                !event.target.closest("#profileBox") &&
+                !event.target.closest("#profile-trigger") &&
+                !event.target.closest("#notificationBox") &&
+                !event.target.closest("#appearanceBox") &&
+                !event.target.closest("#appearance-trigger") &&
+                !event.target.closest("#notification-trigger")
+
+            ) {
+                closeDropdowns();
+            }
+        });
+
+        /* --------------------------------------------------
+           Global search
+        -------------------------------------------------- */
+        (function () {
+            const searchInput = document.getElementById("globalSearch");
+            const results = document.getElementById("searchResults");
+
+            if (!searchInput || !results) return;
+
+            let searchTimer;
+            let activeSearch;
+
+            const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            })[char]);
+
+            searchInput.addEventListener("input", function () {
+                clearTimeout(searchTimer);
+
+                if (activeSearch) activeSearch.abort();
+
+                const query = this.value.trim();
+
+                if (query.length < 2) {
+                    results.classList.add("hidden");
+                    results.innerHTML = "";
+                    return;
+                }
+
+                searchTimer = setTimeout(() => {
+                    activeSearch = new AbortController();
+
+                    const params = new URLSearchParams({ q: query });
+
+                    fetch(`{% url 'global_search' %}?${params}`, {
+                        signal: activeSearch.signal,
+                        headers: { "X-Requested-With": "XMLHttpRequest" }
+                    })
+                        .then(response => {
+                            if (!response.ok) throw new Error("Search request failed");
+                            return response.json();
+                        })
+                        .then(data => {
+                            let html = "";
+
+                            if (data.products?.length) {
+                                html += `<p class="border-b border-line px-4 py-2 text-xs font-semibold uppercase tracking-wider text-muted">Products</p>`;
+
+                                data.products.forEach(product => {
+                                    const url = `{% url 'product_detail' 0 %}`.replace(/0\/?$/, `${product.id}/`);
+
+                                    html += `
+                                    <a href="${url}" class="block border-b border-line/70 px-4 py-3 transition hover:bg-paper">
+                                        <span class="block text-sm font-semibold">${escapeHtml(product.name)}</span>
+                                        <span class="mt-1 block text-xs text-muted">
+                                            Barcode: ${escapeHtml(product.barcode ?? "-")} Â· Stock: ${escapeHtml(product.stock ?? "-")}
+                                        </span>
+                                    </a>`;
+                                });
+                            }
+
+                            if (data.customers?.length) {
+                                html += `<p class="border-b border-line px-4 py-2 text-xs font-semibold uppercase tracking-wider text-muted">Customers</p>`;
+
+                                data.customers.forEach(customer => {
+                                    const url = `{% url 'customer_detail' 0 %}`.replace(/0\/?$/, `${customer.id}/`);
+
+                                    html += `
+                                    <a href="${url}" class="block border-b border-line/70 px-4 py-3 transition hover:bg-paper">
+                                        <span class="block text-sm font-semibold">${escapeHtml(customer.name)}</span>
+                                        <span class="mt-1 block text-xs text-muted">${escapeHtml(customer.phone ?? "")}</span>
+                                    </a>`;
+                                });
+                            }
+
+                            if (!html) {
+                                html = `<p class="p-4 text-sm text-muted">No results found.</p>`;
+                            }
+
+                            results.innerHTML = html;
+                            results.classList.remove("hidden");
+                        })
+                        .catch(error => {
+                            if (error.name !== "AbortError") {
+                                results.classList.add("hidden");
+                            }
+                        });
+                }, 250);
+            });
+
+            document.addEventListener("click", function (event) {
+                if (!event.target.closest("#topbar-search")) {
+                    results.classList.add("hidden");
+                }
+            });
+
+            searchInput.addEventListener("keydown", function (event) {
+                if (event.key === "Escape") results.classList.add("hidden");
+            });
+        })();
     </script>
 
-
-
-
+    {% block extra_js %}{% endblock extra_js %}
 </body>
 
 </html>

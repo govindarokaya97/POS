@@ -54,3 +54,8 @@ update_invoice_template.py
 # Django collected static files
 /staticfiles/
 billing-views-review.txt
+
+# POS local database and data backups
+pos_backup.sql
+pos_data.json
+*.backup

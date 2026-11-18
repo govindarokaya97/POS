@@ -159,8 +159,33 @@ def _check_sellable(seats, user, now=None):
         )
 
 
+def _require_active_holds(seats, user, now=None):
+    """Require every seat to be actively held by this cashier."""
+    now = now or timezone.now()
+
+    missing = [
+        seat.seat_number
+        for seat in seats
+        if not (
+            seat.held_by_id == user.id
+            and seat.held_until
+            and seat.held_until > now
+        )
+    ]
+
+    if missing:
+        names = ", ".join(sorted(missing, key=seat_sort_key))
+        raise BookingError(
+            f"Your seat hold has expired or is no longer valid: {names}. "
+            "Please select the seat again."
+        )
+
+
+
+
+
 def _hold_seats(user, show, seat_ids):
-    """Reserve selected seats for this cashier during checkout."""
+    """Atomically reserve selected seats for this cashier."""
     with transaction.atomic():
         seats = list(
             Seat.objects.select_for_update().filter(
@@ -188,21 +213,68 @@ def _hold_seats(user, show, seat_ids):
             )
         ]
 
-        if to_hold:
-            Seat.objects.filter(
-                show=show,
-                id__in=to_hold,
-            ).update(
-                held_by=user,
-                held_until=fresh,
+        kept_ids = [
+            seat.id
+            for seat in seats
+            if (
+                seat.held_by_id == user.id
+                and seat.held_until
+                and seat.held_until > now
             )
+        ]
+
+        # Claim available or expired seats using a conditional
+        # database update. Another cashier cannot overwrite
+        # an active hold.
+        if to_hold:
+            claimed = (
+                Seat.objects.filter(
+                    show=show,
+                    id__in=to_hold,
+                    is_booked=False,
+                    is_blocked=False,
+                )
+                .filter(
+                    Q(held_until__isnull=True)
+                    | Q(held_until__lte=now)
+                    | Q(held_by=user)
+                )
+                .update(
+                    held_by=user,
+                    held_until=fresh,
+                )
+            )
+
+            if claimed != len(to_hold):
+                raise BookingError(
+                    "One or more seats were just reserved by "
+                    "another counter. Please select them again."
+                )
+
+        # Verify existing holds are still active and owned
+        # by this cashier without extending their expiry.
+        if kept_ids:
+            retained = Seat.objects.filter(
+                show=show,
+                id__in=kept_ids,
+                is_booked=False,
+                is_blocked=False,
+                held_by=user,
+                held_until__gt=now,
+            ).update(
+                held_until=F("held_until"),
+            )
+
+            if retained != len(kept_ids):
+                raise BookingError(
+                    "Your seat hold has expired or is no longer "
+                    "valid. Please select the seat again."
+                )
 
         kept = [
             seat.held_until
             for seat in seats
-            if seat.id not in to_hold
-            and seat.held_until
-            and seat.held_until > now
+            if seat.id in kept_ids
         ]
 
         expiries = kept[:]
@@ -637,6 +709,7 @@ def _create_sale(request, show):
         )
 
     _check_sellable(seats, request.user)
+    _require_active_holds(seats, request.user)
 
     payment_method = request.POST.get(
         "payment_method",
@@ -662,6 +735,32 @@ def _create_sale(request, show):
             "Received amount is less than the total. "
             "Tickets must be paid in full."
         )
+
+
+    # Atomically confirm every seat before creating invoices.
+    # The database update is the authoritative concurrency check.
+    confirmed_at = timezone.now()
+
+    confirmed_count = Seat.objects.filter(
+        show=show,
+        id__in=seat_ids,
+        seat_number__in=_expected_seat_labels(),
+        is_booked=False,
+        is_blocked=False,
+        held_by=request.user,
+        held_until__gt=confirmed_at,
+    ).update(
+        is_booked=True,
+        held_by=None,
+        held_until=None,
+    )
+
+    if confirmed_count != len(seat_ids):
+        raise BookingError(
+            "Your seat hold has expired or is no longer valid. "
+            "Please select the seat again."
+        )
+
 
     sale_ref = f"SL-{uuid.uuid4().hex[:10].upper()}"
 
@@ -715,14 +814,6 @@ def _create_sale(request, show):
 
         bookings.append(booking)
 
-    Seat.objects.filter(
-        show=show,
-        id__in=seat_ids,
-    ).update(
-        is_booked=True,
-        held_by=None,
-        held_until=None,
-    )
 
     change = (received - totals["total"]).quantize(TWO_PLACES)
 

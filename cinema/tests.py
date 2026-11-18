@@ -50,10 +50,22 @@ class CinemaTestBase(TestCase):
         return [str(m) for m in get_messages(response.wsgi_request)]
 
     def sell(self, seat_numbers, **extra):
-        data = {"seats": [self.seat(n).id for n in seat_numbers]}
+        seat_ids = [self.seat(n).id for n in seat_numbers]
+
+        # Follow the real cashier flow:
+        # 1. Open checkout -> create the short-lived seat hold.
+        # 2. Submit payment -> checkout verifies that hold.
+        self.client.get(
+            reverse("ticket_checkout", args=[self.show.id]),
+            {"seats": seat_ids},
+        )
+
+        data = {"seats": seat_ids}
         data.update(extra)
+
         return self.client.post(
-            reverse("ticket_checkout", args=[self.show.id]), data
+            reverse("ticket_checkout", args=[self.show.id]),
+            data,
         )
 
 
@@ -275,15 +287,16 @@ class CheckoutTests(CinemaTestBase):
             self.assertEqual(b.tickets.get().ticket_number, f"{b.booking_number}-{seat}")
 
     def test_change_is_reported_not_stored_per_invoice(self):
-        r = self.client.post(
-            reverse("ticket_checkout", args=[self.show.id]),
-            {"seats": [self.seat("A1").id, self.seat("GA1").id], "paid_amount": "1000"},
-            follow=True,
+        r = self.sell(
+            ["A1", "GA1"],
+            paid_amount="1000",
         )
         text = " ".join(self.messages(r))
         self.assertIn("2 invoice(s) created", text)
-        self.assertIn("Return change: Rs 300.00", text)   # 1000 - (300 + 400)
-        self.assertTrue(all(b.paid_amount == b.total for b in Booking.objects.all()))
+        self.assertIn("Return change: Rs 300.00", text)
+        self.assertTrue(
+            all(b.paid_amount == b.total for b in Booking.objects.all())
+        )
 
     def test_blank_received_means_exact(self):
         self.sell(["B1"], payment_method="esewa", paid_amount="")
@@ -405,10 +418,7 @@ class PrintTests(CinemaTestBase):
         self.movie.grade = "PG"
         self.movie.save()
         ShopSetting.objects.create(shop_name="skcinemas", address="Pahalmanpur", vat_number="609123045")
-        self.client.post(
-            reverse("ticket_checkout", args=[self.show.id]),
-            {"seats": [self.seat("B5").id]},
-        )
+        self.sell(["B5"])
         b = Booking.objects.get()
         t = b.tickets.get()
         html = self.client.get(reverse("ticket_print", args=[b.id])).content.decode()
@@ -538,10 +548,17 @@ class VerifyTests(CinemaTestBase):
             show_date=self.today + timedelta(days=1), start_time=time(18, 0),
         )
         generate_seats(tomorrow)
+        seat_id = self.seat("A1", tomorrow).id
+
+        self.client.get(
+            reverse("ticket_checkout", args=[tomorrow.id]),
+            {"seats": [seat_id]},
+        )
         self.client.post(
             reverse("ticket_checkout", args=[tomorrow.id]),
-            {"seats": [self.seat("A1", tomorrow).id]},
+            {"seats": [seat_id]},
         )
+
         ticket = Ticket.objects.get()
         self.assertEqual(self.check(ticket.code)["status"], "wrong_date")
         self.assertFalse(Ticket.objects.get().used)
@@ -798,10 +815,7 @@ from django.core.management import CommandError, call_command
 class ReprintAndQrTests(CinemaTestBase):
 
     def test_first_print_is_original_later_prints_are_copies(self):
-        r = self.client.post(
-            reverse("ticket_checkout", args=[self.show.id]),
-            {"seats": [self.seat("A1").id, self.seat("A2").id]},
-        )
+        r = self.sell(["A1", "A2"])
         sale_url = r.url
 
         first = self.client.get(sale_url).content.decode()
